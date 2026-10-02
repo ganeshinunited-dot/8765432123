@@ -3,6 +3,8 @@ import Link from "next/link";
 import { db } from "@/lib/db";
 import { StaticPage, Section } from "@/components/layout/StaticPage";
 import { Card, Badge } from "@/components/ui/primitives";
+import { CourseCarousel } from "@/components/courses/CourseCarousel";
+import { CourseCard, type CarouselCourse } from "@/components/courses/CourseCard";
 
 export const metadata: Metadata = {
   title: "Sell your course",
@@ -32,6 +34,25 @@ export default async function CourseLanding() {
     })
     .catch(() => []);
 
+  const freeCourses: CarouselCourse[] = await db.course
+    .findMany({
+      where: { status: "PUBLISHED", price: 0 },
+      take: 12,
+      orderBy: { views: "desc" },
+      select: {
+        title: true, slug: true, price: true, category: true, sales: true, views: true, thumbnailUrl: true,
+        instructor: { select: { isVerified: true, user: { select: { name: true } } } },
+      },
+    })
+    .then((rows) =>
+      rows.map((c) => ({
+        slug: c.slug, title: c.title, price: c.price, category: c.category, sales: c.sales,
+        views: c.views, thumbnailUrl: c.thumbnailUrl, instructorName: c.instructor.user.name,
+        isVerified: c.instructor.isVerified,
+      })),
+    )
+    .catch(() => []);
+
   return (
     <StaticPage
       title="Teach. Earn. Grow."
@@ -45,6 +66,19 @@ export default async function CourseLanding() {
           Browse courses
         </Link>
       </div>
+
+      {freeCourses.length > 0 && (
+        <Section title="Free courses — start watching now">
+          <CourseCarousel label="Free courses">
+            {freeCourses.map((c) => (
+              <CourseCard key={c.slug} c={c} />
+            ))}
+          </CourseCarousel>
+          <p className="mt-3">
+            <Link href="/courses" className="text-sm font-semibold text-emerald-700 hover:underline">Browse all courses →</Link>
+          </p>
+        </Section>
+      )}
 
       <Section title="One plan. Everything included.">
         <Card className="p-6 sm:p-8">

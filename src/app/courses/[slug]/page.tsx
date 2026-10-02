@@ -5,6 +5,7 @@ import { getSessionUser } from "@/lib/auth";
 import { StaticPage } from "@/components/layout/StaticPage";
 import { Card, Badge } from "@/components/ui/primitives";
 import { CourseActions } from "@/components/courses/CourseActions";
+import { CoursePlayer } from "@/components/courses/CoursePlayer";
 
 export const dynamic = "force-dynamic";
 
@@ -37,7 +38,7 @@ export default async function CourseDetail({ params }: { params: Promise<{ slug:
     where: { slug },
     include: {
       instructor: { select: { tier: true, isVerified: true, user: { select: { name: true } } } },
-      videos: { orderBy: { position: "asc" }, select: { id: true, title: true, durationSec: true } },
+      videos: { orderBy: { position: "asc" }, select: { id: true, title: true, durationSec: true, youtubeId: true } },
       reviews: { orderBy: { createdAt: "desc" }, take: 20, select: { rating: true, text: true, createdAt: true } },
     },
   }).catch(() => null);
@@ -86,18 +87,9 @@ export default async function CourseDetail({ params }: { params: Promise<{ slug:
       </Card>
 
       <h2 className="mt-8 text-lg font-bold text-slate-900">Lessons ({course.videos.length})</h2>
-      <Card className="mt-3 divide-y divide-slate-100">
-        {course.videos.length === 0 ? (
-          <p className="p-5 text-sm text-slate-500">Lessons coming soon.</p>
-        ) : (
-          course.videos.map((v, i) => (
-            <div key={v.id} className="flex items-center justify-between px-5 py-3">
-              <p className="text-sm font-medium text-slate-800">{i + 1}. {v.title}</p>
-              {v.durationSec ? <span className="text-xs text-slate-400">{Math.floor(v.durationSec / 60)} min</span> : null}
-            </div>
-          ))
-        )}
-      </Card>
+      <div className="mt-3">
+        <CoursePlayer videos={course.videos} />
+      </div>
 
       <h2 className="mt-8 text-lg font-bold text-slate-900">Student reviews</h2>
       {course.reviews.length === 0 ? (
