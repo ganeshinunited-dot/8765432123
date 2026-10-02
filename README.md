@@ -1,4 +1,4 @@
-# Student Jobs Nepal
+# Growentix (Growentix)
 
 A job marketplace connecting students in Nepal with part-time work, internships, and flexible gigs. Students use the platform **free forever**; employers pay for job-posting plans.
 

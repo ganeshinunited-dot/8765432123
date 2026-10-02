@@ -134,11 +134,11 @@ async function main() {
   }
 
   const cmsPages = [
-    { slug: "about", title: "About Us", content: "We connect students across Nepal with flexible part-time work that fits around their studies." },
-    { slug: "safety", title: "Safety Tips", content: "Never pay an employer to apply for or receive a job. Meet in public places for interviews. Report suspicious listings." },
-    { slug: "terms", title: "Terms of Service", content: "Demo terms for the development environment." },
-    { slug: "privacy", title: "Privacy Policy", content: "Demo privacy policy for the development environment." },
-    { slug: "faq", title: "FAQ", content: "Frequently asked questions about finding student jobs." },
+    { slug: "about", title: "About Us", content: "Growentix connects students across Nepal with flexible part-time work that fits around their studies. Students use the platform free, forever; employers fund it through subscription plans. See the full About page at /about." },
+    { slug: "safety", title: "Safety Tips", content: "Never pay an employer to apply for or receive a job. Meet in public places for interviews. Report suspicious listings. See the full guide at /safety." },
+    { slug: "terms", title: "Terms of Service", content: "The full Terms of Service are published at /terms and govern your use of Growentix." },
+    { slug: "privacy", title: "Privacy Policy", content: "The full Privacy Policy is published at /privacy and explains how Growentix collects, uses, and protects your information." },
+    { slug: "faq", title: "FAQ", content: "Frequently asked questions about finding student jobs, applying, verification, and employer plans. See /faq for the full list." },
   ];
   for (const p of cmsPages) {
     await db.cmsPage.upsert({ where: { slug: p.slug }, update: {}, create: p });

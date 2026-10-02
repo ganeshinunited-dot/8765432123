@@ -26,9 +26,9 @@ export async function POST(req: NextRequest) {
     await db.user.update({ where: { id: user.id }, data: { resetToken: token, resetTokenExpiry: expiry } });
     const appUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
     try {
-      await sendTemplatedEmail("password_reset", email, {
+      await sendTemplatedEmail(email, "password_reset", {
         name: user.name,
-        app_name: "Student Jobs Nepal",
+        app_name: "Growentix",
         reset_url: `${appUrl}/reset-password?token=${token}`,
       });
     } catch (e) {

@@ -159,6 +159,8 @@ model User {
   role          Role       @default(STUDENT)
   status        UserStatus @default(ACTIVE)
   emailVerified Boolean    @default(false)
+  emailVerifyToken String?   @unique
+  emailVerifyExpiry DateTime?
   resetToken    String?    @unique
   resetTokenExpiry DateTime?
   createdAt     DateTime   @default(now())

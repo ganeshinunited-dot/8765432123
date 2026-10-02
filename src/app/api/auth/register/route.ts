@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
+import crypto from "crypto";
 import { db } from "@/lib/db";
 import { hashPassword, createSession, rateLimit, clientKey } from "@/lib/auth";
 import { registerSchema } from "@/lib/validation";
@@ -32,6 +33,8 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "An account with this email or phone already exists." }, { status: 409 });
   }
 
+  const verifyToken = crypto.randomBytes(32).toString("hex");
+  const verifyExpiry = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 hours
   const user = await db.user.create({
     data: {
       name: name.trim(),
@@ -39,6 +42,8 @@ export async function POST(req: Request) {
       phone: phone?.trim() || null,
       passwordHash: await hashPassword(password),
       role,
+      emailVerifyToken: verifyToken,
+      emailVerifyExpiry: verifyExpiry,
     },
   });
 
@@ -47,8 +52,13 @@ export async function POST(req: Request) {
     await db.analyticsEvent.create({ data: { userId: user.id, event: "signup", props: { role } } });
   }
 
-  await notify(user.id, "SYSTEM", "Welcome to StudentJobs Nepal", "Complete your profile to get better job matches.", role === "STUDENT" ? "/profile" : "/employer/company");
+  await notify(user.id, "SYSTEM", "Welcome to Growentix", "Complete your profile to get better job matches.", role === "STUDENT" ? "/profile" : "/employer/company");
   sendTemplatedEmail(normalizedEmail, "welcome", { name: user.name }).catch(() => {});
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
+  sendTemplatedEmail(normalizedEmail, "email_verification", {
+    name: user.name,
+    verify_url: `${appUrl}/verify-email?token=${verifyToken}`,
+  }).catch((e) => console.error("Failed to send verification email:", e));
 
   await createSession(user.id);
   track(user.id, "signup", { role });
