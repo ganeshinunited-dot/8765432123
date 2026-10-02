@@ -37,6 +37,11 @@ export function NavAuth() {
     <>
       {loaded && user ? (
         <>
+          {user?.role === "INSTRUCTOR" && (
+            <span className="hidden items-center gap-1.5 rounded-lg bg-violet-700 px-3 py-2 text-xs font-bold text-white sm:inline-flex" title="You are signed in as a course seller">
+              SELLER
+            </span>
+          )}
           {isAdmin && view === "admin" && (
             <span className="hidden items-center gap-1.5 rounded-lg bg-slate-900 px-3 py-2 text-xs font-bold text-white sm:inline-flex" title="You are browsing as an administrator">
               <svg className="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z" /></svg>

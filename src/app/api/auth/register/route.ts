@@ -51,8 +51,12 @@ export async function POST(req: Request) {
     await db.studentProfile.create({ data: { userId: user.id } });
     await db.analyticsEvent.create({ data: { userId: user.id, event: "signup", props: { role } } });
   }
+  if (role === "INSTRUCTOR") {
+    const { randomVerifyThreshold } = await import("@/lib/course-reviews");
+    await db.instructorProfile.create({ data: { userId: user.id, autoVerifyAt: randomVerifyThreshold() } });
+  }
 
-  await notify(user.id, "SYSTEM", "Welcome to Growentix", "Complete your profile to get better job matches.", role === "STUDENT" ? "/profile" : "/employer/company");
+  await notify(user.id, "SYSTEM", "Welcome to Growentix", role === "INSTRUCTOR" ? "Complete billing to start selling your courses." : "Complete your profile to get better job matches.", role === "STUDENT" ? "/profile" : role === "INSTRUCTOR" ? "/instructor/billing" : "/employer/company");
   sendTemplatedEmail(normalizedEmail, "welcome", { name: user.name }).catch(() => {});
   const appUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
   sendTemplatedEmail(normalizedEmail, "email_verification", {
