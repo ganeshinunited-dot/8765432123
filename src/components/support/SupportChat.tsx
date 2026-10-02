@@ -19,7 +19,7 @@ const STARTERS = [
 
 const GREETING: Msg = {
   role: "assistant",
-  text: "Namaste! I'm the Growentix Support Assistant. Ask me anything about using this platform — applying for jobs, posting jobs, verification, pricing, safety and more.",
+  text: "Namaste! I'm the Growentix Support Assistant. Ask me anything about using this platform — applying for jobs, posting jobs, verification, plans (for verified employers), safety and more.",
 };
 
 export function SupportChat() {

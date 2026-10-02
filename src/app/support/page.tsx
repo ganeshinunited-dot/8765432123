@@ -6,7 +6,7 @@ export const revalidate = 300;
 
 export const metadata: Metadata = {
   title: "Help & Support — Growentix",
-  description: "Ask the Growentix support assistant how to apply, post jobs, verify your company, manage CVs, pricing and safety.",
+  description: "Ask the Growentix support assistant how to apply, post jobs, verify your company, manage CVs and safety.",
 };
 
 const FAQS = [
@@ -34,7 +34,7 @@ export default function SupportPage() {
       <h1 className="text-3xl font-bold tracking-tight text-slate-900">Help &amp; Support</h1>
       <p className="mt-2 max-w-2xl text-slate-600">
         Ask the assistant below how anything on Growentix works — it knows the whole platform: applying, posting jobs,
-        verification, CVs, pricing and safety.
+        verification, CVs and safety.
       </p>
 
       <div className="mt-6">

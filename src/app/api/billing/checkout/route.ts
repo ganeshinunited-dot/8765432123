@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { getSessionUser } from "@/lib/auth";
 import { createCheckout } from "@/lib/payments";
+import { getVerifiedCompany } from "@/lib/pricing-gate";
 import { z } from "zod";
 
 const schema = z.object({
@@ -15,6 +16,7 @@ export async function POST(req: Request) {
 
   const company = await db.company.findFirst({ where: { ownerId: user.id } });
   if (!company) return NextResponse.json({ error: "Create your company profile first." }, { status: 400 });
+  if (!(await getVerifiedCompany(user.id))) return NextResponse.json({ error: "Only verified employers can purchase plans." }, { status: 403 });
 
   const body = await req.json().catch(() => ({}));
   const parsed = schema.safeParse(body);

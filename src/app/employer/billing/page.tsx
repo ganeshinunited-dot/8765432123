@@ -1,5 +1,7 @@
+import Link from "next/link";
 import { db } from "@/lib/db";
 import { requireUser } from "@/lib/auth";
+import { getVerifiedCompany } from "@/lib/pricing-gate";
 import { DashboardShell } from "@/components/dashboard/Shell";
 import { Card, Badge, EmptyState } from "@/components/ui/primitives";
 import { EMPLOYER_NAV } from "../home/page";
@@ -14,6 +16,23 @@ export default async function BillingPage() {
     return (
       <DashboardShell title="Billing" nav={EMPLOYER_NAV} active="/employer/billing">
         <EmptyState title="Create your company profile first." />
+      </DashboardShell>
+    );
+  }
+
+  const verified = await getVerifiedCompany(user.id);
+  if (!verified) {
+    return (
+      <DashboardShell title="Billing" nav={EMPLOYER_NAV} active="/employer/billing">
+        <Card className="p-6">
+          <h2 className="text-base font-bold text-slate-900">Verify your company to see plans</h2>
+          <p className="mt-2 text-sm text-slate-600">
+            Plan pricing is only shown to verified employers. Complete verification to unlock billing and upgrades.
+          </p>
+          <Link href="/employer/company" className="mt-5 inline-flex h-11 items-center rounded-lg bg-emerald-700 px-5 text-sm font-semibold text-white hover:bg-emerald-800">
+            Verify my company
+          </Link>
+        </Card>
       </DashboardShell>
     );
   }

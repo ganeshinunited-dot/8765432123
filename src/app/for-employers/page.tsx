@@ -25,9 +25,6 @@ export default function ForEmployersPage() {
         <Link href="/signup" className="inline-flex h-12 items-center rounded-lg bg-emerald-700 px-6 text-sm font-semibold text-white hover:bg-emerald-800">
           Post a Job
         </Link>
-        <Link href="/pricing" className="inline-flex h-12 items-center rounded-lg border border-slate-300 px-6 text-sm font-semibold text-slate-800 hover:bg-slate-50">
-          See Pricing
-        </Link>
       </div>
 
       <Section title="Why hire on Growentix">
@@ -36,7 +33,7 @@ export default function ForEmployersPage() {
             <><strong>Student-first audience:</strong> every candidate is actively looking for work that fits a study schedule — fewer mismatches, faster hiring.</>,
             <><strong>Verified trust:</strong> complete one verification and your badge appears across the platform, increasing applications from quality candidates.</>,
             <><strong>Everything in one place:</strong> postings, applications, CVs, messaging, and interviews — no spreadsheets or lost emails.</>,
-            <><strong>Fair pricing:</strong> start free with one active post; upgrade only when you need more reach, featured placement, or candidate search.</>,
+            <><strong>Fair pricing:</strong> start free; plan options are shown to verified employers after they sign in.</>,
           ]}
         />
       </Section>
