@@ -109,7 +109,7 @@ export function ApplyPanel({ jobId, jobSlug, application, saved, userRole, deadl
   );
 }
 
-ApplyPanel.Mobile = function MobileApply(props: Props) {
+export function MobileApplyBar(props: Props) {
   const { application, userRole, jobSlug } = props;
   const [open, setOpen] = useState(false);
   if (application) {
@@ -136,7 +136,7 @@ ApplyPanel.Mobile = function MobileApply(props: Props) {
       Log in to Apply
     </Link>
   );
-};
+}
 
 function ApplyFormInline({ jobId }: { jobId: string }) {
   const [cover, setCover] = useState("");

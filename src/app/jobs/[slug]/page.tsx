@@ -5,7 +5,7 @@ import { db } from "@/lib/db";
 import { getSessionUser } from "@/lib/auth";
 import { Badge, Card, Alert } from "@/components/ui/primitives";
 import { formatSalary, timeAgo, JOB_TYPE_LABELS, SCHEDULE_LABELS, ARRANGEMENT_LABELS } from "@/lib/format";
-import { ApplyPanel } from "@/components/jobs/ApplyPanel";
+import { ApplyPanel, MobileApplyBar } from "@/components/jobs/ApplyPanel";
 import { ReportButton } from "@/components/jobs/ReportButton";
 
 export const dynamic = "force-dynamic";
@@ -168,7 +168,7 @@ export default async function JobDetailsPage({ params }: { params: Promise<{ slu
 
       {/* Sticky mobile apply */}
       <div className="fixed inset-x-0 bottom-0 z-30 border-t border-slate-200 bg-white p-3 lg:hidden">
-        <ApplyPanel.Mobile jobId={job.id} jobSlug={job.slug} application={application} saved={saved} userRole={user?.role ?? null} />
+        <MobileApplyBar jobId={job.id} jobSlug={job.slug} application={application} saved={saved} userRole={user?.role ?? null} />
       </div>
       <div className="h-20 lg:hidden" aria-hidden="true" />
     </div>
