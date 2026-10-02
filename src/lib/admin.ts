@@ -4,7 +4,7 @@ import { getSessionUser } from "@/lib/auth";
 export async function requireAdmin() {
   const user = await getSessionUser();
   if (!user) redirect("/login?next=/admin");
-  if (user.role !== "ADMIN") redirect("/unauthorized");
+  if (!user.isAdmin) redirect("/unauthorized");
   return user;
 }
 

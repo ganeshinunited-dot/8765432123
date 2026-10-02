@@ -3,7 +3,6 @@ import { requireAdmin } from "@/lib/admin";
 import { AdminShell } from "@/components/admin/AdminShell";
 import { Card } from "@/components/ui/primitives";
 import { ADMIN_NAV } from "../home/page";
-import CmsEditor from "./CmsEditor";
 
 export const dynamic = "force-dynamic";
 
@@ -24,11 +23,19 @@ export default async function AdminCms({ searchParams }: { searchParams: Promise
               <p className="font-mono text-xs text-slate-400">/p/{p.slug}</p>
             </a>
           ))}
-          <a href="/admin/cms?slug=new" className={`block px-4 py-3 text-sm font-semibold text-emerald-700 hover:bg-slate-50 ${slug === "new" ? "bg-emerald-50" : ""}`}>
-            + New page
-          </a>
+
         </Card>
-        <CmsEditor page={current ? { slug: current.slug, title: current.title, content: current.content } : null} isNew={slug === "new"} />
+        <Card className="p-5">
+          {current ? (
+            <>
+              <h2 className="text-lg font-bold text-slate-900">{current.title}</h2>
+              <p className="mb-3 font-mono text-xs text-slate-400">/p/{current.slug} · updated {current.updatedAt.toLocaleDateString("en-GB")}</p>
+              <div className="prose prose-sm max-w-none whitespace-pre-wrap text-slate-700">{current.content}</div>
+            </>
+          ) : (
+            <p className="text-sm text-slate-500">Select a page to preview it. Content editing is disabled — admins have read-only access.</p>
+          )}
+        </Card>
       </div>
     </AdminShell>
   );

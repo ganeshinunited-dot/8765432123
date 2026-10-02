@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
-import { getSessionUser, canActAsEmployer } from "@/lib/auth";
+import { getSessionUser } from "@/lib/auth";
 import { notify } from "@/lib/notifications";
 
 // Employer transitions: APPLIED -> VIEWED -> SHORTLISTED -> INTERVIEW -> SELECTED
@@ -18,7 +18,7 @@ const ALLOWED: Record<string, string[]> = {
 export async function POST(req: Request, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const user = await getSessionUser();
-  if (!user || !canActAsEmployer(user.role)) return NextResponse.json({ error: "Not authorized." }, { status: 401 });
+  if (!user || user.role !== "EMPLOYER") return NextResponse.json({ error: "Not authorized." }, { status: 401 });
 
   const app = await db.application.findFirst({
     where: { id, job: { company: { ownerId: user.id } } },

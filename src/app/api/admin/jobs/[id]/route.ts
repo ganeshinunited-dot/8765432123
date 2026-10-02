@@ -6,7 +6,7 @@ import { notify } from "@/lib/notifications";
 
 async function isAdmin() {
   const user = await getSessionUser();
-  return user && user.role === "ADMIN" ? user : null;
+  return user && user.isAdmin ? user : null;
 }
 
 export async function POST(req: Request, { params }: { params: Promise<{ id: string }> }) {
@@ -39,17 +39,5 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
     return NextResponse.json({ ok: true });
   }
 
-  if (action === "feature" || action === "unfeature") {
-    await db.job.update({ where: { id }, data: { featured: action === "feature" } });
-    await logAdminAction(admin.id, action === "feature" ? "JOB_FEATURED" : "JOB_UNFEATURED", "Job", id);
-    return NextResponse.json({ ok: true });
-  }
-
-  if (action === "remove" && ["ACTIVE", "PENDING_REVIEW"].includes(job.status)) {
-    await db.job.update({ where: { id }, data: { status: "EXPIRED" } });
-    await logAdminAction(admin.id, "JOB_REMOVED", "Job", id, String(body.reason || ""));
-    return NextResponse.json({ ok: true });
-  }
-
-  return NextResponse.json({ error: "Invalid action." }, { status: 400 });
+  return NextResponse.json({ error: "Only review actions (approve / reject) are allowed." }, { status: 400 });
 }

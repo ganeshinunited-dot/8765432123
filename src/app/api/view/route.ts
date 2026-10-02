@@ -5,7 +5,7 @@ import { VIEW_COOKIE, type ViewMode } from "@/lib/view-mode";
 /** Switch the admin's current view between the admin console and the employer workspace. */
 export async function POST(req: Request) {
   const user = await getSessionUser();
-  if (!user || user.role !== "ADMIN") return NextResponse.json({ error: "Not authorized." }, { status: 403 });
+  if (!user || !user.isAdmin) return NextResponse.json({ error: "Not authorized." }, { status: 403 });
   const body = await req.json().catch(() => ({}));
   const view = String(body.view || "") as ViewMode;
   if (view !== "admin" && view !== "employer") return NextResponse.json({ error: "Invalid view." }, { status: 400 });

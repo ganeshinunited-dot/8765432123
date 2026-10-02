@@ -15,7 +15,7 @@ export async function GET(_req: Request, { params }: { params: Promise<{ id: str
   if (!file.isPublic) {
     const user = await getSessionUser();
     if (!user) return NextResponse.json({ error: "Not authorized." }, { status: 401 });
-    let allowed = file.ownerId === user.id || user.role === "ADMIN";
+    let allowed = file.ownerId === user.id || user.isAdmin;
     if (!allowed && user.role === "EMPLOYER" && file.purpose === "CV") {
       const app = await db.application.findFirst({
         where: { cvFileId: file.id, job: { company: { ownerId: user.id } } },

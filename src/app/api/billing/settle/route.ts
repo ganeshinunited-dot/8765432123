@@ -19,7 +19,7 @@ export async function POST(req: Request) {
 
   // Only the owning employer (or admin) may settle a MOCK payment.
   const isOwner = payment.company.ownerId === user.id;
-  const isAdmin = user.role === "ADMIN";
+  const isAdmin = user.isAdmin;
   if (!isOwner && !isAdmin) return NextResponse.json({ error: "Not authorized." }, { status: 403 });
   if (payment.provider !== "MOCK" && !isAdmin) {
     return NextResponse.json({ error: "Only the provider callback can settle this payment." }, { status: 403 });

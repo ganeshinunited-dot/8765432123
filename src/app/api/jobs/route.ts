@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
-import { getSessionUser, rateLimit, clientKey, canActAsEmployer } from "@/lib/auth";
+import { getSessionUser, rateLimit, clientKey } from "@/lib/auth";
 import { jobPostSchema } from "@/lib/validation";
 import { uniqueSlug } from "@/lib/format";
 import { notify } from "@/lib/notifications";
@@ -29,7 +29,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Too many requests. Please slow down." }, { status: 429 });
   }
   const user = await getSessionUser();
-  if (!user || !canActAsEmployer(user.role)) return NextResponse.json({ error: "Not authorized." }, { status: 401 });
+  if (!user || user.role !== "EMPLOYER") return NextResponse.json({ error: "Not authorized." }, { status: 401 });
 
   const company = await getEmployerCompany(user.id);
   if (!company) return NextResponse.json({ error: "Create your company profile first." }, { status: 400 });
@@ -83,7 +83,7 @@ export async function POST(req: Request) {
     await db.jobSkill.create({ data: { jobId: job.id, skillId: skill.id } });
   }
 
-  const admins = await db.user.findMany({ where: { role: "ADMIN", status: "ACTIVE" }, select: { id: true } });
+  const admins = await db.user.findMany({ where: { isAdmin: true, status: "ACTIVE" }, select: { id: true } });
   await Promise.all(
     admins.map((a) => notify(a.id, "SYSTEM", "New job awaiting review", `"${title}" by ${company.name} needs review.`, "/admin/jobs"))
   );
