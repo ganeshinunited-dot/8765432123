@@ -3,6 +3,8 @@ import { db } from "@/lib/db";
 import { clientKey, rateLimit } from "@/lib/auth";
 import { aiComplete, parseAiJson } from "@/lib/ai";
 
+export const maxDuration = 60;
+
 interface Filters {
   q?: string;
   jobType?: string;

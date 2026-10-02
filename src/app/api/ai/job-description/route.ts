@@ -3,6 +3,8 @@ import { db } from "@/lib/db";
 import { getSessionUser, rateLimit } from "@/lib/auth";
 import { aiComplete, aiEnabled, parseAiJson, templateJobText, type GeneratedJobText } from "@/lib/ai";
 
+export const maxDuration = 60;
+
 const JOB_TYPE_LABELS: Record<string, string> = { PART_TIME: "Part-time", FULL_TIME: "Full-time", INTERNSHIP: "Internship", TEMPORARY: "Temporary", CONTRACT: "Contract" };
 const ARRANGEMENT_LABELS: Record<string, string> = { ON_SITE: "On-site", REMOTE: "Remote", HYBRID: "Hybrid" };
 

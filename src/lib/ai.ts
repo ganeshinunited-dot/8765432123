@@ -34,13 +34,14 @@ export async function aiComplete(messages: ChatMessage[], opts?: { json?: boolea
         model,
         messages,
         temperature: 0.7,
-        // Meta Model API uses max_completion_tokens; other OpenAI-compatible APIs use max_tokens.
+        // Meta Model API: max_completion_tokens includes hidden reasoning tokens,
+        // so budget generously and keep reasoning minimal for fast, reliable replies.
         ...(base.includes("api.meta.ai")
-          ? { max_completion_tokens: opts?.maxTokens ?? 700 }
+          ? { max_completion_tokens: Math.min(4000, (opts?.maxTokens ?? 700) + 1500), reasoning_effort: "minimal" }
           : { max_tokens: opts?.maxTokens ?? 700 }),
         ...(opts?.json ? { response_format: { type: "json_object" } } : {}),
       }),
-      signal: AbortSignal.timeout(20_000),
+      signal: AbortSignal.timeout(30_000),
     });
     if (!res.ok) return null;
     const data = await res.json();

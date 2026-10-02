@@ -3,6 +3,8 @@ import { db } from "@/lib/db";
 import { getSessionUser, rateLimit } from "@/lib/auth";
 import { aiComplete, aiEnabled, templateCoverLetter } from "@/lib/ai";
 
+export const maxDuration = 60;
+
 /** AI cover-letter writer for students (template fallback until a key is set). */
 export async function POST(req: NextRequest) {
   const user = await getSessionUser();
