@@ -58,7 +58,11 @@ export async function POST(req: NextRequest) {
     ],
     { maxTokens: 450 }
   );
-  if (llm) return NextResponse.json({ source: "ai", answer: llm });
+  if (llm) {
+    // Plain-text chat UI: strip markdown the model may add.
+    const clean = llm.replace(/\*\*/g, "").replace(/__/g, "").replace(/`/g, "").replace(/^#{1,6}\s+/gm, "").trim();
+    return NextResponse.json({ source: "ai", answer: clean });
+  }
 
   const hit = FALLBACKS.find((f) => f.match.test(question));
   return NextResponse.json({
