@@ -15,27 +15,5 @@ const planSchema = z.object({
 });
 
 export async function PUT(req: Request, { params }: { params: Promise<{ id: string }> }) {
-  const { id } = await params;
-  const admin = await getSessionUser();
-  if (!admin || admin.role !== "ADMIN") return NextResponse.json({ error: "Not authorized." }, { status: 403 });
-
-  const body = await req.json().catch(() => ({}));
-  const parsed = planSchema.safeParse(body);
-  if (!parsed.success) return NextResponse.json({ error: parsed.error.issues[0].message }, { status: 400 });
-
-  const plan = await db.subscriptionPlan.update({
-    where: { id },
-    data: {
-      name: parsed.data.name,
-      description: parsed.data.description || null,
-      priceMonthly: parsed.data.priceMonthly,
-      jobPostLimit: parsed.data.jobPostLimit,
-      featuredAllowed: parsed.data.featuredAllowed,
-      candidateSearch: parsed.data.candidateSearch,
-      active: parsed.data.active,
-    },
-  });
-
-  await logAdminAction(admin.id, "PLAN_UPDATED", "SubscriptionPlan", id, plan.name);
-  return NextResponse.json({ ok: true });
+  return NextResponse.json({ error: "Admins have read-only access. Content changes are disabled." }, { status: 403 });
 }

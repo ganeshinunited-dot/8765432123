@@ -35,7 +35,7 @@ export async function POST(req: Request) {
   });
 
   // Notify all admins
-  const admins = await db.user.findMany({ where: { role: "ADMIN", status: "ACTIVE" }, select: { id: true } });
+  const admins = await db.user.findMany({ where: { isAdmin: true, status: "ACTIVE" }, select: { id: true } });
   await Promise.all(
     admins.map((a) => notify(a.id, "SYSTEM", "New report submitted", `${parsed.data.reason} reported on ${parsed.data.targetType.toLowerCase()}.`, "/admin/reports"))
   );

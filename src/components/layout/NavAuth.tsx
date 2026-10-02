@@ -31,7 +31,7 @@ export function NavAuth() {
       .catch(() => setLoaded(true));
   }, []);
 
-  const isAdmin = user?.role === "ADMIN";
+  const isAdmin = !!user?.isAdmin;
 
   return (
     <>
@@ -65,7 +65,7 @@ export function NavAuth() {
           >
             Dashboard
           </Link>
-          <UserMenu name={user.name} role={user.role} view={isAdmin ? view : undefined} />
+          <UserMenu name={user.name} role={user.role} isAdmin={isAdmin} view={isAdmin ? view : undefined} />
         </>
       ) : (
         <>

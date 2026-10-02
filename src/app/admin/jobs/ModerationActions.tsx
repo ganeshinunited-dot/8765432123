@@ -6,7 +6,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { useToast } from "@/components/ui/Toast";
 
-export default function ModerationActions({ id, status, featured, slug }: { id: string; status: string; featured: boolean; slug: string }) {
+export default function ModerationActions({ id, status, slug }: { id: string; status: string; slug: string }) {
   const router = useRouter();
   const toast = useToast();
   const [busy, setBusy] = useState<string | null>(null);
@@ -45,12 +45,7 @@ export default function ModerationActions({ id, status, featured, slug }: { id: 
         </>
       )}
       {status === "ACTIVE" && (
-        <>
-          <Button size="sm" variant="secondary" disabled={busy !== null} onClick={() => act(featured ? "unfeature" : "feature")}>
-            {featured ? "Unfeature" : "Feature"}
-          </Button>
-          <Button size="sm" variant="ghost" disabled={busy !== null} onClick={() => { if (confirm("Remove this job from the site?")) act("remove"); }} className="text-rose-700 hover:bg-rose-50">Remove</Button>
-        </>
+        <span className="text-xs text-slate-400">Live — admin review only applies to pending jobs.</span>
       )}
     </div>
   );

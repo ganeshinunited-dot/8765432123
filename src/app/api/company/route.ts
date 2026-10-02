@@ -1,19 +1,19 @@
 import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
-import { getSessionUser, canActAsEmployer } from "@/lib/auth";
+import { getSessionUser } from "@/lib/auth";
 import { companyProfileSchema } from "@/lib/validation";
 import { uniqueSlug } from "@/lib/format";
 
 export async function GET() {
   const user = await getSessionUser();
-  if (!user || !canActAsEmployer(user.role)) return NextResponse.json({ error: "Not authorized." }, { status: 401 });
+  if (!user || user.role !== "EMPLOYER") return NextResponse.json({ error: "Not authorized." }, { status: 401 });
   const company = await db.company.findFirst({ where: { ownerId: user.id }, include: { location: true } });
   return NextResponse.json({ company });
 }
 
 export async function PUT(req: Request) {
   const user = await getSessionUser();
-  if (!user || !canActAsEmployer(user.role)) return NextResponse.json({ error: "Not authorized." }, { status: 401 });
+  if (!user || user.role !== "EMPLOYER") return NextResponse.json({ error: "Not authorized." }, { status: 401 });
 
   const body = await req.json().catch(() => ({}));
   const parsed = companyProfileSchema.safeParse(body);

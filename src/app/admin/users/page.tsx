@@ -3,7 +3,6 @@ import { requireAdmin } from "@/lib/admin";
 import { AdminShell } from "@/components/admin/AdminShell";
 import { Card, Badge, EmptyState } from "@/components/ui/primitives";
 import { ADMIN_NAV } from "../home/page";
-import UserActions from "./UserActions";
 
 export const dynamic = "force-dynamic";
 
@@ -18,7 +17,7 @@ export default async function AdminUsers({ searchParams }: { searchParams: Promi
     },
     orderBy: { createdAt: "desc" },
     take: 100,
-    select: { id: true, name: true, email: true, role: true, status: true, createdAt: true },
+    select: { id: true, name: true, email: true, role: true, isAdmin: true, status: true, createdAt: true },
   });
 
   return (
@@ -46,8 +45,9 @@ export default async function AdminUsers({ searchParams }: { searchParams: Promi
               </div>
               <div className="flex items-center gap-2">
                 <Badge tone="blue">{u.role}</Badge>
+                {u.isAdmin && <Badge tone="slate">ADMIN</Badge>}
                 <Badge tone={u.status === "ACTIVE" ? "green" : "rose"}>{u.status}</Badge>
-                <UserActions id={u.id} name={u.name} status={u.status} />
+
               </div>
             </div>
           ))}

@@ -6,7 +6,7 @@ export const dynamic = "force-dynamic";
 export default async function DashboardIndex() {
   const user = await getSessionUser();
   if (!user) redirect("/login?next=/dashboard");
-  if (user.role === "ADMIN") {
+  if (user.isAdmin) {
     const view = await getViewMode(true);
     redirect(view === "employer" ? "/employer/home" : "/admin/home");
   }

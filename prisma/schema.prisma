@@ -157,6 +157,7 @@ model User {
   passwordHash  String
   name          String
   role          Role       @default(STUDENT)
+  isAdmin       Boolean    @default(false)
   status        UserStatus @default(ACTIVE)
   emailVerified Boolean    @default(false)
   emailVerifyToken String?   @unique
