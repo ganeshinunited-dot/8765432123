@@ -24,8 +24,8 @@ interface ChatMessage {
 export async function aiComplete(messages: ChatMessage[], opts?: { json?: boolean; maxTokens?: number }): Promise<string | null> {
   const key = process.env.AI_API_KEY;
   if (!key) return null;
-  const base = (process.env.AI_BASE_URL || "https://api.openai.com/v1").replace(/\/+$/, "");
-  const model = process.env.AI_MODEL || "gpt-4o-mini";
+  const base = (process.env.AI_BASE_URL || "https://api.meta.ai/v1").replace(/\/+$/, "");
+  const model = process.env.AI_MODEL || "muse-spark-1.1";
   try {
     const res = await fetch(`${base}/chat/completions`, {
       method: "POST",
@@ -34,7 +34,10 @@ export async function aiComplete(messages: ChatMessage[], opts?: { json?: boolea
         model,
         messages,
         temperature: 0.7,
-        max_tokens: opts?.maxTokens ?? 700,
+        // Meta Model API uses max_completion_tokens; other OpenAI-compatible APIs use max_tokens.
+        ...(base.includes("api.meta.ai")
+          ? { max_completion_tokens: opts?.maxTokens ?? 700 }
+          : { max_tokens: opts?.maxTokens ?? 700 }),
         ...(opts?.json ? { response_format: { type: "json_object" } } : {}),
       }),
       signal: AbortSignal.timeout(20_000),
