@@ -9,8 +9,8 @@ const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: {
-    default: "StudentJobs Nepal — Find Part-Time Jobs That Fit Your Student Life",
-    template: "%s | StudentJobs Nepal",
+    default: "Growentix — Find Part-Time Jobs That Fit Your Student Life",
+    template: "%s | Growentix",
   },
   description:
     "Discover part-time, evening, weekend, remote and entry-level opportunities from trusted employers across Nepal.",

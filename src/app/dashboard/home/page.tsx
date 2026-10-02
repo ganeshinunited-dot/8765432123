@@ -6,6 +6,7 @@ import { DashboardShell } from "@/components/dashboard/Shell";
 import { STUDENT_NAV } from "@/components/dashboard/student-nav";
 import { Card, Badge, EmptyState } from "@/components/ui/primitives";
 import { JobCard } from "@/components/jobs/JobCard";
+import { VerifyEmailBanner } from "@/components/auth/VerifyEmailBanner";
 import { matchJobsForStudent } from "@/lib/match";
 import { APP_STATUS_LABELS, APP_STATUS_COLORS } from "@/lib/format";
 
@@ -45,6 +46,7 @@ export default async function StudentHome() {
 
   return (
     <DashboardShell title={`Welcome, ${user.name.split(" ")[0]}`} nav={STUDENT_NAV} active="/dashboard/home">
+      <VerifyEmailBanner emailVerified={user.emailVerified} />
       {profile.profileCompletion < 100 && (
         <Card className="mb-5 border-emerald-200 bg-emerald-50 p-5">
           <div className="flex flex-wrap items-center justify-between gap-3">

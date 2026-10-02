@@ -9,7 +9,7 @@ export const dynamic = "force-dynamic";
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const company = await db.company.findUnique({ where: { slug }, select: { name: true } });
-  return { title: company ? `${company.name} — Jobs | Student Jobs Nepal` : "Company not found" };
+  return { title: company ? `${company.name} — Jobs | Growentix` : "Company not found" };
 }
 
 export default async function CompanyDetailPage({ params }: { params: Promise<{ slug: string }> }) {

@@ -5,7 +5,7 @@ import { Card, Badge, EmptyState } from "@/components/ui/primitives";
 export const dynamic = "force-dynamic";
 
 export const metadata = {
-  title: "Companies Hiring Students in Nepal | Student Jobs Nepal",
+  title: "Companies Hiring Students in Nepal | Growentix",
   description: "Browse verified companies hiring students across Nepal.",
 };
 

@@ -4,6 +4,7 @@ import { JobCard } from "@/components/jobs/JobCard";
 import { EmptyState, Card } from "@/components/ui/primitives";
 import { JobFilters } from "@/components/jobs/JobFilters";
 import { JobFiltersMobile } from "@/components/jobs/JobFiltersMobile";
+import { JobSearchBar } from "@/components/jobs/JobSearchBar";
 import { SortDropdown } from "./SortDropdown";
 import type { Prisma } from "@prisma/client";
 
@@ -80,9 +81,14 @@ export default async function JobsPage({ searchParams }: { searchParams: Promise
   for (const [k, v] of Object.entries(sp)) if (k !== "page" && v) qs.set(k, v);
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6">
-      <h1 className="text-2xl font-bold text-slate-900">Find jobs</h1>
-      <p className="mt-1 text-sm text-slate-600">{total} {total === 1 ? "opportunity" : "opportunities"} found</p>
+    <div>
+      <JobSearchBar initial={sp} />
+      <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6">
+      <p className="text-sm text-slate-600">
+        <span className="font-semibold text-slate-900">{total}</span> {total === 1 ? "opportunity" : "opportunities"} found
+        {sp.q && <> for &ldquo;<span className="font-medium text-slate-900">{sp.q}</span>&rdquo;</>}
+        {sp.location && <> in <span className="font-medium text-slate-900">{sp.location}</span></>}
+      </p>
 
       <div className="mt-6 flex flex-col gap-6 lg:flex-row">
         <aside className="hidden w-72 shrink-0 lg:block">
@@ -124,6 +130,7 @@ export default async function JobsPage({ searchParams }: { searchParams: Promise
             </nav>
           )}
         </div>
+      </div>
       </div>
     </div>
   );

@@ -39,8 +39,14 @@ export default function LoginPage() {
   return (
     <div className="mx-auto max-w-md px-4 py-12">
       <h1 className="text-2xl font-bold text-slate-900">Log in</h1>
-      <p className="mt-1 text-sm text-slate-600">Welcome back to StudentJobs Nepal.</p>
+      <p className="mt-1 text-sm text-slate-600">Welcome back to Growentix.</p>
       <form onSubmit={onSubmit} className="mt-6 space-y-4">
+        {searchParams.get("reset") === "1" && (
+          <Alert tone="green">Your password has been updated. Log in with your new password.</Alert>
+        )}
+        {searchParams.get("verified") === "1" && (
+          <Alert tone="green">Your email is verified. Welcome to Growentix!</Alert>
+        )}
         {error && <Alert tone="rose">{error}</Alert>}
         <Input name="email" label="Email" type="email" autoComplete="email" required placeholder="you@example.com" />
         <Input name="password" label="Password" type="password" autoComplete="current-password" required placeholder="••••••••" />

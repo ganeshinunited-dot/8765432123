@@ -4,6 +4,7 @@ import { requireUser } from "@/lib/auth";
 import { DashboardShell, icons } from "@/components/dashboard/Shell";
 import { Card, Badge, EmptyState } from "@/components/ui/primitives";
 import { timeAgo } from "@/lib/format";
+import { VerifyEmailBanner } from "@/components/auth/VerifyEmailBanner";
 
 export const dynamic = "force-dynamic";
 
@@ -52,6 +53,7 @@ export default async function EmployerHome() {
 
   return (
     <DashboardShell title={company.name} nav={EMPLOYER_NAV} active="/employer/home">
+      <VerifyEmailBanner emailVerified={user.emailVerified} />
       {company.verificationStatus !== "VERIFIED" && (
         <div className="mb-5 rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900">
           <span className="font-semibold">Company not verified yet.</span>{" "}
