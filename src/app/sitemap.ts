@@ -9,7 +9,7 @@ const SEO_PAGES = [
 ];
 
 export default async function sitemap() {
-  const base = process.env.APP_URL || "https://studentjobsnepal.com";
+  const base = process.env.NEXT_PUBLIC_APP_URL || "https://growentix.cloud";
 
   const staticPages = ["", "/jobs", "/companies", "/signup", "/login", ...SEO_PAGES.map((p) => `/${p}`)].map(
     (path) => ({ url: `${base}${path}`, lastModified: new Date(), changeFrequency: "daily" as const, priority: path === "" ? 1 : 0.8 })

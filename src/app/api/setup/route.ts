@@ -53,7 +53,17 @@ export async function POST(req: NextRequest) {
     for (const p of PLANS) {
       await db.subscriptionPlan.upsert({ where: { slug: p.slug }, update: {}, create: p });
     }
-    return NextResponse.json({ ok: true, seeded: { locations: LOCATIONS.length, categories: CATEGORIES.length, skills: SKILLS.length, plans: PLANS.length } });
+    const CMS_PAGES = [
+      { slug: "about", title: "About Us", content: "Growentix connects students across Nepal with flexible part-time work that fits around their studies. Students use the platform free, forever; employers fund it through subscription plans. See the full About page at /about." },
+      { slug: "safety", title: "Safety Tips", content: "Never pay an employer to apply for or receive a job. Meet in public places for interviews. Report suspicious listings. See the full guide at /safety." },
+      { slug: "terms", title: "Terms of Service", content: "The full Terms of Service are published at /terms and govern your use of Growentix." },
+      { slug: "privacy", title: "Privacy Policy", content: "The full Privacy Policy is published at /privacy and explains how Growentix collects, uses, and protects your information." },
+      { slug: "faq", title: "FAQ", content: "Frequently asked questions about finding student jobs, applying, verification, and employer plans. See /faq for the full list." },
+    ];
+    for (const p of CMS_PAGES) {
+      await db.cmsPage.upsert({ where: { slug: p.slug }, update: {}, create: p });
+    }
+    return NextResponse.json({ ok: true, seeded: { locations: LOCATIONS.length, categories: CATEGORIES.length, skills: SKILLS.length, plans: PLANS.length, cmsPages: CMS_PAGES.length } });
   }
 
   if (body.action === "promote") {

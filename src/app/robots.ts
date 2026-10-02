@@ -1,5 +1,5 @@
 export default function robots() {
-  const base = process.env.APP_URL || "https://studentjobsnepal.com";
+  const base = process.env.NEXT_PUBLIC_APP_URL || "https://growentix.cloud";
   return {
     rules: [
       {

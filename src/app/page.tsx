@@ -13,8 +13,8 @@ const POPULAR = [
   { label: "Internships", href: "/jobs?type=INTERNSHIP" },
   { label: "Tutoring", href: "/jobs?category=tutoring-education" },
   { label: "Retail", href: "/jobs?category=retail-sales" },
-  { label: "Hospitality", href: "/jobs?category=hospitality-food" },
-  { label: "Digital & Creative", href: "/jobs?category=digital-creative" },
+  { label: "Hospitality", href: "/jobs?category=hospitality" },
+  { label: "Digital & Creative", href: "/jobs?category=design-creative" },
 ];
 
 export default async function HomePage() {
