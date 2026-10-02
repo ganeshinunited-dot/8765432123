@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { StaticPage, Section, Bullets } from "@/components/layout/StaticPage";
+export const revalidate = 300;
 
 export const metadata: Metadata = {
   title: "Terms of Service",

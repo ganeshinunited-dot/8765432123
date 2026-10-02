@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/Button";
+export const revalidate = 300;
 
 export default function UnauthorizedPage() {
   return (

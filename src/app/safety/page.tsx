@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { StaticPage, Section, Bullets } from "@/components/layout/StaticPage";
 import { Alert } from "@/components/ui/primitives";
+export const revalidate = 300;
 
 export const metadata: Metadata = {
   title: "Job Seeker Safety",

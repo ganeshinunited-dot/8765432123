@@ -9,6 +9,11 @@ import { ReportButton } from "@/components/jobs/ReportButton";
 
 export const revalidate = 300;
 
+export async function generateStaticParams() {
+  const jobs = await db.job.findMany({ where: { status: "ACTIVE" }, select: { slug: true }, take: 500 });
+  return jobs.map((j) => ({ slug: j.slug }));
+}
+
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
   const job = await db.job.findUnique({
