@@ -44,8 +44,8 @@ async function main() {
 
   const admin = await db.user.upsert({
     where: { email: "admin@example.com" },
-    update: {},
-    create: { email: "admin@example.com", name: "Demo Admin", role: "ADMIN", passwordHash, emailVerified: true },
+    update: { isAdmin: true },
+    create: { email: "admin@example.com", name: "Demo Admin", role: "ADMIN", isAdmin: true, passwordHash, emailVerified: true },
   });
 
   const studentUser = await db.user.upsert({

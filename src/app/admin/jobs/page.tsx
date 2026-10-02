@@ -50,7 +50,7 @@ export default async function AdminJobs({ searchParams }: { searchParams: Promis
               </div>
               <p className="mt-2 line-clamp-2 text-sm text-slate-600">{j.description.slice(0, 200)}</p>
               <div className="mt-3">
-                <ModerationActions id={j.id} status={j.status} featured={j.featured} slug={j.slug} />
+                <ModerationActions id={j.id} status={j.status} slug={j.slug} />
               </div>
             </div>
           ))}

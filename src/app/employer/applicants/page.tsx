@@ -1,5 +1,5 @@
 import { db } from "@/lib/db";
-import { requireUser, requireEmployer } from "@/lib/auth";
+import { requireUser } from "@/lib/auth";
 import { DashboardShell } from "@/components/dashboard/Shell";
 import { Card, Badge, EmptyState } from "@/components/ui/primitives";
 import { timeAgo } from "@/lib/format";
@@ -18,7 +18,7 @@ export default async function ApplicantsPage({
   searchParams: Promise<{ job?: string; status?: string }>;
 }) {
   const { job: jobFilter, status: statusFilter } = await searchParams;
-  const user = await requireEmployer();
+  const user = await requireUser(["EMPLOYER"]);
   const company = await db.company.findFirst({ where: { ownerId: user.id } });
   if (!company) {
     return (

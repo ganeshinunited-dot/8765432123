@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useState, useRef, useEffect } from "react";
 import { Avatar } from "../ui/primitives";
 
-export function UserMenu({ name, role, view }: { name: string; role: string; view?: "admin" | "employer" }) {
+export function UserMenu({ name, role, isAdmin, view }: { name: string; role: string; isAdmin: boolean; view?: "admin" | "employer" }) {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -14,7 +14,6 @@ export function UserMenu({ name, role, view }: { name: string; role: string; vie
     document.addEventListener("mousedown", onClick);
     return () => document.removeEventListener("mousedown", onClick);
   }, []);
-  const isAdmin = role === "ADMIN";
   return (
     <div className="relative" ref={ref}>
       <button

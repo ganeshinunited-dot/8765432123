@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
-import { getSessionUser, canActAsEmployer } from "@/lib/auth";
+import { getSessionUser } from "@/lib/auth";
 
 export async function GET(req: Request) {
   const user = await getSessionUser();
@@ -39,7 +39,7 @@ export async function GET(req: Request) {
 
 export async function POST(req: Request) {
   const user = await getSessionUser();
-  if (!user || !canActAsEmployer(user.role)) return NextResponse.json({ error: "Not authorized." }, { status: 401 });
+  if (!user || user.role !== "EMPLOYER") return NextResponse.json({ error: "Not authorized." }, { status: 401 });
 
   const body = await req.json().catch(() => ({}));
   const applicationId = String(body.applicationId || "");

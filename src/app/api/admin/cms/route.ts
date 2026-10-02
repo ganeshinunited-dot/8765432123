@@ -11,18 +11,5 @@ const pageSchema = z.object({
 });
 
 export async function POST(req: Request) {
-  const admin = await getSessionUser();
-  if (!admin || admin.role !== "ADMIN") return NextResponse.json({ error: "Not authorized." }, { status: 403 });
-
-  const body = await req.json().catch(() => ({}));
-  const parsed = pageSchema.safeParse(body);
-  if (!parsed.success) return NextResponse.json({ error: parsed.error.issues[0].message }, { status: 400 });
-
-  const page = await db.cmsPage.upsert({
-    where: { slug: parsed.data.slug },
-    update: { title: parsed.data.title, content: parsed.data.content },
-    create: parsed.data,
-  });
-  await logAdminAction(admin.id, "CMS_UPDATED", "CmsPage", page.id, parsed.data.slug);
-  return NextResponse.json({ ok: true, slug: page.slug });
+  return NextResponse.json({ error: "Admins have read-only access. Content changes are disabled." }, { status: 403 });
 }

@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
-import { getSessionUser, canActAsEmployer } from "@/lib/auth";
+import { getSessionUser } from "@/lib/auth";
 import { createCheckout } from "@/lib/payments";
 import { z } from "zod";
 
@@ -11,7 +11,7 @@ const schema = z.object({
 
 export async function POST(req: Request) {
   const user = await getSessionUser();
-  if (!user || !canActAsEmployer(user.role)) return NextResponse.json({ error: "Not authorized." }, { status: 401 });
+  if (!user || user.role !== "EMPLOYER") return NextResponse.json({ error: "Not authorized." }, { status: 401 });
 
   const company = await db.company.findFirst({ where: { ownerId: user.id } });
   if (!company) return NextResponse.json({ error: "Create your company profile first." }, { status: 400 });

@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { db } from "@/lib/db";
-import { getSessionUser, rateLimit, clientKey, canActAsEmployer } from "@/lib/auth";
+import { getSessionUser, rateLimit, clientKey } from "@/lib/auth";
 import { notify } from "@/lib/notifications";
 import { autoChecks, REQUIRED_DOCS_MIN } from "@/lib/verification";
 
@@ -18,7 +18,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Too many attempts. Please try again later." }, { status: 429 });
   }
   const user = await getSessionUser();
-  if (!user || !canActAsEmployer(user.role)) return NextResponse.json({ error: "Not authorized." }, { status: 401 });
+  if (!user || user.role !== "EMPLOYER") return NextResponse.json({ error: "Not authorized." }, { status: 401 });
 
   const body = await req.json().catch(() => ({}));
   const parsed = verificationSchema.safeParse(body);
@@ -83,7 +83,7 @@ export async function POST(req: Request) {
   });
   await db.company.update({ where: { id: company.id }, data: { verificationStatus: "PENDING" } });
 
-  const admins = await db.user.findMany({ where: { role: "ADMIN", status: "ACTIVE" }, select: { id: true } });
+  const admins = await db.user.findMany({ where: { isAdmin: true, status: "ACTIVE" }, select: { id: true } });
   await Promise.all(
     admins.map((a) => notify(a.id, "EMPLOYER_VERIFICATION", "New verification request", `${company.name} requested verification.${duplicate ? " ⚠ PAN already used by another company." : ""}`, "/admin/verifications"))
   );

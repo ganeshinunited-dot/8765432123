@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
-import { getSessionUser, canActAsEmployer } from "@/lib/auth";
+import { getSessionUser } from "@/lib/auth";
 import { jobPostSchema } from "@/lib/validation";
 
 async function ownJob(userId: string, id: string) {
@@ -10,7 +10,7 @@ async function ownJob(userId: string, id: string) {
 export async function PUT(req: Request, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const user = await getSessionUser();
-  if (!user || !canActAsEmployer(user.role)) return NextResponse.json({ error: "Not authorized." }, { status: 401 });
+  if (!user || user.role !== "EMPLOYER") return NextResponse.json({ error: "Not authorized." }, { status: 401 });
 
   const job = await ownJob(user.id, id);
   if (!job) return NextResponse.json({ error: "Job not found." }, { status: 404 });
@@ -58,7 +58,7 @@ export async function PUT(req: Request, { params }: { params: Promise<{ id: stri
 export async function DELETE(_req: Request, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const user = await getSessionUser();
-  if (!user || !canActAsEmployer(user.role)) return NextResponse.json({ error: "Not authorized." }, { status: 401 });
+  if (!user || user.role !== "EMPLOYER") return NextResponse.json({ error: "Not authorized." }, { status: 401 });
 
   const job = await ownJob(user.id, id);
   if (!job) return NextResponse.json({ error: "Job not found." }, { status: 404 });
@@ -72,7 +72,7 @@ export async function DELETE(_req: Request, { params }: { params: Promise<{ id: 
 export async function PATCH(req: Request, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const user = await getSessionUser();
-  if (!user || !canActAsEmployer(user.role)) return NextResponse.json({ error: "Not authorized." }, { status: 401 });
+  if (!user || user.role !== "EMPLOYER") return NextResponse.json({ error: "Not authorized." }, { status: 401 });
 
   const job = await ownJob(user.id, id);
   if (!job) return NextResponse.json({ error: "Job not found." }, { status: 404 });

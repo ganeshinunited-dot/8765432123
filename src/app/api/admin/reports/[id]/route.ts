@@ -6,7 +6,7 @@ import { logAdminAction } from "@/lib/admin";
 export async function POST(req: Request, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const user = await getSessionUser();
-  if (!user || user.role !== "ADMIN") return NextResponse.json({ error: "Not authorized." }, { status: 403 });
+  if (!user || !user.isAdmin) return NextResponse.json({ error: "Not authorized." }, { status: 403 });
 
   const report = await db.report.findUnique({ where: { id } });
   if (!report) return NextResponse.json({ error: "Not found." }, { status: 404 });

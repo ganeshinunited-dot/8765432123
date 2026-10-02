@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { db } from "@/lib/db";
-import { requireUser, requireEmployer } from "@/lib/auth";
+import { requireUser } from "@/lib/auth";
 import { DashboardShell, icons } from "@/components/dashboard/Shell";
 import { Card, Badge, EmptyState } from "@/components/ui/primitives";
 import { timeAgo } from "@/lib/format";
@@ -23,7 +23,7 @@ const STATUS_TONE: Record<string, "green" | "amber" | "rose" | "slate" | "blue">
 };
 
 export default async function EmployerHome() {
-  const user = await requireEmployer();
+  const user = await requireUser(["EMPLOYER"]);
   const company = await db.company.findFirst({ where: { ownerId: user.id } });
 
   if (!company) {
