@@ -700,6 +700,7 @@ model CourseVideo {
   title       String
   fileId      String?
   file        UploadedFile? @relation(fields: [fileId], references: [id], onDelete: SetNull)
+  youtubeId   String?
   durationSec Int?
   position    Int      @default(0)
   views       Int      @default(0)

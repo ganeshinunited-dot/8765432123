@@ -3,6 +3,7 @@ import "dotenv/config";
 import { PrismaClient } from "@prisma/client";
 import { PrismaPg } from "@prisma/adapter-pg";
 import { hashPassword } from "../src/lib/auth";
+import { seedFreeCourses } from "./seedFreeCourses";
 
 const db = new PrismaClient({ adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL }) });
 
@@ -144,7 +145,9 @@ async function main() {
     await db.cmsPage.upsert({ where: { slug: p.slug }, update: {}, create: p });
   }
 
-  console.log("Seed complete. Test users: student@example.com / employer@example.com / admin@example.com (password: password123)");
+  await seedFreeCourses(db);
+
+    console.log("Seed complete. Test users: student@example.com / employer@example.com / admin@example.com (password: password123)");
 }
 
 main().then(() => process.exit(0)).catch((e) => { console.error(e); process.exit(1); });
