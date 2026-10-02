@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { db } from "@/lib/db";
-import { getSessionUser, rateLimit, clientKey } from "@/lib/auth";
+import { getSessionUser, rateLimit, clientKey, canActAsEmployer } from "@/lib/auth";
 import { notify } from "@/lib/notifications";
 import { autoChecks, REQUIRED_DOCS_MIN } from "@/lib/verification";
 
@@ -18,7 +18,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Too many attempts. Please try again later." }, { status: 429 });
   }
   const user = await getSessionUser();
-  if (!user || user.role !== "EMPLOYER") return NextResponse.json({ error: "Not authorized." }, { status: 401 });
+  if (!user || !canActAsEmployer(user.role)) return NextResponse.json({ error: "Not authorized." }, { status: 401 });
 
   const body = await req.json().catch(() => ({}));
   const parsed = verificationSchema.safeParse(body);

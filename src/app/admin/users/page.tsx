@@ -1,6 +1,6 @@
 import { db } from "@/lib/db";
 import { requireAdmin } from "@/lib/admin";
-import { DashboardShell } from "@/components/dashboard/Shell";
+import { AdminShell } from "@/components/admin/AdminShell";
 import { Card, Badge, EmptyState } from "@/components/ui/primitives";
 import { ADMIN_NAV } from "../home/page";
 import UserActions from "./UserActions";
@@ -22,7 +22,7 @@ export default async function AdminUsers({ searchParams }: { searchParams: Promi
   });
 
   return (
-    <DashboardShell title="Users" nav={ADMIN_NAV} active="/admin/users">
+    <AdminShell title="Users" nav={ADMIN_NAV} active="/admin/users">
       <form className="mb-4 flex flex-wrap gap-2" method="get">
         <input name="q" defaultValue={q || ""} placeholder="Search name or email…" className="h-11 min-w-52 flex-1 rounded-lg border border-slate-300 px-3.5 text-sm" />
         <select name="role" defaultValue={role || ""} className="h-11 rounded-lg border border-slate-300 bg-white px-3 text-sm">
@@ -53,6 +53,6 @@ export default async function AdminUsers({ searchParams }: { searchParams: Promi
           ))}
         </Card>
       )}
-    </DashboardShell>
+    </AdminShell>
   );
 }

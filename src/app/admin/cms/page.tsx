@@ -1,6 +1,6 @@
 import { db } from "@/lib/db";
 import { requireAdmin } from "@/lib/admin";
-import { DashboardShell } from "@/components/dashboard/Shell";
+import { AdminShell } from "@/components/admin/AdminShell";
 import { Card } from "@/components/ui/primitives";
 import { ADMIN_NAV } from "../home/page";
 import CmsEditor from "./CmsEditor";
@@ -14,7 +14,7 @@ export default async function AdminCms({ searchParams }: { searchParams: Promise
   const current = slug ? await db.cmsPage.findUnique({ where: { slug } }) : null;
 
   return (
-    <DashboardShell title="Content pages" nav={ADMIN_NAV} active="/admin/cms">
+    <AdminShell title="Content pages" nav={ADMIN_NAV} active="/admin/cms">
       <div className="grid gap-4 md:grid-cols-[260px_1fr]">
         <Card className="divide-y divide-slate-100 self-start">
           {pages.map((p) => (
@@ -30,6 +30,6 @@ export default async function AdminCms({ searchParams }: { searchParams: Promise
         </Card>
         <CmsEditor page={current ? { slug: current.slug, title: current.title, content: current.content } : null} isNew={slug === "new"} />
       </div>
-    </DashboardShell>
+    </AdminShell>
   );
 }

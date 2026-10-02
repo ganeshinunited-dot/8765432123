@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
-import { getSessionUser, rateLimit } from "@/lib/auth";
+import { getSessionUser, rateLimit, canActAsEmployer } from "@/lib/auth";
 import { aiComplete, aiEnabled, parseAiJson, templateJobText, type GeneratedJobText } from "@/lib/ai";
 
 export const maxDuration = 60;
@@ -11,7 +11,7 @@ const ARRANGEMENT_LABELS: Record<string, string> = { ON_SITE: "On-site", REMOTE:
 /** AI job-post generator for employers (smart-template fallback until a key is set). */
 export async function POST(req: NextRequest) {
   const user = await getSessionUser();
-  if (!user || user.role !== "EMPLOYER") return NextResponse.json({ error: "Employers only." }, { status: 401 });
+  if (!user || !canActAsEmployer(user.role)) return NextResponse.json({ error: "Employers only." }, { status: 401 });
   if (!rateLimit(`ai-jobdesc:${user.id}`, 10, 60_000)) return NextResponse.json({ error: "Too many requests. Wait a minute." }, { status: 429 });
 
   const body = await req.json().catch(() => ({}));

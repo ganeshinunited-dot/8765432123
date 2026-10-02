@@ -1,6 +1,6 @@
 import { db } from "@/lib/db";
 import { requireAdmin } from "@/lib/admin";
-import { DashboardShell } from "@/components/dashboard/Shell";
+import { AdminShell } from "@/components/admin/AdminShell";
 import { Card, Badge, EmptyState } from "@/components/ui/primitives";
 import { ADMIN_NAV } from "../home/page";
 import ModerationActions from "./ModerationActions";
@@ -24,7 +24,7 @@ export default async function AdminJobs({ searchParams }: { searchParams: Promis
   ]);
 
   return (
-    <DashboardShell title="Job moderation" nav={ADMIN_NAV} active="/admin/jobs">
+    <AdminShell title="Job moderation" nav={ADMIN_NAV} active="/admin/jobs">
       <div className="mb-4 flex gap-2 text-sm">
         <a href="/admin/jobs" className={`rounded-lg px-3.5 py-2 font-medium ${!status ? "bg-slate-900 text-white" : "bg-white text-slate-600 ring-1 ring-slate-200"}`}>All</a>
         <a href="/admin/jobs?status=PENDING_REVIEW" className={`rounded-lg px-3.5 py-2 font-medium ${status === "PENDING_REVIEW" ? "bg-slate-900 text-white" : "bg-white text-slate-600 ring-1 ring-slate-200"}`}>Pending ({counts[0]})</a>
@@ -56,6 +56,6 @@ export default async function AdminJobs({ searchParams }: { searchParams: Promis
           ))}
         </Card>
       )}
-    </DashboardShell>
+    </AdminShell>
   );
 }
