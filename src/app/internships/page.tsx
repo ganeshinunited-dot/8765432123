@@ -1,5 +1,6 @@
 import SeoLandingPage, { type SeoConfig } from "@/components/seo/SeoLandingPage";
 import { Metadata } from "next";
+export const revalidate = 300;
 
 export const metadata: Metadata = {
   title: "Internships in Nepal for Students | Paid & Unpaid",

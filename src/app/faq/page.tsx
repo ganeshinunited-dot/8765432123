@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { StaticPage, Section } from "@/components/layout/StaticPage";
+export const revalidate = 300;
 
 export const metadata: Metadata = {
   title: "Frequently Asked Questions",

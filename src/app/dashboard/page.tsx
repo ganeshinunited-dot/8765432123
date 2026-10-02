@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
 import { getSessionUser } from "@/lib/auth";
+export const revalidate = 300;
 
 export default async function DashboardIndex() {
   const user = await getSessionUser();

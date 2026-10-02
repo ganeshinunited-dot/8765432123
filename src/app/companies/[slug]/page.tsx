@@ -4,7 +4,12 @@ import { db } from "@/lib/db";
 import { JobCard } from "@/components/jobs/JobCard";
 import { Badge, Card, EmptyState } from "@/components/ui/primitives";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 300;
+
+export async function generateStaticParams() {
+  const companies = await db.company.findMany({ select: { slug: true }, take: 500 });
+  return companies.map((c) => ({ slug: c.slug }));
+}
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
