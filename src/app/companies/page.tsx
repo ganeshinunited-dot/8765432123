@@ -2,7 +2,7 @@ import Link from "next/link";
 import { db } from "@/lib/db";
 import { Card, Badge, EmptyState } from "@/components/ui/primitives";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 120;
 
 export const metadata = {
   title: "Companies Hiring Students in Nepal | Growentix",

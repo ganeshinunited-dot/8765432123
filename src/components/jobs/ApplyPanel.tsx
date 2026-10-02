@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Modal } from "@/components/ui/overlays";
 import { Textarea, Input } from "@/components/ui/fields";
@@ -8,6 +8,22 @@ import { Button } from "@/components/ui/Button";
 import { Badge, Alert } from "@/components/ui/primitives";
 import { APP_STATUS_LABELS, APP_STATUS_COLORS } from "@/lib/format";
 import { useToast } from "@/components/ui/Toast";
+
+/** Per-user state starts as anonymous (page is edge-cached) then hydrates from /my-state. */
+function useJobState(jobId: string, initial: { application: Props["application"]; saved: boolean; userRole: string | null }) {
+  const [state, setState] = useState(initial);
+  useEffect(() => {
+    let live = true;
+    fetch(`/api/jobs/${jobId}/my-state`)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d) => {
+        if (live && d) setState({ application: d.application, saved: d.saved, userRole: d.userRole });
+      })
+      .catch(() => {});
+    return () => { live = false; };
+  }, [jobId]);
+  return state;
+}
 
 interface Props {
   jobId: string;
@@ -19,7 +35,9 @@ interface Props {
   applicantCount?: number;
 }
 
-export function ApplyPanel({ jobId, jobSlug, application, saved, userRole, deadline, applicantCount }: Props) {
+export function ApplyPanel(props: Props) {
+  const { jobId, jobSlug, deadline, applicantCount } = props;
+  const { application, saved, userRole } = useJobState(jobId, props);
   const [open, setOpen] = useState(false);
   const [cover, setCover] = useState("");
   const [availability, setAvailability] = useState("");
@@ -110,7 +128,8 @@ export function ApplyPanel({ jobId, jobSlug, application, saved, userRole, deadl
 }
 
 export function MobileApplyBar(props: Props) {
-  const { application, userRole, jobSlug } = props;
+  const { jobSlug } = props;
+  const { application, userRole } = useJobState(props.jobId, props);
   const [open, setOpen] = useState(false);
   if (application) {
     return (

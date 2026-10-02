@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   description: "Growentix employer plans. Students always free.",
 };
 
-export const dynamic = "force-dynamic";
+export const revalidate = 300;
 
 interface PlanView {
   name: string;

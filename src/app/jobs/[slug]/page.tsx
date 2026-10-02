@@ -2,13 +2,12 @@ import { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { db } from "@/lib/db";
-import { getSessionUser } from "@/lib/auth";
 import { Badge, Card, Alert } from "@/components/ui/primitives";
 import { formatSalary, timeAgo, JOB_TYPE_LABELS, SCHEDULE_LABELS, ARRANGEMENT_LABELS } from "@/lib/format";
 import { ApplyPanel, MobileApplyBar } from "@/components/jobs/ApplyPanel";
 import { ReportButton } from "@/components/jobs/ReportButton";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 300;
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
@@ -61,23 +60,14 @@ export default async function JobDetailsPage({ params }: { params: Promise<{ slu
   });
   if (!job || job.status !== "ACTIVE") notFound();
 
-  const user = await getSessionUser();
-  let application = null;
-  let saved = false;
-  if (user?.role === "STUDENT") {
-    const profile = await db.studentProfile.findUnique({ where: { userId: user.id } });
-    if (profile) {
-      application = await db.application.findUnique({ where: { jobId_studentId: { jobId: job.id, studentId: profile.id } } });
-      saved = !!(await db.savedJob.findUnique({ where: { studentId_jobId: { studentId: profile.id, jobId: job.id } } }));
-    }
-  }
+  // Per-user apply/save state loads client-side (see /api/jobs/[id]/my-state)
+  // so this page can be served from the edge cache.
+  const application = null;
+  const saved = false;
   const applicantCount = await db.application.count({ where: { jobId: job.id } });
 
-  // increment views (fire-and-forget)
+  // increment views (fire-and-forget, runs on cache regeneration)
   db.job.update({ where: { id: job.id }, data: { views: { increment: 1 } } }).catch(() => {});
-  if (user) {
-    db.analyticsEvent.create({ data: { userId: user.id, event: "job_view", props: { jobId: job.id } } }).catch(() => {});
-  }
 
   const verified = job.company.verificationStatus === "VERIFIED";
 
@@ -159,7 +149,7 @@ export default async function JobDetailsPage({ params }: { params: Promise<{ slu
         </div>
 
         <aside className="lg:sticky lg:top-20 lg:self-start">
-          <ApplyPanel jobId={job.id} jobSlug={job.slug} application={application} saved={saved} userRole={user?.role ?? null} deadline={job.deadline} applicantCount={applicantCount} />
+          <ApplyPanel jobId={job.id} jobSlug={job.slug} application={application} saved={saved} userRole={null} deadline={job.deadline} applicantCount={applicantCount} />
           <div className="mt-3 text-center">
             <ReportButton targetType="JOB" targetId={job.id} />
           </div>
@@ -168,7 +158,7 @@ export default async function JobDetailsPage({ params }: { params: Promise<{ slu
 
       {/* Sticky mobile apply */}
       <div className="fixed inset-x-0 bottom-0 z-30 border-t border-slate-200 bg-white p-3 lg:hidden">
-        <MobileApplyBar jobId={job.id} jobSlug={job.slug} application={application} saved={saved} userRole={user?.role ?? null} />
+        <MobileApplyBar jobId={job.id} jobSlug={job.slug} application={application} saved={saved} userRole={null} />
       </div>
       <div className="h-20 lg:hidden" aria-hidden="true" />
     </div>

@@ -3,7 +3,7 @@ import { db } from "@/lib/db";
 import { JobCard } from "@/components/jobs/JobCard";
 import { Card } from "@/components/ui/primitives";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 60;
 
 const POPULAR = [
   { label: "Part-Time", href: "/jobs?type=PART_TIME" },
