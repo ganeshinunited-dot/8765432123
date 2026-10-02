@@ -24,7 +24,7 @@ FOR EMPLOYERS:
 - Applicants: Employer → Applicants — shortlist, reject, select, download CVs (only for your applicants), message candidates and propose interviews with date/time.
 
 GENERAL:
-- Companies directory: /companies. Pricing details: /pricing. Safety: /safety. FAQ: /faq.
+- Companies directory: /companies. Pricing is visible to verified employers only (no public prices). Safety: /safety. FAQ: /faq.
 - Account problems: wrong role chosen at signup cannot be changed in settings — contact support.
 - Growentix is for students in Nepal; jobs show NPR pay, locations across Nepal, schedules like Morning/Afternoon/Evening/Weekend.`;
 
@@ -35,7 +35,7 @@ const FALLBACKS: Array<{ match: RegExp; answer: string }> = [
   { match: /verif/i, answer: "Email verification: open the link we emailed after signup (check spam). Company verification: submit your business details from Employer → Company Profile; our team reviews them and adds the Verified badge." },
   { match: /cv|resume|document/i, answer: "Upload your CV under Profile. It stays private — only you, admins, and employers you applied to can open it." },
   { match: /password|forgot|login|log in/i, answer: "Forgot your password? Go to /forgot-password, enter your account email, and use the reset link (valid 1 hour). Then log in at /login with the new password." },
-  { match: /price|pricing|cost|plan|subscription/i, answer: "Students are always free. Employers: Free plan = 1 job post, Basic NPR 999/month = 5 posts, Premium NPR 2,499/month = 20 posts + candidate search. See /pricing for details." },
+  { match: /price|pricing|cost|plan|subscription/i, answer: "Students are always free. Employer plan pricing is only shown to verified employers after they sign in — complete verification from your company profile to see plans." },
   { match: /interview/i, answer: "Employers propose interviews from the Applicants page; you'll see invitations in Dashboard → Messages/Interviews and can accept or decline there." },
   { match: /message|chat|contact.*employer/i, answer: "Messaging opens once you're connected to an employer (e.g. after applying or being shortlisted). Find conversations under Dashboard → Messages." },
   { match: /save|bookmark/i, answer: "Tap the bookmark (\"Save Job\") on any job to save it, then find all saved jobs under Dashboard → Saved." },

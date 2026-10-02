@@ -42,7 +42,7 @@ const STUDENT_FAQS = [
 const EMPLOYER_FAQS = [
   {
     q: "How much does it cost to post a job?",
-    a: "The Free plan includes 1 active job post. Paid plans (Basic and Premium) allow more posts, featured placement, and candidate search. Students are always free. See the Pricing page for current plans.",
+    a: "You can start with a free job post. Plan options and pricing are shown to verified employers after they sign in. Students are always free." ,
   },
   {
     q: "What is employer verification?",

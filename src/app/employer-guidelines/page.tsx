@@ -69,7 +69,6 @@ export default function EmployerGuidelinesPage() {
 
       <Section title="See also">
         <p>
-          <Link href="/pricing" className="font-semibold text-emerald-700 hover:underline">Pricing plans</Link> ·{" "}
           <Link href="/for-employers" className="font-semibold text-emerald-700 hover:underline">For Employers</Link> ·{" "}
           <Link href="/terms" className="font-semibold text-emerald-700 hover:underline">Terms of Service</Link>
         </p>

@@ -29,7 +29,6 @@ export function Footer() {
             <ul className="mt-3 space-y-2 text-sm text-slate-600">
               <li><Link href="/for-employers" className="hover:text-emerald-700">Post a job</Link></li>
               <li><Link href="/companies" className="hover:text-emerald-700">Companies</Link></li>
-              <li><Link href="/pricing" className="hover:text-emerald-700">Pricing</Link></li>
               <li><Link href="/employer-guidelines" className="hover:text-emerald-700">Employer guidelines</Link></li>
             </ul>
           </nav>
