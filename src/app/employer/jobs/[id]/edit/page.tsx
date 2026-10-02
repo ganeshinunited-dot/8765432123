@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import { db } from "@/lib/db";
-import { requireUser } from "@/lib/auth";
+import { requireUser, requireEmployer } from "@/lib/auth";
 import { DashboardShell } from "@/components/dashboard/Shell";
 import JobWizard from "@/components/employer/JobWizard";
 import { EMPLOYER_NAV } from "../../../home/page";
@@ -9,7 +9,7 @@ export const dynamic = "force-dynamic";
 
 export default async function EditJobPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  const user = await requireUser(["EMPLOYER"]);
+  const user = await requireEmployer();
   const job = await db.job.findFirst({
     where: { id, company: { ownerId: user.id } },
     include: { skills: { include: { skill: true } } },

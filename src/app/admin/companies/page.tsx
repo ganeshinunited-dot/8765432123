@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { db } from "@/lib/db";
 import { requireAdmin } from "@/lib/admin";
-import { DashboardShell } from "@/components/dashboard/Shell";
+import { AdminShell } from "@/components/admin/AdminShell";
 import { Card, Badge, EmptyState } from "@/components/ui/primitives";
 import { ADMIN_NAV } from "../home/page";
 
@@ -20,7 +20,7 @@ export default async function AdminCompanies() {
   });
 
   return (
-    <DashboardShell title="Companies" nav={ADMIN_NAV} active="/admin/companies">
+    <AdminShell title="Companies" nav={ADMIN_NAV} active="/admin/companies">
       {companies.length === 0 ? (
         <EmptyState title="No companies yet." />
       ) : (
@@ -43,6 +43,6 @@ export default async function AdminCompanies() {
       <p className="mt-3 text-sm text-slate-500">
         Review pending verifications in <Link href="/admin/verifications" className="font-medium text-emerald-700 hover:underline">Verifications</Link>.
       </p>
-    </DashboardShell>
+    </AdminShell>
   );
 }

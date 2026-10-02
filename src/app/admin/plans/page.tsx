@@ -1,6 +1,6 @@
 import { db } from "@/lib/db";
 import { requireAdmin, logAdminAction } from "@/lib/admin";
-import { DashboardShell } from "@/components/dashboard/Shell";
+import { AdminShell } from "@/components/admin/AdminShell";
 import { Card } from "@/components/ui/primitives";
 import { ADMIN_NAV } from "../home/page";
 import PlanEditor from "./PlanEditor";
@@ -14,7 +14,7 @@ export default async function AdminPlans() {
   const countByPlan = new Map(subsByPlan.map((s) => [s.planId, s._count]));
 
   return (
-    <DashboardShell title="Subscription plans" nav={ADMIN_NAV} active="/admin/plans">
+    <AdminShell title="Subscription plans" nav={ADMIN_NAV} active="/admin/plans">
       <div className="space-y-4">
         {plans.map((p) => (
           <Card key={p.id} className="p-5">
@@ -32,7 +32,7 @@ export default async function AdminPlans() {
       <p className="mt-4 rounded-xl bg-slate-50 p-4 text-sm text-slate-600">
         Plans are editable and take effect for new purchases immediately. Students always use the platform for free — plans apply to employers only.
       </p>
-    </DashboardShell>
+    </AdminShell>
   );
 }
 

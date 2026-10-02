@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import type { SessionUser } from "@/lib/auth";
 import { UserMenu } from "./UserMenu";
 import { MobileMenu } from "./MobileMenu";
+import { ViewSwitcher } from "./ViewSwitcher";
 
 /**
  * Auth-aware part of the navbar, resolved in the browser via /api/auth/me
@@ -13,6 +14,8 @@ import { MobileMenu } from "./MobileMenu";
 export function NavAuth() {
   const [user, setUser] = useState<SessionUser | null>(null);
   const [unread, setUnread] = useState(0);
+  const [view, setView] = useState<"admin" | "employer">("employer");
+  const [companyName, setCompanyName] = useState<string | null>(null);
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
@@ -21,15 +24,26 @@ export function NavAuth() {
       .then((d) => {
         setUser(d.user ?? null);
         setUnread(d.unread ?? 0);
+        setView(d.view === "admin" ? "admin" : "employer");
+        setCompanyName(d.companyName ?? null);
         setLoaded(true);
       })
       .catch(() => setLoaded(true));
   }, []);
 
+  const isAdmin = user?.role === "ADMIN";
+
   return (
     <>
       {loaded && user ? (
         <>
+          {isAdmin && view === "admin" && (
+            <span className="hidden items-center gap-1.5 rounded-lg bg-slate-900 px-3 py-2 text-xs font-bold text-white sm:inline-flex" title="You are browsing as an administrator">
+              <svg className="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z" /></svg>
+              ADMIN
+            </span>
+          )}
+          {isAdmin && <ViewSwitcher view={view} companyName={companyName} />}
           <Link
             href="/notifications"
             className="relative flex h-11 w-11 items-center justify-center rounded-lg text-slate-600 hover:bg-slate-100"
@@ -51,7 +65,7 @@ export function NavAuth() {
           >
             Dashboard
           </Link>
-          <UserMenu name={user.name} role={user.role} />
+          <UserMenu name={user.name} role={user.role} view={isAdmin ? view : undefined} />
         </>
       ) : (
         <>

@@ -79,6 +79,18 @@ export async function getSessionUser(): Promise<SessionUser | null> {
   return { id: u.id, email: u.email, name: u.name, role: u.role, status: u.status, emailVerified: u.emailVerified };
 }
 
+/** Roles that can act as an employer (admins inherit employer capabilities). */
+export function canActAsEmployer(role: string): boolean {
+  return role === "EMPLOYER" || role === "ADMIN";
+}
+
+export async function requireEmployer(): Promise<SessionUser> {
+  const user = await getSessionUser();
+  if (!user) redirect("/login?next=" + encodeURIComponent("/employer/home"));
+  if (!canActAsEmployer(user.role)) redirect("/unauthorized");
+  return user;
+}
+
 export async function requireUser(roles?: Role[]): Promise<SessionUser> {
   const user = await getSessionUser();
   if (!user) redirect("/login?next=" + encodeURIComponent("/dashboard"));

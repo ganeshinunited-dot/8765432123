@@ -1,5 +1,5 @@
 import { db } from "@/lib/db";
-import { requireUser } from "@/lib/auth";
+import { requireUser, requireEmployer } from "@/lib/auth";
 import { DashboardShell } from "@/components/dashboard/Shell";
 import { Card, Badge, EmptyState } from "@/components/ui/primitives";
 import { EMPLOYER_NAV } from "../home/page";
@@ -8,7 +8,7 @@ import BillingClient from "./BillingClient";
 export const dynamic = "force-dynamic";
 
 export default async function BillingPage() {
-  const user = await requireUser(["EMPLOYER"]);
+  const user = await requireEmployer();
   const company = await db.company.findFirst({ where: { ownerId: user.id } });
   if (!company) {
     return (

@@ -2,7 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { db } from "@/lib/db";
 import { requireAdmin } from "@/lib/admin";
-import { DashboardShell } from "@/components/dashboard/Shell";
+import { AdminShell } from "@/components/admin/AdminShell";
 import { Card, Badge, Alert } from "@/components/ui/primitives";
 import { ADMIN_NAV } from "../../home/page";
 import { ReviewPanel } from "./ReviewPanel";
@@ -54,7 +54,7 @@ export default async function VerificationReviewPage({ params }: { params: Promi
   };
 
   return (
-    <DashboardShell title="Review verification" nav={ADMIN_NAV} active="/admin/verifications">
+    <AdminShell title="Review verification" nav={ADMIN_NAV} active="/admin/verifications">
       <Link href="/admin/verifications" className="text-sm font-medium text-emerald-700 hover:underline">← Back to queue</Link>
 
       <div className="mt-4 flex flex-wrap items-center justify-between gap-2">
@@ -140,6 +140,6 @@ export default async function VerificationReviewPage({ params }: { params: Promi
           {v.notes ? `: ${v.notes}` : ""}
         </Card>
       )}
-    </DashboardShell>
+    </AdminShell>
   );
 }
