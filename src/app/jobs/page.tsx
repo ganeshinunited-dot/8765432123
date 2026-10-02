@@ -5,6 +5,7 @@ import { EmptyState, Card } from "@/components/ui/primitives";
 import { JobFilters } from "@/components/jobs/JobFilters";
 import { JobFiltersMobile } from "@/components/jobs/JobFiltersMobile";
 import { JobSearchBar } from "@/components/jobs/JobSearchBar";
+import { AiJobSearch } from "@/components/jobs/AiJobSearch";
 import { SortDropdown } from "./SortDropdown";
 import type { Prisma } from "@prisma/client";
 
@@ -83,6 +84,9 @@ export default async function JobsPage({ searchParams }: { searchParams: Promise
   return (
     <div>
       <JobSearchBar initial={sp} />
+      <div className="mx-auto max-w-7xl px-4 pt-6 sm:px-6">
+        <AiJobSearch />
+      </div>
       <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6">
       <p className="text-sm text-slate-600">
         <span className="font-semibold text-slate-900">{total}</span> {total === 1 ? "opportunity" : "opportunities"} found

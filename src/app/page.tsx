@@ -67,6 +67,15 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
+      <section className="border-b border-emerald-100 bg-gradient-to-r from-emerald-700 to-emerald-800">
+        <div className="mx-auto flex max-w-7xl flex-wrap items-center gap-3 px-4 py-4 sm:px-6">
+          <p className="flex items-center gap-2 text-sm font-semibold text-white sm:text-base">
+            <svg className="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l1.9 5.6L19.5 9l-5.6 1.9L12 16.5l-1.9-5.6L4.5 9l5.6-1.4L12 2zM19 14l.9 2.6 2.6.9-2.6.9L19 21l-.9-2.6-2.6-.9 2.6-.9L19 14z"/></svg>
+            New: AI Job Assistant — describe your job in your own words, get matched instantly.
+          </p>
+          <Link href="/jobs" className="ml-auto rounded-lg bg-white px-4 py-2 text-sm font-bold text-emerald-800 hover:bg-emerald-50">Try AI Search</Link>
+        </div>
+      </section>
 
       {/* Popular categories */}
       <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6">

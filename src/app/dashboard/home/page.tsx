@@ -84,7 +84,7 @@ export default async function StudentHome() {
         </Link>
       )}
 
-      <h2 className="mt-8 text-lg font-bold text-slate-900">Recommended for you</h2>
+      <h2 className="mt-8 flex items-center gap-2 text-lg font-bold text-slate-900">Recommended for you <span className="rounded-full bg-emerald-700 px-2 py-0.5 text-[11px] font-bold uppercase tracking-wide text-white">Smart Match</span></h2>
       {ordered.length === 0 ? (
         <EmptyState
           title="No strong matches yet"
@@ -98,9 +98,10 @@ export default async function StudentHome() {
             return (
               <div key={j.id} className="relative">
                 <div className="absolute -top-2.5 left-4 z-10">
-                  <Badge tone={m.label === "Strong match" ? "green" : m.label === "Good match" ? "blue" : "slate"}>{m.label}</Badge>
+                  <Badge tone={m.label === "Strong match" ? "green" : m.label === "Good match" ? "blue" : "slate"}>{m.score}% · {m.label}</Badge>
                 </div>
                 <JobCard job={j} />
+                {m.reasons.length > 0 && <p className="px-1 pt-1.5 text-xs text-slate-500">Why: {m.reasons.join(" · ")}</p>}
               </div>
             );
           })}
