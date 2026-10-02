@@ -7,6 +7,7 @@ import { formatSalary, timeAgo, JOB_TYPE_LABELS, SCHEDULE_LABELS, ARRANGEMENT_LA
 import { ApplyPanel, MobileApplyBar } from "@/components/jobs/ApplyPanel";
 import { isBadgeValid } from "@/lib/verification";
 import { ReportButton } from "@/components/jobs/ReportButton";
+import { ViewTracker } from "@/components/analytics/ViewTracker";
 
 export const revalidate = 300;
 
@@ -81,6 +82,8 @@ export default async function JobDetailsPage({ params }: { params: Promise<{ slu
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6">
       <JsonLd job={job} />
+      {/* Server-side Klaviyo "Viewed Job" via our own API (page stays ISR-cached). */}
+      <ViewTracker kind="job" slug={job.slug} />
       <Link href="/jobs" className="text-sm font-medium text-emerald-700 hover:underline">← Back to jobs</Link>
 
       <div className="mt-4 grid gap-6 lg:grid-cols-[1fr_360px]">

@@ -1,7 +1,8 @@
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import Link from "next/link";
 import { db } from "@/lib/db";
 import { getSessionUser } from "@/lib/auth";
+import { trackEvent } from "@/lib/klaviyo";
 import { StaticPage } from "@/components/layout/StaticPage";
 import { Card, Badge } from "@/components/ui/primitives";
 import { CourseActions } from "@/components/courses/CourseActions";
@@ -34,6 +35,11 @@ function Stars({ n }: { n: number }) {
 
 export default async function CourseDetail({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
+
+  // Watching a course requires an account — visitors are sent to login first.
+  const user = await getSessionUser();
+  if (!user) redirect(`/login?next=${encodeURIComponent(`/courses/${slug}`)}`);
+
   const course = await db.course.findUnique({
     where: { slug },
     include: {
@@ -44,16 +50,23 @@ export default async function CourseDetail({ params }: { params: Promise<{ slug:
   }).catch(() => null);
   if (!course || course.status !== "PUBLISHED") notFound();
 
+  // Klaviyo "Viewed Product" (standard e-commerce name so product flows trigger).
+  // Page is login-gated, so the viewer always has an email here.
+  void trackEvent({
+    email: user.email,
+    metric: "Viewed Product",
+    properties: { ProductName: course.title, slug, price: course.price, category: course.category },
+  });
+
   // Count the view (fire and forget)
   db.course.update({ where: { id: course.id }, data: { views: { increment: 1 } } }).catch(() => {});
   db.instructorProfile.update({ where: { id: course.instructorId }, data: { totalViews: { increment: 1 } } }).catch(() => {});
 
-  const user = await getSessionUser();
   const avg = course.reviews.length ? course.reviews.reduce((a, r) => a + r.rating, 0) / course.reviews.length : 0;
-  const purchased = user?.role === "STUDENT"
+  const purchased = user.role === "STUDENT"
     ? await db.coursePurchase.findFirst({ where: { courseId: course.id, studentId: user.id, status: "COMPLETED" } }).catch(() => null)
     : null;
-  const alreadyReviewed = user?.role === "STUDENT"
+  const alreadyReviewed = user.role === "STUDENT"
     ? await db.courseReview.findFirst({ where: { courseId: course.id, studentId: user.id }, select: { id: true } }).catch(() => null)
     : null;
 
@@ -78,7 +91,7 @@ export default async function CourseDetail({ params }: { params: Promise<{ slug:
           <CourseActions
             courseId={course.id}
             price={course.price}
-            isStudent={user?.role === "STUDENT"}
+            isStudent={user.role === "STUDENT"}
             purchased={!!purchased}
             canReview={!!purchased && !alreadyReviewed}
             signedIn={!!user}

@@ -20,7 +20,20 @@ export function DashboardShell({
 }) {
   return (
     <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6">
-      <h1 className="text-xl font-bold text-slate-900 sm:text-2xl">{title}</h1>
+      <div className="flex items-center justify-between gap-3">
+        <h1 className="text-xl font-bold text-slate-900 sm:text-2xl">{title}</h1>
+        <form action="/api/auth/logout" method="post">
+          <button
+            type="submit"
+            className="inline-flex h-10 items-center gap-2 rounded-lg border border-slate-200 bg-white px-4 text-sm font-semibold text-slate-600 transition-colors hover:border-rose-300 hover:text-rose-700"
+          >
+            <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+              <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9" />
+            </svg>
+            Log out
+          </button>
+        </form>
+      </div>
       <div className="mt-5 flex gap-6">
         <aside className="hidden w-60 shrink-0 md:block">
           <nav className="sticky top-20 space-y-1 rounded-xl border border-slate-200 bg-white p-2" aria-label="Dashboard">

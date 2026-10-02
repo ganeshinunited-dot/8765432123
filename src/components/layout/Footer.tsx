@@ -1,7 +1,28 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Logo } from "./Logo";
 
+interface SessionState {
+  loggedIn: boolean;
+  isAdmin: boolean;
+}
+
 export function Footer() {
+  const [session, setSession] = useState<SessionState | null>(null);
+
+  useEffect(() => {
+    fetch("/api/auth/me")
+      .then((r) => r.json())
+      .then((d) => setSession({ loggedIn: !!d.user, isAdmin: !!d.user?.isAdmin }))
+      .catch(() => setSession({ loggedIn: false, isAdmin: false }));
+  }, []);
+
+  // Logged-in non-admins live in their dashboard app — the public footer is
+  // hidden for them everywhere. Admins keep the public chrome as before.
+  if (session && session.loggedIn && !session.isAdmin) return null;
+
   return (
     <footer className="border-t border-slate-200 bg-slate-50">
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6">

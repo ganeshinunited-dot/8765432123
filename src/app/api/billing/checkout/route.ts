@@ -3,6 +3,7 @@ import { db } from "@/lib/db";
 import { getSessionUser } from "@/lib/auth";
 import { createCheckout } from "@/lib/payments";
 import { getVerifiedCompany } from "@/lib/pricing-gate";
+import { trackEvent } from "@/lib/klaviyo";
 import { z } from "zod";
 
 const schema = z.object({
@@ -44,6 +45,12 @@ export async function POST(req: Request) {
     });
     // Remember which plan this payment is for
     await db.payment.update({ where: { id: result.paymentId }, data: { rawResponse: { planSlug: plan.slug } } });
+    void trackEvent({
+      email: user.email,
+      metric: "Started Checkout",
+      value: plan.priceMonthly,
+      properties: { Items: [{ ProductName: `${plan.name} plan`, planSlug: plan.slug, price: plan.priceMonthly }] },
+    });
     return NextResponse.json({ ok: true, ...result });
   } catch (e) {
     return NextResponse.json({ error: e instanceof Error ? e.message : "Could not start checkout." }, { status: 400 });

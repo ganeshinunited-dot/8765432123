@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { getSessionUser } from "@/lib/auth";
 import { notify } from "@/lib/notifications";
+import { trackEvent } from "@/lib/klaviyo";
 
 // Settles a payment. For real providers this is called by the provider
 // callback after server-side verification. The MOCK driver calls it from
@@ -55,6 +56,19 @@ export async function POST(req: Request) {
       plan ? `Your ${plan.name} plan is now active.` : "Your payment was successful.",
       "/employer/billing"
     );
+    const owner = await db.user.findUnique({ where: { id: payment.company.ownerId }, select: { email: true } });
+    if (owner && plan) {
+      void trackEvent({
+        email: owner.email,
+        metric: "Placed Order",
+        value: plan.priceMonthly,
+        uniqueId: `plan-order-${payment.id}`,
+        properties: {
+          OrderId: payment.id,
+          Items: [{ ProductName: `${plan.name} plan`, planSlug: plan.slug, price: plan.priceMonthly }],
+        },
+      });
+    }
     return NextResponse.json({ ok: true, state: "SUCCESSFUL" });
   }
 
