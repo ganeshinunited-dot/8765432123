@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { db } from "@/lib/db";
 import { requireAdmin } from "@/lib/admin";
-import { DashboardShell, icons } from "@/components/dashboard/Shell";
+import { AdminShell } from "@/components/admin/AdminShell";
+import { icons } from "@/components/dashboard/Shell";
 import { Card } from "@/components/ui/primitives";
 
 export const dynamic = "force-dynamic";
@@ -53,7 +54,7 @@ export default async function AdminHome() {
   ];
 
   return (
-    <DashboardShell title="Admin dashboard" nav={ADMIN_NAV} active="/admin/home">
+    <AdminShell title="Admin dashboard" nav={ADMIN_NAV} active="/admin/home">
       <h2 className="mb-3 text-sm font-semibold uppercase tracking-wide text-slate-500">Needs attention</h2>
       <div className="grid gap-4 sm:grid-cols-3">
         {queues.map(([label, n, href]) => (
@@ -89,6 +90,6 @@ export default async function AdminHome() {
           </div>
         ))}
       </Card>
-    </DashboardShell>
+    </AdminShell>
   );
 }

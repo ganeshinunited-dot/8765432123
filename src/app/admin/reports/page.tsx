@@ -1,6 +1,6 @@
 import { db } from "@/lib/db";
 import { requireAdmin } from "@/lib/admin";
-import { DashboardShell } from "@/components/dashboard/Shell";
+import { AdminShell } from "@/components/admin/AdminShell";
 import { Card, Badge, EmptyState } from "@/components/ui/primitives";
 import { ADMIN_NAV } from "../home/page";
 import ReportActions from "./ReportActions";
@@ -26,7 +26,7 @@ export default async function ReportsPage() {
   const open = reports.filter((r) => r.status === "OPEN").length;
 
   return (
-    <DashboardShell title={`Reports ${open > 0 ? `(${open} open)` : ""}`} nav={ADMIN_NAV} active="/admin/reports">
+    <AdminShell title={`Reports ${open > 0 ? `(${open} open)` : ""}`} nav={ADMIN_NAV} active="/admin/reports">
       {reports.length === 0 ? (
         <EmptyState title="No reports." description="User reports about jobs, companies or messages will appear here." />
       ) : (
@@ -57,6 +57,6 @@ export default async function ReportsPage() {
           ))}
         </div>
       )}
-    </DashboardShell>
+    </AdminShell>
   );
 }

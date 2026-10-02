@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
-import { getSessionUser, rateLimit, clientKey } from "@/lib/auth";
+import { getSessionUser, rateLimit, clientKey, canActAsEmployer } from "@/lib/auth";
 import { jobPostSchema } from "@/lib/validation";
 import { uniqueSlug } from "@/lib/format";
 import { notify } from "@/lib/notifications";
@@ -29,7 +29,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Too many requests. Please slow down." }, { status: 429 });
   }
   const user = await getSessionUser();
-  if (!user || user.role !== "EMPLOYER") return NextResponse.json({ error: "Not authorized." }, { status: 401 });
+  if (!user || !canActAsEmployer(user.role)) return NextResponse.json({ error: "Not authorized." }, { status: 401 });
 
   const company = await getEmployerCompany(user.id);
   if (!company) return NextResponse.json({ error: "Create your company profile first." }, { status: 400 });

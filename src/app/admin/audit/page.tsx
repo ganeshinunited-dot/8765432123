@@ -1,6 +1,6 @@
 import { db } from "@/lib/db";
 import { requireAdmin } from "@/lib/admin";
-import { DashboardShell } from "@/components/dashboard/Shell";
+import { AdminShell } from "@/components/admin/AdminShell";
 import { Card, EmptyState } from "@/components/ui/primitives";
 import { ADMIN_NAV } from "../home/page";
 
@@ -15,7 +15,7 @@ export default async function AuditLog() {
   });
 
   return (
-    <DashboardShell title="Audit log" nav={ADMIN_NAV} active="/admin/audit">
+    <AdminShell title="Audit log" nav={ADMIN_NAV} active="/admin/audit">
       {actions.length === 0 ? (
         <EmptyState title="No admin actions recorded yet." />
       ) : (
@@ -35,6 +35,6 @@ export default async function AuditLog() {
           ))}
         </Card>
       )}
-    </DashboardShell>
+    </AdminShell>
   );
 }

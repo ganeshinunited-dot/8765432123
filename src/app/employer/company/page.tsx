@@ -1,5 +1,5 @@
 import { db } from "@/lib/db";
-import { requireUser } from "@/lib/auth";
+import { requireUser, requireEmployer } from "@/lib/auth";
 import { DashboardShell } from "@/components/dashboard/Shell";
 import { CompanyProfileForm } from "@/components/employer/CompanyProfileForm";
 import { EMPLOYER_NAV } from "../home/page";
@@ -7,7 +7,7 @@ import { EMPLOYER_NAV } from "../home/page";
 export const dynamic = "force-dynamic";
 
 export default async function CompanyPage() {
-  const user = await requireUser(["EMPLOYER"]);
+  const user = await requireEmployer();
   const company = await db.company.findFirst({
     where: { ownerId: user.id },
     include: { verifications: { orderBy: { createdAt: "desc" }, take: 5 } },

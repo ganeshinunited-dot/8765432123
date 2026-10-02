@@ -1,11 +1,15 @@
 import { redirect } from "next/navigation";
 import { getSessionUser } from "@/lib/auth";
-export const revalidate = 300;
+import { getViewMode } from "@/lib/view-mode";
+export const dynamic = "force-dynamic";
 
 export default async function DashboardIndex() {
   const user = await getSessionUser();
   if (!user) redirect("/login?next=/dashboard");
-  if (user.role === "EMPLOYER") redirect("/employer");
-  if (user.role === "ADMIN") redirect("/admin");
+  if (user.role === "ADMIN") {
+    const view = await getViewMode(true);
+    redirect(view === "employer" ? "/employer/home" : "/admin/home");
+  }
+  if (user.role === "EMPLOYER") redirect("/employer/home");
   redirect("/dashboard/home");
 }

@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { db } from "@/lib/db";
 import { requireAdmin } from "@/lib/admin";
-import { DashboardShell } from "@/components/dashboard/Shell";
+import { AdminShell } from "@/components/admin/AdminShell";
 import { Card, EmptyState, Badge } from "@/components/ui/primitives";
 import { ADMIN_NAV } from "../home/page";
 
@@ -34,7 +34,7 @@ export default async function VerificationsPage({ searchParams }: { searchParams
   const pendingCount = await db.companyVerification.count({ where: { status: "PENDING" } });
 
   return (
-    <DashboardShell title="Company verifications" nav={ADMIN_NAV} active="/admin/verifications">
+    <AdminShell title="Company verifications" nav={ADMIN_NAV} active="/admin/verifications">
       <div className="mb-5 flex gap-2" role="tablist" aria-label="Verification queues">
         {TABS.map((t) => (
           <Link
@@ -89,6 +89,6 @@ export default async function VerificationsPage({ searchParams }: { searchParams
           })}
         </div>
       )}
-    </DashboardShell>
+    </AdminShell>
   );
 }
