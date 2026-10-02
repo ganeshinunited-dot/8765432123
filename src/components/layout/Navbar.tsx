@@ -17,9 +17,9 @@ export async function Navbar() {
   return (
     <header className="sticky top-0 z-40 border-b border-slate-200 bg-white/95 backdrop-blur">
       <div className="mx-auto flex h-16 max-w-7xl items-center gap-4 px-4 sm:px-6">
-        <Link href="/" className="flex items-center gap-2" aria-label="StudentJobs Nepal home">
-          <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-emerald-700 text-lg font-bold text-white">S</span>
-          <span className="hidden text-lg font-bold text-slate-900 sm:block">StudentJobs<span className="text-emerald-700">Nepal</span></span>
+        <Link href="/" className="flex items-center gap-2" aria-label="Growentix home">
+          <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-emerald-700 text-lg font-bold text-white">G</span>
+          <span className="hidden text-lg font-bold text-slate-900 sm:block">Grow<span className="text-emerald-700">entix</span></span>
         </Link>
         <nav className="ml-4 hidden items-center gap-1 lg:flex" aria-label="Primary">
           {links.map((l) => (

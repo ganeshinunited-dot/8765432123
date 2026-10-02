@@ -7,8 +7,8 @@ export function Footer() {
         <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
           <div>
             <div className="flex items-center gap-2">
-              <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-emerald-700 text-lg font-bold text-white">S</span>
-              <span className="text-lg font-bold text-slate-900">StudentJobs<span className="text-emerald-700">Nepal</span></span>
+              <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-emerald-700 text-lg font-bold text-white">G</span>
+              <span className="text-lg font-bold text-slate-900">Grow<span className="text-emerald-700">entix</span></span>
             </div>
             <p className="mt-3 text-sm text-slate-600">
               Part-time, evening, weekend and remote job opportunities for students across Nepal — from verified employers.
@@ -45,7 +45,7 @@ export function Footer() {
         </div>
         <div className="mt-10 border-t border-slate-200 pt-6 text-center text-sm text-slate-500">
           <p className="mb-2 font-medium text-amber-700">Never pay an employer to apply for or receive a job.</p>
-          <p>© {new Date().getFullYear()} StudentJobs Nepal. A job marketplace — we do not guarantee employment.</p>
+          <p>© {new Date().getFullYear()} Growentix. A job marketplace — we do not guarantee employment.</p>
         </div>
       </div>
     </footer>

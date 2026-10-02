@@ -37,7 +37,7 @@ export default function SignupPage() {
       setError(data.error || "Something went wrong. Please try again.");
       return;
     }
-    toast.push("Account created. Welcome!", "success");
+    toast.push("Account created. We sent a verification link to your email.", "success");
     router.push("/dashboard");
     router.refresh();
   }
