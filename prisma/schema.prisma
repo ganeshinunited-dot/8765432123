@@ -15,6 +15,7 @@ datasource db {
 enum Role {
   STUDENT
   EMPLOYER
+  INSTRUCTOR
   ADMIN
 }
 
@@ -169,6 +170,9 @@ model User {
 
   sessions       Session[]
   studentProfile StudentProfile?
+  instructorProfile InstructorProfile?
+  courseReviews  CourseReview[]
+  coursePurchases CoursePurchase[]
   companies      Company[]        @relation("CompanyOwner")
   notifications  Notification[]
   sentMessages   Message[]        @relation("MessageSender")
@@ -575,6 +579,7 @@ model UploadedFile {
   createdAt   DateTime @default(now())
 
   owner User @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  courseVideos CourseVideo[]
 
   @@index([ownerId, purpose])
 }
@@ -613,4 +618,121 @@ model AnalyticsEvent {
   user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
 
   @@index([event, createdAt])
+}
+
+// ---------------------------------------------------------------- courses (instructor marketplace)
+
+enum InstructorTier {
+  BRONZE
+  SILVER
+  GOLD
+}
+
+enum CourseStatus {
+  DRAFT
+  PUBLISHED
+}
+
+enum ReviewSentiment {
+  POSITIVE
+  NEUTRAL
+  NEGATIVE
+}
+
+enum PurchaseStatus {
+  PENDING
+  COMPLETED
+  REFUNDED
+}
+
+model InstructorProfile {
+  id              String         @id @default(uuid())
+  userId          String         @unique
+  user            User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  bio             String?
+  expertise       String?
+  tier            InstructorTier @default(BRONZE)
+  isPaid          Boolean        @default(false)
+  paidAt          DateTime?
+  planName        String?
+  // Hidden trust fields — NEVER exposed to the instructor via UI or API.
+  isVerified      Boolean        @default(false)
+  autoVerifyAt    Int            @default(25)
+  totalViews      Int            @default(0)
+  totalSales      Int            @default(0)
+  positiveReviews Int            @default(0)
+  totalReviews    Int            @default(0)
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+
+  courses Course[]
+}
+
+model Course {
+  id           String       @id @default(uuid())
+  instructorId String
+  instructor   InstructorProfile @relation(fields: [instructorId], references: [id], onDelete: Cascade)
+  title        String
+  slug         String       @unique
+  description  String
+  price        Int          @default(0)
+  thumbnailUrl String?
+  category     String?
+  featured     Boolean      @default(false)
+  status       CourseStatus @default(DRAFT)
+  views        Int          @default(0)
+  sales        Int          @default(0)
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+
+  videos    CourseVideo[]
+  reviews   CourseReview[]
+  purchases CoursePurchase[]
+
+  @@index([instructorId, status])
+  @@index([status, featured])
+}
+
+model CourseVideo {
+  id          String   @id @default(uuid())
+  courseId    String
+  course      Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  title       String
+  fileId      String?
+  file        UploadedFile? @relation(fields: [fileId], references: [id], onDelete: SetNull)
+  durationSec Int?
+  position    Int      @default(0)
+  views       Int      @default(0)
+  createdAt   DateTime @default(now())
+
+  @@index([courseId, position])
+}
+
+model CourseReview {
+  id        String          @id @default(uuid())
+  courseId  String
+  course    Course          @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  studentId String
+  student   User            @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  rating    Int
+  text      String?
+  sentiment ReviewSentiment @default(NEUTRAL)
+  createdAt DateTime        @default(now())
+
+  @@unique([courseId, studentId])
+  @@index([courseId, createdAt])
+}
+
+model CoursePurchase {
+  id        String         @id @default(uuid())
+  courseId  String
+  course    Course         @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  studentId String
+  student   User           @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  amount    Int
+  status    PurchaseStatus @default(PENDING)
+  createdAt DateTime       @default(now())
+
+  @@unique([courseId, studentId])
+  @@index([courseId, status])
 }

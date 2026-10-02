@@ -11,5 +11,6 @@ export default async function DashboardIndex() {
     redirect(view === "employer" ? "/employer/home" : "/admin/home");
   }
   if (user.role === "EMPLOYER") redirect("/employer/home");
+  if (user.role === "INSTRUCTOR") redirect("/instructor/home");
   redirect("/dashboard/home");
 }

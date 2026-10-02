@@ -79,6 +79,21 @@ export async function getSessionUser(): Promise<SessionUser | null> {
   return { id: u.id, email: u.email, name: u.name, role: u.role, status: u.status, emailVerified: u.emailVerified, isAdmin: u.isAdmin };
 }
 
+export async function requireInstructor(): Promise<SessionUser> {
+  const user = await getSessionUser();
+  if (!user) redirect("/login?next=/instructor/home");
+  if (user.role !== "INSTRUCTOR") redirect("/unauthorized");
+  return user;
+}
+
+export async function requirePaidInstructor() {
+  const user = await requireInstructor();
+  const { db } = await import("@/lib/db");
+  const profile = await db.instructorProfile.findUnique({ where: { userId: user.id } });
+  if (!profile?.isPaid) redirect("/instructor/billing");
+  return { user, profile };
+}
+
 export async function requireUser(roles?: Role[]): Promise<SessionUser> {
   const user = await getSessionUser();
   if (!user) redirect("/login?next=" + encodeURIComponent("/dashboard"));
