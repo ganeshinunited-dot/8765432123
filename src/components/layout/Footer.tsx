@@ -46,6 +46,9 @@ export function Footer() {
         <div className="mt-10 border-t border-slate-200 pt-6 text-center text-sm text-slate-500">
           <p className="mb-2 font-medium text-amber-700">Never pay an employer to apply for or receive a job.</p>
           <p>© {new Date().getFullYear()} Growentix. A job marketplace — we do not guarantee employment.</p>
+          <p className="mt-2 text-xs">
+            <Link href="/course" className="text-slate-400 hover:text-emerald-700">Course</Link>
+          </p>
         </div>
       </div>
     </footer>

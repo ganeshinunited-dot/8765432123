@@ -40,6 +40,10 @@ export function UserMenu({ name, role, isAdmin, view }: { name: string; role: st
                 <span className="inline-flex items-center gap-1 rounded bg-slate-900 px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-white">
                   Admin{view ? ` · ${view} view` : ""}
                 </span>
+              ) : role === "INSTRUCTOR" ? (
+                <span className="inline-flex items-center gap-1 rounded bg-violet-100 px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-violet-700">
+                  Course seller{view ? ` · ${view} view` : ""}
+                </span>
               ) : (
                 <span className="capitalize">{role.toLowerCase()}</span>
               )}

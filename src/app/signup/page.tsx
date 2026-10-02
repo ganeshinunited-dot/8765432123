@@ -1,18 +1,24 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, Suspense } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Input } from "@/components/ui/fields";
 import { Button } from "@/components/ui/Button";
 import { Alert } from "@/components/ui/primitives";
 import { useToast } from "@/components/ui/Toast";
 import { Logo } from "@/components/layout/Logo";
 
-export default function SignupPage() {
+function SignupForm() {
   const router = useRouter();
   const toast = useToast();
-  const [role, setRole] = useState<"STUDENT" | "EMPLOYER">("STUDENT");
+  const searchParams = useSearchParams();
+  const [role, setRole] = useState<"STUDENT" | "EMPLOYER" | "INSTRUCTOR">("STUDENT");
+  useEffect(() => {
+    const r = searchParams.get("role")?.toUpperCase();
+    if (r === "INSTRUCTOR") setRole("INSTRUCTOR");
+    else if (r === "EMPLOYER") setRole("EMPLOYER");
+  }, [searchParams]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -49,8 +55,8 @@ export default function SignupPage() {
       <h1 className="text-center text-2xl font-bold text-slate-900">Create your account</h1>
       <p className="mt-1 text-center text-sm text-slate-600">Free for students. Employers can post jobs after verification.</p>
 
-      <div className="mt-6 grid grid-cols-2 gap-2 rounded-xl bg-slate-100 p-1.5" role="radiogroup" aria-label="I am a">
-        {(["STUDENT", "EMPLOYER"] as const).map((r) => (
+      <div className="mt-6 grid grid-cols-3 gap-2 rounded-xl bg-slate-100 p-1.5" role="radiogroup" aria-label="I am a">
+        {(["STUDENT", "EMPLOYER", "INSTRUCTOR"] as const).map((r) => (
           <button
             key={r}
             type="button"
@@ -61,7 +67,7 @@ export default function SignupPage() {
               role === r ? "bg-white text-emerald-800 shadow" : "text-slate-500 hover:text-slate-800"
             }`}
           >
-            {r === "STUDENT" ? "I am a Student" : "I am an Employer"}
+            {r === "STUDENT" ? "Student" : r === "EMPLOYER" ? "Employer" : "Course seller"}
           </button>
         ))}
       </div>
@@ -85,5 +91,13 @@ export default function SignupPage() {
         Never pay an employer to apply for a job.
       </p>
     </div>
+  );
+}
+
+export default function SignupPage() {
+  return (
+    <Suspense>
+      <SignupForm />
+    </Suspense>
   );
 }

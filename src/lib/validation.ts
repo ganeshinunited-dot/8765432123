@@ -11,7 +11,7 @@ export const registerSchema = z.object({
   email: emailSchema,
   phone: z.string().trim().min(7, "Please enter a valid phone number.").max(20).optional().or(z.literal("")),
   password: passwordSchema,
-  role: z.enum(["STUDENT", "EMPLOYER"]),
+  role: z.enum(["STUDENT", "EMPLOYER", "INSTRUCTOR"]),
 });
 
 export const loginSchema = z.object({
