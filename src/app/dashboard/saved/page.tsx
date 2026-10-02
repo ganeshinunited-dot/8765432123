@@ -17,7 +17,7 @@ export default async function SavedJobsPage() {
     where: { studentId: profile.id },
     orderBy: { createdAt: "desc" },
     include: {
-      job: { include: { company: { select: { name: true, verificationStatus: true } }, location: { select: { name: true } } } },
+      job: { include: { company: { select: { name: true, verificationStatus: true, verificationExpiresAt: true, verifiedAt: true } }, location: { select: { name: true } } } },
     },
   });
   const active = saved.filter((s) => s.job.status === "ACTIVE");

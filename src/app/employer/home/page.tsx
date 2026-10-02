@@ -5,6 +5,7 @@ import { DashboardShell, icons } from "@/components/dashboard/Shell";
 import { Card, Badge, EmptyState } from "@/components/ui/primitives";
 import { timeAgo } from "@/lib/format";
 import { VerifyEmailBanner } from "@/components/auth/VerifyEmailBanner";
+import { isBadgeValid } from "@/lib/verification";
 
 export const dynamic = "force-dynamic";
 
@@ -54,7 +55,7 @@ export default async function EmployerHome() {
   return (
     <DashboardShell title={company.name} nav={EMPLOYER_NAV} active="/employer/home">
       <VerifyEmailBanner emailVerified={user.emailVerified} />
-      {company.verificationStatus !== "VERIFIED" && (
+      {!isBadgeValid(company) && (
         <div className="mb-5 rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900">
           <span className="font-semibold">Company not verified yet.</span>{" "}
           <Link href="/employer/company" className="font-semibold underline">Complete verification</Link> to earn a trust badge on your job posts.

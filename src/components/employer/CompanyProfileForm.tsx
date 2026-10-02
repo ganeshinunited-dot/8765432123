@@ -5,6 +5,8 @@ import { Input, Textarea, Select } from "@/components/ui/fields";
 import { Button } from "@/components/ui/Button";
 import { Alert, Card, Badge } from "@/components/ui/primitives";
 import { useToast } from "@/components/ui/Toast";
+import { VerificationCenter, type CenterProps } from "./VerificationCenter";
+import { badgeTone, badgeLabel } from "@/lib/verification";
 
 interface CompanyInitial {
   name?: string; industry?: string | null; description?: string | null;
@@ -12,7 +14,7 @@ interface CompanyInitial {
   verificationStatus?: string; id?: string;
 }
 
-export function CompanyProfileForm({ initial, locations }: { initial: CompanyInitial | null; locations: { id: string; name: string }[] }) {
+export function CompanyProfileForm({ initial, locations, verification }: { initial: CompanyInitial | null; locations: { id: string; name: string }[]; verification?: CenterProps }) {
   const toast = useToast();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -58,7 +60,7 @@ export function CompanyProfileForm({ initial, locations }: { initial: CompanyIni
       <Card className="p-5 sm:p-6">
         <div className="flex flex-wrap items-center justify-between gap-2">
           <h2 className="text-base font-semibold text-slate-900">Company profile</h2>
-          <VerificationBadge status={initial?.verificationStatus || "PENDING"} />
+          <VerificationBadge status={initial?.verificationStatus || "PENDING"} expiresAt={(initial as { verificationExpiresAt?: string })?.verificationExpiresAt} />
         </div>
         <form onSubmit={saveProfile} className="mt-4 grid gap-4 sm:grid-cols-2">
           {error && <div className="sm:col-span-2"><Alert tone="rose">{error}</Alert></div>}
@@ -90,97 +92,12 @@ export function CompanyProfileForm({ initial, locations }: { initial: CompanyIni
         </form>
       </Card>
 
-      <VerificationForm companyId={initial?.id} status={initial?.verificationStatus} />
+      {verification ? <VerificationCenter {...verification} /> : null}
     </div>
   );
 }
 
-function VerificationBadge({ status }: { status: string }) {
-  const tones: Record<string, "green" | "amber" | "rose" | "slate" | "blue"> = {
-    VERIFIED: "green", PENDING: "amber", REJECTED: "rose", NEEDS_INFO: "blue",
-  };
-  const labels: Record<string, string> = {
-    VERIFIED: "Verified", PENDING: "Pending verification", REJECTED: "Verification rejected", NEEDS_INFO: "More info needed",
-  };
-  return <Badge tone={tones[status] || "slate"}>{labels[status] || status}</Badge>;
-}
-
-function VerificationForm({ companyId, status }: { companyId?: string; status?: string }) {
-  const toast = useToast();
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
-  const [docIds, setDocIds] = useState<string[]>([]);
-  const [uploading, setUploading] = useState(false);
-
-  if (status === "VERIFIED") {
-    return (
-      <Card className="border-emerald-200 bg-emerald-50 p-5">
-        <p className="font-semibold text-emerald-900">Your company is verified. Job posts from verified employers get a trust badge.</p>
-      </Card>
-    );
-  }
-
-  async function uploadDoc(file: File) {
-    setUploading(true);
-    const fd = new FormData();
-    fd.append("file", file);
-    fd.append("purpose", "DOCUMENT");
-    const res = await fetch("/api/upload", { method: "POST", body: fd });
-    const data = await res.json();
-    setUploading(false);
-    if (!res.ok) { toast.push(data.error || "Upload failed.", "error"); return; }
-    setDocIds([...docIds, data.fileId]);
-    toast.push("Document uploaded.", "success");
-  }
-
-  async function submit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    setError("");
-    setLoading(true);
-    const fd = new FormData(e.currentTarget);
-    const res = await fetch("/api/verification", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        registrationNo: fd.get("registrationNo"),
-        contactPerson: fd.get("contactPerson"),
-        address: fd.get("address"),
-        phone: fd.get("phone"),
-        documentIds: docIds,
-      }),
-    });
-    const data = await res.json();
-    setLoading(false);
-    if (!res.ok) { setError(data.error || "Something went wrong."); return; }
-    toast.push("Verification request submitted.", "success");
-    window.location.reload();
-  }
-
-  return (
-    <Card className="p-5 sm:p-6">
-      <h2 className="text-base font-semibold text-slate-900">Employer verification</h2>
-      <p className="mt-1 text-sm text-slate-600">Verified employers earn a trust badge on all job posts. Our team reviews each request.</p>
-      {!companyId && <Alert tone="amber">Save your company profile above first.</Alert>}
-      <form onSubmit={submit} className="mt-4 grid gap-4 sm:grid-cols-2">
-        {error && <div className="sm:col-span-2"><Alert tone="rose">{error}</Alert></div>}
-        <Input name="registrationNo" label="Business registration no. (optional)" maxLength={100} />
-        <Input name="contactPerson" label="Contact person" required maxLength={120} />
-        <div className="sm:col-span-2">
-          <Input name="address" label="Business address" required maxLength={300} />
-        </div>
-        <Input name="phone" label="Business phone" required type="tel" maxLength={20} />
-        <div>
-          <label className="mb-1.5 block text-sm font-medium text-slate-700">Supporting documents (optional)</label>
-          <input type="file" accept=".pdf,.doc,.docx"
-            onChange={(e) => e.target.files?.[0] && uploadDoc(e.target.files[0])}
-            className="text-sm text-slate-600 file:mr-3 file:rounded-lg file:border file:border-slate-300 file:bg-white file:px-4 file:py-2.5 file:text-sm file:font-semibold" />
-          {uploading && <span className="text-sm text-slate-500">Uploading…</span>}
-          {docIds.length > 0 && <p className="mt-1 text-sm text-emerald-700">{docIds.length} document(s) attached.</p>}
-        </div>
-        <div className="sm:col-span-2">
-          <Button type="submit" loading={loading} disabled={!companyId}>Submit for verification</Button>
-        </div>
-      </form>
-    </Card>
-  );
+function VerificationBadge({ status, expiresAt }: { status: string; expiresAt?: string }) {
+  const companyLike = { verificationStatus: status, verificationExpiresAt: expiresAt || null };
+  return <Badge tone={badgeTone(companyLike)}>{badgeLabel(companyLike)}</Badge>;
 }

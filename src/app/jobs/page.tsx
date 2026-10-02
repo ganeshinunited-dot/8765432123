@@ -56,6 +56,7 @@ export default async function JobsPage({ searchParams }: { searchParams: Promise
   }
   if (sp.verified === "1") {
     companyFilter.verificationStatus = "VERIFIED";
+    companyFilter.OR = [{ verificationExpiresAt: null }, { verificationExpiresAt: { gt: new Date() } }];
   }
   if (Object.keys(companyFilter).length > 0) {
     where.company = companyFilter;
@@ -72,7 +73,7 @@ export default async function JobsPage({ searchParams }: { searchParams: Promise
       orderBy,
       skip: (page - 1) * PAGE_SIZE,
       take: PAGE_SIZE,
-      include: { company: { select: { name: true, verificationStatus: true } }, location: { select: { name: true } } },
+      include: { company: { select: { name: true, verificationStatus: true, verificationExpiresAt: true, verifiedAt: true } }, location: { select: { name: true } } },
     }),
     db.jobCategory.findMany({ where: { active: true }, orderBy: { name: "asc" } }),
   ]);

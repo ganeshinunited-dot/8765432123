@@ -5,6 +5,7 @@ import { db } from "@/lib/db";
 import { Badge, Card, Alert } from "@/components/ui/primitives";
 import { formatSalary, timeAgo, JOB_TYPE_LABELS, SCHEDULE_LABELS, ARRANGEMENT_LABELS } from "@/lib/format";
 import { ApplyPanel, MobileApplyBar } from "@/components/jobs/ApplyPanel";
+import { isBadgeValid } from "@/lib/verification";
 import { ReportButton } from "@/components/jobs/ReportButton";
 
 export const revalidate = 300;
@@ -74,7 +75,8 @@ export default async function JobDetailsPage({ params }: { params: Promise<{ slu
   // increment views (fire-and-forget, runs on cache regeneration)
   db.job.update({ where: { id: job.id }, data: { views: { increment: 1 } } }).catch(() => {});
 
-  const verified = job.company.verificationStatus === "VERIFIED";
+  const verified = isBadgeValid(job.company);
+  const verifiedSince = job.company.verifiedAt ? new Date(job.company.verifiedAt).toLocaleDateString("en-GB", { month: "short", year: "numeric" }) : "";
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6">
@@ -95,7 +97,7 @@ export default async function JobDetailsPage({ params }: { params: Promise<{ slu
             {verified && (
               <span className="inline-flex items-center gap-1 text-xs font-medium text-emerald-700">
                 <svg className="h-4 w-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2 14.5 4.5 18 4l.5 3.5L22 9l-2 3 2 3-3.5 1.5L18 20l-3.5-.5L12 22l-2.5-2.5L6 20l-.5-3.5L2 15l2-3-2-3 3.5-1.5L6 4l3.5.5z" /></svg>
-                Verified Employer
+                Verified Employer{verifiedSince ? ` · since ${verifiedSince}` : ""}
               </span>
             )}
           </p>

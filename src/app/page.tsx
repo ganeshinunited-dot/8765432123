@@ -1,122 +1,186 @@
 import Link from "next/link";
 import { db } from "@/lib/db";
+import type { Prisma } from "@prisma/client";
 import { JobCard } from "@/components/jobs/JobCard";
 import { Card } from "@/components/ui/primitives";
 
 export const revalidate = 60;
 
-const POPULAR = [
-  { label: "Part-Time", href: "/jobs?type=PART_TIME" },
-  { label: "Remote", href: "/jobs?arrangement=REMOTE" },
-  { label: "Evening", href: "/jobs?schedule=EVENING" },
-  { label: "Weekend", href: "/jobs?schedule=WEEKEND" },
-  { label: "Internships", href: "/jobs?type=INTERNSHIP" },
-  { label: "Tutoring", href: "/jobs?category=tutoring-education" },
-  { label: "Retail", href: "/jobs?category=retail-sales" },
-  { label: "Hospitality", href: "/jobs?category=hospitality" },
-  { label: "Digital & Creative", href: "/jobs?category=design-creative" },
+type CountFilter =
+  | { kind: "type"; value: string }
+  | { kind: "schedule"; value: string }
+  | { kind: "arrangement"; value: string }
+  | { kind: "category"; value: string };
+
+const POPULAR: { label: string; href: string; count: CountFilter }[] = [
+  { label: "Part-Time", href: "/jobs?type=PART_TIME", count: { kind: "type", value: "PART_TIME" } },
+  { label: "Remote", href: "/jobs?arrangement=REMOTE", count: { kind: "arrangement", value: "REMOTE" } },
+  { label: "Evening", href: "/jobs?schedule=EVENING", count: { kind: "schedule", value: "EVENING" } },
+  { label: "Weekend", href: "/jobs?schedule=WEEKEND", count: { kind: "schedule", value: "WEEKEND" } },
+  { label: "Internships", href: "/jobs?type=INTERNSHIP", count: { kind: "type", value: "INTERNSHIP" } },
+  { label: "Tutoring", href: "/jobs?category=tutoring-education", count: { kind: "category", value: "tutoring-education" } },
+  { label: "Retail", href: "/jobs?category=retail-sales", count: { kind: "category", value: "retail-sales" } },
+  { label: "Hospitality", href: "/jobs?category=hospitality", count: { kind: "category", value: "hospitality" } },
+  { label: "Digital & Creative", href: "/jobs?category=design-creative", count: { kind: "category", value: "design-creative" } },
 ];
 
+function countWhere(f: CountFilter, active: Prisma.JobWhereInput) {
+  switch (f.kind) {
+    case "type":
+      return { ...active, jobType: f.value as never };
+    case "schedule":
+      return { ...active, schedules: { has: f.value as never } };
+    case "arrangement":
+      return { ...active, workArrangement: f.value as never };
+    case "category":
+      return { ...active, category: { slug: f.value } };
+  }
+}
+
 export default async function HomePage() {
-  const [featured, categories] = await Promise.all([
+  const [featured, totalActive, verifiedCompanies, popularCounts, locations] = await Promise.all([
     db.job.findMany({
       where: { status: "ACTIVE" },
       orderBy: [{ featured: "desc" }, { publishedAt: "desc" }],
       take: 6,
-      include: { company: { select: { name: true, verificationStatus: true } }, location: { select: { name: true } } },
+      include: { company: { select: { name: true, verificationStatus: true, verificationExpiresAt: true, verifiedAt: true } }, location: { select: { name: true } } },
     }),
-    db.jobCategory.findMany({ where: { active: true }, take: 9 }),
+    db.job.count({ where: { status: "ACTIVE" } }),
+    db.company.count({ where: { verificationStatus: "VERIFIED", OR: [{ verificationExpiresAt: null }, { verificationExpiresAt: { gt: new Date() } }] } }),
+    Promise.all(POPULAR.map((p) => db.job.count({ where: countWhere(p.count, { status: "ACTIVE" }) }))),
+    db.location.findMany({
+      include: { _count: { select: { jobs: { where: { status: "ACTIVE" } } } } },
+      orderBy: { name: "asc" },
+      take: 8,
+    }),
   ]);
+  const cities = locations.filter((l) => l._count.jobs > 0);
+
+  const stats = [
+    { value: totalActive, label: "Active jobs" },
+    { value: verifiedCompanies, label: "Verified employers" },
+    { value: cities.length, label: "Cities hiring" },
+  ];
 
   return (
     <div>
       {/* Hero */}
-      <section className="border-b border-slate-200 bg-slate-50">
-        <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 sm:py-20">
-          <h1 className="max-w-2xl text-3xl font-bold tracking-tight text-slate-900 sm:text-5xl">
+      <section className="bg-emerald-900">
+        <div className="mx-auto max-w-7xl px-4 pb-10 pt-12 sm:px-6 sm:pb-14 sm:pt-16">
+          <p className="inline-flex items-center rounded-full bg-emerald-800 px-3 py-1 text-xs font-semibold text-emerald-100">
+            Free for students — forever
+          </p>
+          <h1 className="mt-4 max-w-2xl text-3xl font-bold tracking-tight text-white sm:text-5xl">
             Find Part-Time Jobs That Fit Your Student Life
           </h1>
-          <p className="mt-4 max-w-xl text-base text-slate-600 sm:text-lg">
+          <p className="mt-4 max-w-xl text-base text-emerald-100 sm:text-lg">
             Discover part-time, evening, weekend, remote and entry-level opportunities from trusted employers.
           </p>
-          <form action="/jobs" method="get" className="mt-8 flex max-w-2xl flex-col gap-2 sm:flex-row" role="search">
+
+          <form action="/jobs" method="get" className="mt-8 max-w-2xl rounded-xl bg-white p-2 shadow-lg sm:flex sm:gap-2" role="search">
             <label htmlFor="hero-q" className="sr-only">What job are you looking for?</label>
             <input
               id="hero-q" name="q" type="search" placeholder="What job are you looking for?"
-              className="h-12 flex-1 rounded-lg border border-slate-300 bg-white px-4 text-[15px] focus:border-emerald-600 focus:outline-none focus:ring-2 focus:ring-emerald-600/20"
+              className="h-12 w-full flex-1 rounded-lg px-4 text-[15px] text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-600"
             />
             <label htmlFor="hero-loc" className="sr-only">Where?</label>
             <input
               id="hero-loc" name="location" type="text" placeholder="Where? e.g. Kathmandu"
-              className="h-12 rounded-lg border border-slate-300 bg-white px-4 text-[15px] sm:w-52 focus:border-emerald-600 focus:outline-none focus:ring-2 focus:ring-emerald-600/20"
+              className="mt-2 h-12 w-full rounded-lg px-4 text-[15px] text-slate-900 placeholder:text-slate-400 sm:mt-0 sm:w-48 focus:outline-none focus:ring-2 focus:ring-emerald-600"
             />
-            <button type="submit" className="h-12 rounded-lg bg-emerald-700 px-6 text-sm font-semibold text-white hover:bg-emerald-800">
+            <button type="submit" className="mt-2 h-12 w-full rounded-lg bg-emerald-700 px-6 text-sm font-semibold text-white hover:bg-emerald-800 sm:mt-0 sm:w-auto">
               Search Jobs
             </button>
           </form>
-          <p className="mt-3 text-sm text-slate-500">
-            Try: <Link href="/jobs?q=Social+Media+Assistant&location=Kathmandu" className="font-medium text-emerald-700 hover:underline">Social Media Assistant</Link> in <span className="font-medium">Kathmandu</span>
-          </p>
-          <div className="mt-6 flex flex-wrap gap-3">
-            <Link href="/jobs" className="inline-flex h-12 items-center rounded-lg bg-emerald-700 px-6 text-sm font-semibold text-white hover:bg-emerald-800">
-              Find Jobs
-            </Link>
-            <Link href="/for-employers" className="inline-flex h-12 items-center rounded-lg border border-slate-300 bg-white px-6 text-sm font-semibold text-slate-800 hover:bg-slate-50">
-              Post a Job
-            </Link>
+
+          <div className="mt-4 flex flex-wrap gap-2">
+            {["Part-time jobs", "Evening jobs", "Remote jobs", "Internships"].map((t, i) => {
+              const hrefs = ["/jobs?type=PART_TIME", "/jobs?schedule=EVENING", "/jobs?arrangement=REMOTE", "/jobs?type=INTERNSHIP"];
+              return (
+                <Link key={t} href={hrefs[i]} className="rounded-full bg-emerald-800/80 px-3.5 py-1.5 text-sm font-medium text-emerald-50 hover:bg-emerald-800">
+                  {t}
+                </Link>
+              );
+            })}
           </div>
-        </div>
-      </section>
-      <section className="border-b border-emerald-900 bg-emerald-800">
-        <div className="mx-auto flex max-w-7xl flex-wrap items-center gap-3 px-4 py-4 sm:px-6">
-          <p className="flex items-center gap-2 text-sm font-semibold text-white sm:text-base">
-            <svg className="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l1.9 5.6L19.5 9l-5.6 1.9L12 16.5l-1.9-5.6L4.5 9l5.6-1.4L12 2zM19 14l.9 2.6 2.6.9-2.6.9L19 21l-.9-2.6-2.6-.9 2.6-.9L19 14z"/></svg>
-            New: AI Job Assistant — describe your job in your own words, get matched instantly.
-          </p>
-          <Link href="/jobs" className="ml-auto rounded-lg bg-white px-4 py-2 text-sm font-bold text-emerald-800 hover:bg-emerald-50">Try AI Search</Link>
+
+          <dl className="mt-8 flex max-w-xl divide-x divide-emerald-700/60">
+            {stats.map((s) => (
+              <div key={s.label} className="pr-6 pl-6 first:pl-0">
+                <dt className="sr-only">{s.label}</dt>
+                <dd className="text-2xl font-bold text-white sm:text-3xl">{s.value}</dd>
+                <dd className="mt-0.5 text-xs text-emerald-200 sm:text-sm">{s.label}</dd>
+              </div>
+            ))}
+          </dl>
         </div>
       </section>
 
-      {/* Popular categories */}
+      {/* AI banner */}
+      <section className="border-b border-emerald-100 bg-white">
+        <div className="mx-auto flex max-w-7xl flex-wrap items-center gap-3 px-4 py-4 sm:px-6">
+          <p className="flex items-center gap-2 text-sm font-semibold text-slate-900 sm:text-base">
+            <svg className="h-5 w-5 text-emerald-700" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l1.9 5.6L19.5 9l-5.6 1.9L12 16.5l-1.9-5.6L4.5 9l5.6-1.4L12 2zM19 14l.9 2.6 2.6.9-2.6.9L19 21l-.9-2.6-2.6-.9 2.6-.9L19 14z"/></svg>
+            New: AI Job Assistant — describe your job in your own words, get matched instantly.
+          </p>
+          <Link href="/jobs" className="ml-auto rounded-lg bg-emerald-700 px-4 py-2 text-sm font-bold text-white hover:bg-emerald-800">Try AI Search</Link>
+        </div>
+      </section>
+
+      {/* Popular categories with live counts */}
       <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6">
-        <h2 className="text-xl font-bold text-slate-900 sm:text-2xl">Popular categories</h2>
-        <div className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
-          {POPULAR.map((c) => (
-            <Link key={c.label} href={c.href} className="rounded-xl border border-slate-200 bg-white px-4 py-4 text-sm font-semibold text-slate-800 transition-colors hover:border-emerald-400 hover:text-emerald-800">
-              {c.label}
+        <div className="flex items-center justify-between">
+          <h2 className="text-xl font-bold text-slate-900 sm:text-2xl">Popular categories</h2>
+          <Link href="/jobs" className="text-sm font-semibold text-emerald-700 hover:underline">View all jobs</Link>
+        </div>
+        <div className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-3">
+          {POPULAR.map((c, i) => (
+            <Link key={c.label} href={c.href} className="group flex items-center justify-between gap-3 rounded-xl border border-slate-200 bg-white px-4 py-4 transition-colors hover:border-emerald-500 sm:px-5 sm:py-5">
+              <span>
+                <span className="block text-sm font-semibold text-slate-900 group-hover:text-emerald-800 sm:text-base">{c.label}</span>
+                <span className="mt-0.5 block text-xs text-slate-500 sm:text-sm">{popularCounts[i]} {popularCounts[i] === 1 ? "job" : "jobs"} available</span>
+              </span>
+              <span aria-hidden="true" className="text-lg text-slate-300 transition-transform group-hover:translate-x-0.5 group-hover:text-emerald-600">→</span>
             </Link>
           ))}
         </div>
-        {categories.length > 0 && (
-          <div className="mt-3 flex flex-wrap gap-2">
-            {categories.map((c) => (
-              <Link key={c.id} href={`/jobs?category=${c.slug}`} className="rounded-full bg-slate-100 px-3.5 py-1.5 text-sm text-slate-700 hover:bg-slate-200">
-                {c.name}
-              </Link>
-            ))}
-          </div>
-        )}
       </section>
 
       {/* Featured jobs */}
-      <section className="mx-auto max-w-7xl px-4 pb-12 sm:px-6">
-        <div className="flex items-center justify-between">
-          <h2 className="text-xl font-bold text-slate-900 sm:text-2xl">Featured jobs</h2>
-          <Link href="/jobs" className="text-sm font-semibold text-emerald-700 hover:underline">View all</Link>
-        </div>
-        {featured.length === 0 ? (
-          <Card className="mt-5 p-8 text-center text-sm text-slate-500">
-            New opportunities are on the way. Check back soon — or be the first employer to <Link href="/for-employers" className="font-semibold text-emerald-700 hover:underline">post a job</Link>.
-          </Card>
-        ) : (
-          <div className="mt-5 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {featured.map((j) => <JobCard key={j.id} job={j} />)}
+      <section className="border-y border-slate-200 bg-slate-50">
+        <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6">
+          <div className="flex items-center justify-between">
+            <h2 className="text-xl font-bold text-slate-900 sm:text-2xl">Featured jobs</h2>
+            <Link href="/jobs" className="text-sm font-semibold text-emerald-700 hover:underline">View all</Link>
           </div>
-        )}
+          {featured.length === 0 ? (
+            <Card className="mt-5 p-8 text-center text-sm text-slate-500">
+              New opportunities are on the way. Check back soon — or be the first employer to <Link href="/for-employers" className="font-semibold text-emerald-700 hover:underline">post a job</Link>.
+            </Card>
+          ) : (
+            <div className="mt-5 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+              {featured.map((j) => <JobCard key={j.id} job={j} />)}
+          </div>
+          )}
+        </div>
       </section>
 
+      {/* Browse by city */}
+      {cities.length > 0 && (
+        <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6">
+          <h2 className="text-xl font-bold text-slate-900 sm:text-2xl">Jobs by city</h2>
+          <div className="mt-5 flex flex-wrap gap-2">
+            {cities.map((l) => (
+              <Link key={l.id} href={`/jobs?location=${encodeURIComponent(l.name)}`} className="rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:border-emerald-500 hover:text-emerald-800">
+                {l.name} <span className="text-slate-400">({l._count.jobs})</span>
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
+
       {/* How it works */}
-      <section className="border-y border-slate-200 bg-slate-50">
+      <section className="border-t border-slate-200">
         <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6">
           <h2 className="text-xl font-bold text-slate-900 sm:text-2xl">How it works</h2>
           <div className="mt-6 grid gap-8 md:grid-cols-2">
@@ -130,6 +194,7 @@ export default async function HomePage() {
                   </li>
                 ))}
               </ol>
+              <Link href="/signup" className="mt-4 inline-block text-sm font-semibold text-emerald-700 hover:underline">Create a free student account →</Link>
             </div>
             <div>
               <h3 className="font-semibold text-emerald-800">For Employers</h3>
@@ -141,45 +206,29 @@ export default async function HomePage() {
                   </li>
                 ))}
               </ol>
+              <Link href="/for-employers" className="mt-4 inline-block text-sm font-semibold text-emerald-700 hover:underline">See employer plans →</Link>
             </div>
           </div>
         </div>
       </section>
 
       {/* Why us */}
-      <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6">
-        <h2 className="text-xl font-bold text-slate-900 sm:text-2xl">Why use our platform?</h2>
-        <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
-          {[
-            ["Student-focused jobs", "Roles built around class schedules."],
-            ["Verified employers", "Companies pass a verification review."],
-            ["Easy applications", "Apply in minutes with your profile."],
-            ["Flexible work options", "Evening, weekend and remote roles."],
-            ["Secure platform", "Report scams; never pay to apply."],
-          ].map(([t, d]) => (
-            <Card key={t} className="p-5">
-              <p className="font-semibold text-slate-900">{t}</p>
-              <p className="mt-1 text-sm text-slate-600">{d}</p>
-            </Card>
-          ))}
-        </div>
-      </section>
-
-      {/* Testimonials (sample) */}
-      <section className="mx-auto max-w-7xl px-4 pb-12 sm:px-6">
-        <h2 className="text-xl font-bold text-slate-900 sm:text-2xl">What students say</h2>
-        <p className="mt-1 text-xs uppercase tracking-wide text-slate-400">Sample stories for illustration</p>
-        <div className="mt-4 grid gap-4 md:grid-cols-3">
-          {[
-            "I found an evening cafe job near my college within a week. The schedule filter saved me so much time.",
-            "Applying with my saved profile took two minutes. I got shortlisted for a social media role.",
-            "The verified badge made me trust the employers here. No spam, no fake offers.",
-          ].map((q, i) => (
-            <Card key={i} className="p-5">
-              <p className="text-sm text-slate-700">“{q}”</p>
-              <p className="mt-3 text-xs text-slate-400">Sample student story</p>
-            </Card>
-          ))}
+      <section className="border-t border-slate-200 bg-slate-50">
+        <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6">
+          <h2 className="text-xl font-bold text-slate-900 sm:text-2xl">Why Growentix?</h2>
+          <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {[
+              ["Student-focused jobs", "Roles built around class schedules."],
+              ["Verified employers", "Companies pass a verification review."],
+              ["Easy applications", "Apply in minutes with your profile."],
+              ["Safe by design", "Report scams — never pay to apply."],
+            ].map(([t, d]) => (
+              <Card key={t} className="p-5">
+                <p className="font-semibold text-slate-900">{t}</p>
+                <p className="mt-1 text-sm text-slate-600">{d}</p>
+              </Card>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -187,6 +236,7 @@ export default async function HomePage() {
       <section className="bg-emerald-800">
         <div className="mx-auto max-w-7xl px-4 py-14 text-center sm:px-6">
           <h2 className="text-2xl font-bold text-white sm:text-3xl">Ready to find your next opportunity?</h2>
+          <p className="mx-auto mt-2 max-w-lg text-sm text-emerald-100">Join students across Nepal finding flexible work that fits their studies.</p>
           <div className="mt-6 flex flex-wrap justify-center gap-3">
             <Link href="/jobs" className="inline-flex h-12 items-center rounded-lg bg-white px-6 text-sm font-semibold text-emerald-800 hover:bg-emerald-50">
               Find Jobs
