@@ -53,6 +53,10 @@ const TEMPLATES: Record<string, { subject: string; body: string }> = {
     subject: "Reset your password",
     body: "<p>Hello {{name}},</p><p>We received a request to reset your password for {{app_name}}. Click the link below to set a new password. This link expires in 1 hour.</p><p><a href=\"{{reset_url}}\">Reset my password</a></p><p>If you did not request this, you can safely ignore this email.</p>",
   },
+  email_verification: {
+    subject: "Verify your email address",
+    body: "<p>Hello {{name}},</p><p>Welcome to {{app_name}}! Please verify your email address by clicking the link below. This link expires in 24 hours.</p><p><a href=\"{{verify_url}}\">Verify my email</a></p><p>If you did not create an account, you can safely ignore this email.</p>",
+  },
 };
 
 export function renderTemplate(name: string, vars: Record<string, string>): { subject: string; html: string } {
@@ -99,6 +103,6 @@ export async function sendTemplatedEmail(
   template: string,
   vars: Record<string, string>
 ): Promise<void> {
-  const { subject, html } = renderTemplate(template, { app_name: "StudentJobs Nepal", ...vars });
+  const { subject, html } = renderTemplate(template, { app_name: "Growentix", ...vars });
   await sendEmail({ to, subject, html });
 }

@@ -60,7 +60,7 @@ export async function destroySession(): Promise<void> {
   jar.delete(COOKIE_NAME);
 }
 
-export type SessionUser = Pick<User, "id" | "email" | "name" | "role" | "status">;
+export type SessionUser = Pick<User, "id" | "email" | "name" | "role" | "status" | "emailVerified">;
 
 export async function getSessionUser(): Promise<SessionUser | null> {
   const jar = await cookies();
@@ -76,7 +76,7 @@ export async function getSessionUser(): Promise<SessionUser | null> {
   }
   const u = session.user;
   if (u.status !== "ACTIVE") return null;
-  return { id: u.id, email: u.email, name: u.name, role: u.role, status: u.status };
+  return { id: u.id, email: u.email, name: u.name, role: u.role, status: u.status, emailVerified: u.emailVerified };
 }
 
 export async function requireUser(roles?: Role[]): Promise<SessionUser> {
