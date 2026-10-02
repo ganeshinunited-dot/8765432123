@@ -38,7 +38,7 @@ export default async function StudentHome() {
   const matchedJobs = matches.length
     ? await db.job.findMany({
         where: { id: { in: matches.map((m) => m.jobId) } },
-        include: { company: { select: { name: true, verificationStatus: true } }, location: { select: { name: true } } },
+        include: { company: { select: { name: true, verificationStatus: true, verificationExpiresAt: true, verifiedAt: true } }, location: { select: { name: true } } },
       })
     : [];
   const matchById = new Map(matches.map((m) => [m.jobId, m]));

@@ -286,6 +286,7 @@ model Company {
   size               String?
   verificationStatus CompanyVerificationStatus @default(PENDING)
   verifiedAt         DateTime?
+  verificationExpiresAt DateTime?
   createdAt          DateTime                  @default(now())
   updatedAt          DateTime                  @updatedAt
 
@@ -308,6 +309,9 @@ model CompanyVerification {
   documentIds String[]                  @default([])
   status      CompanyVerificationStatus @default(PENDING)
   reviewerId  String?
+  reviewedAt  DateTime?
+  expiresAt   DateTime?
+  checks      Json? // auto-check snapshot + manual review checklist
   notes       String?
   createdAt   DateTime                  @default(now())
   updatedAt   DateTime                  @updatedAt

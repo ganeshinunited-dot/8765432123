@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { isBadgeValid } from "@/lib/verification";
 import { notFound } from "next/navigation";
 import { db } from "@/lib/db";
 import { JobCard } from "@/components/jobs/JobCard";
@@ -27,7 +28,7 @@ export default async function CompanyDetailPage({ params }: { params: Promise<{ 
         where: { status: "ACTIVE" },
         orderBy: [{ featured: "desc" }, { publishedAt: "desc" }],
         take: 12,
-        include: { company: { select: { name: true, verificationStatus: true } }, location: { select: { name: true } } },
+        include: { company: { select: { name: true, verificationStatus: true, verificationExpiresAt: true, verifiedAt: true } }, location: { select: { name: true } } },
       },
     },
   });
@@ -48,7 +49,7 @@ export default async function CompanyDetailPage({ params }: { params: Promise<{ 
               {[company.industry, company.location?.name, company.size].filter(Boolean).join(" · ")}
             </p>
           </div>
-          {company.verificationStatus === "VERIFIED" && <Badge tone="green">Verified employer</Badge>}
+          {isBadgeValid(company) && <Badge tone="green">Verified employer{company.verifiedAt ? ` · since ${new Date(company.verifiedAt).toLocaleDateString("en-GB", { month: "short", year: "numeric" })}` : ""}</Badge>}
         </div>
         {company.description && <p className="mt-4 max-w-3xl text-slate-700">{company.description}</p>}
         {company.website && (

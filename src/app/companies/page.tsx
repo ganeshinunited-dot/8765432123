@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { isBadgeValid } from "@/lib/verification";
 import { db } from "@/lib/db";
 import { Card, Badge, EmptyState } from "@/components/ui/primitives";
 
@@ -33,7 +34,7 @@ export default async function CompaniesPage() {
               <Card className="h-full p-5 transition-shadow hover:shadow-md">
                 <div className="flex items-start justify-between gap-2">
                   <h2 className="font-bold text-slate-900">{c.name}</h2>
-                  {c.verificationStatus === "VERIFIED" && <Badge tone="green">Verified</Badge>}
+                  {isBadgeValid(c) && <Badge tone="green">Verified</Badge>}
                 </div>
                 <p className="mt-1 text-sm text-slate-500">
                   {[c.industry, c.location?.name].filter(Boolean).join(" · ") || "Nepal"}
