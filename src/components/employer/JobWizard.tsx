@@ -24,6 +24,8 @@ export default function JobWizard({ taxonomy, initial }: { taxonomy: Taxonomy; i
   const toast = useToast();
   const [step, setStep] = useState(0);
   const [saving, setSaving] = useState(false);
+  const [aiBusy, setAiBusy] = useState(false);
+  const [aiSource, setAiSource] = useState<string | null>(null);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [form, setForm] = useState<Record<string, unknown>>({
     title: "", categoryId: "", jobType: "PART_TIME", workArrangement: "ON_SITE", locationId: "",
@@ -58,6 +60,24 @@ export default function JobWizard({ taxonomy, initial }: { taxonomy: Taxonomy; i
     }
     setErrors(e);
     return Object.keys(e).length === 0;
+  }
+
+  async function generateWithAi() {
+    if ((form.title as string).trim().length < 3) { toast.push("Add the job title in Step 1 first — AI writes the rest.", "error"); setStep(0); return; }
+    setAiBusy(true);
+    try {
+      const res = await fetch("/api/ai/job-description", {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ title: form.title, categoryId: form.categoryId, jobType: form.jobType, workArrangement: form.workArrangement, locationId: form.locationId }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "AI could not generate right now.");
+      setForm((f) => ({ ...f, description: data.description || f.description, responsibilities: data.responsibilities || f.responsibilities, requirements: data.requirements || f.requirements, benefits: data.benefits || f.benefits, skills: (data.skills || []).join(", ") || f.skills }));
+      setAiSource(data.source === "ai" ? "AI Engine" : "Smart Templates");
+      toast.push("AI draft ready — review and edit before posting.", "success");
+    } catch (e) {
+      toast.push(e instanceof Error ? e.message : "AI could not generate right now.", "error");
+    } finally { setAiBusy(false); }
   }
 
   function next() { if (validate(step)) setStep((s) => Math.min(s + 1, STEPS.length - 1)); window.scrollTo(0, 0); }
@@ -120,6 +140,16 @@ export default function JobWizard({ taxonomy, initial }: { taxonomy: Taxonomy; i
 
         {step === 1 && (
           <div className="space-y-4">
+            <div className="rounded-xl border-2 border-emerald-600/60 bg-emerald-50 p-4">
+              <p className="flex flex-wrap items-center gap-2 text-sm font-bold text-slate-900">
+                <svg className="h-4 w-4 text-emerald-700" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l1.9 5.6L19.5 9l-5.6 1.9L12 16.5l-1.9-5.6L4.5 9l5.6-1.4L12 2z"/></svg>
+                AI Job Writer
+                <span className="rounded-full bg-emerald-700 px-2 py-0.5 text-[11px] font-bold uppercase tracking-wide text-white">New</span>
+                {aiSource && <span className="text-xs font-medium text-slate-500">· {aiSource}</span>}
+              </p>
+              <p className="mt-1 text-sm text-slate-600">Title matra bhare pugchha — AI le full description, responsibilities, requirements ra skills draft gardinchha. Pachhi edit garna milchha.</p>
+              <Button onClick={generateWithAi} loading={aiBusy} className="mt-3">Generate with AI</Button>
+            </div>
             <Textarea label="Job description" name="description" rows={6} placeholder="What will the student actually do day to day? Who is this ideal for?" value={form.description as string} onChange={(e) => set("description", e.target.value)} error={errors.description} hint="Minimum 50 characters. Be specific — students apply more when they know what to expect." />
             <Textarea label="Responsibilities (optional)" name="responsibilities" rows={3} value={form.responsibilities as string} onChange={(e) => set("responsibilities", e.target.value)} />
             <Textarea label="Requirements (optional)" name="requirements" rows={3} placeholder="e.g. Must be available on weekends, basic English…" value={form.requirements as string} onChange={(e) => set("requirements", e.target.value)} />

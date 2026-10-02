@@ -43,7 +43,24 @@ export function ApplyPanel(props: Props) {
   const [availability, setAvailability] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [aiBusy, setAiBusy] = useState(false);
   const toast = useToast();
+
+  async function writeWithAi() {
+    setAiBusy(true);
+    try {
+      const res = await fetch("/api/ai/cover-letter", {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ jobId }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "AI could not write right now.");
+      setCover(data.text);
+      toast.push("Cover letter drafted — personalize it before sending.", "success");
+    } catch (e) {
+      toast.push(e instanceof Error ? e.message : "AI could not write right now.", "error");
+    } finally { setAiBusy(false); }
+  }
 
   async function submit() {
     setLoading(true);
@@ -117,6 +134,10 @@ export function ApplyPanel(props: Props) {
       <Modal open={open} onClose={() => setOpen(false)} title="Apply for this job">
         {error && <Alert tone="rose">{error}</Alert>}
         <div className="space-y-4">
+          <button type="button" onClick={writeWithAi} disabled={aiBusy} className="flex w-full items-center justify-center gap-2 rounded-lg border-2 border-emerald-600/60 bg-emerald-50 px-4 py-2.5 text-sm font-semibold text-emerald-900 hover:bg-emerald-100 disabled:opacity-60">
+            <svg className="h-4 w-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l1.9 5.6L19.5 9l-5.6 1.9L12 16.5l-1.9-5.6L4.5 9l5.6-1.4L12 2z"/></svg>
+            {aiBusy ? "AI is writing…" : "Write my cover letter with AI"}
+          </button>
           <Textarea label="Cover message (optional)" rows={4} value={cover} onChange={(e) => setCover(e.target.value)} placeholder="Briefly introduce yourself and why you're a good fit…" maxLength={2000} />
           <Input label="Availability confirmation (optional)" value={availability} onChange={(e) => setAvailability(e.target.value)} placeholder="e.g. Available weekday evenings after 5pm" maxLength={500} />
           <Alert tone="amber">Never pay an employer to apply for or receive a job.</Alert>
@@ -159,6 +180,7 @@ export function MobileApplyBar(props: Props) {
 
 function ApplyFormInline({ jobId }: { jobId: string }) {
   const [cover, setCover] = useState("");
+  const [aiBusy, setAiBusy] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const toast = useToast();
@@ -175,9 +197,26 @@ function ApplyFormInline({ jobId }: { jobId: string }) {
     toast.push("Application submitted successfully!", "success");
     window.location.reload();
   }
+  async function writeWithAi() {
+    setAiBusy(true);
+    try {
+      const res = await fetch("/api/ai/cover-letter", {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ jobId }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "AI could not write right now.");
+      setCover(data.text);
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "AI could not write right now.");
+    } finally { setAiBusy(false); }
+  }
   return (
     <div className="space-y-4">
       {error && <Alert tone="rose">{error}</Alert>}
+      <button type="button" onClick={writeWithAi} disabled={aiBusy} className="flex w-full items-center justify-center gap-2 rounded-lg border-2 border-emerald-600/60 bg-emerald-50 px-4 py-2.5 text-sm font-semibold text-emerald-900 disabled:opacity-60">
+        {aiBusy ? "AI is writing…" : "Write my cover letter with AI"}
+      </button>
       <Textarea label="Cover message (optional)" rows={4} value={cover} onChange={(e) => setCover(e.target.value)} maxLength={2000} />
       <Button size="lg" className="w-full" loading={loading} onClick={submit}>Submit Application</Button>
     </div>
