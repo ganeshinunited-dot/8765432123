@@ -1,1 +1,5 @@
-PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0OCA0OCI+CiAgPHJlY3QgeD0iMS41IiB5PSIxLjUiIHdpZHRoPSI0NSIgaGVpZ2h0PSI0NSIgcng9IjEyIiBmaWxsPSIjMDY1RjQ2Ii8+CiAgPHBhdGggZD0iTTMyIDE0LjUgQTEyLjQgMTIuNCAwIDEgMCAzNi4xIDI2LjYiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI0ZGRkZGRiIgc3Ryb2tlLXdpZHRoPSI1IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KICA8cGF0aCBkPSJNMzYuMSAyNi42IEwyNS41IDI2LjYiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI0Y1OUUwQiIgc3Ryb2tlLXdpZHRoPSI1IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KPC9zdmc+Cg==
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+  <rect x="1.5" y="1.5" width="45" height="45" rx="12" fill="#065F46"/>
+  <path d="M32 14.5 A12.4 12.4 0 1 0 36.1 26.6" fill="none" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round"/>
+  <path d="M36.1 26.6 L25.5 26.6" fill="none" stroke="#F59E0B" stroke-width="5" stroke-linecap="round"/>
+</svg>

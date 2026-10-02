@@ -1,1 +1,36 @@
-aW1wb3J0IExpbmsgZnJvbSAibmV4dC9saW5rIjsKaW1wb3J0IHsgTmF2QXV0aCB9IGZyb20gIi4vTmF2QXV0aCI7CmltcG9ydCB7IExvZ28gfSBmcm9tICIuL0xvZ28iOwoKY29uc3QgbGlua3MgPSBbCiAgeyBocmVmOiAiL2pvYnMiLCBsYWJlbDogIkZpbmQgSm9icyIgfSwKICB7IGhyZWY6ICIvY29tcGFuaWVzIiwgbGFiZWw6ICJDb21wYW5pZXMiIH0sCiAgeyBocmVmOiAiL2Zvci1lbXBsb3llcnMiLCBsYWJlbDogIkZvciBFbXBsb3llcnMiIH0sCiAgeyBocmVmOiAiL3Jlc291cmNlcyIsIGxhYmVsOiAiUmVzb3VyY2VzIiB9LApdOwoKZXhwb3J0IGZ1bmN0aW9uIE5hdmJhcigpIHsKICByZXR1cm4gKAogICAgPGhlYWRlciBjbGFzc05hbWU9InN0aWNreSB0b3AtMCB6LTQwIGJvcmRlci1iIGJvcmRlci1zbGF0ZS0yMDAgYmctd2hpdGUvOTUgYmFja2Ryb3AtYmx1ciI+CiAgICAgIDxkaXYgY2xhc3NOYW1lPSJteC1hdXRvIGZsZXggaC0xNiBtYXgtdy03eGwgaXRlbXMtY2VudGVyIGdhcC00IHB4LTQgc206cHgtNiI+CiAgICAgICAgPExpbmsgaHJlZj0iLyIgY2xhc3NOYW1lPSJmbGV4IGl0ZW1zLWNlbnRlciIgYXJpYS1sYWJlbD0iR3Jvd2VudGl4IGhvbWUiPgogICAgICAgICAgPExvZ28gLz4KICAgICAgICA8L0xpbms+CiAgICAgICAgPG5hdiBjbGFzc05hbWU9Im1sLTQgaGlkZGVuIGl0ZW1zLWNlbnRlciBnYXAtMSBsZzpmbGV4IiBhcmlhLWxhYmVsPSJQcmltYXJ5Ij4KICAgICAgICAgIHtsaW5rcy5tYXAoKGwpID0+ICgKICAgICAgICAgICAgPExpbmsKICAgICAgICAgICAgICBrZXk9e2wuaHJlZn0KICAgICAgICAgICAgICBocmVmPXtsLmhyZWZ9CiAgICAgICAgICAgICAgY2xhc3NOYW1lPSJyb3VuZGVkLWxnIHB4LTMgcHktMiB0ZXh0LXNtIGZvbnQtbWVkaXVtIHRleHQtc2xhdGUtNjAwIGhvdmVyOmJnLXNsYXRlLTEwMCBob3Zlcjp0ZXh0LXNsYXRlLTkwMCIKICAgICAgICAgICAgPgogICAgICAgICAgICAgIHtsLmxhYmVsfQogICAgICAgICAgICA8L0xpbms+CiAgICAgICAgICApKX0KICAgICAgICA8L25hdj4KICAgICAgICA8ZGl2IGNsYXNzTmFtZT0ibWwtYXV0byBmbGV4IGl0ZW1zLWNlbnRlciBnYXAtMiI+CiAgICAgICAgICA8TmF2QXV0aCAvPgogICAgICAgIDwvZGl2PgogICAgICA8L2Rpdj4KICAgIDwvaGVhZGVyPgogICk7Cn0K
+import Link from "next/link";
+import { NavAuth } from "./NavAuth";
+import { Logo } from "./Logo";
+
+const links = [
+  { href: "/jobs", label: "Find Jobs" },
+  { href: "/companies", label: "Companies" },
+  { href: "/for-employers", label: "For Employers" },
+  { href: "/resources", label: "Resources" },
+];
+
+export function Navbar() {
+  return (
+    <header className="sticky top-0 z-40 border-b border-slate-200 bg-white/95 backdrop-blur">
+      <div className="mx-auto flex h-16 max-w-7xl items-center gap-4 px-4 sm:px-6">
+        <Link href="/" className="flex items-center" aria-label="Growentix home">
+          <Logo />
+        </Link>
+        <nav className="ml-4 hidden items-center gap-1 lg:flex" aria-label="Primary">
+          {links.map((l) => (
+            <Link
+              key={l.href}
+              href={l.href}
+              className="rounded-lg px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100 hover:text-slate-900"
+            >
+              {l.label}
+            </Link>
+          ))}
+        </nav>
+        <div className="ml-auto flex items-center gap-2">
+          <NavAuth />
+        </div>
+      </div>
+    </header>
+  );
+}

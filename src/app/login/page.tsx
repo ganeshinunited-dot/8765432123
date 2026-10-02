@@ -1,1 +1,75 @@
-InVzZSBjbGllbnQiOwoKaW1wb3J0IHsgU3VzcGVuc2UsIHVzZVN0YXRlIH0gZnJvbSAicmVhY3QiOwppbXBvcnQgTGluayBmcm9tICJuZXh0L2xpbmsiOwppbXBvcnQgeyB1c2VSb3V0ZXIsIHVzZVNlYXJjaFBhcmFtcyB9IGZyb20gIm5leHQvbmF2aWdhdGlvbiI7CmltcG9ydCB7IElucHV0IH0gZnJvbSAiQC9jb21wb25lbnRzL3VpL2ZpZWxkcyI7CmltcG9ydCB7IEJ1dHRvbiB9IGZyb20gIkAvY29tcG9uZW50cy91aS9CdXR0b24iOwppbXBvcnQgeyBBbGVydCB9IGZyb20gIkAvY29tcG9uZW50cy91aS9wcmltaXRpdmVzIjsKaW1wb3J0IHsgdXNlVG9hc3QgfSBmcm9tICJAL2NvbXBvbmVudHMvdWkvVG9hc3QiOwppbXBvcnQgeyBMb2dvIH0gZnJvbSAiQC9jb21wb25lbnRzL2xheW91dC9Mb2dvIjsKCmZ1bmN0aW9uIExvZ2luUGFnZUlubmVyKCkgewogIGNvbnN0IHJvdXRlciA9IHVzZVJvdXRlcigpOwogIGNvbnN0IHNlYXJjaFBhcmFtcyA9IHVzZVNlYXJjaFBhcmFtcygpOwogIGNvbnN0IHRvYXN0ID0gdXNlVG9hc3QoKTsKICBjb25zdCBbbG9hZGluZywgc2V0TG9hZGluZ10gPSB1c2VTdGF0ZShmYWxzZSk7CiAgY29uc3QgW2Vycm9yLCBzZXRFcnJvcl0gPSB1c2VTdGF0ZSgiIik7CgogIGFzeW5jIGZ1bmN0aW9uIG9uU3VibWl0KGU6IFJlYWN0LkZvcm1FdmVudDxIVE1MRm9ybUVsZW1lbnQ+KSB7CiAgICBlLnByZXZlbnREZWZhdWx0KCk7CiAgICBzZXRFcnJvcigiIik7CiAgICBzZXRMb2FkaW5nKHRydWUpOwogICAgY29uc3QgZmQgPSBuZXcgRm9ybURhdGEoZS5jdXJyZW50VGFyZ2V0KTsKICAgIGNvbnN0IHJlcyA9IGF3YWl0IGZldGNoKCIvYXBpL2F1dGgvbG9naW4iLCB7CiAgICAgIG1ldGhvZDogIlBPU1QiLAogICAgICBoZWFkZXJzOiB7ICJDb250ZW50LVR5cGUiOiAiYXBwbGljYXRpb24vanNvbiIgfSwKICAgICAgYm9keTogSlNPTi5zdHJpbmdpZnkoeyBlbWFpbDogZmQuZ2V0KCJlbWFpbCIpLCBwYXNzd29yZDogZmQuZ2V0KCJwYXNzd29yZCIpIH0pLAogICAgfSk7CiAgICBjb25zdCBkYXRhID0gYXdhaXQgcmVzLmpzb24oKTsKICAgIHNldExvYWRpbmcoZmFsc2UpOwogICAgaWYgKCFyZXMub2spIHsKICAgICAgc2V0RXJyb3IoZGF0YS5lcnJvciB8fCAiU29tZXRoaW5nIHdlbnQgd3JvbmcuIFBsZWFzZSB0cnkgYWdhaW4uIik7CiAgICAgIHJldHVybjsKICAgIH0KICAgIHRvYXN0LnB1c2goIldlbGNvbWUgYmFjayEiLCAic3VjY2VzcyIpOwogICAgcm91dGVyLnB1c2goc2VhcmNoUGFyYW1zLmdldCgibmV4dCIpIHx8ICIvZGFzaGJvYXJkIik7CiAgICByb3V0ZXIucmVmcmVzaCgpOwogIH0KCiAgcmV0dXJuICgKICAgIDxkaXYgY2xhc3NOYW1lPSJteC1hdXRvIG1heC13LW1kIHB4LTQgcHktMTIiPgogICAgICA8ZGl2IGNsYXNzTmFtZT0ibWItNiBmbGV4IGp1c3RpZnktY2VudGVyIj48TG9nbyBzaXplPSJsZyIgLz48L2Rpdj4KICAgICAgPGgxIGNsYXNzTmFtZT0idGV4dC1jZW50ZXIgdGV4dC0yeGwgZm9udC1ib2xkIHRleHQtc2xhdGUtOTAwIj5Mb2cgaW48L2gxPgogICAgICA8cCBjbGFzc05hbWU9Im10LTEgdGV4dC1jZW50ZXIgdGV4dC1zbSB0ZXh0LXNsYXRlLTYwMCI+V2VsY29tZSBiYWNrIHRvIEdyb3dlbnRpeC48L3A+CiAgICAgIDxmb3JtIG9uU3VibWl0PXtvblN1Ym1pdH0gY2xhc3NOYW1lPSJtdC02IHNwYWNlLXktNCI+CiAgICAgICAge3NlYXJjaFBhcmFtcy5nZXQoInJlc2V0IikgPT09ICIxIiAmJiAoCiAgICAgICAgICA8QWxlcnQgdG9uZT0iZ3JlZW4iPllvdXIgcGFzc3dvcmQgaGFzIGJlZW4gdXBkYXRlZC4gTG9nIGluIHdpdGggeW91ciBuZXcgcGFzc3dvcmQuPC9BbGVydD4KICAgICAgICApfQogICAgICAgIHtzZWFyY2hQYXJhbXMuZ2V0KCJ2ZXJpZmllZCIpID09PSAiMSIgJiYgKAogICAgICAgICAgPEFsZXJ0IHRvbmU9ImdyZWVuIj5Zb3VyIGVtYWlsIGlzIHZlcmlmaWVkLiBXZWxjb21lIHRvIEdyb3dlbnRpeCE8L0FsZXJ0PgogICAgICAgICl9CiAgICAgICAge2Vycm9yICYmIDxBbGVydCB0b25lPSJyb3NlIj57ZXJyb3J9PC9BbGVydD59CiAgICAgICAgPElucHV0IG5hbWU9ImVtYWlsIiBsYWJlbD0iRW1haWwiIHR5cGU9ImVtYWlsIiBhdXRvQ29tcGxldGU9ImVtYWlsIiByZXF1aXJlZCBwbGFjZWhvbGRlcj0ieW91QGV4YW1wbGUuY29tIiAvPgogICAgICAgIDxJbnB1dCBuYW1lPSJwYXNzd29yZCIgbGFiZWw9IlBhc3N3b3JkIiB0eXBlPSJwYXNzd29yZCIgYXV0b0NvbXBsZXRlPSJjdXJyZW50LXBhc3N3b3JkIiByZXF1aXJlZCBwbGFjZWhvbGRlcj0i4oCi4oCi4oCi4oCi4oCi4oCi4oCi4oCiIiAvPgogICAgICAgIDxkaXYgY2xhc3NOYW1lPSJ0ZXh0LXJpZ2h0Ij4KICAgICAgICAgIDxMaW5rIGhyZWY9Ii9mb3Jnb3QtcGFzc3dvcmQiIGNsYXNzTmFtZT0idGV4dC1zbSBmb250LXNlbWlib2xkIHRleHQtZW1lcmFsZC03MDAgaG92ZXI6dW5kZXJsaW5lIj5Gb3Jnb3QgcGFzc3dvcmQ/PC9MaW5rPgogICAgICAgIDwvZGl2PgogICAgICAgIDxCdXR0b24gdHlwZT0ic3VibWl0IiBsb2FkaW5nPXtsb2FkaW5nfSBjbGFzc05hbWU9InctZnVsbCIgc2l6ZT0ibGciPgogICAgICAgICAgTG9nIGluCiAgICAgICAgPC9CdXR0b24+CiAgICAgIDwvZm9ybT4KICAgICAgPHAgY2xhc3NOYW1lPSJtdC00IHRleHQtY2VudGVyIHRleHQtc20gdGV4dC1zbGF0ZS02MDAiPgogICAgICAgIE5ldyBoZXJlPyA8TGluayBocmVmPSIvc2lnbnVwIiBjbGFzc05hbWU9ImZvbnQtc2VtaWJvbGQgdGV4dC1lbWVyYWxkLTcwMCBob3Zlcjp1bmRlcmxpbmUiPkNyZWF0ZSBhbiBhY2NvdW50PC9MaW5rPgogICAgICA8L3A+CiAgICA8L2Rpdj4KICApOwp9CgpleHBvcnQgZGVmYXVsdCBmdW5jdGlvbiBMb2dpblBhZ2UoKSB7CiAgcmV0dXJuICgKICAgIDxTdXNwZW5zZT4KICAgICAgPExvZ2luUGFnZUlubmVyIC8+CiAgICA8L1N1c3BlbnNlPgogICk7Cn0K
+"use client";
+
+import { Suspense, useState } from "react";
+import Link from "next/link";
+import { useRouter, useSearchParams } from "next/navigation";
+import { Input } from "@/components/ui/fields";
+import { Button } from "@/components/ui/Button";
+import { Alert } from "@/components/ui/primitives";
+import { useToast } from "@/components/ui/Toast";
+import { Logo } from "@/components/layout/Logo";
+
+function LoginPageInner() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const toast = useToast();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    setError("");
+    setLoading(true);
+    const fd = new FormData(e.currentTarget);
+    const res = await fetch("/api/auth/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email: fd.get("email"), password: fd.get("password") }),
+    });
+    const data = await res.json();
+    setLoading(false);
+    if (!res.ok) {
+      setError(data.error || "Something went wrong. Please try again.");
+      return;
+    }
+    toast.push("Welcome back!", "success");
+    router.push(searchParams.get("next") || "/dashboard");
+    router.refresh();
+  }
+
+  return (
+    <div className="mx-auto max-w-md px-4 py-12">
+      <div className="mb-6 flex justify-center"><Logo size="lg" /></div>
+      <h1 className="text-center text-2xl font-bold text-slate-900">Log in</h1>
+      <p className="mt-1 text-center text-sm text-slate-600">Welcome back to Growentix.</p>
+      <form onSubmit={onSubmit} className="mt-6 space-y-4">
+        {searchParams.get("reset") === "1" && (
+          <Alert tone="green">Your password has been updated. Log in with your new password.</Alert>
+        )}
+        {searchParams.get("verified") === "1" && (
+          <Alert tone="green">Your email is verified. Welcome to Growentix!</Alert>
+        )}
+        {error && <Alert tone="rose">{error}</Alert>}
+        <Input name="email" label="Email" type="email" autoComplete="email" required placeholder="you@example.com" />
+        <Input name="password" label="Password" type="password" autoComplete="current-password" required placeholder="••••••••" />
+        <div className="text-right">
+          <Link href="/forgot-password" className="text-sm font-semibold text-emerald-700 hover:underline">Forgot password?</Link>
+        </div>
+        <Button type="submit" loading={loading} className="w-full" size="lg">
+          Log in
+        </Button>
+      </form>
+      <p className="mt-4 text-center text-sm text-slate-600">
+        New here? <Link href="/signup" className="font-semibold text-emerald-700 hover:underline">Create an account</Link>
+      </p>
+    </div>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense>
+      <LoginPageInner />
+    </Suspense>
+  );
+}

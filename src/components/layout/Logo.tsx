@@ -1,1 +1,44 @@
-aW50ZXJmYWNlIExvZ29Qcm9wcyB7CiAgLyoqIFNob3cgdGhlIHdvcmRtYXJrIG5leHQgdG8gdGhlIG1hcmsuICovCiAgd29yZG1hcms/OiBib29sZWFuOwogIC8qKiBWaXN1YWwgc2l6ZSBvZiB0aGUgbWFyay4gKi8KICBzaXplPzogInNtIiB8ICJtZCIgfCAibGciOwogIC8qKiBSZW5kZXIgd29yZG1hcmsgaW4gd2hpdGUgKGZvciBkYXJrIGJhY2tncm91bmRzKS4gKi8KICBpbnZlcnRlZD86IGJvb2xlYW47Cn0KCmNvbnN0IFNJWkVTID0geyBzbTogMzIsIG1kOiAzOCwgbGc6IDQ2IH07CgovKioKICogR3Jvd2VudGl4IGxvZ28g4oCUIGEgY2xlYW4gIkciIGZvciBHcm93dGg6IG9wZW4gYXJjIHdpdGggYW4gYW1iZXIgY3Jvc3NiYXIsCiAqIG9uIGEgZGVlcC1lbWVyYWxkIHRpbGUuIFB1cmUgU1ZHLCBubyBpbWFnZXMsIHNjYWxlcyB0byBhbnkgc2l6ZS4KICovCmV4cG9ydCBmdW5jdGlvbiBMb2dvTWFyayh7IHNpemUgPSAzOCB9OiB7IHNpemU/OiBudW1iZXIgfSkgewogIHJldHVybiAoCiAgICA8c3ZnIHdpZHRoPXtzaXplfSBoZWlnaHQ9e3NpemV9IHZpZXdCb3g9IjAgMCA0OCA0OCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSJHcm93ZW50aXggbG9nbyIgY2xhc3NOYW1lPSJzaHJpbmstMCI+CiAgICAgIDxyZWN0IHg9IjEuNSIgeT0iMS41IiB3aWR0aD0iNDUiIGhlaWdodD0iNDUiIHJ4PSIxMiIgZmlsbD0iIzA2NUY0NiIgLz4KICAgICAgPHJlY3QgeD0iMS41IiB5PSIxLjUiIHdpZHRoPSI0NSIgaGVpZ2h0PSI0NSIgcng9IjEyIiBmaWxsPSJub25lIiBzdHJva2U9IiMwNDc4NTciIHN0cm9rZVdpZHRoPSIxIiAvPgogICAgICB7LyogRyBhcmMgKi99CiAgICAgIDxwYXRoIGQ9Ik0zMiAxNC41IEExMi40IDEyLjQgMCAxIDAgMzYuMSAyNi42IiBmaWxsPSJub25lIiBzdHJva2U9IiNGRkZGRkYiIHN0cm9rZVdpZHRoPSI1IiBzdHJva2VMaW5lY2FwPSJyb3VuZCIgLz4KICAgICAgey8qIENyb3NzYmFyIChncm93dGggYXJyb3cgc2hhZnQpICovfQogICAgICA8cGF0aCBkPSJNMzYuMSAyNi42IEwyNS41IDI2LjYiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI0Y1OUUwQiIgc3Ryb2tlV2lkdGg9IjUiIHN0cm9rZUxpbmVjYXA9InJvdW5kIiAvPgogICAgPC9zdmc+CiAgKTsKfQoKZXhwb3J0IGZ1bmN0aW9uIExvZ28oeyB3b3JkbWFyayA9IHRydWUsIHNpemUgPSAibWQiLCBpbnZlcnRlZCA9IGZhbHNlIH06IExvZ29Qcm9wcykgewogIGNvbnN0IHB4ID0gU0laRVNbc2l6ZV07CiAgcmV0dXJuICgKICAgIDxzcGFuIGNsYXNzTmFtZT0iaW5saW5lLWZsZXggaXRlbXMtY2VudGVyIGdhcC0yLjUiPgogICAgICA8TG9nb01hcmsgc2l6ZT17cHh9IC8+CiAgICAgIHt3b3JkbWFyayAmJiAoCiAgICAgICAgPHNwYW4KICAgICAgICAgIGNsYXNzTmFtZT17YGZvbnQtZXh0cmFib2xkIHRyYWNraW5nLXRpZ2h0ICR7aW52ZXJ0ZWQgPyAidGV4dC13aGl0ZSIgOiAidGV4dC1zbGF0ZS05MDAifWB9CiAgICAgICAgICBzdHlsZT17eyBmb250U2l6ZTogTWF0aC5yb3VuZChweCAqIDAuNTIpIH19CiAgICAgICAgPgogICAgICAgICAgR3JvdzxzcGFuIGNsYXNzTmFtZT0idGV4dC1lbWVyYWxkLTYwMCI+ZW50aXg8L3NwYW4+CiAgICAgICAgPC9zcGFuPgogICAgICApfQogICAgPC9zcGFuPgogICk7Cn0K
+interface LogoProps {
+  /** Show the wordmark next to the mark. */
+  wordmark?: boolean;
+  /** Visual size of the mark. */
+  size?: "sm" | "md" | "lg";
+  /** Render wordmark in white (for dark backgrounds). */
+  inverted?: boolean;
+}
+
+const SIZES = { sm: 32, md: 38, lg: 46 };
+
+/**
+ * Growentix logo — a clean "G" for Growth: open arc with an amber crossbar,
+ * on a deep-emerald tile. Pure SVG, no images, scales to any size.
+ */
+export function LogoMark({ size = 38 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 48 48" role="img" aria-label="Growentix logo" className="shrink-0">
+      <rect x="1.5" y="1.5" width="45" height="45" rx="12" fill="#065F46" />
+      <rect x="1.5" y="1.5" width="45" height="45" rx="12" fill="none" stroke="#047857" strokeWidth="1" />
+      {/* G arc */}
+      <path d="M32 14.5 A12.4 12.4 0 1 0 36.1 26.6" fill="none" stroke="#FFFFFF" strokeWidth="5" strokeLinecap="round" />
+      {/* Crossbar (growth arrow shaft) */}
+      <path d="M36.1 26.6 L25.5 26.6" fill="none" stroke="#F59E0B" strokeWidth="5" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+export function Logo({ wordmark = true, size = "md", inverted = false }: LogoProps) {
+  const px = SIZES[size];
+  return (
+    <span className="inline-flex items-center gap-2.5">
+      <LogoMark size={px} />
+      {wordmark && (
+        <span
+          className={`font-extrabold tracking-tight ${inverted ? "text-white" : "text-slate-900"}`}
+          style={{ fontSize: Math.round(px * 0.52) }}
+        >
+          Grow<span className="text-emerald-600">entix</span>
+        </span>
+      )}
+    </span>
+  );
+}

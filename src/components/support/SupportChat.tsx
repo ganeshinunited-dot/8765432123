@@ -1,1 +1,128 @@
-InVzZSBjbGllbnQiOwoKaW1wb3J0IHsgRm9ybUV2ZW50LCB1c2VFZmZlY3QsIHVzZVJlZiwgdXNlU3RhdGUgfSBmcm9tICJyZWFjdCI7CmltcG9ydCB7IEFsZXJ0IH0gZnJvbSAiQC9jb21wb25lbnRzL3VpL3ByaW1pdGl2ZXMiOwoKaW50ZXJmYWNlIE1zZyB7CiAgcm9sZTogInVzZXIiIHwgImFzc2lzdGFudCI7CiAgdGV4dDogc3RyaW5nOwp9Cgpjb25zdCBTVEFSVEVSUyA9IFsKICAiSG93IGRvIEkgYXBwbHkgZm9yIGEgam9iPyIsCiAgIkhvdyBkbyBJIHBvc3QgYSBqb2I/IiwKICAiSG93IGRvIEkgdXBsb2FkIG15IENWPyIsCiAgIldoYXQgYXJlIHRoZSBlbXBsb3llciBwbGFucz8iLAogICJIb3cgZG9lcyBjb21wYW55IHZlcmlmaWNhdGlvbiB3b3JrPyIsCiAgIklzIGl0IHNhZmU/IFdoYXQgc2hvdWxkIEkgYXZvaWQ/IiwKXTsKCmNvbnN0IEdSRUVUSU5HOiBNc2cgPSB7CiAgcm9sZTogImFzc2lzdGFudCIsCiAgdGV4dDogIk5hbWFzdGUhIEknbSB0aGUgR3Jvd2VudGl4IFN1cHBvcnQgQXNzaXN0YW50LiBBc2sgbWUgYW55dGhpbmcgYWJvdXQgdXNpbmcgdGhpcyBwbGF0Zm9ybSDigJQgYXBwbHlpbmcgZm9yIGpvYnMsIHBvc3Rpbmcgam9icywgdmVyaWZpY2F0aW9uLCBwcmljaW5nLCBzYWZldHkgYW5kIG1vcmUuIiwKfTsKCmV4cG9ydCBmdW5jdGlvbiBTdXBwb3J0Q2hhdCgpIHsKICBjb25zdCBbbWVzc2FnZXMsIHNldE1lc3NhZ2VzXSA9IHVzZVN0YXRlPE1zZ1tdPihbR1JFRVRJTkddKTsKICBjb25zdCBbaW5wdXQsIHNldElucHV0XSA9IHVzZVN0YXRlKCIiKTsKICBjb25zdCBbYnVzeSwgc2V0QnVzeV0gPSB1c2VTdGF0ZShmYWxzZSk7CiAgY29uc3QgW2Vycm9yLCBzZXRFcnJvcl0gPSB1c2VTdGF0ZSgiIik7CiAgY29uc3QgYm90dG9tUmVmID0gdXNlUmVmPEhUTUxEaXZFbGVtZW50PihudWxsKTsKCiAgdXNlRWZmZWN0KCgpID0+IHsKICAgIGJvdHRvbVJlZi5jdXJyZW50Py5zY3JvbGxJbnRvVmlldyh7IGJlaGF2aW9yOiAic21vb3RoIiwgYmxvY2s6ICJuZWFyZXN0IiB9KTsKICB9LCBbbWVzc2FnZXMsIGJ1c3ldKTsKCiAgYXN5bmMgZnVuY3Rpb24gYXNrKHF1ZXN0aW9uOiBzdHJpbmcpIHsKICAgIGNvbnN0IHEgPSBxdWVzdGlvbi50cmltKCk7CiAgICBpZiAoIXEgfHwgYnVzeSkgcmV0dXJuOwogICAgc2V0RXJyb3IoIiIpOwogICAgc2V0SW5wdXQoIiIpOwogICAgc2V0TWVzc2FnZXMoKG0pID0+IFsuLi5tLCB7IHJvbGU6ICJ1c2VyIiwgdGV4dDogcSB9XSk7CiAgICBzZXRCdXN5KHRydWUpOwogICAgdHJ5IHsKICAgICAgY29uc3QgcmVzID0gYXdhaXQgZmV0Y2goIi9hcGkvYWkvc3VwcG9ydCIsIHsKICAgICAgICBtZXRob2Q6ICJQT1NUIiwKICAgICAgICBoZWFkZXJzOiB7ICJDb250ZW50LVR5cGUiOiAiYXBwbGljYXRpb24vanNvbiIgfSwKICAgICAgICBib2R5OiBKU09OLnN0cmluZ2lmeSh7IHF1ZXN0aW9uOiBxIH0pLAogICAgICB9KTsKICAgICAgY29uc3QgZGF0YSA9IGF3YWl0IHJlcy5qc29uKCk7CiAgICAgIGlmICghcmVzLm9rKSB0aHJvdyBuZXcgRXJyb3IoZGF0YS5lcnJvciB8fCAiU29tZXRoaW5nIHdlbnQgd3JvbmciKTsKICAgICAgc2V0TWVzc2FnZXMoKG0pID0+IFsuLi5tLCB7IHJvbGU6ICJhc3Npc3RhbnQiLCB0ZXh0OiBkYXRhLmFuc3dlciB9XSk7CiAgICB9IGNhdGNoIChlKSB7CiAgICAgIHNldEVycm9yKGUgaW5zdGFuY2VvZiBFcnJvciA/IGUubWVzc2FnZSA6ICJDb3VsZCBub3QgcmVhY2ggdGhlIGFzc2lzdGFudC4gVHJ5IGFnYWluLiIpOwogICAgfSBmaW5hbGx5IHsKICAgICAgc2V0QnVzeShmYWxzZSk7CiAgICB9CiAgfQoKICBmdW5jdGlvbiBvblN1Ym1pdChlOiBGb3JtRXZlbnQpIHsKICAgIGUucHJldmVudERlZmF1bHQoKTsKICAgIGFzayhpbnB1dCk7CiAgfQoKICByZXR1cm4gKAogICAgPGRpdiBjbGFzc05hbWU9Im92ZXJmbG93LWhpZGRlbiByb3VuZGVkLXhsIGJvcmRlciBib3JkZXItc2xhdGUtMjAwIGJnLXdoaXRlIHNoYWRvdy1zbSI+CiAgICAgIDxkaXYgY2xhc3NOYW1lPSJib3JkZXItYiBib3JkZXItc2xhdGUtMjAwIGJnLWVtZXJhbGQtODAwIHB4LTQgcHktMyBzbTpweC01Ij4KICAgICAgICA8cCBjbGFzc05hbWU9InRleHQtc20gZm9udC1zZW1pYm9sZCB0ZXh0LXdoaXRlIj5Hcm93ZW50aXggU3VwcG9ydCBBc3Npc3RhbnQ8L3A+CiAgICAgICAgPHAgY2xhc3NOYW1lPSJ0ZXh0LXhzIHRleHQtZW1lcmFsZC0xMDAiPkFzayBob3cgYW55dGhpbmcgb24gdGhpcyBwbGF0Zm9ybSB3b3JrcyDigJQgcmVwbGllcyBpbiBzZWNvbmRzLjwvcD4KICAgICAgPC9kaXY+CgogICAgICA8ZGl2IGNsYXNzTmFtZT0ibWF4LWgtWzI2cmVtXSBzcGFjZS15LTMgb3ZlcmZsb3cteS1hdXRvIHB4LTQgcHktNCBzbTpweC01IiBhcmlhLWxpdmU9InBvbGl0ZSI+CiAgICAgICAge21lc3NhZ2VzLm1hcCgobSwgaSkgPT4gKAogICAgICAgICAgPGRpdiBrZXk9e2l9IGNsYXNzTmFtZT17YGZsZXggJHttLnJvbGUgPT09ICJ1c2VyIiA/ICJqdXN0aWZ5LWVuZCIgOiAianVzdGlmeS1zdGFydCJ9YH0+CiAgICAgICAgICAgIDxkaXYKICAgICAgICAgICAgICBjbGFzc05hbWU9e2BtYXgtdy1bODUlXSB3aGl0ZXNwYWNlLXByZS13cmFwIHJvdW5kZWQteGwgcHgtMy41IHB5LTIuNSB0ZXh0LXNtIGxlYWRpbmctcmVsYXhlZCAkewogICAgICAgICAgICAgICAgbS5yb2xlID09PSAidXNlciIgPyAiYmctZW1lcmFsZC03MDAgdGV4dC13aGl0ZSIgOiAiYmctc2xhdGUtMTAwIHRleHQtc2xhdGUtODAwIgogICAgICAgICAgICAgIH1gfQogICAgICAgICAgICA+CiAgICAgICAgICAgICAge20udGV4dH0KICAgICAgICAgICAgPC9kaXY+CiAgICAgICAgICA8L2Rpdj4KICAgICAgICApKX0KICAgICAgICB7YnVzeSAmJiA8cCBjbGFzc05hbWU9InRleHQtc20gdGV4dC1zbGF0ZS01MDAiPkFzc2lzdGFudCBpcyB0eXBpbmfigKY8L3A+fQogICAgICAgIDxkaXYgcmVmPXtib3R0b21SZWZ9IC8+CiAgICAgIDwvZGl2PgoKICAgICAgPGRpdiBjbGFzc05hbWU9ImJvcmRlci10IGJvcmRlci1zbGF0ZS0xMDAgcHgtNCBwdC0zIHNtOnB4LTUiPgogICAgICAgIDxkaXYgY2xhc3NOYW1lPSJmbGV4IGZsZXgtd3JhcCBnYXAtMS41Ij4KICAgICAgICAgIHtTVEFSVEVSUy5tYXAoKHMpID0+ICgKICAgICAgICAgICAgPGJ1dHRvbgogICAgICAgICAgICAgIGtleT17c30KICAgICAgICAgICAgICB0eXBlPSJidXR0b24iCiAgICAgICAgICAgICAgZGlzYWJsZWQ9e2J1c3l9CiAgICAgICAgICAgICAgb25DbGljaz17KCkgPT4gYXNrKHMpfQogICAgICAgICAgICAgIGNsYXNzTmFtZT0icm91bmRlZC1mdWxsIGJvcmRlciBib3JkZXItc2xhdGUtMzAwIHB4LTIuNSBweS0xIHRleHQteHMgZm9udC1tZWRpdW0gdGV4dC1zbGF0ZS03MDAgaG92ZXI6Ym9yZGVyLWVtZXJhbGQtNjAwIGhvdmVyOnRleHQtZW1lcmFsZC04MDAgZGlzYWJsZWQ6b3BhY2l0eS01MCIKICAgICAgICAgICAgPgogICAgICAgICAgICAgIHtzfQogICAgICAgICAgICA8L2J1dHRvbj4KICAgICAgICAgICkpfQogICAgICAgIDwvZGl2PgogICAgICAgIHtlcnJvciAmJiAoCiAgICAgICAgICA8ZGl2IGNsYXNzTmFtZT0ibXQtMyI+CiAgICAgICAgICAgIDxBbGVydCB0b25lPSJyb3NlIj57ZXJyb3J9PC9BbGVydD4KICAgICAgICAgIDwvZGl2PgogICAgICAgICl9CiAgICAgICAgPGZvcm0gb25TdWJtaXQ9e29uU3VibWl0fSBjbGFzc05hbWU9ImZsZXggZ2FwLTIgcHktMyI+CiAgICAgICAgICA8bGFiZWwgaHRtbEZvcj0ic3VwcG9ydC1xIiBjbGFzc05hbWU9InNyLW9ubHkiPgogICAgICAgICAgICBBc2sgYSBzdXBwb3J0IHF1ZXN0aW9uCiAgICAgICAgICA8L2xhYmVsPgogICAgICAgICAgPGlucHV0CiAgICAgICAgICAgIGlkPSJzdXBwb3J0LXEiCiAgICAgICAgICAgIHZhbHVlPXtpbnB1dH0KICAgICAgICAgICAgb25DaGFuZ2U9eyhlKSA9PiBzZXRJbnB1dChlLnRhcmdldC52YWx1ZSl9CiAgICAgICAgICAgIHBsYWNlaG9sZGVyPSJlLmcuIEhvdyBkbyBJIHdpdGhkcmF3IG15IGFwcGxpY2F0aW9uPyIKICAgICAgICAgICAgY2xhc3NOYW1lPSJoLTExIGZsZXgtMSByb3VuZGVkLWxnIGJvcmRlciBib3JkZXItc2xhdGUtMzAwIGJnLXdoaXRlIHB4LTMgdGV4dC1zbSB0ZXh0LXNsYXRlLTkwMCBwbGFjZWhvbGRlcjp0ZXh0LXNsYXRlLTQwMCBmb2N1czpib3JkZXItZW1lcmFsZC02MDAgZm9jdXM6b3V0bGluZS1ub25lIGZvY3VzOnJpbmctMiBmb2N1czpyaW5nLWVtZXJhbGQtNjAwLzI1IgogICAgICAgICAgLz4KICAgICAgICAgIDxidXR0b24KICAgICAgICAgICAgdHlwZT0ic3VibWl0IgogICAgICAgICAgICBkaXNhYmxlZD17YnVzeSB8fCBpbnB1dC50cmltKCkubGVuZ3RoIDwgMn0KICAgICAgICAgICAgY2xhc3NOYW1lPSJpbmxpbmUtZmxleCBoLTExIGl0ZW1zLWNlbnRlciByb3VuZGVkLWxnIGJnLWVtZXJhbGQtNzAwIHB4LTQgdGV4dC1zbSBmb250LXNlbWlib2xkIHRleHQtd2hpdGUgaG92ZXI6YmctZW1lcmFsZC04MDAgZGlzYWJsZWQ6Y3Vyc29yLW5vdC1hbGxvd2VkIGRpc2FibGVkOm9wYWNpdHktNTAiCiAgICAgICAgICA+CiAgICAgICAgICAgIHtidXN5ID8gIkFza2luZ+KApiIgOiAiQXNrIn0KICAgICAgICAgIDwvYnV0dG9uPgogICAgICAgIDwvZm9ybT4KICAgICAgPC9kaXY+CiAgICA8L2Rpdj4KICApOwp9Cg==
+"use client";
+
+import { FormEvent, useEffect, useRef, useState } from "react";
+import { Alert } from "@/components/ui/primitives";
+
+interface Msg {
+  role: "user" | "assistant";
+  text: string;
+}
+
+const STARTERS = [
+  "How do I apply for a job?",
+  "How do I post a job?",
+  "How do I upload my CV?",
+  "What are the employer plans?",
+  "How does company verification work?",
+  "Is it safe? What should I avoid?",
+];
+
+const GREETING: Msg = {
+  role: "assistant",
+  text: "Namaste! I'm the Growentix Support Assistant. Ask me anything about using this platform — applying for jobs, posting jobs, verification, pricing, safety and more.",
+};
+
+export function SupportChat() {
+  const [messages, setMessages] = useState<Msg[]>([GREETING]);
+  const [input, setInput] = useState("");
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState("");
+  const bottomRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  }, [messages, busy]);
+
+  async function ask(question: string) {
+    const q = question.trim();
+    if (!q || busy) return;
+    setError("");
+    setInput("");
+    setMessages((m) => [...m, { role: "user", text: q }]);
+    setBusy(true);
+    try {
+      const res = await fetch("/api/ai/support", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ question: q }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Something went wrong");
+      setMessages((m) => [...m, { role: "assistant", text: data.answer }]);
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Could not reach the assistant. Try again.");
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  function onSubmit(e: FormEvent) {
+    e.preventDefault();
+    ask(input);
+  }
+
+  return (
+    <div className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
+      <div className="border-b border-slate-200 bg-emerald-800 px-4 py-3 sm:px-5">
+        <p className="text-sm font-semibold text-white">Growentix Support Assistant</p>
+        <p className="text-xs text-emerald-100">Ask how anything on this platform works — replies in seconds.</p>
+      </div>
+
+      <div className="max-h-[26rem] space-y-3 overflow-y-auto px-4 py-4 sm:px-5" aria-live="polite">
+        {messages.map((m, i) => (
+          <div key={i} className={`flex ${m.role === "user" ? "justify-end" : "justify-start"}`}>
+            <div
+              className={`max-w-[85%] whitespace-pre-wrap rounded-xl px-3.5 py-2.5 text-sm leading-relaxed ${
+                m.role === "user" ? "bg-emerald-700 text-white" : "bg-slate-100 text-slate-800"
+              }`}
+            >
+              {m.text}
+            </div>
+          </div>
+        ))}
+        {busy && <p className="text-sm text-slate-500">Assistant is typing…</p>}
+        <div ref={bottomRef} />
+      </div>
+
+      <div className="border-t border-slate-100 px-4 pt-3 sm:px-5">
+        <div className="flex flex-wrap gap-1.5">
+          {STARTERS.map((s) => (
+            <button
+              key={s}
+              type="button"
+              disabled={busy}
+              onClick={() => ask(s)}
+              className="rounded-full border border-slate-300 px-2.5 py-1 text-xs font-medium text-slate-700 hover:border-emerald-600 hover:text-emerald-800 disabled:opacity-50"
+            >
+              {s}
+            </button>
+          ))}
+        </div>
+        {error && (
+          <div className="mt-3">
+            <Alert tone="rose">{error}</Alert>
+          </div>
+        )}
+        <form onSubmit={onSubmit} className="flex gap-2 py-3">
+          <label htmlFor="support-q" className="sr-only">
+            Ask a support question
+          </label>
+          <input
+            id="support-q"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            placeholder="e.g. How do I withdraw my application?"
+            className="h-11 flex-1 rounded-lg border border-slate-300 bg-white px-3 text-sm text-slate-900 placeholder:text-slate-400 focus:border-emerald-600 focus:outline-none focus:ring-2 focus:ring-emerald-600/25"
+          />
+          <button
+            type="submit"
+            disabled={busy || input.trim().length < 2}
+            className="inline-flex h-11 items-center rounded-lg bg-emerald-700 px-4 text-sm font-semibold text-white hover:bg-emerald-800 disabled:cursor-not-allowed disabled:opacity-50"
+          >
+            {busy ? "Asking…" : "Ask"}
+          </button>
+        </form>
+      </div>
+    </div>
+  );
+}
