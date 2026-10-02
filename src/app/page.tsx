@@ -1,44 +1,14 @@
 import Link from "next/link";
 import { db } from "@/lib/db";
-import type { Prisma } from "@prisma/client";
 import { JobCard } from "@/components/jobs/JobCard";
 import { Card } from "@/components/ui/primitives";
+import { CourseCarousel } from "@/components/courses/CourseCarousel";
+import { CourseCard, type CarouselCourse } from "@/components/courses/CourseCard";
 
 export const revalidate = 60;
 
-type CountFilter =
-  | { kind: "type"; value: string }
-  | { kind: "schedule"; value: string }
-  | { kind: "arrangement"; value: string }
-  | { kind: "category"; value: string };
-
-const POPULAR: { label: string; href: string; count: CountFilter }[] = [
-  { label: "Part-Time", href: "/jobs?type=PART_TIME", count: { kind: "type", value: "PART_TIME" } },
-  { label: "Remote", href: "/jobs?arrangement=REMOTE", count: { kind: "arrangement", value: "REMOTE" } },
-  { label: "Evening", href: "/jobs?schedule=EVENING", count: { kind: "schedule", value: "EVENING" } },
-  { label: "Weekend", href: "/jobs?schedule=WEEKEND", count: { kind: "schedule", value: "WEEKEND" } },
-  { label: "Internships", href: "/jobs?type=INTERNSHIP", count: { kind: "type", value: "INTERNSHIP" } },
-  { label: "Tutoring", href: "/jobs?category=tutoring-education", count: { kind: "category", value: "tutoring-education" } },
-  { label: "Retail", href: "/jobs?category=retail-sales", count: { kind: "category", value: "retail-sales" } },
-  { label: "Hospitality", href: "/jobs?category=hospitality", count: { kind: "category", value: "hospitality" } },
-  { label: "Digital & Creative", href: "/jobs?category=design-creative", count: { kind: "category", value: "design-creative" } },
-];
-
-function countWhere(f: CountFilter, active: Prisma.JobWhereInput) {
-  switch (f.kind) {
-    case "type":
-      return { ...active, jobType: f.value as never };
-    case "schedule":
-      return { ...active, schedules: { has: f.value as never } };
-    case "arrangement":
-      return { ...active, workArrangement: f.value as never };
-    case "category":
-      return { ...active, category: { slug: f.value } };
-  }
-}
-
 export default async function HomePage() {
-  const [featured, totalActive, verifiedCompanies, popularCounts, locations] = await Promise.all([
+  const [featured, totalActive, verifiedCompanies, locations, courseRows] = await Promise.all([
     db.job.findMany({
       where: { status: "ACTIVE" },
       orderBy: [{ featured: "desc" }, { publishedAt: "desc" }],
@@ -47,14 +17,32 @@ export default async function HomePage() {
     }),
     db.job.count({ where: { status: "ACTIVE" } }),
     db.company.count({ where: { verificationStatus: "VERIFIED", OR: [{ verificationExpiresAt: null }, { verificationExpiresAt: { gt: new Date() } }] } }),
-    Promise.all(POPULAR.map((p) => db.job.count({ where: countWhere(p.count, { status: "ACTIVE" }) }))),
     db.location.findMany({
       include: { _count: { select: { jobs: { where: { status: "ACTIVE" } } } } },
       orderBy: { name: "asc" },
       take: 8,
     }),
+    db.course
+      .findMany({
+        where: { status: "PUBLISHED" },
+        orderBy: [{ price: "asc" }, { sales: "desc" }],
+        take: 24,
+        select: {
+          title: true, slug: true, price: true, category: true, sales: true, views: true, thumbnailUrl: true,
+          instructor: { select: { isVerified: true, user: { select: { name: true } } } },
+        },
+      })
+      .catch(() => []),
   ]);
   const cities = locations.filter((l) => l._count.jobs > 0);
+
+  const allCourses: CarouselCourse[] = courseRows.map((c) => ({
+    slug: c.slug, title: c.title, price: c.price, category: c.category, sales: c.sales,
+    views: c.views, thumbnailUrl: c.thumbnailUrl, instructorName: c.instructor.user.name,
+    isVerified: c.instructor.isVerified,
+  }));
+  const freeCourses = allCourses.filter((c) => c.price === 0);
+  const paidCourses = allCourses.filter((c) => c.price > 0);
 
   const stats = [
     { value: totalActive, label: "Active jobs" },
@@ -127,24 +115,42 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Popular categories with live counts */}
-      <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6">
-        <div className="flex items-center justify-between">
-          <h2 className="text-xl font-bold text-slate-900 sm:text-2xl">Popular categories</h2>
-          <Link href="/jobs" className="text-sm font-semibold text-emerald-700 hover:underline">View all jobs</Link>
-        </div>
-        <div className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-3">
-          {POPULAR.map((c, i) => (
-            <Link key={c.label} href={c.href} className="group flex items-center justify-between gap-3 rounded-xl border border-slate-200 bg-white px-4 py-4 transition-colors hover:border-emerald-500 sm:px-5 sm:py-5">
-              <span>
-                <span className="block text-sm font-semibold text-slate-900 group-hover:text-emerald-800 sm:text-base">{c.label}</span>
-                <span className="mt-0.5 block text-xs text-slate-500 sm:text-sm">{popularCounts[i]} {popularCounts[i] === 1 ? "job" : "jobs"} available</span>
-              </span>
-              <span aria-hidden="true" className="text-lg text-slate-300 transition-transform group-hover:translate-x-0.5 group-hover:text-emerald-600">→</span>
-            </Link>
-          ))}
-        </div>
-      </section>
+      {/* Free courses */}
+      {freeCourses.length > 0 && (
+        <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <h2 className="text-xl font-bold text-slate-900 sm:text-2xl">Free courses</h2>
+              <p className="mt-1 text-sm text-slate-500">Watch instantly — no payment needed.</p>
+            </div>
+            <Link href="/courses" className="shrink-0 text-sm font-semibold text-emerald-700 hover:underline">View all courses</Link>
+          </div>
+          <div className="mt-5">
+            <CourseCarousel label="Free courses">
+              {freeCourses.map((c) => (
+                <CourseCard key={c.slug} c={c} />
+              ))}
+            </CourseCarousel>
+          </div>
+          {paidCourses.length > 0 && (
+            <>
+              <div className="mt-8 flex items-center justify-between">
+                <div>
+                  <h2 className="text-xl font-bold text-slate-900 sm:text-2xl">Paid courses</h2>
+                  <p className="mt-1 text-sm text-slate-500">From verified instructors on Growentix.</p>
+                </div>
+              </div>
+              <div className="mt-5">
+                <CourseCarousel label="Paid courses">
+                  {paidCourses.map((c) => (
+                    <CourseCard key={c.slug} c={c} />
+                  ))}
+                </CourseCarousel>
+              </div>
+            </>
+          )}
+        </section>
+      )}
 
       {/* Featured jobs */}
       <section className="border-y border-slate-200 bg-slate-50">
