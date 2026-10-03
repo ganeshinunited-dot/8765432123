@@ -27,7 +27,7 @@ export default async function EmployerJobs() {
   return (
     <DashboardShell title="My jobs" nav={EMPLOYER_NAV} active="/employer/jobs">
       <div className="mb-4 flex justify-end">
-        <Link href="/employer/jobs/new" className="inline-flex h-10 items-center gap-2 rounded-lg bg-emerald-700 px-4 text-sm font-semibold text-white hover:bg-emerald-800">
+        <Link href="/employer/jobs/new" className="inline-flex h-10 items-center gap-2 rounded-lg gx-btn gx-btn-primary px-4 text-sm font-semibold text-white">
           <span className="h-4 w-4">{icons.plus}</span> Post a job
         </Link>
       </div>
@@ -37,7 +37,7 @@ export default async function EmployerJobs() {
         <EmptyState
           title="No jobs posted yet."
           description="Post your first job — it takes about 3 minutes."
-          action={<Link href="/employer/jobs/new" className="inline-flex h-11 items-center rounded-lg bg-emerald-700 px-5 text-sm font-semibold text-white">Post a job</Link>}
+          action={<Link href="/employer/jobs/new" className="inline-flex h-11 items-center rounded-lg gx-btn gx-btn-primary px-5 text-sm font-semibold text-white">Post a job</Link>}
         />
       ) : (
         <Card className="divide-y divide-slate-100">

@@ -28,7 +28,7 @@ export default async function SavedJobsPage() {
         <EmptyState
           title="You haven't saved any jobs yet."
           description="Tap the bookmark icon on any job to save it for later."
-          action={<Link href="/jobs" className="inline-flex h-11 items-center rounded-lg bg-emerald-700 px-5 text-sm font-semibold text-white hover:bg-emerald-800">Find Jobs</Link>}
+          action={<Link href="/jobs" className="inline-flex h-11 items-center rounded-lg gx-btn gx-btn-primary px-5 text-sm font-semibold text-white">Find Jobs</Link>}
         />
       ) : (
         <>

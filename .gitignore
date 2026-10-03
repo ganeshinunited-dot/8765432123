@@ -40,3 +40,8 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# push batches (temporary)
+.push_batches/
+push_remaining.sh
+package-lock.json

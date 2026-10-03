@@ -30,7 +30,7 @@ export default async function AdminUsers({ searchParams }: { searchParams: Promi
           <option value="EMPLOYER">Employers</option>
           <option value="ADMIN">Admins</option>
         </select>
-        <button type="submit" className="h-11 rounded-lg bg-slate-900 px-5 text-sm font-semibold text-white">Search</button>
+        <button type="submit" className="h-11 rounded-lg gx-btn gx-btn-dark px-5 text-sm font-semibold text-white">Search</button>
       </form>
 
       {users.length === 0 ? (

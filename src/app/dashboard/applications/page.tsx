@@ -31,7 +31,7 @@ export default async function ApplicationsPage() {
         <EmptyState
           title="You haven't applied to any jobs yet."
           description="Find a role that fits your schedule and apply in minutes."
-          action={<Link href="/jobs" className="inline-flex h-11 items-center rounded-lg bg-emerald-700 px-5 text-sm font-semibold text-white hover:bg-emerald-800">Explore Jobs</Link>}
+          action={<Link href="/jobs" className="inline-flex h-11 items-center rounded-lg gx-btn gx-btn-primary px-5 text-sm font-semibold text-white">Explore Jobs</Link>}
         />
       ) : (
         <div className="space-y-3">

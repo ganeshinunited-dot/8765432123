@@ -61,7 +61,7 @@ export default async function ApplicantsPage({
           <option value="">All statuses</option>
           {Object.keys(STATUS_TONE).map((s) => <option key={s} value={s}>{s.charAt(0) + s.slice(1).toLowerCase()}</option>)}
         </select>
-        <button type="submit" className="h-11 rounded-lg bg-slate-900 px-5 text-sm font-semibold text-white">Filter</button>
+        <button type="submit" className="h-11 rounded-lg gx-btn gx-btn-dark px-5 text-sm font-semibold text-white">Filter</button>
       </form>
 
       {apps.length === 0 ? (

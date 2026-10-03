@@ -33,7 +33,7 @@ export function JobFilters({ categories, initial }: Props) {
         Verified employers only
       </label>
       <div className="flex gap-2">
-        <button type="submit" className="h-11 flex-1 rounded-lg bg-emerald-700 text-sm font-semibold text-white hover:bg-emerald-800">
+        <button type="submit" className="h-11 flex-1 rounded-lg gx-btn gx-btn-primary text-sm font-semibold text-white">
           Apply filters
         </button>
         <Link href="/jobs" className="inline-flex h-11 items-center rounded-lg border border-slate-300 px-4 text-sm font-semibold text-slate-700 hover:bg-slate-50">

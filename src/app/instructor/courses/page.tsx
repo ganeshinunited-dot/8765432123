@@ -17,7 +17,7 @@ export default async function InstructorCourses() {
 
   return (
     <DashboardShell title="My courses" nav={INSTRUCTOR_NAV} active="/instructor/courses">
-      <Link href="/instructor/courses/new" className="mb-4 inline-flex h-11 items-center rounded-lg bg-emerald-700 px-5 text-sm font-semibold text-white hover:bg-emerald-800">
+      <Link href="/instructor/courses/new" className="mb-4 inline-flex h-11 items-center rounded-lg gx-btn gx-btn-primary px-5 text-sm font-semibold text-white">
         + New course
       </Link>
       {courses.length === 0 ? (

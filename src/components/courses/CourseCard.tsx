@@ -28,11 +28,11 @@ export function CourseCard({ c }: { c: CarouselCourse }) {
       href={`/courses/${c.slug}`}
       className="group block w-40 shrink-0 snap-start overflow-hidden rounded-xl border border-slate-200 bg-white transition-shadow hover:shadow-md sm:w-56"
     >
-      <div className="relative aspect-video bg-slate-900">
+      <div className="relative aspect-video gx-btn gx-btn-dark">
         {c.thumbnailUrl ? (
           <Image src={c.thumbnailUrl} alt={c.title} fill sizes="(max-width: 640px) 160px, 224px" className="object-cover" unoptimized />
         ) : (
-          <div className="flex h-full w-full items-center justify-center bg-slate-800">
+          <div className="flex h-full w-full items-center justify-center gx-btn gx-btn-dark">
             <PlayIcon className="h-8 w-8 text-slate-500" />
           </div>
         )}
@@ -44,7 +44,7 @@ export function CourseCard({ c }: { c: CarouselCourse }) {
           {free ? "Free" : `NPR ${c.price.toLocaleString()}`}
         </span>
         <span className="absolute inset-0 flex items-center justify-center">
-          <span className="flex h-9 w-9 items-center justify-center rounded-full bg-black/50 text-white transition group-hover:bg-emerald-600 sm:h-11 sm:w-11">
+          <span className="flex h-9 w-9 items-center justify-center rounded-full bg-black/50 text-white transition group-hover:gx-btn gx-btn-primary sm:h-11 sm:w-11">
             <PlayIcon className="h-4 w-4 sm:h-5 sm:w-5" />
           </span>
         </span>
@@ -56,7 +56,7 @@ export function CourseCard({ c }: { c: CarouselCourse }) {
           {c.isVerified ? " ✓" : ""}
           {c.category ? ` · ${c.category}` : ""}
         </p>
-        <span className="mt-2 inline-flex h-8 w-full items-center justify-center rounded-lg bg-emerald-700 text-xs font-semibold text-white transition group-hover:bg-emerald-800 sm:h-9 sm:text-sm">
+        <span className="mt-2 inline-flex h-8 w-full items-center justify-center rounded-lg gx-btn gx-btn-primary text-xs font-semibold text-white transition group- sm:h-9 sm:text-sm">
           Learn
         </span>
       </div>

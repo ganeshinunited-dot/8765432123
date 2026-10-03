@@ -43,7 +43,7 @@ export function NavAuth() {
             </span>
           )}
           {isAdmin && view === "admin" && (
-            <span className="hidden items-center gap-1.5 rounded-lg bg-slate-900 px-3 py-2 text-xs font-bold text-white sm:inline-flex" title="You are browsing as an administrator">
+            <span className="hidden items-center gap-1.5 rounded-lg gx-btn gx-btn-dark px-3 py-2 text-xs font-bold text-white sm:inline-flex" title="You are browsing as an administrator">
               <svg className="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z" /></svg>
               ADMIN
             </span>
@@ -66,7 +66,7 @@ export function NavAuth() {
           </Link>
           <Link
             href="/dashboard"
-            className="hidden rounded-lg bg-emerald-700 px-4 py-2.5 text-sm font-semibold text-white hover:bg-emerald-800 sm:block"
+            className="hidden rounded-lg gx-btn gx-btn-primary px-4 py-2.5 text-sm font-semibold text-white sm:block"
           >
             Dashboard
           </Link>
@@ -82,7 +82,7 @@ export function NavAuth() {
           </Link>
           <Link
             href="/signup"
-            className="rounded-lg bg-emerald-700 px-4 py-2.5 text-sm font-semibold text-white hover:bg-emerald-800"
+            className="rounded-lg gx-btn gx-btn-primary px-4 py-2.5 text-sm font-semibold text-white"
           >
             Sign up
           </Link>

@@ -53,7 +53,7 @@ export default function NotificationsClient({ homeHref }: { homeHref: string }) 
                   {n.body && <p className="mt-0.5 text-sm text-slate-600">{n.body}</p>}
                   <p className="mt-1 text-xs text-slate-400">{timeAgo(new Date(n.createdAt))}</p>
                 </div>
-                {!n.read && <span className="mt-1.5 h-2.5 w-2.5 shrink-0 rounded-full bg-emerald-600" aria-label="Unread" />}
+                {!n.read && <span className="mt-1.5 h-2.5 w-2.5 shrink-0 rounded-full gx-btn gx-btn-primary" aria-label="Unread" />}
               </div>
             );
             return n.link ? (

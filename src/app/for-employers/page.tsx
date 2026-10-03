@@ -22,7 +22,7 @@ export default function ForEmployersPage() {
       subtitle="Growentix connects you with talented students across Nepal who are looking for part-time, evening, weekend, remote, and internship work."
     >
       <div className="flex flex-wrap gap-3">
-        <Link href="/signup" className="inline-flex h-12 items-center rounded-lg bg-emerald-700 px-6 text-sm font-semibold text-white hover:bg-emerald-800">
+        <Link href="/signup" className="inline-flex h-12 items-center rounded-lg gx-btn gx-btn-primary px-6 text-sm font-semibold text-white">
           Post a Job
         </Link>
       </div>

@@ -24,7 +24,7 @@ export function AdminShell({
         <aside className="hidden w-64 shrink-0 md:block" aria-label="Admin">
           <div className="sticky top-16 flex h-[calc(100vh-4rem)] flex-col px-4 py-6">
             <div className="mb-6 flex items-center gap-3 rounded-xl bg-slate-900 px-4 py-3">
-              <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-emerald-600 text-white">
+              <span className="flex h-9 w-9 items-center justify-center rounded-lg gx-btn gx-btn-primary text-white">
                 <span className="h-5 w-5">{icons.shield}</span>
               </span>
               <div>

@@ -32,3 +32,66 @@ input[type="number"]::-webkit-inner-spin-button {
 html[data-chrome="app"] .gx-public-chrome {
   display: none !important;
 }
+
+/* ------------------------------------------------------------------ */
+/* Growentix glass buttons — frosted-glass CTA system.                  */
+/* Soft translucent surface, inner highlight, glowing light text.        */
+/* ------------------------------------------------------------------ */
+.gx-btn {
+  position: relative;
+  -webkit-backdrop-filter: blur(14px) saturate(1.25);
+  backdrop-filter: blur(14px) saturate(1.25);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow:
+    0 10px 28px -10px rgba(6, 78, 59, 0.45),
+    inset 0 1px 1px rgba(255, 255, 255, 0.45),
+    inset 0 -2px 5px rgba(0, 0, 0, 0.1);
+  transition: transform 0.16s ease, box-shadow 0.16s ease, filter 0.16s ease;
+}
+.gx-btn:hover {
+  filter: brightness(1.1) saturate(1.05);
+  box-shadow:
+    0 14px 32px -10px rgba(6, 78, 59, 0.5),
+    inset 0 1px 1px rgba(255, 255, 255, 0.55),
+    inset 0 -2px 5px rgba(0, 0, 0, 0.1);
+}
+.gx-btn:active {
+  transform: translateY(1px) scale(0.99);
+  filter: brightness(0.98);
+}
+/* Primary: emerald glass, glowing white text */
+.gx-btn-primary {
+  background: linear-gradient(165deg, rgba(16, 185, 129, 0.88) 0%, rgba(4, 120, 87, 0.92) 55%, rgba(6, 95, 70, 0.95) 100%);
+  color: #fff;
+  text-shadow: 0 0 16px rgba(255, 255, 255, 0.55), 0 1px 3px rgba(0, 0, 0, 0.25);
+}
+/* Dark: slate glass, glowing white text */
+.gx-btn-dark {
+  background: linear-gradient(165deg, rgba(71, 85, 105, 0.88) 0%, rgba(30, 41, 59, 0.92) 60%, rgba(15, 23, 42, 0.95) 100%);
+  color: #fff;
+  text-shadow: 0 0 14px rgba(255, 255, 255, 0.45), 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+/* Danger: rose glass, glowing white text */
+.gx-btn-danger {
+  background: linear-gradient(165deg, rgba(251, 113, 133, 0.88) 0%, rgba(225, 29, 72, 0.92) 60%, rgba(190, 18, 60, 0.95) 100%);
+  color: #fff;
+  text-shadow: 0 0 14px rgba(255, 255, 255, 0.5), 0 1px 3px rgba(0, 0, 0, 0.25);
+}
+/* Frost: translucent white glass, glowing white text (for dark sections) */
+.gx-btn-frost {
+  background: linear-gradient(165deg, rgba(255, 255, 255, 0.28) 0%, rgba(255, 255, 255, 0.14) 100%);
+  color: #fff;
+  text-shadow: 0 0 16px rgba(255, 255, 255, 0.65), 0 1px 3px rgba(0, 0, 0, 0.2);
+  border-color: rgba(255, 255, 255, 0.45);
+}
+/* Mist: translucent white glass, emerald text (for light backgrounds) */
+.gx-btn-mist {
+  background: linear-gradient(165deg, rgba(255, 255, 255, 0.75) 0%, rgba(255, 255, 255, 0.55) 100%);
+  color: #065f46;
+  text-shadow: 0 0 12px rgba(255, 255, 255, 0.9);
+  border-color: rgba(6, 95, 70, 0.25);
+  box-shadow:
+    0 10px 28px -12px rgba(6, 78, 59, 0.35),
+    inset 0 1px 1px rgba(255, 255, 255, 0.7),
+    inset 0 -2px 5px rgba(6, 95, 70, 0.06);
+}
