@@ -103,7 +103,7 @@ export default async function VerificationReviewPage({ params }: { params: Promi
               {docs.map((d) => (
                 <li key={d.id} className="flex items-center justify-between gap-3 rounded-lg border border-slate-200 px-3 py-2 text-sm">
                   <span className="min-w-0"><span className="block truncate font-medium">{d.fileName}</span><span className="text-xs text-slate-500">{d.mimeType}</span></span>
-                  <a href={`/api/files/${d.id}`} target="_blank" rel="noopener" className="shrink-0 rounded-lg bg-slate-900 px-3 py-1.5 text-xs font-semibold text-white hover:bg-slate-700">Open</a>
+                  <a href={`/api/files/${d.id}`} target="_blank" rel="noopener" className="shrink-0 rounded-lg gx-btn gx-btn-dark px-3 py-1.5 text-xs font-semibold text-white">Open</a>
                 </li>
               ))}
             </ul>

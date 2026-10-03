@@ -56,7 +56,7 @@ export function DashboardAiSearch() {
   return (
     <section className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm sm:p-5" aria-label="AI learning and job assistant">
       <div className="flex items-center gap-2">
-        <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-700 text-white" aria-hidden="true">
+        <span className="flex h-8 w-8 items-center justify-center rounded-lg gx-btn gx-btn-primary text-white" aria-hidden="true">
           <svg className="h-5 w-5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l1.9 5.6L19.5 9l-5.6 1.9L12 16.5l-1.9-5.6L4.5 9l5.6-1.4L12 2zM19 14l.9 2.6 2.6.9-2.6.9L19 21l-.9-2.6-2.6-.9 2.6-.9L19 14zM5 15l.8 2.2 2.2.8-2.2.8L5 21l-.8-2.2L2 18l2.2-.8L5 15z" /></svg>
         </span>
         <h2 className="text-base font-bold text-slate-900">AI Assistant</h2>
@@ -79,7 +79,7 @@ export function DashboardAiSearch() {
         <button
           type="submit"
           disabled={loading}
-          className="h-11 shrink-0 rounded-lg bg-emerald-700 px-5 text-sm font-semibold text-white hover:bg-emerald-800 disabled:opacity-60"
+          className="h-11 shrink-0 rounded-lg gx-btn gx-btn-primary px-5 text-sm font-semibold text-white disabled:opacity-60"
         >
           {loading ? "Searching…" : "Ask AI"}
         </button>

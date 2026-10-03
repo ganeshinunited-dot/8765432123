@@ -154,7 +154,7 @@ export function MobileApplyBar(props: Props) {
   const [open, setOpen] = useState(false);
   if (application) {
     return (
-      <Link href="/dashboard/applications" className="flex h-12 items-center justify-center rounded-lg bg-slate-900 text-sm font-semibold text-white">
+      <Link href="/dashboard/applications" className="flex h-12 items-center justify-center rounded-lg gx-btn gx-btn-dark text-sm font-semibold text-white">
         Track Application
       </Link>
     );
@@ -162,7 +162,7 @@ export function MobileApplyBar(props: Props) {
   if (userRole === "STUDENT") {
     return (
       <>
-        <button onClick={() => setOpen(true)} className="h-12 w-full rounded-lg bg-emerald-700 text-sm font-semibold text-white">
+        <button onClick={() => setOpen(true)} className="h-12 w-full rounded-lg gx-btn gx-btn-primary text-sm font-semibold text-white">
           Apply Now
         </button>
         <Modal open={open} onClose={() => setOpen(false)} title="Apply for this job">
@@ -172,7 +172,7 @@ export function MobileApplyBar(props: Props) {
     );
   }
   return (
-    <Link href={`/login?next=/jobs/${jobSlug}`} className="flex h-12 items-center justify-center rounded-lg bg-emerald-700 text-sm font-semibold text-white">
+    <Link href={`/login?next=/jobs/${jobSlug}`} className="flex h-12 items-center justify-center rounded-lg gx-btn gx-btn-primary text-sm font-semibold text-white">
       Log in to Apply
     </Link>
   );

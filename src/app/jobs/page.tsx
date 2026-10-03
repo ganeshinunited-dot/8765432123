@@ -116,7 +116,7 @@ export default async function JobsPage({ searchParams }: { searchParams: Promise
               title="We couldn't find jobs matching your filters."
               description="Try expanding your location, removing the salary filter, searching remote jobs, or checking weekend jobs."
               action={
-                <Link href="/jobs" className="inline-flex h-11 items-center rounded-lg bg-emerald-700 px-5 text-sm font-semibold text-white hover:bg-emerald-800">
+                <Link href="/jobs" className="inline-flex h-11 items-center rounded-lg gx-btn gx-btn-primary px-5 text-sm font-semibold text-white">
                   Clear Filters
                 </Link>
               }

@@ -59,7 +59,7 @@ export default async function CourseLanding() {
       subtitle="Sell your courses on Growentix. We handle ads, design, payments and student matching — you just teach."
     >
       <div className="flex flex-wrap gap-3">
-        <Link href="/signup?role=INSTRUCTOR" className="inline-flex h-12 items-center rounded-lg bg-emerald-700 px-6 text-sm font-semibold text-white hover:bg-emerald-800">
+        <Link href="/signup?role=INSTRUCTOR" className="inline-flex h-12 items-center rounded-lg gx-btn gx-btn-primary px-6 text-sm font-semibold text-white">
           Start selling — Rs. 20,000/year
         </Link>
         <Link href="/courses" className="inline-flex h-12 items-center rounded-lg border border-slate-300 px-6 text-sm font-semibold text-slate-800 hover:bg-slate-50">
@@ -105,7 +105,7 @@ export default async function CourseLanding() {
               </li>
             ))}
           </ul>
-          <Link href="/signup?role=INSTRUCTOR" className="mt-6 inline-flex h-12 w-full items-center justify-center rounded-lg bg-emerald-700 px-6 text-sm font-semibold text-white hover:bg-emerald-800 sm:w-auto">
+          <Link href="/signup?role=INSTRUCTOR" className="mt-6 inline-flex h-12 w-full items-center justify-center rounded-lg gx-btn gx-btn-primary px-6 text-sm font-semibold text-white sm:w-auto">
             Continue — create your seller account
           </Link>
           <p className="mt-3 text-xs text-slate-500">After signup you'll complete billing (eSewa/Khalti) and land in your course dashboard.</p>
