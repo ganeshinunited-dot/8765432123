@@ -10,7 +10,7 @@ import { readChromeCookie, writeChromeCookie, syncChromeAttr } from "@/lib/chrom
 const links = [
   { href: "/jobs", label: "Find Jobs" },
   { href: "/companies", label: "Companies" },
-  { href: "/for-employers", label: "For Employers" },
+  { href: "/for-employers", label: "I Want Talent" },
   { href: "/resources", label: "Resources" },
 ];
 

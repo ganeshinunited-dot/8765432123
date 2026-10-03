@@ -10,11 +10,11 @@ const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: {
-    default: "Growentix — Find Part-Time Jobs That Fit Your Student Life",
+    default: "Growentix — Have Talent? Find Work That Fits",
     template: "%s | Growentix",
   },
   description:
-    "Discover part-time, evening, weekend, remote and entry-level opportunities from trusted employers across Nepal.",
+    "Discover part-time, evening, weekend, remote and entry-level opportunities from verified employers across Nepal. Free for talent, forever.",
   metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"),
 };
 

@@ -54,8 +54,8 @@ export function Footer() {
               Part-time, evening, weekend and remote job opportunities for students across Nepal — from verified employers.
             </p>
           </div>
-          <nav aria-label="Job seekers">
-            <h3 className="text-sm font-semibold text-slate-900">Job Seekers</h3>
+          <nav aria-label="Talent">
+            <h3 className="text-sm font-semibold text-slate-900">Talent</h3>
             <ul className="mt-3 space-y-2 text-sm text-slate-600">
               <li><Link href="/jobs" className="hover:text-emerald-700">Find jobs</Link></li>
               <li><Link href="/jobs?type=PART_TIME" className="hover:text-emerald-700">Part-time jobs</Link></li>

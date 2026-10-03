@@ -12,7 +12,7 @@ export default function AboutPage() {
   return (
     <StaticPage
       title="About Growentix"
-      subtitle="Nepal's student-first job marketplace — flexible work that fits around your studies."
+      subtitle="Nepal's talent-first job marketplace — flexible work that fits around your studies."
     >
       <Section title="Our mission">
         <p>
@@ -25,8 +25,8 @@ export default function AboutPage() {
       <Section title="How Growentix works">
         <Bullets
           items={[
-            <><strong>For students (always free):</strong> create a profile, add your skills and availability, search and filter jobs by schedule and location, apply in minutes, and track every application.</>,
-            <><strong>For employers:</strong> create a company profile, complete verification, post jobs through a guided wizard, and manage applicants from shortlist to interview in one place.</>,
+            <><strong>I have talent (always free):</strong> create a profile, add your skills and availability, search and filter jobs by schedule and location, apply in minutes, and track every application.</>,
+            <><strong>I want talent:</strong> create a company profile, complete verification, post jobs through a guided wizard, and manage applicants from shortlist to interview in one place.</>,
             <><strong>Safety first:</strong> employers are verified, job postings are moderated, and anyone can report a suspicious listing. We display one rule everywhere: never pay an employer to apply for or receive a job.</>,
           ]}
         />
@@ -35,7 +35,7 @@ export default function AboutPage() {
       <Section title="What we stand for">
         <Bullets
           items={[
-            "Students never pay to use Growentix — employers fund the platform through subscription plans.",
+            "Talent never pays to use Growentix — employers fund the platform through subscription plans.",
             "Real jobs only: postings are reviewed by our moderation team before and after they go live.",
             "Privacy by design: your CV is shared only with employers you choose to apply to.",
             "Built for Nepal: local locations, NPR salaries, and schedules that match student life.",

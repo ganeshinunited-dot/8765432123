@@ -54,7 +54,7 @@ function SignupForm() {
     <div className="mx-auto max-w-md px-4 py-12">
       <div className="mb-6 flex justify-center"><Logo size="lg" /></div>
       <h1 className="text-center text-2xl font-bold text-slate-900">Create your account</h1>
-      <p className="mt-1 text-center text-sm text-slate-600">Free for students. Employers can post jobs after verification.</p>
+      <p className="mt-1 text-center text-sm text-slate-600">Free for talent, forever. Employers can post jobs after verification.</p>
 
       <div className="mt-6 grid grid-cols-3 gap-2 rounded-xl bg-slate-100 p-1.5" role="radiogroup" aria-label="I am a">
         {(["STUDENT", "EMPLOYER", "INSTRUCTOR"] as const).map((r) => (
@@ -68,7 +68,7 @@ function SignupForm() {
               role === r ? "bg-white text-emerald-800 shadow" : "text-slate-500 hover:text-slate-800"
             }`}
           >
-            {r === "STUDENT" ? "Student" : r === "EMPLOYER" ? "Employer" : "Course seller"}
+            {r === "STUDENT" ? "I have talent" : r === "EMPLOYER" ? "I want talent" : "I sell courses"}
           </button>
         ))}
       </div>

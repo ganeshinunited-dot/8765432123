@@ -56,13 +56,13 @@ export default async function HomePage() {
       <section className="bg-emerald-900">
         <div className="mx-auto max-w-7xl px-4 pb-10 pt-12 sm:px-6 sm:pb-14 sm:pt-16">
           <p className="inline-flex items-center rounded-full bg-emerald-800 px-3 py-1 text-xs font-semibold text-emerald-100">
-            Free for students — forever
+            Free for talent — forever
           </p>
           <h1 className="mt-4 max-w-2xl text-3xl font-bold tracking-tight text-white sm:text-5xl">
-            Find Part-Time Jobs That Fit Your Student Life
+            Have Talent? Find Work That Fits Your Life
           </h1>
           <p className="mt-4 max-w-xl text-base text-emerald-100 sm:text-lg">
-            Discover part-time, evening, weekend, remote and entry-level opportunities from trusted employers.
+            Discover part-time, evening, weekend, remote and entry-level opportunities from verified employers looking for talent like you.
           </p>
 
           <form action="/jobs" method="get" className="mt-8 max-w-2xl rounded-xl bg-white p-2 shadow-lg sm:flex sm:gap-2" role="search">
@@ -191,7 +191,7 @@ export default async function HomePage() {
           <h2 className="text-xl font-bold text-slate-900 sm:text-2xl">How it works</h2>
           <div className="mt-6 grid gap-8 md:grid-cols-2">
             <div>
-              <h3 className="font-semibold text-emerald-800">For Students</h3>
+              <h3 className="font-semibold text-emerald-800">I Have Talent</h3>
               <ol className="mt-3 space-y-3 text-sm text-slate-700">
                 {[["Create your profile", "Add education, skills and availability."], ["Discover matching jobs", "Search and filter jobs that fit your schedule."], ["Apply easily", "One application with your saved profile and CV."], ["Track applications", "Get notified at every stage."]].map(([t, d], i) => (
                   <li key={t} className="flex gap-3">
@@ -200,12 +200,12 @@ export default async function HomePage() {
                   </li>
                 ))}
               </ol>
-              <Link href="/signup" className="mt-4 inline-block text-sm font-semibold text-emerald-700 hover:underline">Create a free student account →</Link>
+              <Link href="/signup" className="mt-4 inline-block text-sm font-semibold text-emerald-700 hover:underline">Create your free talent account →</Link>
             </div>
             <div>
-              <h3 className="font-semibold text-emerald-800">For Employers</h3>
+              <h3 className="font-semibold text-emerald-800">I Want Talent</h3>
               <ol className="mt-3 space-y-3 text-sm text-slate-700">
-                {[["Create company profile", "Tell students about your business."], ["Post a job", "Describe the role, schedule and pay."], ["Find qualified students", "Review applications and shortlist."], ["Hire", "Message, interview and select."]].map(([t, d], i) => (
+                {[["Create company profile", "Tell talented students about your business."], ["Post a job", "Describe the role, schedule and pay."], ["Find qualified talent", "Review applications and shortlist."], ["Hire", "Message, interview and select."]].map(([t, d], i) => (
                   <li key={t} className="flex gap-3">
                     <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-slate-800 text-xs font-bold text-white">{i + 1}</span>
                     <div><p className="font-semibold text-slate-900">{t}</p><p className="text-slate-600">{d}</p></div>
@@ -224,7 +224,7 @@ export default async function HomePage() {
           <h2 className="text-xl font-bold text-slate-900 sm:text-2xl">Why Growentix?</h2>
           <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {[
-              ["Student-focused jobs", "Roles built around class schedules."],
+              ["Talent-first jobs", "Roles built around student schedules."],
               ["Verified employers", "Companies pass a verification review."],
               ["Easy applications", "Apply in minutes with your profile."],
               ["Safe by design", "Report scams — never pay to apply."],
@@ -241,14 +241,14 @@ export default async function HomePage() {
       {/* CTA */}
       <section className="bg-emerald-800">
         <div className="mx-auto max-w-7xl px-4 py-14 text-center sm:px-6">
-          <h2 className="text-2xl font-bold text-white sm:text-3xl">Ready to find your next opportunity?</h2>
-          <p className="mx-auto mt-2 max-w-lg text-sm text-emerald-100">Join students across Nepal finding flexible work that fits their studies.</p>
+          <h2 className="text-2xl font-bold text-white sm:text-3xl">Have talent? Put it to work.</h2>
+          <p className="mx-auto mt-2 max-w-lg text-sm text-emerald-100">Join talented students across Nepal finding flexible work that fits their studies.</p>
           <div className="mt-6 flex flex-wrap justify-center gap-3">
             <Link href="/jobs" className="inline-flex h-12 items-center rounded-lg bg-white px-6 text-sm font-semibold text-emerald-800 hover:bg-emerald-50">
               Find Jobs
             </Link>
             <Link href="/signup" className="inline-flex h-12 items-center rounded-lg border border-emerald-200 px-6 text-sm font-semibold text-white hover:bg-emerald-700">
-              Create Student Profile
+              Create Talent Profile
             </Link>
           </div>
         </div>

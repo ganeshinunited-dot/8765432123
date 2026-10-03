@@ -4,8 +4,8 @@ import { StaticPage, Section, Bullets } from "@/components/layout/StaticPage";
 export const revalidate = 300;
 
 export const metadata: Metadata = {
-  title: "For Employers — Hire Students",
-  description: "Post jobs and hire motivated students across Nepal with Growentix.",
+  title: "I Want Talent — Hire Students",
+  description: "Post jobs and hire talented students across Nepal with Growentix.",
 };
 
 const STEPS = [
@@ -18,8 +18,8 @@ const STEPS = [
 export default function ForEmployersPage() {
   return (
     <StaticPage
-      title="Hire motivated students"
-      subtitle="Growentix connects you with students across Nepal who are looking for part-time, evening, weekend, remote, and internship work."
+      title="I want talent? Hire motivated students"
+      subtitle="Growentix connects you with talented students across Nepal who are looking for part-time, evening, weekend, remote, and internship work."
     >
       <div className="flex flex-wrap gap-3">
         <Link href="/signup" className="inline-flex h-12 items-center rounded-lg bg-emerald-700 px-6 text-sm font-semibold text-white hover:bg-emerald-800">
@@ -30,7 +30,7 @@ export default function ForEmployersPage() {
       <Section title="Why hire on Growentix">
         <Bullets
           items={[
-            <><strong>Student-first audience:</strong> every candidate is actively looking for work that fits a study schedule — fewer mismatches, faster hiring.</>,
+            <><strong>Talent-first audience:</strong> every candidate is actively looking for work that fits a study schedule — fewer mismatches, faster hiring.</>,
             <><strong>Verified trust:</strong> complete one verification and your badge appears across the platform, increasing applications from quality candidates.</>,
             <><strong>Everything in one place:</strong> postings, applications, CVs, messaging, and interviews — no spreadsheets or lost emails.</>,
             <><strong>Fair pricing:</strong> start free; plan options are shown to verified employers after they sign in.</>,
@@ -52,7 +52,7 @@ export default function ForEmployersPage() {
 
       <Section title="Our commitment to fairness">
         <p>
-          Growentix is free for students, always. Employers agree never to charge applicants fees and to describe
+          Growentix is free for talent, always. Employers agree never to charge applicants fees and to describe
           vacancies honestly. Read the{" "}
           <Link href="/employer-guidelines" className="font-semibold text-emerald-700 hover:underline">employer guidelines</Link>{" "}
           before posting — posts are moderated, and quality listings get more applications.
