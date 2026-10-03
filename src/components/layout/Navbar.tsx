@@ -7,20 +7,6 @@ import { NavAuth } from "./NavAuth";
 import { Logo } from "./Logo";
 import { readChromeCookie, writeChromeCookie, syncChromeAttr } from "@/lib/chrome-cookie";
 
-const links = [
-  { href: "/jobs", label: "Find Jobs" },
-  { href: "/companies", label: "Companies" },
-  { href: "/for-employers", label: "I Want Talent" },
-  { href: "/resources", label: "Resources" },
-];
-
-const DASHBOARD_PREFIXES = ["/dashboard", "/employer", "/instructor", "/admin", "/profile", "/notifications"];
-
-/** App areas that render their own dashboard chrome (no public top bar). Kept for compatibility. */
-export function isDashboardPath(pathname: string): boolean {
-  return DASHBOARD_PREFIXES.some((p) => pathname === p || pathname.startsWith(p + "/"));
-}
-
 interface SessionState {
   loggedIn: boolean;
   isAdmin: boolean;
@@ -50,37 +36,39 @@ export function Navbar() {
       })
       .catch(() => setSession({ loggedIn: false, isAdmin: false }));
     // Re-run on every navigation: the layout persists across client-side
-    // route changes, so without this the bar would stay stale after login.
+    // route changes, so without this the chrome would stay stale after login.
   }, [pathname]);
 
-  // Logged-in non-admins (students, employers, instructors) live in their
-  // dashboard app — the public top bar is hidden for them everywhere.
-  // Admins keep the top bar (it carries the Admin/Employer view switcher).
+  // Logged-in non-admins (talent / employers / sellers) live in their
+  // dashboard app — no public chrome at all, anywhere.
   // (Also hidden instantly via CSS from the pre-paint script; this removes it
   // from the DOM once the session is confirmed.)
   if (session && session.loggedIn && !session.isAdmin) return null;
 
-  return (
-    <header className="gx-public-chrome sticky top-0 z-40 border-b border-slate-200 bg-white/95 backdrop-blur">
-      <div className="mx-auto flex h-16 max-w-7xl items-center gap-4 px-4 sm:px-6">
-        <Link href="/" className="flex items-center" aria-label="Growentix home">
-          <Logo />
-        </Link>
-        <nav className="ml-4 hidden items-center gap-1 lg:flex" aria-label="Primary">
-          {links.map((l) => (
-            <Link
-              key={l.href}
-              href={l.href}
-              className="rounded-lg px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100 hover:text-slate-900"
-            >
-              {l.label}
-            </Link>
-          ))}
-        </nav>
-        <div className="ml-auto flex items-center gap-2">
-          <NavAuth />
+  // Admins keep a compact top bar (it carries the Admin/Employer view switcher).
+  if (session && session.loggedIn && session.isAdmin) {
+    return (
+      <header className="gx-public-chrome sticky top-0 z-40 border-b border-slate-200 bg-white/95">
+        <div className="mx-auto flex h-16 max-w-7xl items-center gap-4 px-4 sm:px-6">
+          <Link href="/" className="flex items-center" aria-label="Growentix home">
+            <Logo />
+          </Link>
+          <div className="ml-auto flex items-center gap-2">
+            <NavAuth />
+          </div>
         </div>
-      </div>
-    </header>
+      </header>
+    );
+  }
+
+  // Visitors: no top bar at all — just one floating Sign up button.
+  if (pathname === "/signup") return null;
+  return (
+    <Link
+      href="/signup"
+      className="gx-public-chrome gx-btn gx-btn-primary fixed right-4 top-4 z-50 inline-flex h-11 items-center rounded-full px-6 text-sm font-semibold"
+    >
+      Sign up
+    </Link>
   );
 }
