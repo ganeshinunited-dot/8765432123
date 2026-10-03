@@ -3,6 +3,7 @@ import { requireUser } from "@/lib/auth";
 import { DashboardShell } from "@/components/dashboard/Shell";
 import { STUDENT_NAV } from "@/components/dashboard/student-nav";
 import { ProfileForm } from "@/components/student/ProfileForm";
+import { MarketingConsentToggle } from "@/components/settings/MarketingConsentToggle";
 
 export const dynamic = "force-dynamic";
 
@@ -20,6 +21,7 @@ export default async function ProfilePage() {
   return (
     <DashboardShell title="My profile" nav={STUDENT_NAV} active="/profile">
       <ProfileForm initial={JSON.parse(JSON.stringify(profile))} locations={locations} />
+      <MarketingConsentToggle />
     </DashboardShell>
   );
 }

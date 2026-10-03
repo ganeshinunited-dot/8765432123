@@ -163,6 +163,7 @@ model User {
   emailVerified Boolean    @default(false)
   emailVerifyToken String?   @unique
   emailVerifyExpiry DateTime?
+  marketingOptIn Boolean     @default(false)
   resetToken    String?    @unique
   resetTokenExpiry DateTime?
   createdAt     DateTime   @default(now())

@@ -36,6 +36,7 @@ function SignupForm() {
         phone: fd.get("phone") || "",
         password: fd.get("password"),
         role,
+        marketingOptIn: fd.get("marketingOptIn") === "on",
       }),
     });
     const data = await res.json();
@@ -78,6 +79,14 @@ function SignupForm() {
         <Input name="email" label="Email" type="email" autoComplete="email" required placeholder="you@example.com" />
         <Input name="phone" label="Phone (optional)" type="tel" autoComplete="tel" placeholder="98XXXXXXXX" />
         <Input name="password" label="Password" type="password" autoComplete="new-password" required minLength={8} hint="At least 8 characters." />
+        <label className="flex cursor-pointer items-start gap-2.5 text-sm text-slate-600">
+          <input
+            type="checkbox"
+            name="marketingOptIn"
+            className="mt-0.5 h-4 w-4 shrink-0 rounded border-slate-300 text-emerald-700 focus:ring-emerald-600"
+          />
+          <span>Email me job alerts, course offers &amp; updates. <span className="text-slate-400">(Optional — unsubscribe anytime.)</span></span>
+        </label>
         <Button type="submit" loading={loading} className="w-full" size="lg">
           Create account
         </Button>

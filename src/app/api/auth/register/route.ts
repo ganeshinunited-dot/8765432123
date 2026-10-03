@@ -6,6 +6,7 @@ import { hashPassword, createSession, rateLimit, clientKey } from "@/lib/auth";
 import { registerSchema } from "@/lib/validation";
 import { notify } from "@/lib/notifications";
 import { sendTemplatedEmail } from "@/lib/email";
+import { trackEvent } from "@/lib/klaviyo";
 import { track } from "@/lib/analytics";
 
 export async function POST(req: Request) {
@@ -22,7 +23,7 @@ export async function POST(req: Request) {
   if (!parsed.success) {
     return NextResponse.json({ error: parsed.error.issues[0].message }, { status: 400 });
   }
-  const { name, email, phone, password, role } = parsed.data;
+  const { name, email, phone, password, role, marketingOptIn } = parsed.data;
   const normalizedEmail = email.toLowerCase().trim();
 
   const existing = await db.user.findFirst({
@@ -42,6 +43,7 @@ export async function POST(req: Request) {
       phone: phone?.trim() || null,
       passwordHash: await hashPassword(password),
       role,
+      marketingOptIn: marketingOptIn === true,
       emailVerifyToken: verifyToken,
       emailVerifyExpiry: verifyExpiry,
     },
@@ -66,6 +68,14 @@ export async function POST(req: Request) {
 
   await createSession(user.id);
   track(user.id, "signup", { role });
+  // Klaviyo: track signup (standard metric for Welcome flows). Never subscribe
+  // here — subscription happens only on explicit consent after verification.
+  void trackEvent({
+    email: normalizedEmail,
+    metric: "Signed Up",
+    uniqueId: `signup-${user.id}`,
+    properties: { role, marketing_opt_in: marketingOptIn === true },
+  });
   return NextResponse.json({ ok: true, role });
 }
 
