@@ -10,6 +10,16 @@ const scrypt = promisify(_scrypt);
 const COOKIE_NAME = process.env.SESSION_COOKIE_NAME || "sjp_session";
 const SESSION_DAYS = 30;
 
+/**
+ * Readable (non-httpOnly) chrome-hint cookie. Lets the public top bar / footer
+ * hide INSTANTLY for signed-in app users — via a pre-paint inline script and
+ * synchronous cookie reads — instead of waiting for a client fetch after
+ * login. Values: "app" (student/employer/instructor → hide public chrome),
+ * "admin" (keep public chrome with the view switcher). Absent when logged out.
+ * Contains no sensitive data; all real auth stays server-side.
+ */
+export const CHROME_COOKIE = "gx_chrome";
+
 // ---------------------------------------------------------------- passwords
 export async function hashPassword(password: string): Promise<string> {
   const salt = randomBytes(16).toString("hex");
@@ -35,7 +45,7 @@ function hashToken(token: string): string {
   return createHash("sha256").update(token).digest("hex");
 }
 
-export async function createSession(userId: string): Promise<void> {
+export async function createSession(userId: string, isAdmin = false): Promise<void> {
   const token = newToken();
   const expiresAt = new Date(Date.now() + SESSION_DAYS * 24 * 3600 * 1000);
   await db.session.create({
@@ -44,6 +54,13 @@ export async function createSession(userId: string): Promise<void> {
   const jar = await cookies();
   jar.set(COOKIE_NAME, token, {
     httpOnly: true,
+    sameSite: "lax",
+    secure: process.env.NODE_ENV === "production",
+    path: "/",
+    maxAge: SESSION_DAYS * 24 * 3600,
+  });
+  jar.set(CHROME_COOKIE, isAdmin ? "admin" : "app", {
+    httpOnly: false,
     sameSite: "lax",
     secure: process.env.NODE_ENV === "production",
     path: "/",
@@ -58,6 +75,7 @@ export async function destroySession(): Promise<void> {
     await db.session.deleteMany({ where: { tokenHash: hashToken(token) } });
   }
   jar.delete(COOKIE_NAME);
+  jar.delete(CHROME_COOKIE);
 }
 
 export type SessionUser = Pick<User, "id" | "email" | "name" | "role" | "status" | "emailVerified" | "isAdmin">;

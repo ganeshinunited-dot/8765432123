@@ -24,3 +24,11 @@ input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button {
   -webkit-appearance: none;
 }
+
+/* Instant public-chrome hiding for signed-in app users.
+   <html data-chrome="app"> is set pre-paint by the inline head script (and
+   kept in sync by Navbar/Footer), so logged-in students/employers/instructors
+   never see the public top bar or footer — no flash, no extra request. */
+html[data-chrome="app"] .gx-public-chrome {
+  display: none !important;
+}

@@ -66,7 +66,7 @@ export async function POST(req: Request) {
     verify_url: `${appUrl}/verify-email?token=${verifyToken}`,
   }).catch((e) => console.error("Failed to send verification email:", e));
 
-  await createSession(user.id);
+  await createSession(user.id, user.isAdmin === true);
   track(user.id, "signup", { role });
   // Klaviyo: track signup (standard metric for Welcome flows). Never subscribe
   // here — subscription happens only on explicit consent after verification.

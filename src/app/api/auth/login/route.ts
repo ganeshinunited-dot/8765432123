@@ -25,7 +25,7 @@ export async function POST(req: Request) {
   if (user.status !== "ACTIVE") {
     return NextResponse.json({ error: "This account has been suspended. Please contact support." }, { status: 403 });
   }
-  await createSession(user.id);
+  await createSession(user.id, user.isAdmin);
   // Fresh credential login only — session refreshes never hit this route.
   void trackEvent({ email: user.email, metric: "Logged In", properties: { role: user.role } });
   return NextResponse.json({ ok: true, role: user.role });
