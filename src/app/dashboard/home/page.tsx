@@ -76,7 +76,7 @@ export default async function StudentHome() {
               <p className="font-semibold text-slate-900">Profile {profile.profileCompletion}% complete</p>
               <p className="text-sm text-slate-600">Complete your profile to receive better job matches.</p>
             </div>
-            <Link href="/profile" className="inline-flex h-11 items-center rounded-lg bg-emerald-700 px-5 text-sm font-semibold text-white hover:bg-emerald-800">
+            <Link href="/profile" className="inline-flex h-11 items-center rounded-lg gx-btn gx-btn-primary px-5 text-sm font-semibold text-white">
               Complete profile
             </Link>
           </div>
@@ -100,7 +100,7 @@ export default async function StudentHome() {
             id="dash-loc" name="location" type="text" placeholder="Where? e.g. Kathmandu"
             className="h-11 w-full rounded-lg px-3.5 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-600 sm:w-44"
           />
-          <button type="submit" className="h-11 shrink-0 rounded-lg bg-emerald-700 px-5 text-sm font-semibold text-white hover:bg-emerald-800">
+          <button type="submit" className="h-11 shrink-0 rounded-lg gx-btn gx-btn-primary px-5 text-sm font-semibold text-white">
             Search Jobs
           </button>
         </form>
@@ -173,7 +173,7 @@ export default async function StudentHome() {
         <EmptyState
           title="No strong matches yet"
           description="Complete your profile with skills, location and schedule preferences to get personalized recommendations."
-          action={<Link href="/profile" className="inline-flex h-11 items-center rounded-lg bg-emerald-700 px-5 text-sm font-semibold text-white">Update profile</Link>}
+          action={<Link href="/profile" className="inline-flex h-11 items-center rounded-lg gx-btn gx-btn-primary px-5 text-sm font-semibold text-white">Update profile</Link>}
         />
       ) : (
         <div className="mt-4 grid gap-4 md:grid-cols-2">

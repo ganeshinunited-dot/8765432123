@@ -76,7 +76,7 @@ export default async function HomePage() {
               id="hero-loc" name="location" type="text" placeholder="Where? e.g. Kathmandu"
               className="mt-2 h-12 w-full rounded-lg px-4 text-[15px] text-slate-900 placeholder:text-slate-400 sm:mt-0 sm:w-48 focus:outline-none focus:ring-2 focus:ring-emerald-600"
             />
-            <button type="submit" className="mt-2 h-12 w-full rounded-lg bg-emerald-700 px-6 text-sm font-semibold text-white hover:bg-emerald-800 sm:mt-0 sm:w-auto">
+            <button type="submit" className="mt-2 h-12 w-full rounded-lg gx-btn gx-btn-primary px-6 text-sm font-semibold text-white sm:mt-0 sm:w-auto">
               Search Jobs
             </button>
           </form>
@@ -85,7 +85,7 @@ export default async function HomePage() {
             {["Part-time jobs", "Evening jobs", "Remote jobs", "Internships"].map((t, i) => {
               const hrefs = ["/jobs?type=PART_TIME", "/jobs?schedule=EVENING", "/jobs?arrangement=REMOTE", "/jobs?type=INTERNSHIP"];
               return (
-                <Link key={t} href={hrefs[i]} className="rounded-full bg-emerald-800/80 px-3.5 py-1.5 text-sm font-medium text-emerald-50 hover:bg-emerald-800">
+                <Link key={t} href={hrefs[i]} className="rounded-full gx-btn gx-btn-primary px-3.5 py-1.5 text-sm font-medium text-emerald-50">
                   {t}
                 </Link>
               );
@@ -111,7 +111,7 @@ export default async function HomePage() {
             <svg className="h-5 w-5 text-emerald-700" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l1.9 5.6L19.5 9l-5.6 1.9L12 16.5l-1.9-5.6L4.5 9l5.6-1.4L12 2zM19 14l.9 2.6 2.6.9-2.6.9L19 21l-.9-2.6-2.6-.9 2.6-.9L19 14z"/></svg>
             New: AI Job Assistant — describe your job in your own words, get matched instantly.
           </p>
-          <Link href="/jobs" className="ml-auto rounded-lg bg-emerald-700 px-4 py-2 text-sm font-bold text-white hover:bg-emerald-800">Try AI Search</Link>
+          <Link href="/jobs" className="ml-auto rounded-lg gx-btn gx-btn-primary px-4 py-2 text-sm font-bold text-white">Try AI Search</Link>
         </div>
       </section>
 
@@ -177,7 +177,7 @@ export default async function HomePage() {
           <h2 className="text-xl font-bold text-slate-900 sm:text-2xl">Jobs by city</h2>
           <div className="mt-5 flex flex-wrap gap-2">
             {cities.map((l) => (
-              <Link key={l.id} href={`/jobs?location=${encodeURIComponent(l.name)}`} className="rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:border-emerald-500 hover:text-emerald-800">
+              <Link key={l.id} href={`/jobs?location=${encodeURIComponent(l.name)}`} className="rounded-full border border-slate-200 gx-btn gx-btn-mist px-4 py-2 text-sm font-medium text-slate-700 hover:border-emerald-500 hover:text-emerald-800">
                 {l.name} <span className="text-slate-400">({l._count.jobs})</span>
               </Link>
             ))}
@@ -244,10 +244,10 @@ export default async function HomePage() {
           <h2 className="text-2xl font-bold text-white sm:text-3xl">Have talent? Put it to work.</h2>
           <p className="mx-auto mt-2 max-w-lg text-sm text-emerald-100">Join talented students across Nepal finding flexible work that fits their studies.</p>
           <div className="mt-6 flex flex-wrap justify-center gap-3">
-            <Link href="/jobs" className="inline-flex h-12 items-center rounded-lg bg-white px-6 text-sm font-semibold text-emerald-800 hover:bg-emerald-50">
+            <Link href="/jobs" className="inline-flex h-12 items-center rounded-lg gx-btn gx-btn-mist px-6 text-sm font-semibold text-emerald-800 hover:bg-emerald-50">
               Find Jobs
             </Link>
-            <Link href="/signup" className="inline-flex h-12 items-center rounded-lg border border-emerald-200 px-6 text-sm font-semibold text-white hover:bg-emerald-700">
+            <Link href="/signup" className="inline-flex h-12 items-center rounded-lg border border-emerald-200 px-6 text-sm font-semibold text-white hover:gx-btn gx-btn-primary">
               Create Talent Profile
             </Link>
           </div>

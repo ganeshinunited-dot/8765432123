@@ -233,7 +233,7 @@ export function ProfileForm({ initial, locations }: Props) {
             onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); if (skillInput.trim()) { setSkills([...skills, { name: skillInput.trim(), level: "" }]); setSkillInput(""); } } }}
           />
           <button type="button" onClick={() => { if (skillInput.trim()) { setSkills([...skills, { name: skillInput.trim(), level: "" }]); setSkillInput(""); } }}
-            className="h-11 rounded-lg bg-slate-900 px-5 text-sm font-semibold text-white">Add</button>
+            className="h-11 rounded-lg gx-btn gx-btn-dark px-5 text-sm font-semibold text-white">Add</button>
         </div>
         <div className="mt-3 flex flex-wrap gap-2">
           {skills.map((s, i) => (
