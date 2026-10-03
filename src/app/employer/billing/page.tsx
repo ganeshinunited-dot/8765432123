@@ -29,7 +29,7 @@ export default async function BillingPage() {
           <p className="mt-2 text-sm text-slate-600">
             Plan pricing is only shown to verified employers. Complete verification to unlock billing and upgrades.
           </p>
-          <Link href="/employer/company" className="mt-5 inline-flex h-11 items-center rounded-lg bg-emerald-700 px-5 text-sm font-semibold text-white hover:bg-emerald-800">
+          <Link href="/employer/company" className="mt-5 inline-flex h-11 items-center rounded-lg gx-btn gx-btn-primary px-5 text-sm font-semibold text-white">
             Verify my company
           </Link>
         </Card>

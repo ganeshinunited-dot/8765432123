@@ -32,7 +32,7 @@ export default async function EmployerHome() {
         <EmptyState
           title="Set up your company profile to get started."
           description="Add your company details, then post your first job."
-          action={<Link href="/employer/company" className="inline-flex h-11 items-center rounded-lg bg-emerald-700 px-5 text-sm font-semibold text-white">Set up company</Link>}
+          action={<Link href="/employer/company" className="inline-flex h-11 items-center rounded-lg gx-btn gx-btn-primary px-5 text-sm font-semibold text-white">Set up company</Link>}
         />
       </DashboardShell>
     );
@@ -85,7 +85,7 @@ export default async function EmployerHome() {
 
       <div className="mt-6 flex items-center justify-between">
         <h2 className="text-lg font-bold text-slate-900">Recent jobs</h2>
-        <Link href="/employer/jobs/new" className="inline-flex h-10 items-center gap-2 rounded-lg bg-emerald-700 px-4 text-sm font-semibold text-white hover:bg-emerald-800">
+        <Link href="/employer/jobs/new" className="inline-flex h-10 items-center gap-2 rounded-lg gx-btn gx-btn-primary px-4 text-sm font-semibold text-white">
           <span className="h-4 w-4">{icons.plus}</span> Post a job
         </Link>
       </div>

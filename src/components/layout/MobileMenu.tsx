@@ -42,17 +42,17 @@ export function MobileMenu({ user }: { user: SessionUser | null }) {
                     </div>
                   )}
                   {user.isAdmin && (
-                    <div className="mb-2 flex items-center justify-center gap-1.5 rounded-lg bg-slate-900 px-4 py-2 text-xs font-bold text-white">
+                    <div className="mb-2 flex items-center justify-center gap-1.5 rounded-lg gx-btn gx-btn-dark px-4 py-2 text-xs font-bold text-white">
                       <svg className="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z" /></svg>
                       ADMIN ACCOUNT
                     </div>
                   )}
-                  <Link href="/dashboard" onClick={() => setOpen(false)} className="block rounded-lg bg-emerald-700 px-4 py-3 text-center text-base font-semibold text-white">
+                  <Link href="/dashboard" onClick={() => setOpen(false)} className="block rounded-lg gx-btn gx-btn-primary px-4 py-3 text-center text-base font-semibold text-white">
                     Dashboard
                   </Link>
                   {user.isAdmin && (
                     <div className="mt-2 grid grid-cols-2 gap-2">
-                      <Link href="/admin/home" onClick={() => setOpen(false)} className="block rounded-lg bg-slate-900 px-4 py-3 text-center text-sm font-semibold text-white">
+                      <Link href="/admin/home" onClick={() => setOpen(false)} className="block rounded-lg gx-btn gx-btn-dark px-4 py-3 text-center text-sm font-semibold text-white">
                         Admin console
                       </Link>
                       <Link href="/employer/home" onClick={() => setOpen(false)} className="block rounded-lg border border-slate-300 px-4 py-3 text-center text-sm font-semibold text-slate-700">
@@ -67,7 +67,7 @@ export function MobileMenu({ user }: { user: SessionUser | null }) {
                   </form>
                 </>
               ) : (
-                <Link href="/login" onClick={() => setOpen(false)} className="block rounded-lg bg-emerald-700 px-4 py-3 text-center text-base font-semibold text-white">
+                <Link href="/login" onClick={() => setOpen(false)} className="block rounded-lg gx-btn gx-btn-primary px-4 py-3 text-center text-base font-semibold text-white">
                   Log in
                 </Link>
               )}

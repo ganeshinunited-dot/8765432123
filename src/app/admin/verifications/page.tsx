@@ -80,7 +80,7 @@ export default async function VerificationsPage({ searchParams }: { searchParams
                   </div>
                 )}
                 <div className="mt-4">
-                  <Link href={`/admin/verifications/${v.id}`} className="inline-flex h-10 items-center rounded-lg bg-emerald-700 px-4 text-sm font-semibold text-white hover:bg-emerald-800">
+                  <Link href={`/admin/verifications/${v.id}`} className="inline-flex h-10 items-center rounded-lg gx-btn gx-btn-primary px-4 text-sm font-semibold text-white">
                     Review application
                   </Link>
                 </div>

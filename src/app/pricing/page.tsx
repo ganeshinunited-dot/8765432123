@@ -44,7 +44,7 @@ export default async function PricingPage() {
             verification. Students always use Growentix free, forever.
           </p>
           <div className="mt-5 flex flex-wrap gap-2">
-            <Link href="/employer/company" className="inline-flex h-11 items-center rounded-lg bg-emerald-700 px-5 text-sm font-semibold text-white hover:bg-emerald-800">
+            <Link href="/employer/company" className="inline-flex h-11 items-center rounded-lg gx-btn gx-btn-primary px-5 text-sm font-semibold text-white">
               Verify my company
             </Link>
             <Link href="/support" className="inline-flex h-11 items-center rounded-lg border border-slate-300 px-5 text-sm font-semibold text-slate-700 hover:bg-slate-50">
@@ -87,7 +87,7 @@ export default async function PricingPage() {
             </ul>
             <Link
               href="/employer/billing"
-              className="mt-6 inline-flex h-11 items-center justify-center rounded-lg bg-emerald-700 px-5 text-sm font-semibold text-white hover:bg-emerald-800"
+              className="mt-6 inline-flex h-11 items-center justify-center rounded-lg gx-btn gx-btn-primary px-5 text-sm font-semibold text-white"
             >
               Manage billing
             </Link>

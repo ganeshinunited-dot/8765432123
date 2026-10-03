@@ -57,7 +57,7 @@ export function JobCard({ job }: { job: JobCardData }) {
       <div className="mt-4 flex items-center gap-2">
         <Link
           href={`/jobs/${job.slug}`}
-          className="inline-flex h-11 flex-1 items-center justify-center rounded-lg bg-emerald-700 px-4 text-sm font-semibold text-white hover:bg-emerald-800"
+          className="inline-flex h-11 flex-1 items-center justify-center rounded-lg gx-btn gx-btn-primary px-4 text-sm font-semibold text-white"
         >
           View Job
         </Link>

@@ -71,7 +71,7 @@ export function JobSearchBar({ initial }: SearchBarProps) {
             </div>
             <button
               type="submit"
-              className="h-12 shrink-0 rounded-xl bg-emerald-700 px-7 text-sm font-semibold text-white transition-colors hover:bg-emerald-900"
+              className="h-12 shrink-0 rounded-xl gx-btn gx-btn-primary px-7 text-sm font-semibold text-white transition-colors hover:bg-emerald-900"
             >
               Search Jobs
             </button>

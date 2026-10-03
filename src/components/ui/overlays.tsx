@@ -34,7 +34,7 @@ export function Modal({
   if (!mounted || !open) return null;
   return createPortal(
     <div className="fixed inset-0 z-50 flex items-end justify-center sm:items-center" role="dialog" aria-modal="true" aria-label={title}>
-      <button aria-label="Close dialog" onClick={onClose} className="absolute inset-0 bg-slate-900/50" />
+      <button aria-label="Close dialog" onClick={onClose} className="absolute inset-0 gx-btn gx-btn-dark/50" />
       <div className="relative max-h-[92dvh] w-full overflow-y-auto rounded-t-2xl bg-white p-5 sm:max-w-lg sm:rounded-2xl sm:p-6">
         <div className="mb-4 flex items-center justify-between">
           <h2 className="text-lg font-semibold text-slate-900">{title}</h2>
@@ -73,7 +73,7 @@ export function Drawer({
   if (!mounted || !open) return null;
   return createPortal(
     <div className="fixed inset-0 z-50" role="dialog" aria-modal="true" aria-label={title}>
-      <button aria-label="Close panel" onClick={onClose} className="absolute inset-0 bg-slate-900/50" />
+      <button aria-label="Close panel" onClick={onClose} className="absolute inset-0 gx-btn gx-btn-dark/50" />
       <div className="absolute inset-y-0 right-0 flex w-full max-w-sm flex-col bg-white shadow-xl">
         <div className="flex items-center justify-between border-b border-slate-200 px-5 py-4">
           <h2 className="text-base font-semibold text-slate-900">{title}</h2>

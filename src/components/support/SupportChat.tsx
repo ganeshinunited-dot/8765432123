@@ -117,7 +117,7 @@ export function SupportChat() {
           <button
             type="submit"
             disabled={busy || input.trim().length < 2}
-            className="inline-flex h-11 items-center rounded-lg bg-emerald-700 px-4 text-sm font-semibold text-white hover:bg-emerald-800 disabled:cursor-not-allowed disabled:opacity-50"
+            className="inline-flex h-11 items-center rounded-lg gx-btn gx-btn-primary px-4 text-sm font-semibold text-white disabled:cursor-not-allowed disabled:opacity-50"
           >
             {busy ? "Asking…" : "Ask"}
           </button>
