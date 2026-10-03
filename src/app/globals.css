@@ -93,3 +93,25 @@ html[data-chrome="app"] .gx-public-chrome {
     inset 0 1px 1px rgba(255, 255, 255, 0.7),
     inset 0 -2px 5px rgba(6, 95, 70, 0.06);
 }
+
+/* Behavior-based floating CTA: hidden above the viewport at top-center,
+   slides down into view only after the visitor scrolls near the page bottom. */
+.gx-cta-float {
+  position: fixed;
+  left: 50%;
+  top: 1rem;
+  z-index: 50;
+  transform: translate(-50%, -6rem);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.4s ease;
+}
+.gx-cta-float.gx-cta-show {
+  transform: translate(-50%, 0);
+  opacity: 1;
+  pointer-events: auto;
+}
+/* Keep the tactile press feel without breaking the centering translate. */
+.gx-cta-float.gx-cta-show:active {
+  transform: translate(-50%, 1px) scale(0.99);
+}

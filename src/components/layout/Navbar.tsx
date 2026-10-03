@@ -61,12 +61,39 @@ export function Navbar() {
     );
   }
 
-  // Visitors: no top bar at all — just one floating Sign up button.
+  // Visitors: no top bar at all — one floating Sign up button that suggests
+  // itself from the top-center only after the visitor scrolls to the bottom
+  // (behavior-based CTA: they've seen the content, now invite them in).
+  const [showCta, setShowCta] = useState(false);
+
+  useEffect(() => {
+    const check = () => {
+      const el = document.documentElement;
+      const distanceToBottom = el.scrollHeight - (window.innerHeight + window.scrollY);
+      setShowCta((prev) => {
+        if (distanceToBottom <= 200) return true; // reached the bottom → suggest
+        if (distanceToBottom > 600) return false; // scrolled back up → hide (hysteresis)
+        return prev;
+      });
+    };
+    check();
+    window.addEventListener("scroll", check, { passive: true });
+    window.addEventListener("resize", check);
+    return () => {
+      window.removeEventListener("scroll", check);
+      window.removeEventListener("resize", check);
+    };
+  }, [pathname]);
+
   if (pathname === "/signup") return null;
   return (
     <Link
       href="/signup"
-      className="gx-public-chrome gx-btn gx-btn-primary fixed right-4 top-4 z-50 inline-flex h-11 items-center rounded-full px-6 text-sm font-semibold"
+      aria-hidden={!showCta}
+      tabIndex={showCta ? 0 : -1}
+      className={`gx-public-chrome gx-btn gx-btn-primary gx-cta-float inline-flex h-11 items-center rounded-full px-6 text-sm font-semibold${
+        showCta ? " gx-cta-show" : ""
+      }`}
     >
       Sign up
     </Link>
