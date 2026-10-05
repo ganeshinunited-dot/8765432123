@@ -15,6 +15,10 @@ interface SessionState {
 export function Navbar() {
   const pathname = usePathname();
   const [session, setSession] = useState<SessionState | null>(null);
+  // NOTE: every hook must stay above the early returns below — calling hooks
+  // conditionally (after a return) crashes React with "rendered fewer hooks
+  // than expected" for logged-in users.
+  const [showCta, setShowCta] = useState(false);
 
   useEffect(() => {
     // Instant: the readable chrome-hint cookie (set at login) already tells us
@@ -64,8 +68,6 @@ export function Navbar() {
   // Visitors: no top bar at all — one floating Sign up button that suggests
   // itself from the top-center only after the visitor scrolls to the bottom
   // (behavior-based CTA: they've seen the content, now invite them in).
-  const [showCta, setShowCta] = useState(false);
-
   useEffect(() => {
     const check = () => {
       const el = document.documentElement;
