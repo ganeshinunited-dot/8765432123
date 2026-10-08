@@ -27,9 +27,21 @@ const DEMO_COMPANY_NAMES = [
 const DEMO_USER_EMAIL = "test.delete@growentix.local";
 
 async function main() {
-  // 1. Demo jobs — matched by the seed marker, not by company (safest).
+  // 1. Demo jobs — matched by the seed marker OR by demo company name
+  //    (robust: prod demo jobs were seeded before the marker text was final).
+  const demoCompanyIds = (
+    await db.company.findMany({
+      where: { name: { in: DEMO_COMPANY_NAMES } },
+      select: { id: true },
+    })
+  ).map((c) => c.id);
   const demoJobs = await db.job.findMany({
-    where: { description: { contains: DEMO_JOB_MARKER } },
+    where: {
+      OR: [
+        { description: { contains: DEMO_JOB_MARKER } },
+        { companyId: { in: demoCompanyIds } },
+      ],
+    },
     select: { id: true },
   });
   if (demoJobs.length > 0) {
