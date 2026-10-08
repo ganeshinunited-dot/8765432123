@@ -43,6 +43,29 @@ export function Navbar() {
     // route changes, so without this the chrome would stay stale after login.
   }, [pathname]);
 
+  // Visitors: behavior-based CTA — the scroll listener lives here, above the
+  // early returns, so hook order is identical on every render (logged-in or
+  // not). When a logged-in user renders null below, this listener simply
+  // updates unused state and re-arms the CTA for the next visitor session.
+  useEffect(() => {
+    const check = () => {
+      const el = document.documentElement;
+      const distanceToBottom = el.scrollHeight - (window.innerHeight + window.scrollY);
+      setShowCta((prev) => {
+        if (distanceToBottom <= 200) return true; // reached the bottom → suggest
+        if (distanceToBottom > 600) return false; // scrolled back up → hide (hysteresis)
+        return prev;
+      });
+    };
+    check();
+    window.addEventListener("scroll", check, { passive: true });
+    window.addEventListener("resize", check);
+    return () => {
+      window.removeEventListener("scroll", check);
+      window.removeEventListener("resize", check);
+    };
+  }, [pathname]);
+
   // Logged-in non-admins (talent / employers / sellers) live in their
   // dashboard app — no public chrome at all, anywhere.
   // (Also hidden instantly via CSS from the pre-paint script; this removes it
@@ -68,25 +91,6 @@ export function Navbar() {
   // Visitors: no top bar at all — one floating Sign up button that suggests
   // itself from the top-center only after the visitor scrolls to the bottom
   // (behavior-based CTA: they've seen the content, now invite them in).
-  useEffect(() => {
-    const check = () => {
-      const el = document.documentElement;
-      const distanceToBottom = el.scrollHeight - (window.innerHeight + window.scrollY);
-      setShowCta((prev) => {
-        if (distanceToBottom <= 200) return true; // reached the bottom → suggest
-        if (distanceToBottom > 600) return false; // scrolled back up → hide (hysteresis)
-        return prev;
-      });
-    };
-    check();
-    window.addEventListener("scroll", check, { passive: true });
-    window.addEventListener("resize", check);
-    return () => {
-      window.removeEventListener("scroll", check);
-      window.removeEventListener("resize", check);
-    };
-  }, [pathname]);
-
   if (pathname === "/signup") return null;
   return (
     <Link

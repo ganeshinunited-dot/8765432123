@@ -88,6 +88,8 @@ export function Footer() {
           <p>© {new Date().getFullYear()} Growentix. A job marketplace — we do not guarantee employment.</p>
           <p className="mt-2 text-xs">
             <Link href="/course" className="text-slate-400 hover:text-emerald-700">Course</Link>
+            <span className="mx-2 text-slate-300">•</span>
+            <Link href="/sarkari-jobs" className="text-slate-400 hover:text-emerald-700">Sarkari Jobs</Link>
           </p>
         </div>
       </div>

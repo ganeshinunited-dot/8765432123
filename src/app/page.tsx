@@ -4,6 +4,7 @@ import { JobCard } from "@/components/jobs/JobCard";
 import { Card } from "@/components/ui/primitives";
 import { CourseCarousel } from "@/components/courses/CourseCarousel";
 import { CourseCard, type CarouselCourse } from "@/components/courses/CourseCard";
+import { SARKARI_JOBS } from "@/data/sarkariJobs";
 
 export const revalidate = 60;
 
@@ -101,6 +102,38 @@ export default async function HomePage() {
               </div>
             ))}
           </dl>
+        </div>
+      </section>
+
+      {/* Dashain gigs spotlight — seasonal strip, remove after Tihar */}
+      <section className="border-b border-amber-200 bg-amber-50">
+        <div className="mx-auto flex max-w-7xl flex-wrap items-center gap-x-4 gap-y-3 px-4 py-4 sm:px-6">
+          <p className="flex items-center gap-2 text-sm font-semibold text-slate-900 sm:text-base">
+            <span className="inline-flex items-center rounded-full bg-amber-400/30 px-2.5 py-0.5 text-xs font-bold uppercase tracking-wide text-amber-900">
+              Dashain season
+            </span>
+            Festival gigs are live — shops, restaurants &amp; delivery need extra hands. Short shifts, quick pay.
+          </p>
+          <div className="ml-auto flex flex-wrap gap-2">
+            {[["Temporary", "/jobs?type=TEMPORARY"], ["Part-time", "/jobs?type=PART_TIME"], ["Weekend", "/jobs?schedule=WEEKEND"], ["Evening", "/jobs?schedule=EVENING"]].map(([label, href]) => (
+              <Link key={label} href={href} className="rounded-full gx-btn gx-btn-primary px-3.5 py-1.5 text-sm font-medium text-emerald-50">
+                {label}
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Sarkari jobs banner */}
+      <section className="border-b border-slate-200 bg-white">
+        <div className="mx-auto flex max-w-7xl flex-wrap items-center gap-x-4 gap-y-3 px-4 py-4 sm:px-6">
+          <p className="flex items-center gap-2 text-sm font-semibold text-slate-900 sm:text-base">
+            <span className="inline-flex items-center rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-bold uppercase tracking-wide text-emerald-900">
+              Sarkari Jobs
+            </span>
+            {SARKARI_JOBS.length} ota current sarkari vacancy suchana — PSC, police, hospital, local level.
+          </p>
+          <Link href="/sarkari-jobs" className="ml-auto rounded-lg gx-btn gx-btn-dark px-4 py-2 text-sm font-bold text-white">Hernus</Link>
         </div>
       </section>
 
