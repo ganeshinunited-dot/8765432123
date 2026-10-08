@@ -67,19 +67,19 @@ export default async function HomePage() {
       <section className="relative overflow-hidden bg-emerald-950">
         <div aria-hidden className="absolute inset-0 bg-[radial-gradient(65%_55%_at_50%_0%,rgba(16,185,129,0.28),transparent_70%)]" />
         <div aria-hidden className="absolute inset-0 bg-[radial-gradient(40%_35%_at_85%_100%,rgba(251,191,36,0.12),transparent_70%)]" />
-        <div className="relative mx-auto max-w-7xl px-4 pb-16 pt-16 sm:px-6 sm:pb-24 sm:pt-24">
+        <div className="relative mx-auto max-w-7xl px-4 pb-12 pt-10 sm:px-6 sm:pb-24 sm:pt-24">
           <p className="inline-flex items-center gap-1.5 rounded-full border border-emerald-400/30 bg-emerald-400/10 px-3.5 py-1.5 text-xs font-bold uppercase tracking-[0.14em] text-emerald-200">
             <span className="h-1.5 w-1.5 rounded-full bg-emerald-300" />
             Free for talent — forever
           </p>
-          <h1 className="mt-5 max-w-3xl font-display text-4xl font-extrabold leading-[1.05] tracking-tight text-white sm:text-6xl">
+          <h1 className="mt-5 max-w-3xl font-display text-[2rem] font-extrabold leading-[1.08] tracking-tight text-white sm:text-6xl">
             Have Talent? Find Work That <span className="text-emerald-300">Fits Your Life</span>
           </h1>
           <p className="mt-5 max-w-xl text-base leading-relaxed text-emerald-100/90 sm:text-lg">
             Part-time, evening, weekend and remote roles from verified employers — plus sarkari notices and free courses, all in one place.
           </p>
 
-          <form action="/jobs" method="get" className="mt-9 max-w-2xl rounded-2xl bg-white p-2.5 shadow-2xl shadow-emerald-950/40 sm:flex sm:gap-2" role="search">
+          <form action="/jobs" method="get" className="mt-7 max-w-2xl rounded-2xl bg-white p-2.5 shadow-2xl shadow-emerald-950/40 sm:mt-9 sm:flex sm:gap-2" role="search">
             <label htmlFor="hero-q" className="sr-only">What job are you looking for?</label>
             <input
               id="hero-q" name="q" type="search" placeholder="Try &quot;delivery rider&quot; or &quot;tutor&quot;"
@@ -103,7 +103,7 @@ export default async function HomePage() {
             ))}
           </div>
 
-          <dl className="mt-10 grid max-w-2xl grid-cols-2 gap-6 sm:grid-cols-4">
+          <dl className="mt-8 grid max-w-2xl grid-cols-2 gap-6 sm:mt-10 sm:grid-cols-4">
             {stats.map((s) => (
               <div key={s.label}>
                 <dd className="font-display text-3xl font-extrabold text-white sm:text-4xl">{s.value}</dd>
@@ -161,7 +161,7 @@ export default async function HomePage() {
 
       {/* Browse by category */}
       {topCategories.length > 0 && (
-        <section className="mx-auto max-w-7xl px-4 py-14 sm:px-6 sm:py-20">
+        <section className="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-20">
           <span className="gx-eyebrow">Explore</span>
           <h2 className="gx-h2">Browse by category</h2>
           <p className="gx-sub">From kitchens to classrooms — find the kind of work you actually want.</p>
@@ -170,9 +170,9 @@ export default async function HomePage() {
               <Link
                 key={c.id}
                 href={`/jobs?category=${c.slug}`}
-                className="gx-lift group rounded-2xl border border-slate-200 bg-white p-4 sm:p-5"
+                className="gx-lift group rounded-2xl border border-slate-200 bg-white p-3.5 sm:p-5"
               >
-                <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-100 font-display text-lg font-extrabold text-emerald-800">
+                <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-emerald-100 font-display text-lg font-extrabold text-emerald-800 sm:h-10 sm:w-10">
                   {c.name.charAt(0)}
                 </span>
                 <p className="mt-3 font-display text-[15px] font-bold text-slate-900 group-hover:text-emerald-800">{c.name}</p>
@@ -185,7 +185,7 @@ export default async function HomePage() {
 
       {/* Featured jobs */}
       <section className="border-y border-slate-200 bg-slate-50">
-        <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 sm:py-20">
+        <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-20">
           <div className="flex flex-wrap items-end justify-between gap-3">
             <div>
               <span className="gx-eyebrow">Fresh</span>
@@ -207,7 +207,7 @@ export default async function HomePage() {
 
       {/* Courses */}
       {freeCourses.length > 0 && (
-        <section className="mx-auto max-w-7xl px-4 py-14 sm:px-6 sm:py-20">
+        <section className="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-20">
           <div className="flex flex-wrap items-end justify-between gap-3">
             <div>
               <span className="gx-eyebrow">Learn</span>
@@ -246,7 +246,7 @@ export default async function HomePage() {
       {/* Browse by city */}
       {cities.length > 0 && (
         <section className="border-t border-slate-200 bg-white">
-          <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 sm:py-20">
+          <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-20">
             <span className="gx-eyebrow">Places</span>
             <h2 className="gx-h2">Jobs by city</h2>
             <div className="mt-7 flex flex-wrap gap-2.5">
@@ -262,7 +262,7 @@ export default async function HomePage() {
 
       {/* How it works */}
       <section className="border-t border-slate-200 bg-slate-50">
-        <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 sm:py-20">
+        <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-20">
           <div className="text-center">
             <span className="gx-eyebrow">Simple</span>
             <h2 className="gx-h2">How it works</h2>
@@ -297,7 +297,7 @@ export default async function HomePage() {
       </section>
 
       {/* Why us */}
-      <section className="mx-auto max-w-7xl px-4 py-14 sm:px-6 sm:py-20">
+      <section className="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-20">
         <div className="text-center">
           <span className="gx-eyebrow">Why Growentix</span>
           <h2 className="gx-h2">Built for Nepal&apos;s talent</h2>
@@ -320,8 +320,8 @@ export default async function HomePage() {
       {/* CTA */}
       <section className="relative overflow-hidden bg-emerald-950">
         <div aria-hidden className="absolute inset-0 bg-[radial-gradient(60%_80%_at_50%_100%,rgba(16,185,129,0.3),transparent_70%)]" />
-        <div className="relative mx-auto max-w-7xl px-4 py-16 text-center sm:px-6 sm:py-24">
-          <h2 className="mx-auto max-w-2xl font-display text-3xl font-extrabold tracking-tight text-white sm:text-5xl">Have talent? Put it to work.</h2>
+        <div className="relative mx-auto max-w-7xl px-4 py-12 text-center sm:px-6 sm:py-24">
+          <h2 className="mx-auto max-w-2xl font-display text-2xl font-extrabold tracking-tight text-white sm:text-5xl">Have talent? Put it to work.</h2>
           <p className="mx-auto mt-4 max-w-lg text-base text-emerald-100/90">Join talented students across Nepal finding flexible work that fits their studies.</p>
           <div className="mt-8 flex flex-wrap justify-center gap-3">
             <Link href="/jobs" className="inline-flex h-13 items-center rounded-xl gx-btn gx-btn-mist px-7 py-3.5 text-sm font-bold text-emerald-900">

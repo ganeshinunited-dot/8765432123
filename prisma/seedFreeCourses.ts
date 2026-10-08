@@ -49,6 +49,110 @@ const COURSES = [
     youtubeId: "tiAwsYh7dPY",
     category: "AI & Tech",
   },
+  {
+    slug: "english-job-interview-conversation",
+    title: "Job Interview English — Complete Conversation Practice",
+    description:
+      "Free course: master English for job interviews — full conversation practice with real interview questions and model answers.",
+    youtubeId: "e3XlBiR7uaE",
+    category: "English & Communication",
+  },
+  {
+    slug: "resume-writing-full-course",
+    title: "Resume Writing — Full Course with Templates & Examples",
+    description:
+      "Free course: write a winning resume step by step — templates, tips and real examples for students and freshers.",
+    youtubeId: "z9oEbG1GhqM",
+    category: "Career Skills",
+  },
+  {
+    slug: "write-impactful-cv-2026",
+    title: "How to Write an Impactful CV in 2026",
+    description:
+      "Free course: a 2026 step-by-step guide to a CV that gets shortlisted — structure, wording and mistakes to avoid.",
+    youtubeId: "3Rd5wHuWXmA",
+    category: "Career Skills",
+  },
+  {
+    slug: "digital-marketing-seo-beginners",
+    title: "Digital Marketing & SEO Tutorial for Beginners",
+    description:
+      "Free course: learn digital marketing and SEO from zero — a perfect first skill for students chasing freelance or part-time work.",
+    youtubeId: "QD0f0equ-L8",
+    category: "Marketing",
+  },
+  {
+    slug: "canva-full-tutorial-2026",
+    title: "Canva Full Tutorial for Beginners 2026",
+    description:
+      "Free course: learn Canva from scratch — design social posts, CVs and presentations like a pro, no design background needed.",
+    youtubeId: "ePAsBUcDLl4",
+    category: "Design",
+  },
+  {
+    slug: "photoshop-full-course-one-shot",
+    title: "Photoshop Full Course in One Shot",
+    description:
+      "Free course: the complete Photoshop tutorial in one sitting — from basics to real design projects for beginners.",
+    youtubeId: "4eofUzTKUsQ",
+    category: "Design",
+  },
+  {
+    slug: "capcut-video-editing-2026",
+    title: "CapCut Video Editing — Full Course 2026",
+    description:
+      "Free course: learn video editing with CapCut from beginner to confident editor — reels, YouTube and client work.",
+    youtubeId: "Rbxvd32XGk4",
+    category: "Video Editing",
+  },
+  {
+    slug: "python-full-course-beginners",
+    title: "Learn Python — Full Course for Beginners",
+    description:
+      "Free course: the classic freeCodeCamp Python full course — programming fundamentals for absolute beginners.",
+    youtubeId: "rfscVS0vtbw",
+    category: "Coding",
+  },
+  {
+    slug: "html-css-web-dev-beginners",
+    title: "Web Development with HTML & CSS — Full Course",
+    description:
+      "Free course: build real websites with HTML and CSS — the perfect first step into web development and freelancing.",
+    youtubeId: "dX8396ZmSPk",
+    category: "Coding",
+  },
+  {
+    slug: "upwork-freelancing-2026",
+    title: "Upwork Freelancing — Complete Beginner Tutorial 2026",
+    description:
+      "Free course: start freelancing on Upwork from zero — profile setup, proposals and landing your first client.",
+    youtubeId: "VQKkzsbIYwI",
+    category: "Freelancing",
+  },
+  {
+    slug: "excel-full-course-2026",
+    title: "Excel Full Course 2026 — Beginner to Advanced",
+    description:
+      "Free course: master Excel in 8 hours — formulas, functions, pivot tables and VBA for office and data-entry jobs.",
+    youtubeId: "G7jH509vf6s",
+    category: "Office Skills",
+  },
+  {
+    slug: "public-speaking-confidence",
+    title: "Public Speaking for Beginners — Speak with Confidence",
+    description:
+      "Free course: overcome stage fear and speak with confidence — an essential soft skill for interviews and presentations.",
+    youtubeId: "MXKkXXYUxBc",
+    category: "English & Communication",
+  },
+  {
+    slug: "financial-accounting-full-course",
+    title: "Financial Accounting — Complete 11-Hour Course",
+    description:
+      "Free course: a full financial accounting tutorial for beginners — debits, credits, statements and real examples.",
+    youtubeId: "eyXKvOrDoqw",
+    category: "Finance",
+  },
 ];
 
 export async function seedFreeCourses(client: PrismaClient = db) {

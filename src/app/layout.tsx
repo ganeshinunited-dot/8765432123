@@ -9,14 +9,32 @@ import { Footer } from "@/components/layout/Footer";
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const jakarta = Plus_Jakarta_Sans({ variable: "--font-jakarta", subsets: ["latin"], weight: ["600", "700", "800"] });
 
+const siteUrl = process.env.NEXT_PUBLIC_APP_URL || "https://growentix.cloud";
+
 export const metadata: Metadata = {
   title: {
     default: "Growentix — Have Talent? Find Work That Fits",
     template: "%s | Growentix",
   },
   description:
-    "Discover part-time, evening, weekend, remote and entry-level opportunities from verified employers across Nepal. Free for talent, forever.",
-  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"),
+    "Part-time, evening, weekend and remote jobs for students and fresh talent across Nepal — plus sarkari vacancy notices and free skill courses. Free for talent, forever.",
+  metadataBase: new URL(siteUrl),
+  alternates: { canonical: "/" },
+  openGraph: {
+    type: "website",
+    siteName: "Growentix",
+    title: "Growentix — Have Talent? Find Work That Fits",
+    description:
+      "Part-time, evening, weekend and remote jobs for students and fresh talent across Nepal. Free for talent, forever.",
+    url: "/",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Growentix — Have Talent? Find Work That Fits",
+    description:
+      "Part-time, evening, weekend and remote jobs for students and fresh talent across Nepal. Free for talent, forever.",
+  },
+  robots: { index: true, follow: true },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
