@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { Reveal } from "@/components/ui/Reveal";
 import { SARKARI_JOBS, SARKARI_UPDATED, type SarkariCategory, type SarkariJob } from "@/data/sarkariJobs";
 
 const CATEGORY_LABELS: Record<SarkariCategory, string> = {
@@ -38,7 +39,7 @@ function JobCard({ job }: { job: SarkariJob }) {
   const n = daysLeft(job.deadline);
   const badge = deadlineBadge(n);
   return (
-    <article className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
+    <article className="h-full rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
       <p className="text-xs font-semibold uppercase tracking-wide text-emerald-700">{job.organization}</p>
       <h3 className="mt-1 text-base font-bold text-slate-900">{job.postTitle}</h3>
       <div className="mt-2 flex flex-wrap gap-1.5 text-xs">
@@ -130,8 +131,10 @@ export default function SarkariBrowser() {
         <p className="mt-8 text-center text-sm text-slate-500">Nothing found — try a different keyword.</p>
       ) : (
         <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          {filtered.map((j) => (
-            <JobCard key={j.id} job={j} />
+          {filtered.map((j, i) => (
+            <Reveal key={j.id} delay={Math.min(i % 9, 8) * 50} className="h-full">
+              <JobCard job={j} />
+            </Reveal>
           ))}
         </div>
       )}

@@ -139,3 +139,42 @@ html[data-chrome="app"] .gx-public-chrome {
 .gx-cta-float.gx-cta-show:active {
   transform: translate(-50%, 1px) scale(0.99);
 }
+
+/* ---- Motion system: tasteful, transform/opacity only, respects reduced motion ---- */
+@keyframes gx-fade-up {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+/* Entrance: plays once on page load. Stagger with --gx-delay. */
+.gx-enter {
+  opacity: 0;
+  animation: gx-fade-up 0.7s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+  animation-delay: var(--gx-delay, 0ms);
+}
+/* Scroll reveal: .gx-reveal is added by the <Reveal> component via JS only
+   (no-JS users never get the hidden state). .is-visible triggers the rise. */
+.gx-reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity 0.6s ease,
+    transform 0.6s cubic-bezier(0.22, 0.61, 0.36, 1);
+  transition-delay: var(--gx-delay, 0ms);
+  will-change: opacity, transform;
+}
+.gx-reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+  will-change: auto;
+}
+/* Slow ambient drift for hero glows — transform only, barely-there. */
+@keyframes gx-drift {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(2%, 3%, 0) scale(1.06); }
+}
+.gx-glow { animation: gx-drift 9s ease-in-out infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  .gx-enter, .gx-reveal, .gx-glow { opacity: 1 !important; transform: none !important; animation: none !important; transition: none !important; }
+  html { scroll-behavior: auto; }
+}

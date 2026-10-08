@@ -51,7 +51,7 @@ function SignupForm() {
   }
 
   return (
-    <div className="mx-auto max-w-md px-4 py-14 sm:py-16">
+    <div className="gx-enter mx-auto max-w-md px-4 py-14 sm:py-16">
       <div className="mb-6 flex justify-center"><Logo size="lg" /></div>
       <h1 className="font-display text-center text-3xl font-extrabold tracking-tight text-slate-900">Create your account</h1>
       <p className="mt-2 text-center text-[15px] text-slate-600">Free for talent, forever. Employers can post jobs after verification.</p>

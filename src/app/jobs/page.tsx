@@ -6,6 +6,7 @@ import { JobFilters } from "@/components/jobs/JobFilters";
 import { JobFiltersMobile } from "@/components/jobs/JobFiltersMobile";
 import { JobSearchBar } from "@/components/jobs/JobSearchBar";
 import { AiJobSearch } from "@/components/jobs/AiJobSearch";
+import { Reveal } from "@/components/ui/Reveal";
 import { SortDropdown } from "./SortDropdown";
 import type { Prisma } from "@prisma/client";
 
@@ -122,9 +123,11 @@ export default async function JobsPage({ searchParams }: { searchParams: Promise
               }
             />
           ) : (
-            <div className="grid gap-4 md:grid-cols-2">
-              {jobs.map((j) => <JobCard key={j.id} job={j} />)}
-            </div>
+            <Reveal>
+              <div className="grid gap-4 md:grid-cols-2">
+                {jobs.map((j) => <JobCard key={j.id} job={j} />)}
+              </div>
+            </Reveal>
           )}
 
           {totalPages > 1 && (
