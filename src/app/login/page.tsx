@@ -38,10 +38,10 @@ function LoginPageInner() {
   }
 
   return (
-    <div className="mx-auto max-w-md px-4 py-12">
+    <div className="mx-auto max-w-md px-4 py-14 sm:py-16">
       <div className="mb-6 flex justify-center"><Logo size="lg" /></div>
-      <h1 className="text-center text-2xl font-bold text-slate-900">Log in</h1>
-      <p className="mt-1 text-center text-sm text-slate-600">Welcome back to Growentix.</p>
+      <h1 className="font-display text-center text-3xl font-extrabold tracking-tight text-slate-900">Log in</h1>
+      <p className="mt-2 text-center text-[15px] text-slate-600">Welcome back to Growentix.</p>
       <form onSubmit={onSubmit} className="mt-6 space-y-4">
         {searchParams.get("reset") === "1" && (
           <Alert tone="green">Your password has been updated. Log in with your new password.</Alert>

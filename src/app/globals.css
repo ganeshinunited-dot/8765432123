@@ -2,6 +2,30 @@
 
 @theme inline {
   --font-sans: var(--font-geist-sans), system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: var(--font-jakarta), var(--font-geist-sans), system-ui, sans-serif;
+}
+
+/* ------------------------------------------------------------------ */
+/* Growentix design system — section rhythm, eyebrows, display headings */
+/* ------------------------------------------------------------------ */
+.gx-eyebrow {
+  @apply inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-[0.16em] text-emerald-700;
+}
+.gx-h2 {
+  font-family: var(--font-display);
+  @apply mt-2 text-[1.65rem] font-extrabold leading-[1.15] tracking-tight text-slate-900 sm:text-4xl;
+}
+.gx-sub {
+  @apply mt-2 max-w-2xl text-[15px] leading-relaxed text-slate-600;
+}
+/* Gentle card lift on hover */
+.gx-lift {
+  transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+}
+.gx-lift:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 18px 36px -18px rgba(6, 78, 59, 0.28);
+  border-color: rgba(52, 211, 153, 0.55);
 }
 
 html {

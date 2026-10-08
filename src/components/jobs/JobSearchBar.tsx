@@ -27,9 +27,12 @@ export function JobSearchBar({ initial }: SearchBarProps) {
 
   return (
     <div className="bg-emerald-800">
-      <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-12">
-        <h1 className="text-2xl font-bold text-white sm:text-3xl">Find your next job</h1>
-        <p className="mt-1.5 text-sm text-emerald-100 sm:text-base">
+      <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16">
+        <p className="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-[0.16em] text-emerald-300">
+          Verified employers • Nepal
+        </p>
+        <h1 className="font-display mt-2 text-3xl font-extrabold tracking-tight text-white sm:text-5xl">Find your next job</h1>
+        <p className="mt-2.5 max-w-xl text-[15px] leading-relaxed text-emerald-100 sm:text-lg">
           Part-time, evening, weekend and remote roles that fit your student life.
         </p>
 

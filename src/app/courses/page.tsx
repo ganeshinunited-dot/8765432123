@@ -48,11 +48,10 @@ export default async function CoursesIndex() {
         <div className="space-y-10">
           {free.length > 0 && (
             <section>
-              <div className="mb-3 flex items-end justify-between">
-                <div>
-                  <h2 className="text-lg font-bold text-slate-900">Free courses</h2>
-                  <p className="text-sm text-slate-500">Watch instantly — no payment needed.</p>
-                </div>
+              <div className="mb-4">
+                <p className="gx-eyebrow">Free</p>
+                <h2 className="gx-h2">Free courses</h2>
+                <p className="gx-sub">Watch instantly — no payment needed.</p>
               </div>
               <CourseCarousel label="Free courses">
                 {free.map((c) => (
@@ -64,11 +63,10 @@ export default async function CoursesIndex() {
 
           {paid.length > 0 && (
             <section>
-              <div className="mb-3 flex items-end justify-between">
-                <div>
-                  <h2 className="text-lg font-bold text-slate-900">Paid courses</h2>
-                  <p className="text-sm text-slate-500">From verified instructors on Growentix.</p>
-                </div>
+              <div className="mb-4">
+                <p className="gx-eyebrow">Paid</p>
+                <h2 className="gx-h2">Paid courses</h2>
+                <p className="gx-sub">From verified instructors on Growentix.</p>
               </div>
               <CourseCarousel label="Paid courses">
                 {paid.map((c) => (

@@ -89,7 +89,7 @@ export default async function JobDetailsPage({ params }: { params: Promise<{ slu
       <div className="mt-4 grid gap-6 lg:grid-cols-[1fr_360px]">
         <div className="min-w-0">
           <div className="flex flex-wrap items-center gap-2">
-            <h1 className="text-2xl font-bold text-slate-900 sm:text-3xl">{job.title}</h1>
+            <h1 className="font-display text-2xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">{job.title}</h1>
             {job.featured && <Badge tone="amber">Featured</Badge>}
             {job.urgentHiring && <Badge tone="rose">Urgent hiring</Badge>}
           </div>

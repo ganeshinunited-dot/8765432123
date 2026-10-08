@@ -10,12 +10,13 @@ export const metadata: Metadata = {
 
 export default function SarkariJobsPage() {
   return (
-    <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6">
-      <h1 className="text-2xl font-extrabold text-slate-900 sm:text-3xl">Sarkari Jobs</h1>
-      <p className="mt-1 text-sm text-slate-600 sm:text-base">
+    <main className="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-14">
+      <p className="gx-eyebrow">Government notices</p>
+      <h1 className="font-display mt-2 text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">Sarkari Jobs</h1>
+      <p className="gx-sub">
         Nepal ka current sarkari vacancy suchana — {SARKARI_JOBS.length} ota. Talent le pani hern milne, apply official notice bata.
       </p>
-      <div className="mt-6">
+      <div className="mt-8">
         <SarkariBrowser />
       </div>
     </main>

@@ -51,10 +51,10 @@ function SignupForm() {
   }
 
   return (
-    <div className="mx-auto max-w-md px-4 py-12">
+    <div className="mx-auto max-w-md px-4 py-14 sm:py-16">
       <div className="mb-6 flex justify-center"><Logo size="lg" /></div>
-      <h1 className="text-center text-2xl font-bold text-slate-900">Create your account</h1>
-      <p className="mt-1 text-center text-sm text-slate-600">Free for talent, forever. Employers can post jobs after verification.</p>
+      <h1 className="font-display text-center text-3xl font-extrabold tracking-tight text-slate-900">Create your account</h1>
+      <p className="mt-2 text-center text-[15px] text-slate-600">Free for talent, forever. Employers can post jobs after verification.</p>
 
       <div className="mt-6 grid grid-cols-3 gap-2 rounded-xl bg-slate-100 p-1.5" role="radiogroup" aria-label="I am a">
         {(["STUDENT", "EMPLOYER", "INSTRUCTOR"] as const).map((r) => (

@@ -25,7 +25,7 @@ export function JobCard({ job }: { job: JobCardData }) {
   const verified = isBadgeValid(job.company);
   const verifiedSince = job.company.verifiedAt ? new Date(job.company.verifiedAt).toLocaleDateString("en-GB", { month: "short", year: "numeric" }) : "";
   return (
-    <article className="flex flex-col rounded-xl border border-slate-200 bg-white p-4 transition-colors hover:border-emerald-300 sm:p-5">
+    <article className="gx-lift flex flex-col rounded-2xl border border-slate-200 bg-white p-4 sm:p-5">
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0">
           <div className="flex flex-wrap items-center gap-2">
