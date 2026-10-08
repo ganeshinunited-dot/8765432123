@@ -363,7 +363,7 @@ export const SARKARI_JOBS: SarkariJob[] = [
   {
     id: "sj-027",
     organization: "Armed Police Force",
-    postTitle: "Sashastra Prahari Parichar (Cook/भान्छे)",
+    postTitle: "Sashastra Prahari Parichar (Cook)",
     level: null,
     seats: 38,
     deadline: "2026-10-13",
@@ -376,7 +376,7 @@ export const SARKARI_JOBS: SarkariJob[] = [
   {
     id: "sj-028",
     organization: "Armed Police Force",
-    postTitle: "Sashastra Prahari Parichar (Cobbler/कुचिकार)",
+    postTitle: "Sashastra Prahari Parichar (Cobbler)",
     level: null,
     seats: 8,
     deadline: "2026-10-13",
@@ -389,7 +389,7 @@ export const SARKARI_JOBS: SarkariJob[] = [
   {
     id: "sj-029",
     organization: "Armed Police Force",
-    postTitle: "Sashastra Prahari Parichar (Tailor/सूचिकार)",
+    postTitle: "Sashastra Prahari Parichar (Tailor)",
     level: null,
     seats: 6,
     deadline: "2026-10-13",
@@ -402,7 +402,7 @@ export const SARKARI_JOBS: SarkariJob[] = [
   {
     id: "sj-030",
     organization: "Armed Police Force",
-    postTitle: "Sashastra Prahari Parichar (Barber/केशकर्तक)",
+    postTitle: "Sashastra Prahari Parichar (Barber)",
     level: null,
     seats: 7,
     deadline: "2026-10-13",
@@ -415,7 +415,7 @@ export const SARKARI_JOBS: SarkariJob[] = [
   {
     id: "sj-031",
     organization: "Armed Police Force",
-    postTitle: "Sashastra Prahari Parichar (Leather Worker/चर्मकर्मी)",
+    postTitle: "Sashastra Prahari Parichar (Leather Worker)",
     level: null,
     seats: 2,
     deadline: "2026-10-13",
@@ -428,7 +428,7 @@ export const SARKARI_JOBS: SarkariJob[] = [
   {
     id: "sj-032",
     organization: "Armed Police Force",
-    postTitle: "Sashastra Prahari Parichar (Gardener/माली)",
+    postTitle: "Sashastra Prahari Parichar (Gardener)",
     level: null,
     seats: 1,
     deadline: "2026-10-13",
@@ -1182,7 +1182,7 @@ export const SARKARI_JOBS: SarkariJob[] = [
   {
     id: "sj-090",
     organization: "Nepal Police",
-    postTitle: "Police Office Assistant (Cook/भान्छे)",
+    postTitle: "Police Office Assistant (Cook)",
     level: null,
     seats: 83,
     deadline: "2026-10-26",
@@ -1195,7 +1195,7 @@ export const SARKARI_JOBS: SarkariJob[] = [
   {
     id: "sj-091",
     organization: "Nepal Police",
-    postTitle: "Police Office Assistant (Barber/हजाम)",
+    postTitle: "Police Office Assistant (Barber)",
     level: null,
     seats: 15,
     deadline: "2026-10-26",

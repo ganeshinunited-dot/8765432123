@@ -28,10 +28,10 @@ function daysLeft(deadline: string): number {
 }
 
 function deadlineBadge(n: number): { text: string; cls: string } {
-  if (n <= 0) return { text: "आज अन्तिम दिन", cls: "bg-red-100 text-red-800" };
-  if (n === 1) return { text: "1 din baki", cls: "bg-red-100 text-red-800" };
-  if (n <= 7) return { text: `${n} din baki`, cls: "bg-amber-100 text-amber-900" };
-  return { text: `${n} din baki`, cls: "bg-emerald-100 text-emerald-900" };
+  if (n <= 0) return { text: "Last day today", cls: "bg-red-100 text-red-800" };
+  if (n === 1) return { text: "1 day left", cls: "bg-red-100 text-red-800" };
+  if (n <= 7) return { text: `${n} days left`, cls: "bg-amber-100 text-amber-900" };
+  return { text: `${n} days left`, cls: "bg-emerald-100 text-emerald-900" };
 }
 
 function JobCard({ job }: { job: SarkariJob }) {
@@ -55,7 +55,7 @@ function JobCard({ job }: { job: SarkariJob }) {
           rel="noopener noreferrer"
           className="gx-btn gx-btn-primary rounded-lg px-3.5 py-1.5 text-sm font-semibold text-emerald-50"
         >
-          Suchana hernus
+          View notice
         </a>
         {job.sourceUrl && job.sourceUrl !== job.noticeUrl && (
           <a href={job.sourceUrl} target="_blank" rel="noopener noreferrer" className="text-xs text-slate-500 underline hover:text-emerald-700">
@@ -93,18 +93,18 @@ export default function SarkariBrowser() {
   return (
     <div>
       <div className="rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900">
-        Yo suchana matra ho — Growentix le post gareko hoina. Apply official notice anusar garnus. Deadline najik ka suchana pahila dekhinchhan.
+        These are informational notices only — not posted by Growentix. Please apply through the official notice. Notices with the nearest deadlines appear first.
       </div>
 
       <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center">
         <input
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          placeholder="Khojus… (e.g. nurse, police, sarlahi)"
+          placeholder="Search… (e.g. nurse, police, sarlahi)"
           className="w-full rounded-lg border border-slate-300 px-4 py-2.5 text-sm outline-none focus:border-emerald-600 sm:max-w-sm"
         />
         <p className="text-sm text-slate-600">
-          <span className="font-bold text-slate-900">{filtered.length}</span> ota suchana • Updated {SARKARI_UPDATED}
+          <span className="font-bold text-slate-900">{filtered.length}</span> notices • Updated {SARKARI_UPDATED}
         </p>
       </div>
 
@@ -113,7 +113,7 @@ export default function SarkariBrowser() {
           onClick={() => setCat("all")}
           className={`rounded-full px-3.5 py-1.5 text-sm font-medium ${cat === "all" ? "gx-btn gx-btn-dark text-white" : "border border-slate-300 bg-white text-slate-700"}`}
         >
-          Sabai
+          All
         </button>
         {categories.map(([c, n]) => (
           <button
@@ -127,7 +127,7 @@ export default function SarkariBrowser() {
       </div>
 
       {filtered.length === 0 ? (
-        <p className="mt-8 text-center text-sm text-slate-500">Kehi vetiyena — arko keyword try garnus.</p>
+        <p className="mt-8 text-center text-sm text-slate-500">Nothing found — try a different keyword.</p>
       ) : (
         <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {filtered.map((j) => (

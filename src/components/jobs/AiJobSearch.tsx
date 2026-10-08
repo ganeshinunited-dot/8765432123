@@ -24,7 +24,7 @@ interface AiResult {
   allJobsUrl: string;
 }
 
-const EXAMPLES = ["Evening part-time job in Kathmandu", "Remote internship for students", "Weekend barista job", "Ghar bata garna milne job"];
+const EXAMPLES = ["Evening part-time job in Kathmandu", "Remote internship for students", "Weekend barista job", "Work from home job"];
 
 export function AiJobSearch() {
   const [query, setQuery] = useState("");

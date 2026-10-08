@@ -14,7 +14,7 @@ export default function SarkariJobsPage() {
       <p className="gx-eyebrow">Government notices</p>
       <h1 className="font-display mt-2 text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">Sarkari Jobs</h1>
       <p className="gx-sub">
-        Nepal ka current sarkari vacancy suchana — {SARKARI_JOBS.length} ota. Talent le pani hern milne, apply official notice bata.
+        Current government vacancy notices in Nepal — {SARKARI_JOBS.length} listed. Open to everyone; apply through the official notice.
       </p>
       <div className="mt-8">
         <SarkariBrowser />

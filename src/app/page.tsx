@@ -140,9 +140,9 @@ export default async function HomePage() {
             <span className="inline-flex items-center rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-bold uppercase tracking-wide text-emerald-900">
               Sarkari Jobs
             </span>
-            {SARKARI_JOBS.length} ota current sarkari vacancy suchana — PSC, police, hospital, local level.
+            {SARKARI_JOBS.length} current government vacancy notices — PSC, police, hospitals, local level.
           </p>
-          <Link href="/sarkari-jobs" className="ml-auto rounded-lg gx-btn gx-btn-dark px-4 py-2 text-sm font-bold text-white">Hernus</Link>
+          <Link href="/sarkari-jobs" className="ml-auto rounded-lg gx-btn gx-btn-dark px-4 py-2 text-sm font-bold text-white">View all</Link>
         </div>
       </section>
 
