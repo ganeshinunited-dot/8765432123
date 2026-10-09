@@ -11,6 +11,7 @@ export interface ArticleData {
   titleEn: string;
   titleNe: string;
   excerptEn: string;
+  excerptNe: string;
   bodyEn: string;
   bodyNe: string;
   sources: string[];
@@ -25,9 +26,16 @@ function formatDate(iso: string): string {
   }).format(new Date(iso));
 }
 
+function readingTime(html: string): number {
+  const text = html.replace(/<[^>]+>/g, " ");
+  const words = text.trim().split(/\s+/).length;
+  return Math.max(1, Math.round(words / 200));
+}
+
 export function ArticleView({ article }: { article: ArticleData }) {
   const [lang, setLang] = useState<"en" | "ne">("en");
   const title = lang === "en" ? article.titleEn : article.titleNe;
+  const excerpt = lang === "en" ? article.excerptEn : article.excerptNe;
   const body = lang === "en" ? article.bodyEn : article.bodyNe;
 
   return (
@@ -50,6 +58,13 @@ export function ArticleView({ article }: { article: ArticleData }) {
           </span>
         )}
         <span className="text-xs text-slate-500">{formatDate(article.publishedAt)}</span>
+        <span className="inline-flex items-center gap-1 text-xs text-slate-500">
+          <svg className="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+            <circle cx="12" cy="12" r="10" />
+            <path d="M12 6v6l4 2" />
+          </svg>
+          {readingTime(body)} min read
+        </span>
       </div>
 
       <h1
@@ -81,6 +96,15 @@ export function ArticleView({ article }: { article: ArticleData }) {
           नेपाली
         </button>
       </div>
+
+      {excerpt && (
+        <p
+          lang={lang === "ne" ? "ne" : "en"}
+          className="mt-6 border-l-4 border-emerald-500 bg-emerald-50/60 py-1 pl-4 text-lg font-medium leading-relaxed text-emerald-950"
+        >
+          {excerpt}
+        </p>
+      )}
 
       <div
         lang={lang === "ne" ? "ne" : "en"}

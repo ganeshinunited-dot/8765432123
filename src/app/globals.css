@@ -30,10 +30,11 @@
 
 /* Article body typography (HTML stored in the DB) */
 .gx-article {
-  line-height: 1.8;
+  line-height: 1.85;
+  font-size: 1.06rem;
 }
 .gx-article p {
-  margin: 0 0 1.1em;
+  margin: 0 0 1.2em;
 }
 .gx-article h2 {
   font-size: 1.4rem;

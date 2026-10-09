@@ -86,6 +86,7 @@ export default async function ArticlePage({
           titleEn: a.titleEn,
           titleNe: a.titleNe,
           excerptEn: a.excerptEn,
+          excerptNe: a.excerptNe,
           bodyEn: a.bodyEn,
           bodyNe: a.bodyNe,
           sources: a.sources,
