@@ -1,4 +1,1 @@
-{
-  "$schema": "https://openapi.vercel.sh/vercel.json",
-  "buildCommand": "npx prisma generate && npx prisma migrate deploy && npx tsx prisma/cleanupDemoData.ts && npx tsx prisma/seedFreeCourses.ts && npm run build"
-}
+{"$schema":"https://openapi.vercel.sh/vercel.json","buildCommand":"npx prisma generate && npx prisma migrate deploy && npx tsx prisma/cleanupDemoData.ts && npx tsx prisma/seedFreeCourses.ts && npm run build","crons":[{"path":"/api/cron/daily-articles","schedule":"15 0 * * *"}]}
