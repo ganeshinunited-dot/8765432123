@@ -1,16 +1,25 @@
 import Link from "next/link";
+import type { Metadata } from "next";
 import { db } from "@/lib/db";
 import { JobCard } from "@/components/jobs/JobCard";
-import { EmptyState, Card } from "@/components/ui/primitives";
+import { Card } from "@/components/ui/primitives";
 import { JobFilters } from "@/components/jobs/JobFilters";
 import { JobFiltersMobile } from "@/components/jobs/JobFiltersMobile";
 import { JobSearchBar } from "@/components/jobs/JobSearchBar";
 import { AiJobSearch } from "@/components/jobs/AiJobSearch";
 import { Reveal } from "@/components/ui/Reveal";
+import { liveSarkariJobs } from "@/data/sarkariJobs";
 import { SortDropdown } from "./SortDropdown";
 import type { Prisma } from "@prisma/client";
 
 export const dynamic = "force-dynamic";
+
+export const metadata: Metadata = {
+  title: "Jobs in Nepal for Students & Fresh Talent | Growentix",
+  description:
+    "Browse part-time jobs, internships and entry-level roles across Nepal. Free for talent — plus current government vacancy notices updated daily.",
+  alternates: { canonical: "https://growentix.cloud/jobs" },
+};
 
 const PAGE_SIZE = 12;
 
@@ -79,6 +88,7 @@ export default async function JobsPage({ searchParams }: { searchParams: Promise
     db.jobCategory.findMany({ where: { active: true }, orderBy: { name: "asc" } }),
   ]);
   const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
+  const liveSarkari = liveSarkariJobs().length;
 
   const qs = new URLSearchParams();
   for (const [k, v] of Object.entries(sp)) if (k !== "page" && v) qs.set(k, v);
@@ -113,15 +123,7 @@ export default async function JobsPage({ searchParams }: { searchParams: Promise
           </div>
 
           {jobs.length === 0 ? (
-            <EmptyState
-              title="We couldn't find jobs matching your filters."
-              description="Try expanding your location, removing the salary filter, searching remote jobs, or checking weekend jobs."
-              action={
-                <Link href="/jobs" className="inline-flex h-11 items-center rounded-lg gx-btn gx-btn-primary px-5 text-sm font-semibold text-white">
-                  Clear Filters
-                </Link>
-              }
-            />
+            <NoEmployerJobs categories={categories} liveSarkari={liveSarkari} />
           ) : (
             <Reveal>
               <div className="grid gap-4 md:grid-cols-2">
@@ -139,6 +141,94 @@ export default async function JobsPage({ searchParams }: { searchParams: Promise
           )}
         </div>
       </div>
+      </div>
+    </div>
+  );
+}
+
+function NoEmployerJobs({
+  categories,
+  liveSarkari,
+}: {
+  categories: { slug: string; name: string }[];
+  liveSarkari: number;
+}) {
+  return (
+    <div>
+      <div className="rounded-2xl border border-slate-200 bg-white p-6 sm:p-8">
+        <p className="gx-eyebrow">Job board</p>
+        <h1 className="mt-2 text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
+          No employer-posted roles at the moment
+        </h1>
+        <p className="mt-3 max-w-2xl text-slate-600">
+          New opportunities from verified employers are on the way. Meanwhile, explore{" "}
+          <Link href="/sarkari-jobs" className="font-semibold text-emerald-700 underline decoration-emerald-300 underline-offset-2">
+            current government vacancy notices
+          </Link>{" "}
+          or build your skills with free courses.
+        </p>
+        <div className="mt-6 grid gap-4 sm:grid-cols-3">
+          <Link
+            href="/sarkari-jobs"
+            className="gx-lift group rounded-xl border border-emerald-200 bg-emerald-50 p-5"
+          >
+            <p className="text-3xl font-extrabold text-emerald-800">{liveSarkari}</p>
+            <p className="mt-1 text-sm font-medium text-emerald-900">current government vacancy notices</p>
+            <p className="mt-2 text-sm font-semibold text-emerald-700 group-hover:underline">
+              Browse notices <span aria-hidden="true">&rarr;</span>
+            </p>
+          </Link>
+          <Link href="/courses" className="gx-lift group rounded-xl border border-slate-200 bg-slate-50 p-5">
+            <p className="text-3xl font-extrabold text-slate-900">18</p>
+            <p className="mt-1 text-sm font-medium text-slate-700">free skill courses with video lessons</p>
+            <p className="mt-2 text-sm font-semibold text-emerald-700 group-hover:underline">
+              Start learning <span aria-hidden="true">&rarr;</span>
+            </p>
+          </Link>
+          <Link href="/for-employers" className="gx-lift group rounded-xl border border-slate-200 bg-slate-50 p-5">
+            <p className="text-3xl font-extrabold text-slate-900">Hiring?</p>
+            <p className="mt-1 text-sm font-medium text-slate-700">Post your role to verified student talent</p>
+            <p className="mt-2 text-sm font-semibold text-emerald-700 group-hover:underline">
+              For employers <span aria-hidden="true">&rarr;</span>
+            </p>
+          </Link>
+        </div>
+      </div>
+
+      {categories.length > 0 && (
+        <div className="mt-8">
+          <h2 className="text-lg font-bold text-slate-900">Browse by category</h2>
+          <div className="mt-3 flex flex-wrap gap-2">
+            {categories.map((c) => (
+              <Link
+                key={c.slug}
+                href={`/jobs?category=${encodeURIComponent(c.slug)}`}
+                className="rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 transition hover:border-emerald-300 hover:text-emerald-700"
+              >
+                {c.name}
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
+
+      <div className="mt-8 rounded-2xl border border-slate-200 bg-white p-6 sm:p-8">
+        <h2 className="text-lg font-bold text-slate-900">
+          Part-time jobs, internships and entry-level roles across Nepal
+        </h2>
+        <div className="mt-3 space-y-3 text-sm leading-relaxed text-slate-600">
+          <p>
+            Growentix lists flexible work for students and fresh talent — part-time roles, internships,
+            weekend shifts and remote work in Kathmandu, Lalitpur, Bhaktapur, Pokhara and beyond. Every
+            employer is verified before posting, so you can apply with confidence and never pay to apply.
+          </p>
+          <p>
+            Alongside employer roles, we track {liveSarkari} current government vacancy notices from
+            municipalities, hospitals, schools and public enterprises across Nepal, updated daily with
+            deadlines, eligibility and official notice links. Create a free talent profile to get notified
+            the moment new roles go live.
+          </p>
+        </div>
       </div>
     </div>
   );
