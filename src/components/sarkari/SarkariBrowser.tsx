@@ -1,8 +1,9 @@
 "use client";
 
+import Link from "next/link";
 import { useMemo, useState } from "react";
 import { Reveal } from "@/components/ui/Reveal";
-import { SARKARI_JOBS, SARKARI_UPDATED, type SarkariCategory, type SarkariJob } from "@/data/sarkariJobs";
+import { SARKARI_JOBS, SARKARI_UPDATED, sarkariSlug, type SarkariCategory, type SarkariJob } from "@/data/sarkariJobs";
 
 const CATEGORY_LABELS: Record<SarkariCategory, string> = {
   psc: "PSC",
@@ -58,6 +59,9 @@ function JobCard({ job }: { job: SarkariJob }) {
         >
           View notice
         </a>
+        <Link href={`/sarkari-jobs/${sarkariSlug(job)}`} className="text-sm font-semibold text-emerald-700 hover:underline">
+          Full details →
+        </Link>
         {job.sourceUrl && job.sourceUrl !== job.noticeUrl && (
           <a href={job.sourceUrl} target="_blank" rel="noopener noreferrer" className="text-xs text-slate-500 underline hover:text-emerald-700">
             Source

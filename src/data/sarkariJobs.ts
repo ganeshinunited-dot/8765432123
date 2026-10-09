@@ -1401,3 +1401,25 @@ export const SARKARI_JOBS: SarkariJob[] = [
     category: "enterprise",
   },
 ];
+
+/** SEO-friendly unique slug for a vacancy article page. */
+export function sarkariSlug(j: Pick<SarkariJob, "id" | "postTitle" | "organization">): string {
+  return `${j.postTitle} ${j.organization} ${j.id}`
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .slice(0, 90);
+}
+
+/** Notices still open as of the Asia/Kathmandu calendar date. */
+export function liveSarkariJobs(todayNpt?: string): SarkariJob[] {
+  const today =
+    todayNpt ??
+    new Intl.DateTimeFormat("en-CA", {
+      timeZone: "Asia/Kathmandu",
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+    }).format(new Date());
+  return SARKARI_JOBS.filter((j) => j.deadline >= today);
+}

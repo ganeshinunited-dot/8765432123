@@ -1,4 +1,5 @@
 import { db } from "@/lib/db";
+import { SARKARI_JOBS, SARKARI_UPDATED, sarkariSlug } from "@/data/sarkariJobs";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 3600;
@@ -31,5 +32,10 @@ export default async function sitemap() {
     changeFrequency: "weekly" as const, priority: 0.6,
   }));
 
-  return [...staticPages, ...jobPages, ...companyPages];
+  const sarkariPages = SARKARI_JOBS.map((j) => ({
+    url: `${base}/sarkari-jobs/${sarkariSlug(j)}`, lastModified: new Date(SARKARI_UPDATED),
+    changeFrequency: "weekly" as const, priority: 0.8,
+  }));
+
+  return [...staticPages, ...sarkariPages, ...jobPages, ...companyPages];
 }
