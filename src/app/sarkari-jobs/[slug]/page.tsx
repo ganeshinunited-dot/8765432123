@@ -192,7 +192,7 @@ export default async function SarkariArticlePage({
 
   return (
     <main className="mx-auto max-w-3xl px-4 py-10 sm:px-6 sm:py-14">
-      <JsonLd job={job} />
+      {!expired && <JsonLd job={job} />}
       <nav aria-label="Breadcrumb" className="text-sm text-slate-500">
         <Link href="/" className="hover:text-emerald-700 hover:underline">Home</Link>
         <span className="mx-2" aria-hidden="true">›</span>

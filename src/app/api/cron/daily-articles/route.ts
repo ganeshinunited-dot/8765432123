@@ -1,7 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
-import { aiComplete, parseAiJson } from "@/lib/ai";
 import { articleSlug } from "@/lib/articles";
+import {
+  parseRss,
+  fetchPageText,
+  writeArticle,
+  VALID_CATEGORIES,
+  type RssItem,
+} from "@/lib/articleWriter";
 
 export const dynamic = "force-dynamic";
 export const maxDuration = 60;
@@ -17,16 +23,6 @@ export const maxDuration = 60;
 const TARGET_COUNT = 8;
 const MAX_PER_CATEGORY = 2;
 
-interface RssItem {
-  title: string;
-  link: string;
-  pubDate: string;
-  publisher: string;
-  description: string;
-  category: string;
-  country: string | null;
-}
-
 const QUERIES: { q: string; category: string; country: string | null }[] = [
   { q: "jobs hiring Nepal", category: "nepal", country: "Nepal" },
   { q: "Gulf jobs vacancy hiring", category: "gulf", country: "Gulf" },
@@ -38,121 +34,6 @@ const QUERIES: { q: string; category: string; country: string | null }[] = [
   { q: "work abroad visa opportunities", category: "work-abroad", country: null },
   { q: "career advice salary interview tips", category: "career", country: null },
 ];
-
-function decodeEntities(s: string): string {
-  return s
-    .replace(/&amp;/g, "&")
-    .replace(/&lt;/g, "<")
-    .replace(/&gt;/g, ">")
-    .replace(/&quot;/g, '"')
-    .replace(/&#39;/g, "'")
-    .replace(/&#x27;/g, "'");
-}
-
-function parseRss(
-  xml: string,
-  category: string,
-  country: string | null
-): RssItem[] {
-  const items: RssItem[] = [];
-  const itemRe = /<item>([\s\S]*?)<\/item>/g;
-  let m: RegExpExecArray | null;
-  const get = (block: string, tag: string) => {
-    const r = new RegExp(`<${tag}[^>]*>([\\s\\S]*?)<\\/${tag}>`);
-    const x = block.match(r);
-    return x ? decodeEntities(x[1].trim()) : "";
-  };
-  while ((m = itemRe.exec(xml))) {
-    const block = m[1];
-    const rawTitle = get(block, "title");
-    if (!rawTitle) continue;
-    const dashIdx = rawTitle.lastIndexOf(" - ");
-    items.push({
-      title: (dashIdx > 0 ? rawTitle.slice(0, dashIdx) : rawTitle).trim(),
-      publisher:
-        (dashIdx > 0 ? rawTitle.slice(dashIdx + 3) : get(block, "source")).trim(),
-      link: get(block, "link"),
-      pubDate: get(block, "pubDate"),
-      description: get(block, "description"),
-      category,
-      country,
-    });
-  }
-  return items;
-}
-
-function extractText(html: string): string {
-  let t = html
-    .replace(/<script[\s\S]*?<\/script>/gi, " ")
-    .replace(/<style[\s\S]*?<\/style>/gi, " ")
-    .replace(/<[^>]+>/g, " ");
-  return decodeEntities(t).replace(/\s+/g, " ").trim().slice(0, 3000);
-}
-
-async function fetchPageText(link: string): Promise<string> {
-  try {
-    const res = await fetch(link, {
-      headers: { "User-Agent": "Mozilla/5.0 (compatible; GrowentixBot/1.0)" },
-      signal: AbortSignal.timeout(12_000),
-      redirect: "follow",
-    });
-    if (!res.ok) return "";
-    const html = await res.text();
-    return extractText(html);
-  } catch {
-    return "";
-  }
-}
-
-interface ArticleJson {
-  titleEn: string;
-  titleNe: string;
-  excerptEn: string;
-  excerptNe: string;
-  bodyEn: string;
-  bodyNe: string;
-  category: string;
-  country: string | null;
-}
-
-const SYSTEM_PROMPT =
-  "You are a job-news editor for Growentix, Nepal's student job platform. You write in British English and in natural Nepali (Devanagari script). You never invent facts. Output JSON only.";
-
-function buildPrompt(item: RssItem, pageText: string): string {
-  const material = pageText || item.description || "(no further text available)";
-  return `Write a job-news article based ONLY on the material below. Do not invent facts, numbers, dates, names, or quotes that are not in the material. If the material is thin, write a concise piece and add general, clearly-labelled context that a jobseeker would find useful (without inventing specifics).
-
-MATERIAL:
-Headline: ${item.title}
-Publisher: ${item.publisher}
-Published: ${item.pubDate}
-Page text: ${material}
-
-Return JSON with exactly these keys:
-- "titleEn": short punchy headline, British English, max 90 characters
-- "titleNe": the same headline translated into natural Nepali (Devanagari script)
-- "excerptEn": 1-2 sentence summary, British English
-- "excerptNe": the summary in Nepali (Devanagari script)
-- "bodyEn": article body as HTML using only <h2>, <p>, <ul>, <li>, <strong> tags. 300-420 words. Structure: what happened, why it matters for jobseekers, what to do next. British English.
-- "bodyNe": full Nepali (Devanagari script) translation of bodyEn, same HTML tags and structure
-- "category": one of: nepal, gulf, korea-japan, work-abroad, remote, global, career (pick the best fit)
-- "country": the main country this story is about, or null
-
-RULES:
-- British English spelling in all English text (e.g. "organised", "favour", "labour").
-- No emojis. No markdown. HTML only in the body fields.
-- Never mention that you are an AI.`;
-}
-
-const VALID_CATEGORIES = new Set([
-  "nepal",
-  "gulf",
-  "korea-japan",
-  "work-abroad",
-  "remote",
-  "global",
-  "career",
-]);
 
 export async function GET(req: NextRequest) {
   const secret = process.env.CRON_SECRET;
@@ -208,27 +89,18 @@ export async function GET(req: NextRequest) {
 
   // 4. Write: one AI call per story, English + Nepali together (parallel).
   const written = await Promise.allSettled(
-    picked.map(async (item, i) => {
-      const raw = await aiComplete(
-        [
-          { role: "system", content: SYSTEM_PROMPT },
-          { role: "user", content: buildPrompt(item, pageTexts[i]) },
-        ],
-        { json: true, maxTokens: 2600 }
-      );
-      const data = parseAiJson<ArticleJson>(raw);
-      if (!data || !data.titleEn || !data.bodyEn || !data.bodyNe) return null;
-      return { item, data };
-    })
+    picked.map((item, i) => writeArticle(item, pageTexts[i]))
   );
 
   // 5. Publish.
   const dateStr = new Date().toISOString().slice(0, 10).replace(/-/g, "");
   let published = 0;
   const titles: string[] = [];
-  for (const r of written) {
+  for (let idx = 0; idx < written.length; idx++) {
+    const r = written[idx];
     if (r.status !== "fulfilled" || !r.value) continue;
-    const { item, data } = r.value;
+    const data = r.value;
+    const item = picked[idx];
     const category = VALID_CATEGORIES.has(data.category)
       ? data.category
       : item.category;

@@ -4,12 +4,25 @@ import { ARTICLE_CATEGORIES, articleCategoryLabel } from "@/lib/articles";
 
 export const dynamic = "force-dynamic";
 
-export const metadata = {
-  title: "Job News & Articles — English and Nepali | Growentix",
-  description:
-    "Daily job news from Nepal and around the world — hiring trends, Gulf jobs, Korea & Japan opportunities, remote work and career guides, in English and Nepali.",
-  alternates: { canonical: "https://growentix.cloud/articles" },
-};
+export async function generateMetadata({
+  searchParams,
+}: {
+  searchParams: Promise<{ category?: string }>;
+}) {
+  const sp = await searchParams;
+  // Category-filtered views are thin duplicates — keep them out of the index.
+  if (sp.category) {
+    return {
+      robots: { index: false, follow: true },
+    };
+  }
+  return {
+    title: "Job News & Articles — English and Nepali | Growentix",
+    description:
+      "Daily job news from Nepal and around the world — hiring trends, Gulf jobs, Korea & Japan opportunities, remote work and career guides, in English and Nepali.",
+    alternates: { canonical: "https://growentix.cloud/articles" },
+  };
+}
 
 function formatDate(d: Date): string {
   return new Intl.DateTimeFormat("en-GB", {

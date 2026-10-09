@@ -14,12 +14,24 @@ import type { Prisma } from "@prisma/client";
 
 export const dynamic = "force-dynamic";
 
-export const metadata: Metadata = {
-  title: "Jobs in Nepal for Students & Fresh Talent | Growentix",
-  description:
-    "Browse part-time jobs, internships and entry-level roles across Nepal. Free for talent — plus current government vacancy notices updated daily.",
-  alternates: { canonical: "https://growentix.cloud/jobs" },
-};
+const FILTER_KEYS = ["q", "location", "type", "arrangement", "schedule", "category", "verified", "sort", "page"];
+
+export async function generateMetadata({
+  searchParams,
+}: {
+  searchParams: Promise<Record<string, string | undefined>>;
+}): Promise<Metadata> {
+  const sp = await searchParams;
+  const hasFilters = FILTER_KEYS.some((k) => sp[k]);
+  return {
+    title: "Jobs in Nepal for Students & Fresh Talent | Growentix",
+    description:
+      "Browse part-time jobs, internships and entry-level roles across Nepal. Free for talent — plus current government vacancy notices updated daily.",
+    alternates: { canonical: "https://growentix.cloud/jobs" },
+    // Filtered/sorted views are thin duplicates — keep them out of the index.
+    ...(hasFilters ? { robots: { index: false, follow: true } } : {}),
+  };
+}
 
 const PAGE_SIZE = 12;
 

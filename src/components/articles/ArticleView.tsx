@@ -52,7 +52,10 @@ export function ArticleView({ article }: { article: ArticleData }) {
         <span className="text-xs text-slate-500">{formatDate(article.publishedAt)}</span>
       </div>
 
-      <h1 className="mt-4 text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">
+      <h1
+        lang={lang === "ne" ? "ne" : "en"}
+        className="mt-4 text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl"
+      >
         {title}
       </h1>
 
@@ -80,6 +83,7 @@ export function ArticleView({ article }: { article: ArticleData }) {
       </div>
 
       <div
+        lang={lang === "ne" ? "ne" : "en"}
         className="gx-article mt-6 max-w-none text-slate-700"
         dangerouslySetInnerHTML={{ __html: body }}
       />
