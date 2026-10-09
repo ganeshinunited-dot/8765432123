@@ -738,3 +738,23 @@ model CoursePurchase {
   @@unique([courseId, studentId])
   @@index([courseId, status])
 }
+
+model Article {
+  id          String   @id @default(uuid())
+  slug        String   @unique
+  category    String
+  country     String?
+  titleEn     String
+  titleNe     String
+  excerptEn   String
+  excerptNe   String
+  bodyEn      String
+  bodyNe      String
+  sources     String[]
+  publishedAt DateTime @default(now())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([publishedAt])
+  @@index([category])
+}

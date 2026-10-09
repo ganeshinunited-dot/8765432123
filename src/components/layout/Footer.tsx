@@ -55,6 +55,7 @@ export function Footer() {
             </p>
             <div className="mt-5 flex flex-wrap gap-2">
               <Link href="/sarkari-jobs" className="rounded-full border border-white/15 bg-white/5 px-4 py-2 text-xs font-semibold text-slate-200 hover:bg-white/10">Sarkari Jobs</Link>
+              <Link href="/articles" className="rounded-full border border-white/15 bg-white/5 px-4 py-2 text-xs font-semibold text-slate-200 hover:bg-white/10">Articles</Link>
               <Link href="/courses" className="rounded-full border border-white/15 bg-white/5 px-4 py-2 text-xs font-semibold text-slate-200 hover:bg-white/10">Courses</Link>
             </div>
           </div>

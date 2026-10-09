@@ -12,7 +12,7 @@ const SEO_PAGES = [
 export default async function sitemap() {
   const base = process.env.NEXT_PUBLIC_APP_URL || "https://growentix.cloud";
 
-  const staticPages = ["", "/jobs", "/sarkari-jobs", "/courses", "/course", "/companies", "/signup", "/login", ...SEO_PAGES.map((p) => `/${p}`)].map(
+  const staticPages = ["", "/jobs", "/sarkari-jobs", "/articles", "/courses", "/course", "/companies", "/signup", "/login", ...SEO_PAGES.map((p) => `/${p}`)].map(
     (path) => ({ url: `${base}${path}`, lastModified: new Date(), changeFrequency: "daily" as const, priority: path === "" ? 1 : 0.8 })
   );
 
@@ -37,5 +37,15 @@ export default async function sitemap() {
     changeFrequency: "weekly" as const, priority: 0.8,
   }));
 
-  return [...staticPages, ...sarkariPages, ...jobPages, ...companyPages];
+  const articles = await db.article.findMany({
+    select: { slug: true, updatedAt: true },
+    orderBy: { publishedAt: "desc" },
+    take: 2000,
+  });
+  const articlePages = articles.map((a) => ({
+    url: `${base}/articles/${a.slug}`, lastModified: a.updatedAt,
+    changeFrequency: "daily" as const, priority: 0.8,
+  }));
+
+  return [...staticPages, ...sarkariPages, ...articlePages, ...jobPages, ...companyPages];
 }
