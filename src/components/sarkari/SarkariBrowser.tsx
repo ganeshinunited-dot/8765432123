@@ -47,7 +47,7 @@ function JobCard({ job }: { job: SarkariJob }) {
         {job.seats != null && <span className="rounded-full bg-slate-100 px-2 py-0.5 text-slate-700">{job.seats} seats</span>}
         {job.minQualification && <span className="rounded-full bg-slate-100 px-2 py-0.5 text-slate-700">{job.minQualification}</span>}
         {job.location && <span className="rounded-full bg-slate-100 px-2 py-0.5 text-slate-700">{job.location}</span>}
-        <span className={`rounded-full px-2 py-0.5 font-semibold ${badge.cls}`}>{badge.text} • {job.deadline}</span>
+        <span className={`rounded-full px-2 py-0.5 font-semibold ${badge.cls}`}>{badge.text}{n > 0 ? ` • ${job.deadline}` : ""}</span>
       </div>
       <div className="mt-3 flex items-center gap-3">
         <a

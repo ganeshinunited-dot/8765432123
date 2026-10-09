@@ -48,12 +48,22 @@ export function Navbar() {
   // not). When a logged-in user renders null below, this listener simply
   // updates unused state and re-arms the CTA for the next visitor session.
   useEffect(() => {
+    let lastY = window.scrollY;
     const check = () => {
       const el = document.documentElement;
-      const distanceToBottom = el.scrollHeight - (window.innerHeight + window.scrollY);
+      const y = window.scrollY;
+      // Dead zone so tiny scroll jitter doesn't flap the CTA.
+      const scrollingUp = y < lastY - 8;
+      lastY = y;
+      const distanceToBottom = el.scrollHeight - (window.innerHeight + y);
       setShowCta((prev) => {
+        // Short pages (e.g. /courses) never scroll meaningfully — showing the
+        // pill at scroll 0 would contradict the behavior-based design.
+        if (el.scrollHeight <= window.innerHeight + 400) return false;
+        // Scrolling back up means re-reading: keep headings clear of the pill.
+        if (scrollingUp) return false;
         if (distanceToBottom <= 200) return true; // reached the bottom → suggest
-        if (distanceToBottom > 600) return false; // scrolled back up → hide (hysteresis)
+        if (distanceToBottom > 600) return false; // scrolled well back up → hide
         return prev;
       });
     };
@@ -91,12 +101,15 @@ export function Navbar() {
   // Visitors: no top bar at all — one floating Sign up button that suggests
   // itself from the top-center only after the visitor scrolls to the bottom
   // (behavior-based CTA: they've seen the content, now invite them in).
+  // The hidden state is inlined so first paint never flashes the pill before
+  // the stylesheet loads; the CSS transition still animates show/hide.
   if (pathname === "/signup") return null;
   return (
     <Link
       href="/signup"
       aria-hidden={!showCta}
       tabIndex={showCta ? 0 : -1}
+      style={showCta ? undefined : { transform: "translate(-50%, -6rem)", opacity: 0, pointerEvents: "none" }}
       className={`gx-public-chrome gx-btn gx-btn-primary gx-cta-float inline-flex h-11 items-center rounded-full px-6 text-sm font-semibold${
         showCta ? " gx-cta-show" : ""
       }`}
