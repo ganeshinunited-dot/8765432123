@@ -5,6 +5,7 @@ import "./globals.css";
 import { ToastProvider } from "@/components/ui/Toast";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
+import { TrackVisit } from "@/components/analytics/TrackVisit";
 
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const jakarta = Plus_Jakarta_Sans({ variable: "--font-jakarta", subsets: ["latin"], weight: ["600", "700", "800"] });
@@ -52,6 +53,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           }}
         />
         <ToastProvider>
+          <TrackVisit />
           <Navbar />
           <main className="flex-1">{children}</main>
           <Footer />

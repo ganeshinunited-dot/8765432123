@@ -758,3 +758,17 @@ model Article {
   @@index([publishedAt])
   @@index([category])
 }
+
+model SiteVisit {
+  id          String   @id @default(uuid())
+  path        String
+  day         DateTime
+  visitorHash String
+  country     String?
+  referrer    String?
+  createdAt   DateTime @default(now())
+
+  @@unique([day, visitorHash, path])
+  @@index([day])
+  @@index([path, day])
+}

@@ -16,6 +16,7 @@ export const ADMIN_NAV = [
   { href: "/admin/companies", label: "Companies", icon: icons.building },
   { href: "/admin/plans", label: "Plans", icon: icons.card },
   { href: "/admin/articles", label: "Articles", icon: icons.plus },
+  { href: "/admin/analytics", label: "Analytics", icon: icons.chart },
   { href: "/admin/cms", label: "Content", icon: icons.plus },
   { href: "/admin/audit", label: "Audit log", icon: icons.search },
 ];
