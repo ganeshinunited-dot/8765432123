@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { articleCategoryLabel } from "@/lib/articles";
+import { articleImagesFor } from "@/data/articleImages";
 
 export interface ArticleData {
   slug: string;
@@ -32,11 +33,31 @@ function readingTime(html: string): number {
   return Math.max(1, Math.round(words / 200));
 }
 
+/** Inserts the two inline images into the article HTML at ~1/3 and ~2/3 depth. */
+function withInlineImages(
+  html: string,
+  images: [string, string, string],
+  alt: string
+): string {
+  const safeAlt = alt.replace(/"/g, "&quot;");
+  const parts = html.split(/<\/p>/i);
+  if (parts.length < 5) return html;
+  const fig = (src: string) =>
+    `<figure class="gx-article-figure"><img src="${src}" alt="${safeAlt}" loading="lazy" /></figure>`;
+  const i1 = Math.max(1, Math.floor(parts.length / 3));
+  const i2 = Math.max(i1 + 2, Math.floor((parts.length * 2) / 3));
+  parts.splice(i2, 0, fig(images[2]));
+  parts.splice(i1, 0, fig(images[1]));
+  return parts.join("</p>");
+}
+
 export function ArticleView({ article }: { article: ArticleData }) {
   const [lang, setLang] = useState<"en" | "ne">("en");
   const title = lang === "en" ? article.titleEn : article.titleNe;
   const excerpt = lang === "en" ? article.excerptEn : article.excerptNe;
   const body = lang === "en" ? article.bodyEn : article.bodyNe;
+  const images = articleImagesFor(article.slug);
+  const bodyHtml = images ? withInlineImages(body, images, title) : body;
 
   return (
     <article>
@@ -106,10 +127,20 @@ export function ArticleView({ article }: { article: ArticleData }) {
         </p>
       )}
 
+      {images && (
+        <figure className="mt-6">
+          <img
+            src={images[0]}
+            alt={title}
+            className="aspect-video w-full rounded-2xl border border-slate-200 object-cover"
+          />
+        </figure>
+      )}
+
       <div
         lang={lang === "ne" ? "ne" : "en"}
         className="gx-article mt-6 max-w-none text-slate-700"
-        dangerouslySetInnerHTML={{ __html: body }}
+        dangerouslySetInnerHTML={{ __html: bodyHtml }}
       />
 
       {article.sources.length > 0 && (

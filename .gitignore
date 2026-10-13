@@ -45,3 +45,6 @@ next-env.d.ts
 .push_batches/
 push_remaining.sh
 package-lock.json
+
+# generated article images (decoded at build time from article-image-sources/)
+public/article-images/
