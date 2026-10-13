@@ -79,15 +79,11 @@ export default async function HomePage() {
         <div aria-hidden className="gx-glow absolute inset-0 bg-[radial-gradient(65%_55%_at_50%_0%,rgba(16,185,129,0.28),transparent_70%)]" />
         <div aria-hidden className="gx-glow absolute inset-0 bg-[radial-gradient(40%_35%_at_85%_100%,rgba(251,191,36,0.12),transparent_70%)]" style={{ animationDelay: "-4.5s" }} />
         <div className="relative mx-auto max-w-7xl px-4 pb-12 pt-10 sm:px-6 sm:pb-24 sm:pt-24">
-          <p className="gx-enter inline-flex items-center gap-1.5 rounded-full border border-emerald-400/30 bg-emerald-400/10 px-3.5 py-1.5 text-xs font-bold uppercase tracking-[0.14em] text-emerald-200" style={{ "--gx-delay": "40ms" } as CSSProperties}>
-            <span className="h-1.5 w-1.5 rounded-full bg-emerald-300" />
-            Nepal + abroad · One opportunity radar
-          </p>
-          <h1 className="gx-enter mt-5 max-w-3xl font-display text-[2rem] font-extrabold leading-[1.08] tracking-tight text-white sm:text-6xl" style={{ "--gx-delay": "120ms" } as CSSProperties}>
-            Every opportunity, <span className="text-emerald-300">Nepal to the world.</span>
+          <h1 className="gx-enter max-w-3xl font-display text-[2rem] font-extrabold leading-[1.08] tracking-tight text-white sm:text-6xl" style={{ "--gx-delay": "120ms" } as CSSProperties}>
+            Never miss <span className="text-emerald-300">an opportunity.</span>
           </h1>
           <p className="gx-enter mt-5 max-w-xl text-base leading-relaxed text-emerald-100/90 sm:text-lg" style={{ "--gx-delay": "200ms" } as CSSProperties}>
-            Government notices, Gulf &amp; Korea recruitments, remote roles and daily job news — tracked for you, plus free courses to get ready.
+            Vacancy notices, work-abroad updates and daily job news — tracked for you.
           </p>
 
           <form action="/jobs" method="get" className="gx-enter mt-7 max-w-2xl rounded-2xl bg-white p-2.5 shadow-2xl shadow-emerald-950/40 sm:mt-9 sm:flex sm:gap-2" role="search" style={{ "--gx-delay": "280ms" } as CSSProperties}>
