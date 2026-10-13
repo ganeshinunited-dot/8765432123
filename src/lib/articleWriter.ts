@@ -101,7 +101,7 @@ export async function fetchPageText(link: string): Promise<string> {
 }
 
 const SYSTEM_PROMPT =
-  "You are a job-news editor for Growentix, Nepal's student job platform. You write in British English and in natural, fluent Nepali (Devanagari script). You never invent facts. Output JSON only.";
+  "You are a senior job-news editor for Growentix, Nepal's opportunity radar. You write in British English and in natural, fluent Nepali (Devanagari script). You never invent facts. Your writing must read as fully human: varied sentence rhythm, concrete specifics, no AI-telltale phrasing. Output JSON only.";
 
 function buildPrompt(
   item: RssItem,
@@ -125,13 +125,23 @@ Return JSON with exactly these keys:
 - "titleNe": the same headline in natural Nepali (Devanagari script) — fluent and idiomatic, not a word-for-word translation
 - "excerptEn": 1-2 sentence summary, British English
 - "excerptNe": the summary in fluent Nepali (Devanagari script)
-- "bodyEn": article body as HTML using only <h2>, <p>, <ul>, <li>, <strong> tags. 300-420 words. Structure: what happened, why it matters for jobseekers, what to do next. British English.
+- "bodyEn": article body as HTML using only <h2>, <p>, <ul>, <li>, <strong>, <a> tags. 600-800 words. Structure:
+  1. <p> lead — what happened, with the key facts up front.
+  2. <h2>Why it matters</h2> — explain the background and what this means practically for a jobseeker. Add clearly-labelled general context where the material is thin (never invent specifics).
+  3. <h2>Key details</h2> — the concrete facts: who, how many posts, eligibility, salary, dates, deadlines.
+  4. <h2>How to apply</h2> — step-by-step, plain-language instructions a reader can actually follow (where to go, what documents, what to watch out for). If the story has no application process, replace this section with <h2>What to do next</h2> giving practical next steps.
+  5. Short closing <p> — one honest takeaway, no hype.
+  British English.
 - "bodyNe": full Nepali (Devanagari script) version of bodyEn — rewrite it the way a skilled Nepali journalist would write it: natural sentence flow, common Nepali job vocabulary (रोजगारी, भर्ना, आवेदन, तलब, योग्यता), same HTML tags and structure. Never transliterate English sentences word-for-word.
 - "category": one of: nepal, gulf, korea-japan, work-abroad, remote, global, career (pick the best fit)
 - "country": the main country this story is about, or null
 
 RULES:
 - British English spelling in all English text (e.g. "organised", "favour", "labour").
+- Write like a human journalist: vary sentence length and rhythm; lead with concrete facts, not throat-clearing. Never open with "In today's fast-paced world" or similar filler.
+- Banned AI-telltale words: delve, moreover, furthermore, additionally (as sentence starter), tapestry, landscape (as metaphor), "game-changer", "in conclusion". Contractions (don't, it's, here's) are fine and encouraged.
+- INLINE LINKS: link key entities in the body text itself using <a href="..."> tags — the first mention of the source publication, official portals (e.g. ferms.dofe.gov.np), and organisations should link to the source URL: ${item.link}. Example: <a href="${item.link}">Department of Foreign Employment</a>. 2-4 inline links per article; never link the same phrase twice.
+- Every claim of fact must come from the material. If the material is thin, say what is known and add useful general context clearly framed as context.
 - No emojis. No markdown. HTML only in the body fields.${keywordRule}
 - Never mention that you are an AI.`;
 }
@@ -147,7 +157,7 @@ export async function writeArticle(
       { role: "system", content: SYSTEM_PROMPT },
       { role: "user", content: buildPrompt(item, pageText, focusKeyword) },
     ],
-    { json: true, maxTokens: 2600 }
+    { json: true, maxTokens: 5000 }
   );
   const data = parseAiJson<ArticleJson>(raw);
   if (!data || !data.titleEn || !data.bodyEn || !data.bodyNe) return null;
