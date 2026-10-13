@@ -6,7 +6,7 @@ import { Reveal } from "@/components/ui/Reveal";
 import { Card } from "@/components/ui/primitives";
 import { CourseCarousel } from "@/components/courses/CourseCarousel";
 import { CourseCard, type CarouselCourse } from "@/components/courses/CourseCard";
-import { SARKARI_JOBS } from "@/data/sarkariJobs";
+import { SARKARI_JOBS, sarkariSlug } from "@/data/sarkariJobs";
 
 export const revalidate = 60;
 
@@ -50,7 +50,12 @@ export default async function HomePage() {
 
   // Sarkari notices auto-expire by deadline — count only live ones (Asia/Kathmandu date).
   const todayNpt = new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Kathmandu", year: "numeric", month: "2-digit", day: "2-digit" }).format(new Date());
-  const liveSarkari = SARKARI_JOBS.filter((j) => j.deadline >= todayNpt).length;
+  const liveSarkariJobs = SARKARI_JOBS.filter((j) => j.deadline >= todayNpt).sort((a, b) => (a.deadline < b.deadline ? -1 : 1));
+  const liveSarkari = liveSarkariJobs.length;
+  const latestNotices = liveSarkariJobs.slice(0, 6);
+  const dayMs = 86400000;
+  const todayMs = new Date(`${todayNpt}T00:00:00`).getTime();
+  const daysLeft = (deadline: string) => Math.max(0, Math.round((new Date(`${deadline}T00:00:00`).getTime() - todayMs) / dayMs));
 
   const allCourses: CarouselCourse[] = courseRows.map((c) => ({
     slug: c.slug, title: c.title, price: c.price, category: c.category, sales: c.sales,
@@ -61,10 +66,10 @@ export default async function HomePage() {
   const paidCourses = allCourses.filter((c) => c.price > 0);
 
   const stats = [
+    { value: liveSarkari, label: "Live notices" },
     { value: totalActive, label: "Active jobs" },
     { value: verifiedCompanies, label: "Verified employers" },
     { value: cities.length, label: "Cities hiring" },
-    { value: liveSarkari, label: "Sarkari notices" },
   ];
 
   return (
@@ -76,13 +81,13 @@ export default async function HomePage() {
         <div className="relative mx-auto max-w-7xl px-4 pb-12 pt-10 sm:px-6 sm:pb-24 sm:pt-24">
           <p className="gx-enter inline-flex items-center gap-1.5 rounded-full border border-emerald-400/30 bg-emerald-400/10 px-3.5 py-1.5 text-xs font-bold uppercase tracking-[0.14em] text-emerald-200" style={{ "--gx-delay": "40ms" } as CSSProperties}>
             <span className="h-1.5 w-1.5 rounded-full bg-emerald-300" />
-            Free for talent — forever
+            Nepal + abroad · One opportunity radar
           </p>
           <h1 className="gx-enter mt-5 max-w-3xl font-display text-[2rem] font-extrabold leading-[1.08] tracking-tight text-white sm:text-6xl" style={{ "--gx-delay": "120ms" } as CSSProperties}>
-            Have Talent? Find Work That <span className="text-emerald-300">Fits Your Life</span>
+            Every opportunity, <span className="text-emerald-300">Nepal to the world.</span>
           </h1>
           <p className="gx-enter mt-5 max-w-xl text-base leading-relaxed text-emerald-100/90 sm:text-lg" style={{ "--gx-delay": "200ms" } as CSSProperties}>
-            Part-time, evening, weekend and remote roles from verified employers — plus sarkari notices and free courses, all in one place.
+            Government notices, Gulf &amp; Korea recruitments, remote roles and daily job news — tracked for you, plus free courses to get ready.
           </p>
 
           <form action="/jobs" method="get" className="gx-enter mt-7 max-w-2xl rounded-2xl bg-white p-2.5 shadow-2xl shadow-emerald-950/40 sm:mt-9 sm:flex sm:gap-2" role="search" style={{ "--gx-delay": "280ms" } as CSSProperties}>
@@ -102,7 +107,7 @@ export default async function HomePage() {
           </form>
 
           <div className="gx-enter mt-5 flex flex-wrap gap-2" style={{ "--gx-delay": "360ms" } as CSSProperties}>
-            {[["Part-time", "/jobs?type=PART_TIME"], ["Evening", "/jobs?schedule=EVENING"], ["Remote", "/jobs?arrangement=REMOTE"], ["Internships", "/jobs?type=INTERNSHIP"], ["Sarkari Jobs", "/sarkari-jobs"]].map(([t, href]) => (
+            {[["Sarkari Jobs", "/sarkari-jobs"], ["Gulf Jobs", "/articles?category=gulf"], ["Korea & Japan", "/articles?category=korea-japan"], ["Remote Work", "/articles?category=remote"], ["Work Abroad", "/articles?category=work-abroad"]].map(([t, href]) => (
               <Link key={t} href={href} className="rounded-full border border-white/15 bg-white/10 px-4 py-2 text-sm font-medium text-emerald-50 backdrop-blur-sm transition hover:bg-white/20">
                 {t}
               </Link>
@@ -139,16 +144,56 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Sarkari jobs banner */}
-      <section className="border-b border-slate-200 bg-white">
-        <div className="mx-auto flex max-w-7xl flex-wrap items-center gap-x-4 gap-y-3 px-4 py-5 sm:px-6">
-          <p className="flex items-center gap-2.5 text-sm font-semibold text-slate-900 sm:text-base">
-            <span className="inline-flex items-center rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-bold uppercase tracking-wide text-emerald-900">
-              Sarkari Jobs
-            </span>
-            {liveSarkari} current government vacancy notices — PSC, police, hospitals, local level.
-          </p>
-          <Link href="/sarkari-jobs" className="ml-auto rounded-lg gx-btn gx-btn-dark px-4 py-2 text-sm font-bold text-white">View all</Link>
+      {/* Latest vacancy notices — listings right on the homepage */}
+      <section className="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-16">
+        <div className="flex flex-wrap items-end justify-between gap-3">
+          <div>
+            <span className="gx-eyebrow">Live now</span>
+            <h2 className="gx-h2">Latest vacancy notices</h2>
+            <p className="gx-sub">{liveSarkari} open government notices — always apply via the official notice.</p>
+          </div>
+          <Link href="/sarkari-jobs" className="rounded-full border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 hover:border-emerald-500 hover:text-emerald-800">View all notices →</Link>
+        </div>
+        <div className="mt-7 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {latestNotices.map((j, i) => {
+            const left = daysLeft(j.deadline);
+            const badge = left <= 0 ? "Closing today" : left === 1 ? "1 day left" : `${left} days left`;
+            return (
+              <Reveal key={j.id} delay={Math.min(i, 5) * 60} className="h-full">
+                <Link href={`/sarkari-jobs/${sarkariSlug(j)}`} className="gx-lift group block h-full rounded-2xl border border-slate-200 bg-white p-5">
+                  <span className="inline-flex items-center rounded-full bg-amber-100 px-2.5 py-0.5 text-xs font-bold uppercase tracking-wide text-amber-900">{badge}</span>
+                  <p className="mt-3 font-display text-[15px] font-bold leading-snug text-slate-900 group-hover:text-emerald-800">{j.postTitle}</p>
+                  <p className="mt-1 text-sm text-slate-600">{j.organization}{j.location ? ` · ${j.location}` : ""}</p>
+                  <p className="mt-3 text-xs font-semibold text-emerald-700">Full details →</p>
+                </Link>
+              </Reveal>
+            );
+          })}
+        </div>
+      </section>
+
+      {/* Beyond Nepal — international opportunities */}
+      <section className="border-y border-slate-200 bg-slate-50">
+        <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-16">
+          <span className="gx-eyebrow">Beyond Nepal</span>
+          <h2 className="gx-h2">Work abroad, tracked daily</h2>
+          <p className="gx-sub">Gulf demand, Korea &amp; Japan pipelines, remote roles — news and guides in English and Nepali.</p>
+          <div className="mt-7 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {[
+              ["Gulf Jobs", "gulf", "Qatar, UAE, Saudi & more — salary, visa and demand updates."],
+              ["Korea & Japan", "korea-japan", "EPS-TOPIK, SSW and training pipelines explained."],
+              ["Remote Work", "remote", "Worldwide remote roles you can do from Nepal."],
+              ["Work Abroad", "work-abroad", "G2G recruitments, documents and pre-departure guides."],
+            ].map(([t, slug, d], i) => (
+              <Reveal key={slug} delay={i * 70} className="h-full">
+                <Link href={`/articles?category=${slug}`} className="gx-lift group block h-full rounded-2xl border border-slate-200 bg-white p-5">
+                  <p className="font-display text-[15px] font-bold text-slate-900 group-hover:text-emerald-800">{t}</p>
+                  <p className="mt-1.5 text-sm leading-relaxed text-slate-600">{d}</p>
+                  <p className="mt-3 text-xs font-semibold text-emerald-700">Read latest →</p>
+                </Link>
+              </Reveal>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -315,7 +360,7 @@ export default async function HomePage() {
       <section className="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-20">
         <div className="text-center">
           <span className="gx-eyebrow">Why Growentix</span>
-          <h2 className="gx-h2">Built for Nepal&apos;s talent</h2>
+          <h2 className="gx-h2">Built for Nepal&apos;s workforce</h2>
         </div>
         <div className="mt-9 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {[
