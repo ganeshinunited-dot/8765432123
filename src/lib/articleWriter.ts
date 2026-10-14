@@ -163,3 +163,138 @@ export async function writeArticle(
   if (!data || !data.titleEn || !data.bodyEn || !data.bodyNe) return null;
   return data;
 }
+
+// ---------------------------------------------------------------------------
+// Evergreen long-tail keyword guides. One is published per day by the daily
+// cron (alongside the news batch) until the list is exhausted, then the
+// cron stops generating guides. White-hat: the focus keyword appears in the
+// title, first paragraph and one H2 — never stuffed.
+// ---------------------------------------------------------------------------
+
+export interface GuideSpec {
+  keyword: string;
+  workingTitle: string;
+  category: string;
+  angle: string;
+  referenceUrls: string[];
+}
+
+export const GUIDE_SPECS: GuideSpec[] = [
+  {
+    keyword: "remote data entry jobs no experience",
+    workingTitle: "Remote Data Entry Jobs With No Experience: Where Beginners Can Actually Start",
+    category: "remote",
+    angle: "Beginner-oriented: what data entry really involves, realistic pay ranges, which platforms list genuine entry-level roles, red flags for scams.",
+    referenceUrls: ["https://www.upwork.com", "https://www.fiverr.com", "https://growentix.cloud/courses"],
+  },
+  {
+    keyword: "work from home jobs for students",
+    workingTitle: "Work From Home Jobs for Students in Nepal: Realistic Options in 2026",
+    category: "remote",
+    angle: "Nepali students: freelancing, tutoring, content writing, virtual assistance; balancing classes; payment methods available in Nepal.",
+    referenceUrls: ["https://www.upwork.com", "https://growentix.cloud/courses"],
+  },
+  {
+    keyword: "virtual assistant jobs for beginners",
+    workingTitle: "Virtual Assistant Jobs for Beginners: Skills, Pay and Where to Apply",
+    category: "remote",
+    angle: "What VAs actually do, starter skill stack, realistic beginner pay, where beginners find first clients, how to write a VA profile.",
+    referenceUrls: ["https://www.upwork.com", "https://growentix.cloud/courses"],
+  },
+  {
+    keyword: "remote customer service jobs no experience",
+    workingTitle: "Remote Customer Service Jobs With No Experience: What Employers Really Ask",
+    category: "remote",
+    angle: "Entry-level remote support roles, communication skills that matter, common interview questions, companies known to hire beginners.",
+    referenceUrls: ["https://www.indeed.com", "https://growentix.cloud/jobs"],
+  },
+  {
+    keyword: "jobs in dubai for foreigners",
+    workingTitle: "Jobs in Dubai for Foreigners: Visa, Salary and In-Demand Roles",
+    category: "gulf",
+    angle: "How Dubai work visas work, in-demand sectors, realistic salary bands, legal application channels, avoiding recruitment fraud.",
+    referenceUrls: ["https://www.dofe.gov.np", "https://growentix.cloud/sarkari-jobs"],
+  },
+  {
+    keyword: "delivery driver jobs dubai salary",
+    workingTitle: "Delivery Driver Jobs in Dubai: Salary, Requirements and How to Apply",
+    category: "gulf",
+    angle: "Licence requirements, typical salary + commission structure, major delivery companies, legal route via manpower agencies.",
+    referenceUrls: ["https://www.dofe.gov.np"],
+  },
+  {
+    keyword: "no experience jobs abroad nepal",
+    workingTitle: "No Experience Jobs Abroad for Nepalis: Gulf, Korea and Beyond",
+    category: "work-abroad",
+    angle: "Legal pathways for first-time migrant workers: EPS Korea, Gulf demand letters, required documents, costs, fraud prevention.",
+    referenceUrls: ["https://www.dofe.gov.np", "https://eps.go.kr", "https://growentix.cloud/sarkari-jobs"],
+  },
+  {
+    keyword: "part time online jobs for students",
+    workingTitle: "Part-Time Online Jobs for Students: Flexible Work That Fits Your Classes",
+    category: "remote",
+    angle: "Flexible online roles by hours available, realistic weekly earnings, avoiding time-wasters, building skills that compound.",
+    referenceUrls: ["https://www.upwork.com", "https://growentix.cloud/courses"],
+  },
+  {
+    keyword: "data entry jobs from home",
+    workingTitle: "Data Entry Jobs From Home: Legit Platforms vs the Scams to Avoid",
+    category: "remote",
+    angle: "Public-service angle: how data-entry scams work (registration fees, fake cheques), verification checklist, genuinely legit platforms.",
+    referenceUrls: ["https://www.upwork.com"],
+  },
+  {
+    keyword: "remote accountant jobs",
+    workingTitle: "Remote Accountant Jobs: Certifications and Platforms That Hire Internationally",
+    category: "remote",
+    angle: "Which accounting credentials travel internationally, bookkeeping vs CPA-track roles, platforms and firms hiring remote accountants.",
+    referenceUrls: ["https://www.linkedin.com", "https://growentix.cloud/courses"],
+  },
+];
+
+function buildGuidePrompt(spec: GuideSpec): string {
+  return `Write a comprehensive evergreen career guide based on your knowledge. Do NOT invent specific job listings, company hiring claims, salaries for named employers, or deadlines. Salary figures must be realistic typical ranges clearly labelled as typical. If you mention platforms or official portals, use only well-known real ones.
+
+FOCUS KEYWORD: "${spec.keyword}"
+WORKING TITLE: "${spec.workingTitle}"
+ANGLE: ${spec.angle}
+
+Return JSON with exactly these keys:
+- "titleEn": compelling headline containing the focus keyword naturally, British English, max 90 characters
+- "titleNe": the same headline in natural Nepali (Devanagari script) — fluent and idiomatic
+- "excerptEn": 1-2 sentence summary, British English
+- "excerptNe": the summary in fluent Nepali (Devanagari script)
+- "bodyEn": guide body as HTML using only <h2>, <p>, <ul>, <li>, <strong>, <a> tags. 800-1000 words. Structure:
+  1. <p> lead containing the focus keyword — who this guide is for and what they will learn.
+  2. <h2> containing the focus keyword — the honest reality: what the work involves, typical pay (labelled typical), who succeeds.
+  3. <h2>Where to find legitimate opportunities</h2> — real platforms and channels; how to verify a listing is genuine.
+  4. <h2>How to apply, step by step</h2> — concrete steps a reader can follow today.
+  5. <h2>Watch out for scams</h2> — red flags specific to this field (skip only if genuinely not applicable).
+  6. Short closing <p> — one honest takeaway.
+  British English.
+- "bodyNe": full Nepali (Devanagari script) version — rewrite like a skilled Nepali journalist, natural flow, common job vocabulary, same HTML structure. Never transliterate word-for-word.
+- "category": "${spec.category}"
+- "country": null
+
+RULES:
+- British English spelling in all English text.
+- Write like a human expert: varied sentence rhythm, concrete and practical, no filler openers. Never open with "In today's fast-paced world" or similar.
+- Banned AI-telltale words: delve, moreover, furthermore, additionally (as sentence starter), tapestry, landscape (as metaphor), "game-changer", "in conclusion". Contractions are fine.
+- INLINE LINKS: 2-4 <a href> links on key entities (official portals, well-known platforms, Growentix pages). Use only these URLs: ${spec.referenceUrls.join(", ")}. Never invent URLs.
+- No emojis. No markdown. HTML only in the body fields.
+- Never mention that you are an AI.`;
+}
+
+/** Writes one evergreen long-tail guide. Returns null on failure. */
+export async function writeGuide(spec: GuideSpec): Promise<ArticleJson | null> {
+  const raw = await aiComplete(
+    [
+      { role: "system", content: SYSTEM_PROMPT },
+      { role: "user", content: buildGuidePrompt(spec) },
+    ],
+    { json: true, maxTokens: 6000 }
+  );
+  const data = parseAiJson<ArticleJson>(raw);
+  if (!data || !data.titleEn || !data.bodyEn || !data.bodyNe) return null;
+  return data;
+}

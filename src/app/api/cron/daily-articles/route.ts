@@ -5,8 +5,11 @@ import {
   parseRss,
   fetchPageText,
   writeArticle,
+  writeGuide,
+  GUIDE_SPECS,
   VALID_CATEGORIES,
   type RssItem,
+  type ArticleJson,
 } from "@/lib/articleWriter";
 
 export const dynamic = "force-dynamic";
@@ -65,11 +68,12 @@ export async function GET(req: NextRequest) {
 
   // 2. Dedupe against already-published source links.
   const existing = await db.article.findMany({
-    select: { sources: true },
+    select: { sources: true, titleEn: true },
     orderBy: { publishedAt: "desc" },
     take: 400,
   });
   const seenLinks = new Set(existing.flatMap((e) => e.sources));
+  const seenTitles = existing.map((e) => e.titleEn.toLowerCase());
   const seenInBatch = new Set<string>();
   const perCategory = new Map<string, number>();
   const picked: RssItem[] = [];
@@ -87,23 +91,36 @@ export async function GET(req: NextRequest) {
   // 3. Ground each story: fetch the article page text (parallel).
   const pageTexts = await Promise.all(picked.map((p) => fetchPageText(p.link)));
 
-  // 4. Write: one AI call per story, English + Nepali together (parallel).
-  const written = await Promise.allSettled(
-    picked.map((item, i) => writeArticle(item, pageTexts[i]))
+  // 3b. Guide of the day: first long-tail keyword not yet published.
+  // Runs in parallel with the news batch so it costs no extra wall time.
+  const nextGuide = GUIDE_SPECS.find(
+    (g) => !seenTitles.some((t) => t.includes(g.keyword.toLowerCase()))
   );
+
+  // 4. Write: one AI call per story, English + Nepali together (parallel).
+  const written = await Promise.allSettled([
+    ...picked.map((item, i) => writeArticle(item, pageTexts[i])),
+    ...(nextGuide ? [writeGuide(nextGuide).then((d) => ({ guide: true as const, spec: nextGuide, data: d }))] : []),
+  ]);
 
   // 5. Publish.
   const dateStr = new Date().toISOString().slice(0, 10).replace(/-/g, "");
   let published = 0;
   const titles: string[] = [];
+  let guidesPublished = 0;
   for (let idx = 0; idx < written.length; idx++) {
     const r = written[idx];
     if (r.status !== "fulfilled" || !r.value) continue;
-    const data = r.value;
-    const item = picked[idx];
-    const category = VALID_CATEGORIES.has(data.category)
-      ? data.category
-      : item.category;
+    const v = r.value as ArticleJson | { guide: true; spec: (typeof GUIDE_SPECS)[number]; data: ArticleJson | null };
+    const isGuide = typeof v === "object" && v !== null && "guide" in v;
+    const data = (isGuide ? (v as { data: ArticleJson | null }).data : (v as ArticleJson));
+    if (!data) continue;
+    const item = isGuide ? null : picked[idx];
+    const category = isGuide
+      ? (v as { spec: (typeof GUIDE_SPECS)[number] }).spec.category
+      : VALID_CATEGORIES.has(data.category)
+        ? data.category
+        : (item as RssItem).category;
     let slug = `${articleSlug(data.titleEn) || "job-news"}-${dateStr}`;
     let n = 2;
     while (await db.article.findUnique({ where: { slug }, select: { id: true } })) {
@@ -116,18 +133,21 @@ export async function GET(req: NextRequest) {
       data: {
         slug,
         category,
-        country: data.country || item.country,
+        country: data.country || (item ? (item as RssItem).country : null),
         titleEn: data.titleEn.slice(0, 200),
         titleNe: data.titleNe || data.titleEn,
         excerptEn: (data.excerptEn || "").slice(0, 500),
         excerptNe: data.excerptNe || data.excerptEn || "",
         bodyEn: data.bodyEn,
         bodyNe: data.bodyNe,
-        sources: [item.link],
+        sources: isGuide
+          ? (v as { spec: (typeof GUIDE_SPECS)[number] }).spec.referenceUrls
+          : [(item as RssItem).link],
         publishedAt: new Date(),
       },
     });
     published++;
+    if (isGuide) guidesPublished++;
     titles.push(data.titleEn);
   }
 
@@ -136,6 +156,7 @@ export async function GET(req: NextRequest) {
     researched: allItems.length,
     picked: picked.length,
     published,
+    guidesPublished,
     titles,
   });
 }
