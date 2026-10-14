@@ -11,7 +11,7 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const page = await db.cmsPage.findUnique({ where: { slug } });
-  return { title: page ? `page.title` : "Page not found" };
+  return { title: page ? page.title : "Page not found" };
 }
 
 export default async function CmsPublicPage({ params }: { params: Promise<{ slug: string }> }) {
