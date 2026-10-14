@@ -19,7 +19,7 @@ export interface SarkariJob {
   category: SarkariCategory;
 }
 
-export const SARKARI_UPDATED = "2026-10-10";
+export const SARKARI_UPDATED = "2026-10-14";
 
 export const SARKARI_JOBS: SarkariJob[] = [
   {
@@ -1490,6 +1490,71 @@ export const SARKARI_JOBS: SarkariJob[] = [
     sourceUrl: "https://www.educatenepal.com/vacancies/detail/vacancy-notice-from-lumbini-pradesh-government-of-nepal",
     noticeUrl: "https://www.educatenepal.com/vacancies/detail/vacancy-notice-from-lumbini-pradesh-government-of-nepal",
     category: "local",
+  },
+  {
+    id: "sj-114",
+    organization: "TU Teaching Hospital",
+    postTitle: "Chief Technical Assistant (Pharmacy)",
+    level: null,
+    seats: 5,
+    deadline: "2026-10-17",
+    location: "Maharajgunj, Kathmandu",
+    minQualification: "Certificate Level in Pharmacy or equivalent (TU or recognised institution); NHPC registration",
+    sourceUrl: "https://www.collegenp.com/vacancy/tu-teaching-hospital-contract-vacancy-technical-posts-2083",
+    noticeUrl: "https://www.collegenp.com/vacancy/tu-teaching-hospital-contract-vacancy-technical-posts-2083",
+    category: "health",
+  },
+  {
+    id: "sj-115",
+    organization: "TU Teaching Hospital",
+    postTitle: "Chief Technical Assistant (Pathology)",
+    level: null,
+    seats: 5,
+    deadline: "2026-10-17",
+    location: "Maharajgunj, Kathmandu",
+    minQualification: "Certificate Level in Pathology or equivalent (TU or recognised institution); NHPC registration",
+    sourceUrl: "https://www.collegenp.com/vacancy/tu-teaching-hospital-contract-vacancy-technical-posts-2083",
+    noticeUrl: "https://www.collegenp.com/vacancy/tu-teaching-hospital-contract-vacancy-technical-posts-2083",
+    category: "health",
+  },
+  {
+    id: "sj-116",
+    organization: "TU Teaching Hospital",
+    postTitle: "Chief Technical Assistant (Radiography)",
+    level: null,
+    seats: 5,
+    deadline: "2026-10-17",
+    location: "Maharajgunj, Kathmandu",
+    minQualification: "Certificate Level in Radiography or equivalent (TU or recognised institution); NHPC registration",
+    sourceUrl: "https://www.collegenp.com/vacancy/tu-teaching-hospital-contract-vacancy-technical-posts-2083",
+    noticeUrl: "https://www.collegenp.com/vacancy/tu-teaching-hospital-contract-vacancy-technical-posts-2083",
+    category: "health",
+  },
+  {
+    id: "sj-117",
+    organization: "TU Teaching Hospital",
+    postTitle: "Chief Technical Assistant (Health Assistant)",
+    level: null,
+    seats: 4,
+    deadline: "2026-10-17",
+    location: "Maharajgunj, Kathmandu",
+    minQualification: "Certificate Level in General Medicine or equivalent (TU or recognised institution); NHPC registration",
+    sourceUrl: "https://www.collegenp.com/vacancy/tu-teaching-hospital-contract-vacancy-technical-posts-2083",
+    noticeUrl: "https://www.collegenp.com/vacancy/tu-teaching-hospital-contract-vacancy-technical-posts-2083",
+    category: "health",
+  },
+  {
+    id: "sj-118",
+    organization: "TU Teaching Hospital",
+    postTitle: "Neuroelectrophysiology Technician",
+    level: null,
+    seats: 1,
+    deadline: "2026-10-17",
+    location: "Maharajgunj, Kathmandu",
+    minQualification: "Bachelor's in Neuroelectrophysiology or Diploma in Neuroelectrophysiology Technology",
+    sourceUrl: "https://www.collegenp.com/vacancy/tu-teaching-hospital-contract-vacancy-technical-posts-2083",
+    noticeUrl: "https://www.collegenp.com/vacancy/tu-teaching-hospital-contract-vacancy-technical-posts-2083",
+    category: "health",
   },
 ];
 

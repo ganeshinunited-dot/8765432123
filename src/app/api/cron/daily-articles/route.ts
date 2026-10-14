@@ -109,7 +109,9 @@ export async function GET(req: NextRequest) {
     while (await db.article.findUnique({ where: { slug }, select: { id: true } })) {
       slug = `${articleSlug(data.titleEn) || "job-news"}-${dateStr}-${n++}`;
     }
-    const pubDate = item.pubDate ? new Date(item.pubDate) : new Date();
+    // Stamp the moment Growentix publishes the article, not the source
+    // story's original date — otherwise fresh batches sink to old positions
+    // in the /articles listing (ordered by publishedAt desc).
     await db.article.create({
       data: {
         slug,
@@ -122,7 +124,7 @@ export async function GET(req: NextRequest) {
         bodyEn: data.bodyEn,
         bodyNe: data.bodyNe,
         sources: [item.link],
-        publishedAt: isNaN(pubDate.getTime()) ? new Date() : pubDate,
+        publishedAt: new Date(),
       },
     });
     published++;
