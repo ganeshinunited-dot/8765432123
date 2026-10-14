@@ -17,7 +17,7 @@ export async function generateMetadata({
     };
   }
   return {
-    title: "Job News & Articles — English and Nepali | Growentix",
+    title: "Job News & Articles — English and Nepali",
     description:
       "Daily job news from Nepal and around the world — hiring trends, Gulf jobs, Korea & Japan opportunities, remote work and career guides, in English and Nepali.",
     alternates: { canonical: "https://growentix.cloud/articles" },

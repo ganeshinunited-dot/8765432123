@@ -9,7 +9,11 @@ import {
   type SarkariJob,
 } from "@/data/sarkariJobs";
 
-export const dynamic = "force-static";
+// ISR with daily revalidation: pages are static for speed, but the frozen
+// "today" (used for the Closed banner, JobPosting JSON-LD and related
+// notices) refreshes at most once a day so expired notices flip over
+// automatically at midnight Asia/Kathmandu without a redeploy.
+export const revalidate = 86400;
 
 const CATEGORY_LABELS: Record<SarkariJob["category"], string> = {
   psc: "Public Service Commission",

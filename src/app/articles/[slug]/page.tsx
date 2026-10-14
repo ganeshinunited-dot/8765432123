@@ -19,7 +19,7 @@ export async function generateMetadata({
   });
   if (!a) return {};
   return {
-    title: `${a.titleEn} | Growentix`,
+    title: `a.titleEn`,
     description: a.excerptEn,
     alternates: { canonical: `https://growentix.cloud/articles/${slug}` },
     openGraph: {

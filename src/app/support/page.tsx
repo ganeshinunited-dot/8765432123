@@ -5,7 +5,7 @@ import { SupportChat } from "@/components/support/SupportChat";
 export const revalidate = 300;
 
 export const metadata: Metadata = {
-  title: "Help & Support — Growentix",
+  title: "Help & Support",
   description: "Ask the Growentix support assistant how to apply, post jobs, verify your company, manage CVs and safety.",
 };
 

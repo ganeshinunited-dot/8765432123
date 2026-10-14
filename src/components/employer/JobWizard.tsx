@@ -147,7 +147,7 @@ export default function JobWizard({ taxonomy, initial }: { taxonomy: Taxonomy; i
                 <span className="rounded-full bg-emerald-700 px-2 py-0.5 text-[11px] font-bold uppercase tracking-wide text-white">New</span>
                 {aiSource && <span className="text-xs font-medium text-slate-500">· {aiSource}</span>}
               </p>
-              <p className="mt-1 text-sm text-slate-600">Title matra bhare pugchha — AI le full description, responsibilities, requirements ra skills draft gardinchha. Pachhi edit garna milchha.</p>
+              <p className="mt-1 text-sm text-slate-600">Just enter the title — AI will draft the full description, responsibilities, requirements and skills. You can edit it afterwards.</p>
               <Button onClick={generateWithAi} loading={aiBusy} className="mt-3">Generate with AI</Button>
             </div>
             <Textarea label="Job description" name="description" rows={6} placeholder="What will the student actually do day to day? Who is this ideal for?" value={form.description as string} onChange={(e) => set("description", e.target.value)} error={errors.description} hint="Minimum 50 characters. Be specific — students apply more when they know what to expect." />
@@ -191,6 +191,7 @@ export default function JobWizard({ taxonomy, initial }: { taxonomy: Taxonomy; i
             <dl className="divide-y divide-slate-100 rounded-lg border border-slate-200">
               {[
                 ["Title", form.title as string],
+                ["Category", taxonomy.categories.find((c) => c.id === form.categoryId)?.name || "—"],
                 ["Type", JOB_TYPES.find(([v]) => v === form.jobType)?.[1]],
                 ["Arrangement", ARRANGEMENTS.find(([v]) => v === form.workArrangement)?.[1]],
                 ["Location", taxonomy.locations.find((l) => l.id === form.locationId)?.name || "—"],

@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { StaticPage, Section, Bullets } from "@/components/layout/StaticPage";
-export const revalidate = 300;
+import { getSessionUser } from "@/lib/auth";
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "I Want Talent — Hire Students",
@@ -15,14 +16,16 @@ const STEPS = [
   { title: "Hire with confidence", text: "Review applications, open CVs, shortlist, message candidates, and schedule interviews in one dashboard." },
 ];
 
-export default function ForEmployersPage() {
+export default async function ForEmployersPage() {
+  const user = await getSessionUser();
+  const postJobHref = user && user.role === "EMPLOYER" ? "/employer/jobs/new" : "/signup?role=EMPLOYER";
   return (
     <StaticPage
       title="I want talent? Hire motivated students"
       subtitle="Growentix connects you with talented students across Nepal who are looking for part-time, evening, weekend, remote, and internship work."
     >
       <div className="flex flex-wrap gap-3">
-        <Link href="/signup" className="inline-flex h-12 items-center rounded-lg gx-btn gx-btn-primary px-6 text-sm font-semibold text-white">
+        <Link href={postJobHref} className="inline-flex h-12 items-center rounded-lg gx-btn gx-btn-primary px-6 text-sm font-semibold text-white">
           Post a Job
         </Link>
       </div>

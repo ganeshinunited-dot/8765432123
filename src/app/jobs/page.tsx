@@ -24,7 +24,7 @@ export async function generateMetadata({
   const sp = await searchParams;
   const hasFilters = FILTER_KEYS.some((k) => sp[k]);
   return {
-    title: "Jobs in Nepal for Students & Fresh Talent | Growentix",
+    title: "Jobs in Nepal for Students & Fresh Talent",
     description:
       "Browse part-time jobs, internships and entry-level roles across Nepal. Free for talent — plus current government vacancy notices updated daily.",
     alternates: { canonical: "https://growentix.cloud/jobs" },
@@ -121,13 +121,13 @@ export default async function JobsPage({ searchParams }: { searchParams: Promise
       <div className="mt-6 flex flex-col gap-6 lg:flex-row">
         <aside className="hidden w-72 shrink-0 lg:block">
           <Card className="sticky top-20 p-5">
-            <JobFilters categories={categories} initial={sp} />
+            <JobFilters key={qs.toString()} categories={categories} initial={sp} />
           </Card>
         </aside>
 
         <div className="min-w-0 flex-1">
           <div className="mb-4 flex items-center gap-2 lg:hidden">
-            <JobFiltersMobile categories={categories} initial={sp} />
+            <JobFiltersMobile key={qs.toString()} categories={categories} initial={sp} />
             <SortSelect current={sp.sort} qs={qs.toString()} />
           </div>
           <div className="mb-4 hidden items-center justify-end lg:flex">

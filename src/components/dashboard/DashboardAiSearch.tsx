@@ -27,7 +27,7 @@ interface AiResult {
   courses: AiCourse[];
 }
 
-const EXAMPLES = ["Evening part-time job in Kathmandu", "Video editing course", "Remote internship", "AI sikne course"];
+const EXAMPLES = ["Evening part-time job in Kathmandu", "Video editing course", "Remote internship", "AI learning course"];
 
 export function DashboardAiSearch() {
   const [query, setQuery] = useState("");

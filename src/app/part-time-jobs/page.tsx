@@ -3,12 +3,12 @@ import { Metadata } from "next";
 export const revalidate = 300;
 
 export const metadata: Metadata = {
-  title: "Part-Time Jobs for Students in Nepal | Growentix",
+  title: "Part-Time Jobs for Students in Nepal",
   description: "Find flexible part-time jobs that fit around your classes. From weekend shifts to evening work, these employers are hiring students across Nepal right",
 };
 
 const config: SeoConfig = {
-  title: "Part-Time Jobs for Students in Nepal | Growentix",
+  title: "Part-Time Jobs for Students in Nepal",
   heading: "Part-Time Jobs for Students in Nepal",
   intro: "Find flexible part-time jobs that fit around your classes. From weekend shifts to evening work, these employers are hiring students across Nepal right now.",
   where: { jobType: "PART_TIME" },

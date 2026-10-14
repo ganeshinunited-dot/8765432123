@@ -3,7 +3,7 @@ import SarkariBrowser from "@/components/sarkari/SarkariBrowser";
 import { SARKARI_JOBS } from "@/data/sarkariJobs";
 
 export const metadata: Metadata = {
-  title: "Sarkari Jobs in Nepal | Government Vacancy Notices | Growentix",
+  title: "Sarkari Jobs in Nepal | Government Vacancy Notices",
   description:
     "Current government vacancy notices in Nepal — PSC, security forces, public banks, hospitals, local levels. Informational listings with official notice links.",
 };

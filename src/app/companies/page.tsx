@@ -6,7 +6,7 @@ import { Card, Badge, EmptyState } from "@/components/ui/primitives";
 export const revalidate = 120;
 
 export const metadata = {
-  title: "Companies Hiring Students in Nepal | Growentix",
+  title: "Companies Hiring Students in Nepal",
   description: "Browse verified companies hiring students across Nepal.",
 };
 
