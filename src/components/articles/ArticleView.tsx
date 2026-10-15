@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { articleCategoryLabel } from "@/lib/articles";
 import { articleImagesFor } from "@/data/articleImages";
+import { LanguagePicker } from "./LanguagePicker";
 
 export interface ArticleData {
   slug: string;
@@ -61,6 +62,11 @@ export function ArticleView({ article }: { article: ArticleData }) {
 
   return (
     <article>
+      {/* Language picker — top of the article, jw.org style */}
+      <div className="mb-4 flex justify-end">
+        <LanguagePicker lang={lang} onChange={setLang} />
+      </div>
+
       <nav aria-label="Breadcrumb" className="text-sm text-slate-500">
         <Link href="/" className="hover:text-emerald-700">Home</Link>
         <span className="mx-2" aria-hidden="true">/</span>
@@ -94,29 +100,6 @@ export function ArticleView({ article }: { article: ArticleData }) {
       >
         {title}
       </h1>
-
-      <div className="mt-5 inline-flex rounded-full border border-slate-200 bg-white p-1">
-        <button
-          type="button"
-          onClick={() => setLang("en")}
-          className={`rounded-full px-5 py-2 text-sm font-semibold transition ${
-            lang === "en" ? "bg-emerald-600 text-white" : "text-slate-600 hover:text-slate-900"
-          }`}
-          aria-pressed={lang === "en"}
-        >
-          English
-        </button>
-        <button
-          type="button"
-          onClick={() => setLang("ne")}
-          className={`rounded-full px-5 py-2 text-sm font-semibold transition ${
-            lang === "ne" ? "bg-emerald-600 text-white" : "text-slate-600 hover:text-slate-900"
-          }`}
-          aria-pressed={lang === "ne"}
-        >
-          नेपाली
-        </button>
-      </div>
 
       {excerpt && (
         <p
