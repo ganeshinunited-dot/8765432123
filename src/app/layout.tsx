@@ -6,6 +6,7 @@ import { ToastProvider } from "@/components/ui/Toast";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { LogoIntro } from "@/components/layout/LogoIntro";
+import { BottomNav } from "@/components/layout/BottomNav";
 import { TrackVisit } from "@/components/analytics/TrackVisit";
 
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
@@ -59,6 +60,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <Navbar />
           <main className="flex-1">{children}</main>
           <Footer />
+          <BottomNav />
+          {/* Spacer so the fixed mobile tab bar never covers footer content. */}
+          <div className="h-[68px] md:hidden" aria-hidden="true" />
         </ToastProvider>
       </body>
     </html>

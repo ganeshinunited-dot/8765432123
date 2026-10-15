@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { NavAuth } from "./NavAuth";
 import { Logo } from "./Logo";
+import { AreaPicker } from "./AreaPicker";
 import { readChromeCookie, writeChromeCookie, syncChromeAttr } from "@/lib/chrome-cookie";
 
 interface SessionState {
@@ -64,6 +65,16 @@ export function Navbar() {
     );
   }
 
-  // Visitors: no top bar at all — signup is disabled for now (news-only site).
-  return null;
+  // Visitors: slim public header — logo + All Areas picker (reference layout).
+  // Signup is disabled; login stays available via /login for admins.
+  return (
+    <header className="gx-public-chrome sticky top-0 z-40 border-b border-slate-200 bg-white/95 backdrop-blur">
+      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-4 sm:px-6">
+        <Link href="/" className="flex items-center" aria-label="Growentix home">
+          <Logo />
+        </Link>
+        <AreaPicker />
+      </div>
+    </header>
+  );
 }

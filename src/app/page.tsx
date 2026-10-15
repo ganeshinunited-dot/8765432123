@@ -4,6 +4,7 @@ import { db } from "@/lib/db";
 import { Reveal } from "@/components/ui/Reveal";
 import { SARKARI_JOBS, sarkariSlug } from "@/data/sarkariJobs";
 import { articleCategoryLabel } from "@/lib/articles";
+import { articleImagesFor } from "@/data/articleImages";
 
 export const revalidate = 60;
 
@@ -11,11 +12,133 @@ function formatDate(d: Date) {
   return new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "short", year: "numeric" }).format(d);
 }
 
+const CATEGORY_PILLS: { label: string; href: string; icon: React.ReactNode }[] = [
+  {
+    label: "All",
+    href: "/articles",
+    icon: (
+      <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+        <circle cx="12" cy="12" r="10" />
+        <path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+      </svg>
+    ),
+  },
+  {
+    label: "Remote",
+    href: "/articles?category=remote",
+    icon: (
+      <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+        <rect x="2" y="4" width="20" height="12" rx="2" />
+        <path d="M2 20h20" />
+      </svg>
+    ),
+  },
+  {
+    label: "Gulf",
+    href: "/articles?category=gulf",
+    icon: (
+      <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+        <path d="M12 21s-7-5.5-7-11a7 7 0 0 1 14 0c0 5.5-7 11-7 11z" />
+        <circle cx="12" cy="10" r="2.5" />
+      </svg>
+    ),
+  },
+  {
+    label: "USA",
+    href: "/articles?category=usa",
+    icon: (
+      <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+        <path d="M12 21s-7-5.5-7-11a7 7 0 0 1 14 0c0 5.5-7 11-7 11z" />
+        <circle cx="12" cy="10" r="2.5" />
+      </svg>
+    ),
+  },
+  {
+    label: "UK",
+    href: "/articles?category=uk",
+    icon: (
+      <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+        <path d="M12 21s-7-5.5-7-11a7 7 0 0 1 14 0c0 5.5-7 11-7 11z" />
+        <circle cx="12" cy="10" r="2.5" />
+      </svg>
+    ),
+  },
+  {
+    label: "Canada",
+    href: "/articles?category=canada",
+    icon: (
+      <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+        <path d="M12 21s-7-5.5-7-11a7 7 0 0 1 14 0c0 5.5-7 11-7 11z" />
+        <circle cx="12" cy="10" r="2.5" />
+      </svg>
+    ),
+  },
+  {
+    label: "Australia",
+    href: "/articles?category=australia",
+    icon: (
+      <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+        <path d="M12 21s-7-5.5-7-11a7 7 0 0 1 14 0c0 5.5-7 11-7 11z" />
+        <circle cx="12" cy="10" r="2.5" />
+      </svg>
+    ),
+  },
+  {
+    label: "Europe",
+    href: "/articles?category=europe",
+    icon: (
+      <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+        <path d="M12 21s-7-5.5-7-11a7 7 0 0 1 14 0c0 5.5-7 11-7 11z" />
+        <circle cx="12" cy="10" r="2.5" />
+      </svg>
+    ),
+  },
+  {
+    label: "Asia",
+    href: "/articles?category=asia",
+    icon: (
+      <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+        <path d="M12 21s-7-5.5-7-11a7 7 0 0 1 14 0c0 5.5-7 11-7 11z" />
+        <circle cx="12" cy="10" r="2.5" />
+      </svg>
+    ),
+  },
+  {
+    label: "Korea & Japan",
+    href: "/articles?category=korea-japan",
+    icon: (
+      <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+        <path d="M12 21s-7-5.5-7-11a7 7 0 0 1 14 0c0 5.5-7 11-7 11z" />
+        <circle cx="12" cy="10" r="2.5" />
+      </svg>
+    ),
+  },
+  {
+    label: "Work Abroad",
+    href: "/articles?category=work-abroad",
+    icon: (
+      <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+        <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" />
+      </svg>
+    ),
+  },
+  {
+    label: "Nepal",
+    href: "/articles?category=nepal",
+    icon: (
+      <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+        <path d="M12 21s-7-5.5-7-11a7 7 0 0 1 14 0c0 5.5-7 11-7 11z" />
+        <circle cx="12" cy="10" r="2.5" />
+      </svg>
+    ),
+  },
+];
+
 export default async function HomePage() {
   const articles = await db.article.findMany({
     orderBy: { publishedAt: "desc" },
     take: 6,
-    select: { slug: true, category: true, titleEn: true, excerptEn: true, publishedAt: true },
+    select: { slug: true, category: true, country: true, titleEn: true, excerptEn: true, publishedAt: true },
   });
 
   // Sarkari notices auto-expire by deadline — count only live ones (Asia/Kathmandu date).
@@ -29,77 +152,110 @@ export default async function HomePage() {
 
   return (
     <div>
-      {/* Hero — slim: headline, one line, category chips */}
+      {/* Hero — dark, headline + search pill + category pills */}
       <section className="relative overflow-hidden bg-emerald-950">
         <div aria-hidden className="gx-glow absolute inset-0 bg-[radial-gradient(65%_55%_at_50%_0%,rgba(232,50,31,0.28),transparent_70%)]" />
         <div aria-hidden className="gx-glow absolute inset-0 bg-[radial-gradient(40%_35%_at_85%_100%,rgba(192,192,192,0.14),transparent_70%)]" style={{ animationDelay: "-4.5s" }} />
-        <div className="relative mx-auto max-w-7xl px-4 pb-14 pt-12 sm:px-6 sm:pb-20 sm:pt-20">
+        <div className="relative mx-auto max-w-7xl px-4 pb-10 pt-10 sm:px-6 sm:pb-14 sm:pt-14">
           <h1 className="gx-enter max-w-3xl font-display text-[2rem] font-extrabold leading-[1.08] tracking-tight text-white sm:text-6xl" style={{ "--gx-delay": "120ms" } as CSSProperties}>
             Never miss <span className="text-emerald-300">an opportunity.</span>
           </h1>
-          <p className="gx-enter mt-5 max-w-xl text-base leading-relaxed text-emerald-100/90 sm:text-lg" style={{ "--gx-delay": "200ms" } as CSSProperties}>
-            Vacancy notices, work-abroad updates and daily job news — tracked for you.
+          <p className="gx-enter mt-4 max-w-xl text-base leading-relaxed text-emerald-100/90 sm:text-lg" style={{ "--gx-delay": "200ms" } as CSSProperties}>
+            Latest job news, vacancies and career opportunities from around the world — all in one place.
           </p>
 
-          <form action="/articles" method="get" role="search" className="gx-enter mt-7 flex max-w-2xl flex-col gap-2 sm:mt-8 sm:flex-row" style={{ "--gx-delay": "280ms" } as CSSProperties}>
+          {/* Search pill — white, magnifier left, arrow button right */}
+          <form action="/articles" method="get" role="search" className="gx-enter mt-6 flex max-w-2xl items-center rounded-full bg-white p-1.5 shadow-2xl shadow-black/30" style={{ "--gx-delay": "280ms" } as CSSProperties}>
             <label htmlFor="hero-search" className="sr-only">Search job news</label>
-            <div className="relative flex-1">
-              <svg className="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-                <circle cx="11" cy="11" r="8" />
-                <path d="M21 21l-4.35-4.35" />
+            <svg className="ml-3 h-5 w-5 shrink-0 text-slate-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+              <circle cx="11" cy="11" r="8" />
+              <path d="M21 21l-4.35-4.35" />
+            </svg>
+            <input
+              id="hero-search"
+              name="search"
+              type="search"
+              placeholder="Search job news (e.g. “remote jobs”, “web developer”)…"
+              className="h-11 w-full flex-1 bg-transparent px-3 text-[15px] text-slate-900 placeholder:text-slate-400 focus:outline-none"
+            />
+            <button type="submit" aria-label="Search" className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-emerald-600 text-white transition hover:bg-emerald-700">
+              <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true">
+                <path d="M5 12h14M13 6l6 6-6 6" />
               </svg>
-              <input
-                id="hero-search"
-                name="search"
-                type="search"
-                placeholder="Search job news — try “AI jobs”…"
-                className="h-13 w-full rounded-2xl border-0 bg-white py-3.5 pl-11 pr-4 text-[15px] text-slate-900 shadow-2xl shadow-black/30 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500"
-              />
-            </div>
-            <button type="submit" className="h-13 shrink-0 rounded-2xl gx-btn gx-btn-primary px-7 py-3.5 text-sm font-bold text-white">
-              Search
             </button>
           </form>
 
-          <div className="gx-enter mt-4 flex flex-wrap items-center gap-2" style={{ "--gx-delay": "340ms" } as CSSProperties}>
-            <span className="text-xs font-bold uppercase tracking-wider text-emerald-200/80">Trending:</span>
-            {[["AI Jobs", "AI jobs"], ["EPS Korea", "EPS Korea"], ["Gulf", "Gulf"], ["Caregiver", "Caregiver"], ["Remote", "Remote"]].map(([label, q]) => (
-              <Link key={label} href={`/articles?search=${encodeURIComponent(q)}`} className="rounded-full border border-white/20 bg-white/10 px-3.5 py-1.5 text-xs font-semibold text-white backdrop-blur-sm transition hover:bg-white/25">
-                {label}
-              </Link>
-            ))}
-          </div>
-
-          <div className="gx-enter mt-6 flex flex-wrap gap-2" style={{ "--gx-delay": "360ms" } as CSSProperties}>
-            {[["Sarkari Jobs", "/sarkari-jobs"], ["Gulf Jobs", "/articles?category=gulf"], ["Korea & Japan", "/articles?category=korea-japan"], ["Remote Work", "/articles?category=remote"], ["Work Abroad", "/articles?category=work-abroad"]].map(([t, href]) => (
-              <Link key={t} href={href} className="rounded-full border border-white/15 bg-white/10 px-4 py-2 text-sm font-medium text-emerald-50 backdrop-blur-sm transition hover:bg-white/20">
-                {t}
+          {/* Category pills — horizontal scroll on mobile */}
+          <div className="gx-enter -mx-4 mt-6 flex gap-2 overflow-x-auto px-4 pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" style={{ "--gx-delay": "340ms" } as CSSProperties}>
+            {CATEGORY_PILLS.map((p) => (
+              <Link
+                key={p.label}
+                href={p.href}
+                className={`flex shrink-0 items-center gap-1.5 rounded-full px-4 py-2.5 text-sm font-semibold transition ${
+                  p.label === "All"
+                    ? "bg-emerald-600 text-white shadow-lg shadow-emerald-900/40"
+                    : "border border-white/15 bg-white/10 text-white backdrop-blur-sm hover:bg-white/20"
+                }`}
+              >
+                {p.icon}
+                {p.label}
               </Link>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Latest news — newest articles */}
-      <section className="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-16">
-        <div className="flex flex-wrap items-end justify-between gap-3">
-          <div>
-            <span className="gx-eyebrow">Daily job news</span>
-            <h2 className="gx-h2">Latest news</h2>
-          </div>
-          <Link href="/articles" className="rounded-full border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 hover:border-emerald-500 hover:text-emerald-800">All articles →</Link>
+      {/* Latest Job News — list cards like the reference */}
+      <section className="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-12">
+        <div className="flex items-center justify-between gap-3">
+          <h2 className="gx-h2 mt-0">Latest Job News</h2>
+          <Link href="/articles" className="shrink-0 text-sm font-bold text-emerald-700 hover:underline">
+            View All <span aria-hidden="true">→</span>
+          </Link>
         </div>
-        <div className="mt-7 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {articles.map((a, i) => (
-            <Reveal key={a.slug} delay={Math.min(i, 5) * 60} className="h-full">
-              <Link href={`/articles/${a.slug}`} className="gx-lift group block h-full rounded-2xl border border-slate-200 bg-white p-5">
-                <span className="inline-flex items-center rounded-full bg-emerald-50 px-2.5 py-0.5 text-xs font-bold uppercase tracking-wide text-emerald-800">{articleCategoryLabel(a.category)}</span>
-                <p className="mt-3 font-display text-[15px] font-bold leading-snug text-slate-900 group-hover:text-emerald-800">{a.titleEn}</p>
-                <p className="mt-1.5 line-clamp-2 text-sm leading-relaxed text-slate-600">{a.excerptEn}</p>
-                <p className="mt-3 text-xs font-semibold text-slate-500">{formatDate(a.publishedAt)}</p>
-              </Link>
-            </Reveal>
-          ))}
+        <div className="mt-6 space-y-3">
+          {articles.map((a, i) => {
+            const images = articleImagesFor(a.slug);
+            return (
+              <Reveal key={a.slug} delay={Math.min(i, 5) * 60}>
+                <Link href={`/articles/${a.slug}`} className="gx-lift group flex gap-4 rounded-2xl border border-slate-200 bg-white p-4 sm:p-5">
+                  {images ? (
+                    <img
+                      src={images[0]}
+                      alt=""
+                      loading="lazy"
+                      className="hidden h-20 w-24 shrink-0 rounded-xl object-cover sm:block"
+                    />
+                  ) : (
+                    <span className="hidden h-20 w-24 shrink-0 items-center justify-center rounded-xl bg-emerald-50 font-display text-2xl font-extrabold text-emerald-700 sm:flex">
+                      {articleCategoryLabel(a.category).charAt(0)}
+                    </span>
+                  )}
+                  <div className="min-w-0 flex-1">
+                    <div className="flex items-start justify-between gap-3">
+                      <p className="font-display text-[15px] font-bold leading-snug text-slate-900 group-hover:text-emerald-800 sm:text-base">
+                        {a.titleEn}
+                      </p>
+                      <span className="shrink-0 text-xs text-slate-500">{formatDate(a.publishedAt)}</span>
+                    </div>
+                    <p className="mt-1 truncate text-sm text-slate-600">
+                      {a.country ?? articleCategoryLabel(a.category)}
+                    </p>
+                    <div className="mt-2.5 flex flex-wrap gap-1.5">
+                      <span className="rounded-full bg-emerald-50 px-2.5 py-0.5 text-xs font-semibold text-emerald-700">
+                        {articleCategoryLabel(a.category)}
+                      </span>
+                      {a.country && (
+                        <span className="rounded-full bg-slate-100 px-2.5 py-0.5 text-xs font-medium text-slate-600">
+                          {a.country}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                </Link>
+              </Reveal>
+            );
+          })}
         </div>
       </section>
 
@@ -130,29 +286,6 @@ export default async function HomePage() {
               );
             })}
           </div>
-        </div>
-      </section>
-
-      {/* Beyond Nepal — international opportunities */}
-      <section className="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-16">
-        <span className="gx-eyebrow">Beyond Nepal</span>
-        <h2 className="gx-h2">Work abroad, tracked daily</h2>
-        <p className="gx-sub">Gulf demand, Korea &amp; Japan pipelines, remote roles — news and guides in English and Nepali.</p>
-        <div className="mt-7 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {[
-            ["Gulf Jobs", "gulf", "Qatar, UAE, Saudi & more — salary, visa and demand updates."],
-            ["Korea & Japan", "korea-japan", "EPS-TOPIK, SSW and training pipelines explained."],
-            ["Remote Work", "remote", "Worldwide remote roles you can do from Nepal."],
-            ["Work Abroad", "work-abroad", "G2G recruitments, documents and pre-departure guides."],
-          ].map(([t, slug, d], i) => (
-            <Reveal key={slug} delay={i * 70} className="h-full">
-              <Link href={`/articles?category=${slug}`} className="gx-lift group block h-full rounded-2xl border border-slate-200 bg-white p-5">
-                <p className="font-display text-[15px] font-bold text-slate-900 group-hover:text-emerald-800">{t}</p>
-                <p className="mt-1.5 text-sm leading-relaxed text-slate-600">{d}</p>
-                <p className="mt-3 text-xs font-semibold text-emerald-700">Read latest →</p>
-              </Link>
-            </Reveal>
-          ))}
         </div>
       </section>
     </div>
