@@ -135,11 +135,36 @@ const CATEGORY_PILLS: { label: string; href: string; icon: React.ReactNode }[] =
 ];
 
 export default async function HomePage() {
-  const articles = await db.article.findMany({
+  // Trending: most-viewed articles in the last 30 days (real SiteVisit counts),
+  // topped up with the latest articles so the list is always full.
+  const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
+  const visits = await db.siteVisit.groupBy({
+    by: ["path"],
+    where: { path: { startsWith: "/articles/" }, day: { gte: thirtyDaysAgo } },
+    _count: { path: true },
+    orderBy: { _count: { path: "desc" } },
+    take: 12,
+  });
+  const trendingSlugs = visits
+    .map((v) => v.path.replace("/articles/", "").split("/")[0])
+    .filter(Boolean);
+  const trendingArticles =
+    trendingSlugs.length > 0
+      ? await db.article.findMany({
+          where: { slug: { in: trendingSlugs } },
+          select: { slug: true, category: true, country: true, titleEn: true, excerptEn: true, publishedAt: true },
+        })
+      : [];
+  const bySlug = new Map(trendingArticles.map((a) => [a.slug, a]));
+  const trending = trendingSlugs
+    .map((s) => bySlug.get(s))
+    .filter((a): a is NonNullable<typeof a> => !!a);
+  const latest = await db.article.findMany({
     orderBy: { publishedAt: "desc" },
-    take: 6,
+    take: 12,
     select: { slug: true, category: true, country: true, titleEn: true, excerptEn: true, publishedAt: true },
   });
+  const articles = [...trending, ...latest.filter((a) => !trendingSlugs.includes(a.slug))].slice(0, 6);
 
   // Sarkari notices auto-expire by deadline — count only live ones (Asia/Kathmandu date).
   const todayNpt = new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Kathmandu", year: "numeric", month: "2-digit", day: "2-digit" }).format(new Date());
@@ -165,7 +190,7 @@ export default async function HomePage() {
           </p>
 
           {/* Search pill — white, magnifier left, arrow button right */}
-          <form action="/articles" method="get" role="search" className="gx-enter mt-6 flex max-w-2xl items-center rounded-full bg-white p-1.5 shadow-2xl shadow-black/30" style={{ "--gx-delay": "280ms" } as CSSProperties}>
+          <form action="/search" method="get" role="search" className="gx-enter mt-6 flex max-w-2xl items-center rounded-full bg-white p-1.5 shadow-2xl shadow-black/30" style={{ "--gx-delay": "280ms" } as CSSProperties}>
             <label htmlFor="hero-search" className="sr-only">Search job news</label>
             <svg className="ml-3 h-5 w-5 shrink-0 text-slate-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
               <circle cx="11" cy="11" r="8" />
@@ -205,10 +230,10 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Latest Job News — list cards like the reference */}
+      {/* Trending Jobs — most-viewed job news, topped up with the latest */}
       <section className="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-12">
         <div className="flex items-center justify-between gap-3">
-          <h2 className="gx-h2 mt-0">Latest Job News</h2>
+          <h2 className="gx-h2 mt-0">Trending Jobs</h2>
           <Link href="/articles" className="shrink-0 text-sm font-bold text-emerald-700 hover:underline">
             View All <span aria-hidden="true">→</span>
           </Link>

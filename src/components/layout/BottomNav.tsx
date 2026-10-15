@@ -1,8 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Suspense } from "react";
-import { usePathname, useSearchParams } from "next/navigation";
+import { usePathname } from "next/navigation";
 
 const TABS = [
   {
@@ -17,8 +16,8 @@ const TABS = [
   },
   {
     label: "Search",
-    href: "/articles",
-    active: (p: string, hasSearch: boolean) => p.startsWith("/articles") && hasSearch,
+    href: "/search",
+    active: (p: string) => p.startsWith("/search"),
     icon: (active: boolean) => (
       <svg className="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
         <circle cx="11" cy="11" r="8" />
@@ -29,7 +28,7 @@ const TABS = [
   {
     label: "News",
     href: "/articles",
-    active: (p: string, hasSearch: boolean) => p.startsWith("/articles") && !hasSearch,
+    active: (p: string) => p.startsWith("/articles"),
     icon: (active: boolean) => (
       <svg className="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
         <path d="M4 19V5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2zm0 0a2 2 0 0 0 2 2h13" />
@@ -39,8 +38,8 @@ const TABS = [
   },
   {
     label: "Explore",
-    href: "/sarkari-jobs",
-    active: (p: string) => p.startsWith("/sarkari-jobs"),
+    href: "/explore",
+    active: (p: string) => p.startsWith("/explore"),
     icon: (active: boolean) => (
       <svg className="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
         <circle cx="12" cy="12" r="10" />
@@ -51,10 +50,8 @@ const TABS = [
 ];
 
 /** Bottom tab bar — mobile only, mirrors the reference app layout. */
-function BottomNavInner() {
+export function BottomNav() {
   const pathname = usePathname();
-  const searchParams = useSearchParams();
-  const hasSearch = searchParams.has("search");
   return (
     <nav
       aria-label="Primary"
@@ -62,7 +59,7 @@ function BottomNavInner() {
     >
       <div className="grid grid-cols-4">
         {TABS.map((t) => {
-          const active = t.active(pathname, hasSearch);
+          const active = t.active(pathname);
           return (
             <Link
               key={t.label}
@@ -80,13 +77,5 @@ function BottomNavInner() {
         })}
       </div>
     </nav>
-  );
-}
-
-export function BottomNav() {
-  return (
-    <Suspense>
-      <BottomNavInner />
-    </Suspense>
   );
 }
