@@ -56,7 +56,6 @@ export function Footer() {
           </nav>
         </div>
         <div className="mt-6 border-t border-white/10 pt-5 text-center text-sm text-slate-500">
-          <p className="mb-2 font-medium text-amber-400">Never pay an employer to apply for or receive a job.</p>
           <p>© {new Date().getFullYear()} Growentix. Job news and vacancy notices — we do not guarantee employment.</p>
         </div>
       </div>
