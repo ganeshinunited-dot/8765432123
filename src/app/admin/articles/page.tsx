@@ -26,20 +26,20 @@ export default async function AdminArticlesPage() {
 
   return (
     <AdminShell title="Articles" nav={ADMIN_NAV} active="/admin/articles">
-      <div className="mb-6 flex items-center justify-between">
+      <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <p className="text-sm text-slate-600">
           {articles.length} published — the daily cron adds more every morning.
         </p>
-        <div className="flex gap-2">
+        <div className="flex flex-col gap-2 sm:flex-row">
           <Link
             href="/admin/articles/quick"
-            className="gx-btn rounded-lg bg-emerald-600 px-4 py-2.5 text-sm font-semibold text-white"
+            className="gx-btn rounded-lg bg-emerald-600 px-4 py-3 text-center text-sm font-semibold text-white sm:py-2.5"
           >
             ⚡ Quick Post
           </Link>
           <Link
             href="/admin/articles/new"
-            className="gx-btn gx-btn-primary rounded-lg px-4 py-2.5 text-sm font-semibold text-white"
+            className="gx-btn gx-btn-primary rounded-lg px-4 py-2.5 text-center text-sm font-semibold text-white"
           >
             + New article
           </Link>
