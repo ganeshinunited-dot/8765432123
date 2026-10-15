@@ -31,12 +31,27 @@ const QUERIES: { q: string; category: string; country: string | null }[] = [
   { q: "Gulf jobs vacancy hiring", category: "gulf", country: "Gulf" },
   { q: "Korea EPS workers Nepal", category: "korea-japan", country: "South Korea" },
   { q: "Japan work visa jobs foreigners", category: "korea-japan", country: "Japan" },
+  { q: "USA jobs hiring visa sponsorship", category: "usa", country: "United States" },
+  { q: "UK jobs hiring visa sponsorship", category: "uk", country: "United Kingdom" },
+  { q: "Canada jobs hiring foreign workers", category: "canada", country: "Canada" },
+  { q: "Australia jobs hiring skilled visa", category: "australia", country: "Australia" },
+  { q: "Europe jobs hiring Germany France", category: "europe", country: "Europe" },
+  { q: "Singapore Malaysia jobs hiring foreigners", category: "asia", country: "Asia" },
   { q: "remote jobs hiring work from home", category: "remote", country: null },
   { q: "layoffs hiring trends 2026", category: "global", country: null },
   { q: "artificial intelligence jobs hiring", category: "global", country: null },
   { q: "work abroad visa opportunities", category: "work-abroad", country: null },
   { q: "career advice salary interview tips", category: "career", country: null },
 ];
+
+// Rotate query order by day-of-year so every country gets first-pick priority
+// on some days — with 8 slots/day and first-come picking, a fixed order would
+// starve the later countries forever.
+function rotatedQueries(): typeof QUERIES {
+  const dayOfYear = Math.floor((Date.now() - new Date(new Date().getFullYear(), 0, 0).getTime()) / 86400000);
+  const offset = dayOfYear % QUERIES.length;
+  return [...QUERIES.slice(offset), ...QUERIES.slice(0, offset)];
+}
 
 export async function GET(req: NextRequest) {
   const secret = process.env.CRON_SECRET;
@@ -49,8 +64,9 @@ export async function GET(req: NextRequest) {
   }
 
   // 1. Research: fetch Google News RSS for each query in parallel.
+  // Queries are day-rotated so every country gets priority on some days.
   const rssResults = await Promise.allSettled(
-    QUERIES.map(async (q) => {
+    rotatedQueries().map(async (q) => {
       const url = `https://news.google.com/rss/search?q=${encodeURIComponent(
         q.q
       )}&hl=en&gl=NP&ceid=NP:en`;
