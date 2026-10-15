@@ -10,6 +10,8 @@ import { trackEvent } from "@/lib/klaviyo";
 import { track } from "@/lib/analytics";
 
 export async function POST(req: Request) {
+  // Signups disabled for now (news-only site) — re-enable by removing this guard.
+  return NextResponse.json({ error: "Signups are currently disabled." }, { status: 403 });
   if (!rateLimit(clientKey("register", req), 10, 60_000)) {
     return NextResponse.json({ error: "Too many attempts. Please try again later." }, { status: 429 });
   }

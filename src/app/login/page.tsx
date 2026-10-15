@@ -59,9 +59,6 @@ function LoginPageInner() {
           Log in
         </Button>
       </form>
-      <p className="mt-4 text-center text-sm text-slate-600">
-        New here? <Link href="/signup" className="font-semibold text-emerald-700 hover:underline">Create an account</Link>
-      </p>
     </div>
   );
 }

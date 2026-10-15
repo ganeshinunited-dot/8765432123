@@ -80,12 +80,6 @@ export function NavAuth() {
           >
             Log in
           </Link>
-          <Link
-            href="/signup"
-            className="rounded-lg gx-btn gx-btn-primary px-4 py-2.5 text-sm font-semibold text-white"
-          >
-            Sign up
-          </Link>
         </>
       )}
       <MobileMenu user={loaded ? user : null} />

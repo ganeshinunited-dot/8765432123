@@ -18,7 +18,6 @@ export function Navbar() {
   // NOTE: every hook must stay above the early returns below — calling hooks
   // conditionally (after a return) crashes React with "rendered fewer hooks
   // than expected" for logged-in users.
-  const [showCta, setShowCta] = useState(false);
 
   useEffect(() => {
     // Instant: the readable chrome-hint cookie (set at login) already tells us
@@ -43,39 +42,6 @@ export function Navbar() {
     // route changes, so without this the chrome would stay stale after login.
   }, [pathname]);
 
-  // Visitors: behavior-based CTA — the scroll listener lives here, above the
-  // early returns, so hook order is identical on every render (logged-in or
-  // not). When a logged-in user renders null below, this listener simply
-  // updates unused state and re-arms the CTA for the next visitor session.
-  useEffect(() => {
-    let lastY = window.scrollY;
-    const check = () => {
-      const el = document.documentElement;
-      const y = window.scrollY;
-      // Dead zone so tiny scroll jitter doesn't flap the CTA.
-      const scrollingUp = y < lastY - 8;
-      lastY = y;
-      const distanceToBottom = el.scrollHeight - (window.innerHeight + y);
-      setShowCta((prev) => {
-        // Short pages (e.g. /courses) never scroll meaningfully — showing the
-        // pill at scroll 0 would contradict the behavior-based design.
-        if (el.scrollHeight <= window.innerHeight + 400) return false;
-        // Scrolling back up means re-reading: keep headings clear of the pill.
-        if (scrollingUp) return false;
-        if (distanceToBottom <= 200) return true; // reached the bottom → suggest
-        if (distanceToBottom > 600) return false; // scrolled well back up → hide
-        return prev;
-      });
-    };
-    check();
-    window.addEventListener("scroll", check, { passive: true });
-    window.addEventListener("resize", check);
-    return () => {
-      window.removeEventListener("scroll", check);
-      window.removeEventListener("resize", check);
-    };
-  }, [pathname]);
-
   // Logged-in non-admins (talent / employers / sellers) live in their
   // dashboard app — no public chrome at all, anywhere.
   // (Also hidden instantly via CSS from the pre-paint script; this removes it
@@ -98,23 +64,6 @@ export function Navbar() {
     );
   }
 
-  // Visitors: no top bar at all — one floating Sign up button that suggests
-  // itself from the top-center only after the visitor scrolls to the bottom
-  // (behavior-based CTA: they've seen the content, now invite them in).
-  // The hidden state is inlined so first paint never flashes the pill before
-  // the stylesheet loads; the CSS transition still animates show/hide.
-  if (pathname === "/signup") return null;
-  return (
-    <Link
-      href="/signup"
-      aria-hidden={!showCta}
-      tabIndex={showCta ? 0 : -1}
-      style={showCta ? undefined : { transform: "translate(-50%, -6rem)", opacity: 0, pointerEvents: "none" }}
-      className={`gx-public-chrome gx-btn gx-btn-primary gx-cta-float inline-flex h-11 items-center rounded-full px-6 text-sm font-semibold${
-        showCta ? " gx-cta-show" : ""
-      }`}
-    >
-      Sign up
-    </Link>
-  );
+  // Visitors: no top bar at all — signup is disabled for now (news-only site).
+  return null;
 }

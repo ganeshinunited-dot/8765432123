@@ -45,10 +45,8 @@ export default function AboutPage() {
 
       <Section title="Get started">
         <p>
-          Students can <Link href="/signup" className="font-semibold text-emerald-700 hover:underline">create a free profile</Link> in
-          minutes. Employers can <Link href="/for-employers" className="font-semibold text-emerald-700 hover:underline">post their first job</Link> today.
-          Questions? See our <Link href="/faq" className="font-semibold text-emerald-700 hover:underline">FAQ</Link> or
-          read our <Link href="/safety" className="font-semibold text-emerald-700 hover:underline">safety guide</Link>.
+          Explore the latest <Link href="/articles" className="font-semibold text-emerald-700 hover:underline">job news</Link> and{" "}
+          <Link href="/sarkari-jobs" className="font-semibold text-emerald-700 hover:underline">vacancy notices</Link> — updated daily.
         </p>
       </Section>
     </StaticPage>
