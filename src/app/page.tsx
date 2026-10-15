@@ -189,29 +189,8 @@ export default async function HomePage() {
             Latest job news, vacancies and career opportunities from around the world — all in one place.
           </p>
 
-          {/* Search pill — white, magnifier left, arrow button right */}
-          <form action="/search" method="get" role="search" className="gx-enter mt-6 flex max-w-2xl items-center rounded-full bg-white p-1.5 shadow-2xl shadow-black/30" style={{ "--gx-delay": "280ms" } as CSSProperties}>
-            <label htmlFor="hero-search" className="sr-only">Search job news</label>
-            <svg className="ml-3 h-5 w-5 shrink-0 text-slate-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-              <circle cx="11" cy="11" r="8" />
-              <path d="M21 21l-4.35-4.35" />
-            </svg>
-            <input
-              id="hero-search"
-              name="search"
-              type="search"
-              placeholder="Search job news (e.g. “remote jobs”, “web developer”)…"
-              className="h-11 w-full flex-1 bg-transparent px-3 text-[15px] text-slate-900 placeholder:text-slate-400 focus:outline-none"
-            />
-            <button type="submit" aria-label="Search" className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-emerald-600 text-white transition hover:bg-emerald-700">
-              <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true">
-                <path d="M5 12h14M13 6l6 6-6 6" />
-              </svg>
-            </button>
-          </form>
-
           {/* Category pills — horizontal scroll on mobile */}
-          <div className="gx-enter -mx-4 mt-6 flex gap-2 overflow-x-auto px-4 pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" style={{ "--gx-delay": "340ms" } as CSSProperties}>
+          <div className="gx-enter -mx-4 mt-6 flex gap-2 overflow-x-auto px-4 pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" style={{ "--gx-delay": "280ms" } as CSSProperties}>
             {CATEGORY_PILLS.map((p) => (
               <Link
                 key={p.label}
