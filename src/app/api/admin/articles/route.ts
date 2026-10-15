@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { getSessionUser } from "@/lib/auth";
 import { logAdminAction } from "@/lib/admin";
-import { articleSlug } from "@/lib/articles";
+import { articleSlug, titlesAreDuplicates } from "@/lib/articles";
 import { VALID_CATEGORIES } from "@/lib/articleWriter";
 
 async function isAdmin() {
@@ -47,6 +47,20 @@ export async function POST(req: Request) {
   const data = clean(body);
   if (!data.titleEn || !data.bodyEn) {
     return NextResponse.json({ error: "English title and body are required." }, { status: 400 });
+  }
+  // Same dedupe as the daily cron: refuse near-duplicate titles so the
+  // same story can't be published twice from different outlets.
+  const existingTitles = await db.article.findMany({
+    select: { slug: true, titleEn: true },
+    orderBy: { publishedAt: "desc" },
+    take: 400,
+  });
+  const dupe = existingTitles.find((e) => titlesAreDuplicates(data.titleEn, e.titleEn));
+  if (dupe) {
+    return NextResponse.json(
+      { error: `A very similar article already exists: “${dupe.titleEn}”.`, existingSlug: dupe.slug },
+      { status: 409 }
+    );
   }
   let slug = data.slug || articleSlug(data.titleEn) || "job-news";
   const dateStr = new Date().toISOString().slice(0, 10).replace(/-/g, "");

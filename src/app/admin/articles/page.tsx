@@ -30,12 +30,20 @@ export default async function AdminArticlesPage() {
         <p className="text-sm text-slate-600">
           {articles.length} published — the daily cron adds more every morning.
         </p>
-        <Link
-          href="/admin/articles/new"
-          className="gx-btn gx-btn-primary rounded-lg px-4 py-2.5 text-sm font-semibold text-white"
-        >
-          + New article
-        </Link>
+        <div className="flex gap-2">
+          <Link
+            href="/admin/articles/quick"
+            className="gx-btn rounded-lg bg-emerald-600 px-4 py-2.5 text-sm font-semibold text-white"
+          >
+            ⚡ Quick Post
+          </Link>
+          <Link
+            href="/admin/articles/new"
+            className="gx-btn gx-btn-primary rounded-lg px-4 py-2.5 text-sm font-semibold text-white"
+          >
+            + New article
+          </Link>
+        </div>
       </div>
       <div className="overflow-hidden rounded-2xl border border-slate-200">
         <table className="w-full text-left text-sm">
