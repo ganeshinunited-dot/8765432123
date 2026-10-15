@@ -1,47 +1,22 @@
-import Link from "next/link";
 import { db } from "@/lib/db";
-import { ARTICLE_CATEGORIES, articleCategoryLabel } from "@/lib/articles";
+import { ARTICLE_CATEGORIES } from "@/lib/articles";
+import { FilteredArticleList } from "@/components/articles/FilteredArticleList";
 
 export const revalidate = 300; // ISR: serve cached HTML, regenerate in background; admin/cron purge on publish
 
-export async function generateMetadata({
-  searchParams,
-}: {
-  searchParams: Promise<{ category?: string }>;
-}) {
-  const sp = await searchParams;
-  // Category-filtered views are thin duplicates — keep them out of the index.
-  if (sp.category) {
-    return {
-      robots: { index: false, follow: true },
-    };
-  }
-  return {
-    title: "Job News & Articles",
-    description:
-      "Daily job news from around the world — hiring trends, Gulf jobs, Korea & Japan opportunities, remote work and career guides.",
-    alternates: { canonical: "https://growentix.cloud/articles" },
-  };
-}
+export const metadata = {
+  title: "Job News & Articles",
+  description:
+    "Daily job news from around the world — hiring trends, Gulf jobs, Korea & Japan opportunities, remote work and career guides.",
+  alternates: { canonical: "https://growentix.cloud/articles" },
+};
 
-function formatDate(d: Date): string {
-  return new Intl.DateTimeFormat("en-GB", {
-    day: "numeric",
-    month: "short",
-    year: "numeric",
-  }).format(d);
-}
-
-export default async function ArticlesPage({
-  searchParams,
-}: {
-  searchParams: Promise<{ category?: string }>;
-}) {
-  const sp = await searchParams;
-  const active = sp.category ?? "";
-
-  const articles = await db.article.findMany({
-    where: active ? { category: active } : undefined,
+export default async function ArticlesPage() {
+  // NOTE: no searchParams here on purpose — reading searchParams on the
+  // server forces full dynamic rendering and kills the ISR cache. Category
+  // filtering happens client-side in FilteredArticleList; filtered URLs
+  // canonicalise to /articles.
+  const rows = await db.article.findMany({
     orderBy: { publishedAt: "desc" },
     take: 60,
     select: {
@@ -53,80 +28,20 @@ export default async function ArticlesPage({
       publishedAt: true,
     },
   });
+  const articles = rows.map((a) => ({ ...a, publishedAt: a.publishedAt.toISOString() }));
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6">
       <p className="gx-eyebrow">Daily job news</p>
       <h1 className="gx-h2 mt-2">Articles</h1>
-      <p className="gx-sub mt-2 max-w-2xl">
-        Fresh job stories from around the world.
-      </p>
-
-      <div className="mt-6 flex flex-wrap gap-2">
-        <Link
-          href="/articles"
-          className={`rounded-full px-4 py-2 text-sm font-medium transition ${
-            !active
-              ? "bg-emerald-600 text-white"
-              : "border border-slate-200 bg-white text-slate-700 hover:border-emerald-300"
-          }`}
-        >
-          All
-        </Link>
-        {ARTICLE_CATEGORIES.map((c) => (
-          <Link
-            key={c.slug}
-            href={`/articles?category=${c.slug}`}
-            className={`rounded-full px-4 py-2 text-sm font-medium transition ${
-              active === c.slug
-                ? "bg-emerald-600 text-white"
-                : "border border-slate-200 bg-white text-slate-700 hover:border-emerald-300"
-            }`}
-          >
-            {c.label}
-          </Link>
-        ))}
-      </div>
-
-      {articles.length === 0 ? (
-        <div className="mt-10 rounded-2xl border border-slate-200 bg-white p-10 text-center">
-          <p className="text-lg font-semibold text-slate-900">New articles are on the way</p>
-          <p className="mt-2 text-sm text-slate-600">
-            We publish fresh job news every morning — check back soon.
-          </p>
-        </div>
-      ) : (
-        <div className="mt-8 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-          {articles.map((a) => (
-            <Link
-              key={a.slug}
-              href={`/articles/${a.slug}`}
-              className="gx-lift group flex flex-col rounded-2xl border border-slate-200 bg-white p-6"
-            >
-              <div className="flex flex-wrap items-center gap-2">
-                <span className="rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700">
-                  {articleCategoryLabel(a.category)}
-                </span>
-                {a.country && (
-                  <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-600">
-                    {a.country}
-                  </span>
-                )}
-              </div>
-              <h2 className="mt-3 text-lg font-bold leading-snug text-slate-900 group-hover:text-emerald-700">
-                {a.titleEn}
-              </h2>
-              <p className="mt-2 flex-1 text-sm leading-relaxed text-slate-600">{a.excerptEn}</p>
-              <div className="mt-4 flex items-center justify-between">
-                <span className="text-xs text-slate-500">{formatDate(a.publishedAt)}</span>
-                <span className="text-sm font-semibold text-emerald-700 group-hover:underline">
-                  Read article <span aria-hidden="true">&rarr;</span>
-                </span>
-              </div>
-            </Link>
-          ))}
-        </div>
-      )}
+      <p className="gx-sub mt-2 max-w-2xl">Fresh job stories from around the world.</p>
+      <FilteredArticleList
+        articles={articles}
+        categories={ARTICLE_CATEGORIES}
+        basePath="/articles"
+        allLabel="All"
+        variant="grid"
+      />
     </div>
   );
 }
