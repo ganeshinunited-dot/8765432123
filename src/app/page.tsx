@@ -40,7 +40,37 @@ export default async function HomePage() {
           <p className="gx-enter mt-5 max-w-xl text-base leading-relaxed text-emerald-100/90 sm:text-lg" style={{ "--gx-delay": "200ms" } as CSSProperties}>
             Vacancy notices, work-abroad updates and daily job news — tracked for you.
           </p>
-          <div className="gx-enter mt-6 flex flex-wrap gap-2" style={{ "--gx-delay": "280ms" } as CSSProperties}>
+
+          <form action="/articles" method="get" role="search" className="gx-enter mt-7 flex max-w-2xl flex-col gap-2 sm:mt-8 sm:flex-row" style={{ "--gx-delay": "280ms" } as CSSProperties}>
+            <label htmlFor="hero-search" className="sr-only">Search job news</label>
+            <div className="relative flex-1">
+              <svg className="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+                <circle cx="11" cy="11" r="8" />
+                <path d="M21 21l-4.35-4.35" />
+              </svg>
+              <input
+                id="hero-search"
+                name="search"
+                type="search"
+                placeholder="Search job news — try “AI jobs”…"
+                className="h-13 w-full rounded-2xl border-0 bg-white py-3.5 pl-11 pr-4 text-[15px] text-slate-900 shadow-2xl shadow-black/30 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+              />
+            </div>
+            <button type="submit" className="h-13 shrink-0 rounded-2xl gx-btn gx-btn-primary px-7 py-3.5 text-sm font-bold text-white">
+              Search
+            </button>
+          </form>
+
+          <div className="gx-enter mt-4 flex flex-wrap items-center gap-2" style={{ "--gx-delay": "340ms" } as CSSProperties}>
+            <span className="text-xs font-bold uppercase tracking-wider text-emerald-200/80">Trending:</span>
+            {[["AI Jobs", "AI jobs"], ["EPS Korea", "EPS Korea"], ["Gulf", "Gulf"], ["Caregiver", "Caregiver"], ["Remote", "Remote"]].map(([label, q]) => (
+              <Link key={label} href={`/articles?search=${encodeURIComponent(q)}`} className="rounded-full border border-white/20 bg-white/10 px-3.5 py-1.5 text-xs font-semibold text-white backdrop-blur-sm transition hover:bg-white/25">
+                {label}
+              </Link>
+            ))}
+          </div>
+
+          <div className="gx-enter mt-6 flex flex-wrap gap-2" style={{ "--gx-delay": "360ms" } as CSSProperties}>
             {[["Sarkari Jobs", "/sarkari-jobs"], ["Gulf Jobs", "/articles?category=gulf"], ["Korea & Japan", "/articles?category=korea-japan"], ["Remote Work", "/articles?category=remote"], ["Work Abroad", "/articles?category=work-abroad"]].map(([t, href]) => (
               <Link key={t} href={href} className="rounded-full border border-white/15 bg-white/10 px-4 py-2 text-sm font-medium text-emerald-50 backdrop-blur-sm transition hover:bg-white/20">
                 {t}

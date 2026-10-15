@@ -7,11 +7,11 @@ export const dynamic = "force-dynamic";
 export async function generateMetadata({
   searchParams,
 }: {
-  searchParams: Promise<{ category?: string }>;
+  searchParams: Promise<{ category?: string; search?: string }>;
 }) {
   const sp = await searchParams;
-  // Category-filtered views are thin duplicates — keep them out of the index.
-  if (sp.category) {
+  // Category-filtered and search views are thin duplicates — keep them out of the index.
+  if (sp.category || sp.search) {
     return {
       robots: { index: false, follow: true },
     };
@@ -32,35 +32,87 @@ function formatDate(d: Date): string {
   }).format(d);
 }
 
+function escapeRegExp(s: string): string {
+  return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+/**
+ * Word matching: every query word must appear as a whole word in the article
+ * text (title + excerpt, both languages, category, country). Whole-word
+ * matching matters for short words — "ai" must not match "training".
+ * Non-Latin words (e.g. Nepali) fall back to substring matching.
+ */
+function matchesSearch(
+  a: { titleEn: string; excerptEn: string; titleNe: string; excerptNe: string; category: string; country: string | null },
+  query: string
+): boolean {
+  const words = query.toLowerCase().split(/\s+/).filter(Boolean);
+  if (words.length === 0) return true;
+  const haystack = `${a.titleEn} ${a.excerptEn} ${a.titleNe} ${a.excerptNe} ${articleCategoryLabel(a.category)} ${a.country ?? ""}`.toLowerCase();
+  return words.every((w) => {
+    if (/^[a-z0-9]+$/.test(w)) {
+      return new RegExp(`(^|[^a-z0-9])${escapeRegExp(w)}([^a-z0-9]|$)`, "i").test(haystack);
+    }
+    return haystack.includes(w);
+  });
+}
+
 export default async function ArticlesPage({
   searchParams,
 }: {
-  searchParams: Promise<{ category?: string }>;
+  searchParams: Promise<{ category?: string; search?: string }>;
 }) {
   const sp = await searchParams;
   const active = sp.category ?? "";
+  const search = (sp.search ?? "").trim();
 
-  const articles = await db.article.findMany({
+  const rows = await db.article.findMany({
     where: active ? { category: active } : undefined,
     orderBy: { publishedAt: "desc" },
-    take: 60,
+    take: 200,
     select: {
       slug: true,
       category: true,
       country: true,
       titleEn: true,
       excerptEn: true,
+      titleNe: true,
+      excerptNe: true,
       publishedAt: true,
     },
   });
+  const articles = search ? rows.filter((a) => matchesSearch(a, search)) : rows.slice(0, 60);
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6">
       <p className="gx-eyebrow">Daily job news</p>
-      <h1 className="gx-h2 mt-2">Articles</h1>
+      <h1 className="gx-h2 mt-2">{search ? `Results for “${search}”` : "Articles"}</h1>
       <p className="gx-sub mt-2 max-w-2xl">
-        Fresh job stories from Nepal and around the world — every article in English and Nepali.
+        {search
+          ? `${articles.length} matching ${articles.length === 1 ? "article" : "articles"} — every article in English and Nepali.`
+          : "Fresh job stories from Nepal and around the world — every article in English and Nepali."}
       </p>
+
+      <form action="/articles" method="get" role="search" className="mt-6 flex max-w-xl gap-2">
+        <label htmlFor="articles-search" className="sr-only">Search articles</label>
+        <input
+          id="articles-search"
+          name="search"
+          type="search"
+          defaultValue={search}
+          placeholder="Search job news — try “AI jobs”…"
+          className="h-12 w-full flex-1 rounded-xl border border-slate-300 bg-white px-4 text-[15px] text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-600"
+        />
+        <button type="submit" className="h-12 shrink-0 rounded-xl gx-btn gx-btn-primary px-5 text-sm font-bold text-white">
+          Search
+        </button>
+      </form>
+
+      {search && (
+        <Link href="/articles" className="mt-4 inline-block text-sm font-semibold text-emerald-700 hover:underline">
+          ← Clear search
+        </Link>
+      )}
 
       <div className="mt-6 flex flex-wrap gap-2">
         <Link
@@ -90,9 +142,15 @@ export default async function ArticlesPage({
 
       {articles.length === 0 ? (
         <div className="mt-10 rounded-2xl border border-slate-200 bg-white p-10 text-center">
-          <p className="text-lg font-semibold text-slate-900">New articles are on the way</p>
+          <p className="text-lg font-semibold text-slate-900">
+            {search ? `No articles found for “${search}”` : "New articles are on the way"}
+          </p>
           <p className="mt-2 text-sm text-slate-600">
-            We publish fresh job news every morning — check back soon.
+            {search ? (
+              <>Try fewer or different words — e.g. <Link href="/articles?search=AI%20jobs" className="font-semibold text-emerald-700 hover:underline">AI jobs</Link>, <Link href="/articles?search=Korea" className="font-semibold text-emerald-700 hover:underline">Korea</Link>, or <Link href="/articles?search=Gulf" className="font-semibold text-emerald-700 hover:underline">Gulf</Link>.</>
+            ) : (
+              "We publish fresh job news every morning — check back soon."
+            )}
           </p>
         </div>
       ) : (
