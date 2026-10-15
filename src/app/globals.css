@@ -251,6 +251,36 @@ html[data-chrome="app"] .gx-public-chrome {
 }
 .gx-glow { animation: gx-drift 9s ease-in-out infinite; }
 
+/* ---- Logo intro: G draws itself, wordmark fades up, overlay lifts away ---- */
+@keyframes gx-intro-tile {
+  from { opacity: 0; transform: scale(0.85); }
+  to { opacity: 1; transform: scale(1); }
+}
+@keyframes gx-intro-draw {
+  from { stroke-dashoffset: 100; }
+  to { stroke-dashoffset: 0; }
+}
+@keyframes gx-intro-word {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes gx-intro-out {
+  to { opacity: 0; visibility: hidden; }
+}
+.gx-intro-tile { animation: gx-intro-tile 0.35s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.gx-intro-arc {
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+  animation: gx-intro-draw 0.7s cubic-bezier(0.4, 0, 0.2, 1) 0.25s forwards;
+}
+.gx-intro-bar {
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+  animation: gx-intro-draw 0.35s cubic-bezier(0.4, 0, 0.2, 1) 0.8s forwards;
+}
+.gx-intro-word { animation: gx-intro-word 0.4s ease 0.95s both; }
+.gx-intro { animation: gx-intro-out 0.35s ease 1.35s forwards; }
+
 @media (prefers-reduced-motion: reduce) {
   .gx-enter, .gx-reveal, .gx-glow { opacity: 1 !important; transform: none !important; animation: none !important; transition: none !important; }
   html { scroll-behavior: auto; }

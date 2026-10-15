@@ -5,6 +5,7 @@ import "./globals.css";
 import { ToastProvider } from "@/components/ui/Toast";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
+import { LogoIntro } from "@/components/layout/LogoIntro";
 import { TrackVisit } from "@/components/analytics/TrackVisit";
 
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
@@ -54,6 +55,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
         <ToastProvider>
           <TrackVisit />
+          <LogoIntro />
           <Navbar />
           <main className="flex-1">{children}</main>
           <Footer />
