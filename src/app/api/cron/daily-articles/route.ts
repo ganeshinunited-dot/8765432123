@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
-import { articleSlug } from "@/lib/articles";
+import { articleSlug, titlesAreDuplicates } from "@/lib/articles";
 import {
   parseRss,
   fetchPageText,
@@ -82,7 +82,11 @@ export async function GET(req: NextRequest) {
     r.status === "fulfilled" ? r.value : []
   );
 
-  // 2. Dedupe against already-published source links.
+  // 2. Dedupe against already-published source links AND titles.
+  // Link-only dedupe let the same story through from different outlets
+  // (Korea EPS 7,200 published 3x: 9, 10, 15 Oct). Freshness guard: skip
+  // RSS items whose source date is over 14 days old.
+  const FRESHNESS_MS = 14 * 24 * 60 * 60 * 1000;
   const existing = await db.article.findMany({
     select: { sources: true, titleEn: true },
     orderBy: { publishedAt: "desc" },
@@ -97,6 +101,9 @@ export async function GET(req: NextRequest) {
     if (picked.length >= TARGET_COUNT) break;
     if (!item.link || seenLinks.has(item.link) || seenInBatch.has(item.link))
       continue;
+    const pubMs = Date.parse(item.pubDate);
+    if (!Number.isNaN(pubMs) && Date.now() - pubMs > FRESHNESS_MS) continue;
+    if (seenTitles.some((t) => titlesAreDuplicates(item.title, t))) continue;
     const n = perCategory.get(item.category) ?? 0;
     if (n >= MAX_PER_CATEGORY) continue;
     seenInBatch.add(item.link);
@@ -131,6 +138,15 @@ export async function GET(req: NextRequest) {
     const isGuide = typeof v === "object" && v !== null && "guide" in v;
     const data = (isGuide ? (v as { data: ArticleJson | null }).data : (v as ArticleJson));
     if (!data) continue;
+    // Belt-and-suspenders: the AI rewrites titles, so re-check the FINAL
+    // title against existing titles and this batch's own titles before
+    // publishing — catches duplicates the RSS-title check missed.
+    if (
+      seenTitles.some((t) => titlesAreDuplicates(data.titleEn, t)) ||
+      titles.some((t) => titlesAreDuplicates(data.titleEn, t))
+    ) {
+      continue;
+    }
     const item = isGuide ? null : picked[idx];
     const category = isGuide
       ? (v as { spec: (typeof GUIDE_SPECS)[number] }).spec.category

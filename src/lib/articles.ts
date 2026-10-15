@@ -41,6 +41,55 @@ export const INTERNATIONAL_CATEGORIES = [
   "global",
 ] as const;
 
+/**
+ * Title-similarity dedupe. The cron used to dedupe by source link only, so
+ * the same story from different outlets slipped through (the Korea EPS
+ * 7,200 story published 3 times: 9, 10, 15 Oct 2026). Two titles are
+ * duplicates when their content-token Jaccard similarity is high, OR when
+ * they share a distinctive (non-year) number plus at least two content
+ * tokens — e.g. "7,200" + Korea + EPS catches reworded versions whose
+ * Jaccard alone is low. Year tokens (1900–2100) are excluded from the
+ * number rule so "Remote Jobs USA 2026" vs "Remote Jobs Canada 2026"
+ * are NOT flagged.
+ */
+const TITLE_STOPWORDS = new Set([
+  "the", "a", "an", "to", "in", "for", "of", "and", "on", "with", "from", "by",
+  "at", "as", "is", "are", "will", "new", "after", "over", "amid", "amidst",
+]);
+
+function titleTokens(title: string): string[] {
+  return title
+    .toLowerCase()
+    .replace(/[^\w\s]/g, " ")
+    .split(/\s+/)
+    .filter(Boolean)
+    .map((t) => (t.length > 3 && t.endsWith("s") ? t.slice(0, -1) : t)) // naive singularise: nepalis -> nepali
+    .filter((t) => !TITLE_STOPWORDS.has(t));
+}
+
+export function titlesAreDuplicates(a: string, b: string): boolean {
+  const ta = new Set(titleTokens(a));
+  const tb = new Set(titleTokens(b));
+  if (ta.size === 0 || tb.size === 0) return false;
+  const shared = [...ta].filter((t) => tb.has(t));
+  const union = new Set([...ta, ...tb]);
+  const symDiff = union.size - shared.length;
+  // Jaccard rule, but a symmetric difference of exactly 2 means "same
+  // template, one entity swapped" (USA vs Canada, engineers vs designers)
+  // — different stories, not duplicates. Identical (0) or heavily
+  // reworded (>= 3) differences with >= 50% overlap are duplicates.
+  if (shared.length / union.size >= 0.5 && (symDiff <= 1 || symDiff >= 3)) return true;
+  // Distinctive-number rule: shared non-year number + >= 3 other tokens +
+  // heavily reworded (>= 3 differing tokens). The rewording requirement
+  // keeps round-number templates apart: "500 Engineers" vs "500
+  // Designers" and "200 Nurses Dubai" vs "200 Nurses Qatar" share a
+  // number but differ by one swapped entity only.
+  const isDistinctiveNumber = (t: string) =>
+    /^\d{3,}$/.test(t) && !(Number(t) >= 1900 && Number(t) <= 2100);
+  const sharedNumbers = shared.filter(isDistinctiveNumber);
+  return sharedNumbers.length > 0 && shared.length >= 4 && symDiff >= 3;
+}
+
 function escapeRegExp(s: string): string {
   return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
