@@ -10,18 +10,18 @@ interface LogoProps {
 const SIZES = { sm: 32, md: 38, lg: 46 };
 
 /**
- * Growentix logo — a clean "G" for Growth: open arc with an amber crossbar,
- * on a deep-emerald tile. Pure SVG, no images, scales to any size.
+ * Growentix logo — a clean "G" for Growth: open arc with a signal-red crossbar,
+ * on a charcoal tile. Pure SVG, no images, scales to any size.
  */
 export function LogoMark({ size = 38 }: { size?: number }) {
   return (
     <svg width={size} height={size} viewBox="0 0 48 48" role="img" aria-label="Growentix logo" className="shrink-0">
-      <rect x="1.5" y="1.5" width="45" height="45" rx="12" fill="#065F46" />
-      <rect x="1.5" y="1.5" width="45" height="45" rx="12" fill="none" stroke="#047857" strokeWidth="1" />
+      <rect x="1.5" y="1.5" width="45" height="45" rx="12" fill="#2A2A2A" />
+      <rect x="1.5" y="1.5" width="45" height="45" rx="12" fill="none" stroke="#1A1A1A" strokeWidth="1" />
       {/* G arc */}
       <path d="M32 14.5 A12.4 12.4 0 1 0 36.1 26.6" fill="none" stroke="#FFFFFF" strokeWidth="5" strokeLinecap="round" />
       {/* Crossbar (growth arrow shaft) */}
-      <path d="M36.1 26.6 L25.5 26.6" fill="none" stroke="#F59E0B" strokeWidth="5" strokeLinecap="round" />
+      <path d="M36.1 26.6 L25.5 26.6" fill="none" stroke="#E10600" strokeWidth="5" strokeLinecap="round" />
     </svg>
   );
 }
