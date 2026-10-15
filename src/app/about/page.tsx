@@ -5,7 +5,7 @@ export const revalidate = 300;
 
 export const metadata: Metadata = {
   title: "About Growentix",
-  description: "Growentix publishes daily job news and vacancy notices from Nepal and around the world — in English and Nepali.",
+  description: "Growentix publishes daily job news and vacancy notices from Nepal and around the world.",
 };
 
 export default function AboutPage() {
@@ -18,7 +18,7 @@ export default function AboutPage() {
         <p>
           Growentix tracks job opportunities so you never miss one: government vacancy notices from Nepal,
           work-abroad recruitments, Gulf and Korea &amp; Japan pipelines, remote roles, and daily job news
-          from every region. Every article is published in English and Nepali, with the source linked.
+          from every region — with the source linked.
         </p>
       </Section>
 

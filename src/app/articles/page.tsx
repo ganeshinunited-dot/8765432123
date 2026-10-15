@@ -17,9 +17,9 @@ export async function generateMetadata({
     };
   }
   return {
-    title: "Job News & Articles — English and Nepali",
+    title: "Job News & Articles",
     description:
-      "Daily job news from Nepal and around the world — hiring trends, Gulf jobs, Korea & Japan opportunities, remote work and career guides, in English and Nepali.",
+      "Daily job news from around the world — hiring trends, Gulf jobs, Korea & Japan opportunities, remote work and career guides.",
     alternates: { canonical: "https://growentix.cloud/articles" },
   };
 }
@@ -89,8 +89,8 @@ export default async function ArticlesPage({
       <h1 className="gx-h2 mt-2">{search ? `Results for “${search}”` : "Articles"}</h1>
       <p className="gx-sub mt-2 max-w-2xl">
         {search
-          ? `${articles.length} matching ${articles.length === 1 ? "article" : "articles"} — every article in English and Nepali.`
-          : "Fresh job stories from Nepal and around the world — every article in English and Nepali."}
+          ? `${articles.length} matching ${articles.length === 1 ? "article" : "articles"}.`
+          : "Fresh job stories from around the world."}
       </p>
 
       <form action="/articles" method="get" role="search" className="mt-6 flex max-w-xl gap-2">
@@ -178,7 +178,7 @@ export default async function ArticlesPage({
               <div className="mt-4 flex items-center justify-between">
                 <span className="text-xs text-slate-500">{formatDate(a.publishedAt)}</span>
                 <span className="text-sm font-semibold text-emerald-700 group-hover:underline">
-                  Read in English + नेपाली <span aria-hidden="true">&rarr;</span>
+                  Read article <span aria-hidden="true">&rarr;</span>
                 </span>
               </div>
             </Link>

@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { Suspense } from "react";
+import { usePathname, useSearchParams } from "next/navigation";
 
 const TABS = [
   {
@@ -17,7 +18,7 @@ const TABS = [
   {
     label: "Search",
     href: "/articles",
-    active: (p: string) => p.startsWith("/articles"),
+    active: (p: string, hasSearch: boolean) => p.startsWith("/articles") && hasSearch,
     icon: (active: boolean) => (
       <svg className="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
         <circle cx="11" cy="11" r="8" />
@@ -28,7 +29,7 @@ const TABS = [
   {
     label: "News",
     href: "/articles",
-    active: (p: string) => p.startsWith("/articles"),
+    active: (p: string, hasSearch: boolean) => p.startsWith("/articles") && !hasSearch,
     icon: (active: boolean) => (
       <svg className="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
         <path d="M4 19V5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2zm0 0a2 2 0 0 0 2 2h13" />
@@ -50,8 +51,10 @@ const TABS = [
 ];
 
 /** Bottom tab bar — mobile only, mirrors the reference app layout. */
-export function BottomNav() {
+function BottomNavInner() {
   const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const hasSearch = searchParams.has("search");
   return (
     <nav
       aria-label="Primary"
@@ -59,7 +62,7 @@ export function BottomNav() {
     >
       <div className="grid grid-cols-4">
         {TABS.map((t) => {
-          const active = t.active(pathname);
+          const active = t.active(pathname, hasSearch);
           return (
             <Link
               key={t.label}
@@ -77,5 +80,13 @@ export function BottomNav() {
         })}
       </div>
     </nav>
+  );
+}
+
+export function BottomNav() {
+  return (
+    <Suspense>
+      <BottomNavInner />
+    </Suspense>
   );
 }

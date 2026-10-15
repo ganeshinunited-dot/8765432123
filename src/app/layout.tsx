@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     template: "%s | Growentix",
   },
   description:
-    "Daily job news and vacancy notices from Nepal and around the world — sarkari vacancies, Gulf jobs, Korea & Japan, remote work and work-abroad updates, in English and Nepali.",
+    "Daily job news and vacancy notices from Nepal and around the world — sarkari vacancies, Gulf jobs, Korea & Japan, remote work and work-abroad updates.",
   metadataBase: new URL(siteUrl),
   alternates: { canonical: "/" },
   openGraph: {
