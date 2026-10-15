@@ -76,8 +76,8 @@ export default async function HomePage() {
     <div>
       {/* Hero */}
       <section className="relative overflow-hidden bg-emerald-950">
-        <div aria-hidden className="gx-glow absolute inset-0 bg-[radial-gradient(65%_55%_at_50%_0%,rgba(16,185,129,0.28),transparent_70%)]" />
-        <div aria-hidden className="gx-glow absolute inset-0 bg-[radial-gradient(40%_35%_at_85%_100%,rgba(251,191,36,0.12),transparent_70%)]" style={{ animationDelay: "-4.5s" }} />
+        <div aria-hidden className="gx-glow absolute inset-0 bg-[radial-gradient(65%_55%_at_50%_0%,rgba(232,50,31,0.28),transparent_70%)]" />
+        <div aria-hidden className="gx-glow absolute inset-0 bg-[radial-gradient(40%_35%_at_85%_100%,rgba(192,192,192,0.14),transparent_70%)]" style={{ animationDelay: "-4.5s" }} />
         <div className="relative mx-auto max-w-7xl px-4 pb-12 pt-10 sm:px-6 sm:pb-24 sm:pt-24">
           <h1 className="gx-enter max-w-3xl font-display text-[2rem] font-extrabold leading-[1.08] tracking-tight text-white sm:text-6xl" style={{ "--gx-delay": "120ms" } as CSSProperties}>
             Never miss <span className="text-emerald-300">an opportunity.</span>
@@ -377,7 +377,7 @@ export default async function HomePage() {
 
       {/* CTA */}
       <section className="relative overflow-hidden bg-emerald-950">
-        <div aria-hidden className="gx-glow absolute inset-0 bg-[radial-gradient(60%_80%_at_50%_100%,rgba(16,185,129,0.3),transparent_70%)]" />
+        <div aria-hidden className="gx-glow absolute inset-0 bg-[radial-gradient(60%_80%_at_50%_100%,rgba(232,50,31,0.3),transparent_70%)]" />
         <Reveal className="relative mx-auto max-w-7xl px-4 py-12 text-center sm:px-6 sm:py-24">
           <h2 className="mx-auto max-w-2xl font-display text-2xl font-extrabold tracking-tight text-white sm:text-5xl">Have talent? Put it to work.</h2>
           <p className="mx-auto mt-4 max-w-lg text-base text-emerald-100/90">Join talented students across Nepal finding flexible work that fits their studies.</p>
