@@ -15,26 +15,26 @@ const siteUrl = process.env.NEXT_PUBLIC_APP_URL || "https://growentix.cloud";
 
 export const metadata: Metadata = {
   title: {
-    default: "Growentix — Have Talent? Find Work That Fits",
+    default: "Growentix — Daily Job News & Vacancy Notices | Nepal & Abroad",
     template: "%s | Growentix",
   },
   description:
-    "Part-time, evening, weekend and remote jobs for students and fresh talent across Nepal — plus sarkari vacancy notices and free skill courses. Free for talent, forever.",
+    "Daily job news and vacancy notices from Nepal and around the world — sarkari vacancies, Gulf jobs, Korea & Japan, remote work and work-abroad updates, in English and Nepali.",
   metadataBase: new URL(siteUrl),
   alternates: { canonical: "/" },
   openGraph: {
     type: "website",
     siteName: "Growentix",
-    title: "Growentix — Have Talent? Find Work That Fits",
+    title: "Growentix — Daily Job News & Vacancy Notices | Nepal & Abroad",
     description:
-      "Part-time, evening, weekend and remote jobs for students and fresh talent across Nepal. Free for talent, forever.",
+      "Daily job news and vacancy notices from Nepal and around the world — sarkari vacancies, Gulf jobs, Korea & Japan, remote work and work-abroad updates.",
     url: "/",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Growentix — Have Talent? Find Work That Fits",
+    title: "Growentix — Daily Job News & Vacancy Notices | Nepal & Abroad",
     description:
-      "Part-time, evening, weekend and remote jobs for students and fresh talent across Nepal. Free for talent, forever.",
+      "Daily job news and vacancy notices from Nepal and around the world — sarkari vacancies, Gulf jobs, Korea & Japan, remote work and work-abroad updates.",
   },
   robots: { index: true, follow: true },
 };

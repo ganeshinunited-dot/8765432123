@@ -1,52 +1,38 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { StaticPage, Section, Bullets } from "@/components/layout/StaticPage";
+import { StaticPage, Section } from "@/components/layout/StaticPage";
 export const revalidate = 300;
 
 export const metadata: Metadata = {
   title: "About Growentix",
-  description: "Growentix connects students across Nepal with flexible part-time work that fits around their studies.",
+  description: "Growentix publishes daily job news and vacancy notices from Nepal and around the world — in English and Nepali.",
 };
 
 export default function AboutPage() {
   return (
     <StaticPage
       title="About Growentix"
-      subtitle="Nepal's talent-first job marketplace — flexible work that fits around your studies."
+      subtitle="Daily job news and vacancy notices — from Nepal and around the world."
     >
-      <Section title="Our mission">
+      <Section title="What we do">
         <p>
-          Many students in Nepal want to earn while they study, but most job boards are built for full-time
-          professionals. Growentix exists to fix that: we connect students with verified employers offering
-          part-time, evening, weekend, remote, and internship opportunities that respect class schedules.
+          Growentix tracks job opportunities so you never miss one: government vacancy notices from Nepal,
+          work-abroad recruitments, Gulf and Korea &amp; Japan pipelines, remote roles, and daily job news
+          from every region. Every article is published in English and Nepali, with the source linked.
         </p>
       </Section>
 
-      <Section title="How Growentix works">
-        <Bullets
-          items={[
-            <><strong>I have talent (always free):</strong> create a profile, add your skills and availability, search and filter jobs by schedule and location, apply in minutes, and track every application.</>,
-            <><strong>I want talent:</strong> create a company profile, complete verification, post jobs through a guided wizard, and manage applicants from shortlist to interview in one place.</>,
-            <><strong>Safety first:</strong> employers are verified, job postings are moderated, and anyone can report a suspicious listing. We display one rule everywhere: never pay an employer to apply for or receive a job.</>,
-          ]}
-        />
-      </Section>
-
-      <Section title="What we stand for">
-        <Bullets
-          items={[
-            "Talent never pays to use Growentix — employers fund the platform through subscription plans.",
-            "Real jobs only: postings are reviewed by our moderation team before and after they go live.",
-            "Privacy by design: your CV is shared only with employers you choose to apply to.",
-            "Built for Nepal: local locations, NPR salaries, and schedules that match student life.",
-          ]}
-        />
-      </Section>
-
-      <Section title="Get started">
+      <Section title="What we are not">
         <p>
-          Explore the latest <Link href="/articles" className="font-semibold text-emerald-700 hover:underline">job news</Link> and{" "}
-          <Link href="/sarkari-jobs" className="font-semibold text-emerald-700 hover:underline">vacancy notices</Link> — updated daily.
+          We are a news and information site, not a recruiter or an employer. We do not guarantee employment,
+          and we never ask readers for money. Always verify details and apply through the official notice
+          or organisation linked in each article.
+        </p>
+      </Section>
+
+      <Section title="Contact">
+        <p>
+          Questions or corrections? Reach us through the <Link href="/support" className="font-semibold text-emerald-700 hover:underline">Support page</Link>.
         </p>
       </Section>
     </StaticPage>
