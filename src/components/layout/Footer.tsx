@@ -45,36 +45,28 @@ export function Footer() {
   return (
     <footer className="gx-public-chrome bg-slate-950 text-slate-300">
       <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-16">
-        <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-5">
+        <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
           <div className="lg:col-span-2">
             <div className="flex items-center gap-2">
               <Logo />
             </div>
             <p className="mt-4 max-w-sm text-sm leading-relaxed text-slate-400">
-              Part-time, evening, weekend and remote job opportunities for students across Nepal — from verified employers. Free for talent, forever.
+              Daily job news and vacancy notices — from Nepal and around the world.
             </p>
             <div className="mt-5 flex flex-wrap gap-2">
               <Link href="/sarkari-jobs" className="rounded-full border border-white/15 bg-white/5 px-4 py-2 text-xs font-semibold text-slate-200 hover:bg-white/10">Sarkari Jobs</Link>
               <Link href="/articles" className="rounded-full border border-white/15 bg-white/5 px-4 py-2 text-xs font-semibold text-slate-200 hover:bg-white/10">Articles</Link>
-              <Link href="/courses" className="rounded-full border border-white/15 bg-white/5 px-4 py-2 text-xs font-semibold text-slate-200 hover:bg-white/10">Courses</Link>
             </div>
           </div>
-          <nav aria-label="Talent">
-            <h3 className="font-display text-sm font-bold uppercase tracking-wider text-white">Talent</h3>
+          <nav aria-label="Explore">
+            <h3 className="font-display text-sm font-bold uppercase tracking-wider text-white">Explore</h3>
             <ul className="mt-4 space-y-2.5 text-sm text-slate-400">
-              <li><Link href="/jobs" className="hover:text-emerald-300">Find jobs</Link></li>
-              <li><Link href="/jobs?type=PART_TIME" className="hover:text-emerald-300">Part-time jobs</Link></li>
-              <li><Link href="/jobs?arrangement=REMOTE" className="hover:text-emerald-300">Remote jobs</Link></li>
-              <li><Link href="/jobs?type=INTERNSHIP" className="hover:text-emerald-300">Internships</Link></li>
+              <li><Link href="/sarkari-jobs" className="hover:text-emerald-300">Sarkari Jobs</Link></li>
+              <li><Link href="/articles" className="hover:text-emerald-300">Articles</Link></li>
+              <li><Link href="/articles?category=gulf" className="hover:text-emerald-300">Gulf Jobs</Link></li>
+              <li><Link href="/articles?category=korea-japan" className="hover:text-emerald-300">Korea &amp; Japan</Link></li>
+              <li><Link href="/articles?category=remote" className="hover:text-emerald-300">Remote Work</Link></li>
               <li><Link href="/safety" className="hover:text-emerald-300">Job seeker safety</Link></li>
-            </ul>
-          </nav>
-          <nav aria-label="Employers">
-            <h3 className="font-display text-sm font-bold uppercase tracking-wider text-white">Employers</h3>
-            <ul className="mt-4 space-y-2.5 text-sm text-slate-400">
-              <li><Link href="/for-employers" className="hover:text-emerald-300">Post a job</Link></li>
-              <li><Link href="/companies" className="hover:text-emerald-300">Companies</Link></li>
-              <li><Link href="/employer-guidelines" className="hover:text-emerald-300">Employer guidelines</Link></li>
             </ul>
           </nav>
           <nav aria-label="Company">
@@ -90,7 +82,7 @@ export function Footer() {
         </div>
         <div className="mt-12 border-t border-white/10 pt-6 text-center text-sm text-slate-500">
           <p className="mb-2 font-medium text-amber-400">Never pay an employer to apply for or receive a job.</p>
-          <p>© {new Date().getFullYear()} Growentix. A job marketplace — we do not guarantee employment.</p>
+          <p>© {new Date().getFullYear()} Growentix. Job news and vacancy notices — we do not guarantee employment.</p>
         </div>
       </div>
     </footer>
