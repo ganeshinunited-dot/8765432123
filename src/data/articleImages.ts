@@ -38,6 +38,26 @@ export const ARTICLE_IMAGES: Record<string, [string, string, string]> = {
     "/article-images/nepal-turns-to-gen-z-tech-boom-after-329m-usaid-cuts-20261014/2.jpg",
     "/article-images/nepal-turns-to-gen-z-tech-boom-after-329m-usaid-cuts-20261014/3.jpg",
   ],
+  "50-companies-hiring-remote-workers-right-now-says-motherly-20261015": [
+    "/article-images/50-companies-hiring-remote-workers-right-now-says-motherly-20261015/1.jpg",
+    "/article-images/50-companies-hiring-remote-workers-right-now-says-motherly-20261015/2.jpg",
+    "/article-images/50-companies-hiring-remote-workers-right-now-says-motherly-20261015/3.jpg",
+  ],
+  "forbes-flags-3-remote-jobs-paying-100k-and-growing-35-in-2026-20261015": [
+    "/article-images/forbes-flags-3-remote-jobs-paying-100k-and-growing-35-in-2026-20261015/1.jpg",
+    "/article-images/forbes-flags-3-remote-jobs-paying-100k-and-growing-35-in-2026-20261015/2.jpg",
+    "/article-images/forbes-flags-3-remote-jobs-paying-100k-and-growing-35-in-2026-20261015/3.jpg",
+  ],
+  "from-engineering-to-enterprise-22-years-of-building-jobs-in-nepal-20261015": [
+    "/article-images/from-engineering-to-enterprise-22-years-of-building-jobs-in-nepal-20261015/1.jpg",
+    "/article-images/from-engineering-to-enterprise-22-years-of-building-jobs-in-nepal-20261015/2.jpg",
+    "/article-images/from-engineering-to-enterprise-22-years-of-building-jobs-in-nepal-20261015/3.jpg",
+  ],
+  "south-korea-to-hire-7-200-nepalis-in-2026-under-eps-20261015": [
+    "/article-images/south-korea-to-hire-7-200-nepalis-in-2026-under-eps-20261015/1.jpg",
+    "/article-images/south-korea-to-hire-7-200-nepalis-in-2026-under-eps-20261015/2.jpg",
+    "/article-images/south-korea-to-hire-7-200-nepalis-in-2026-under-eps-20261015/3.jpg",
+  ],
 };
 
 export function articleImagesFor(slug: string): [string, string, string] | null {
