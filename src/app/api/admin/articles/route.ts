@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 import { db } from "@/lib/db";
 import { getSessionUser } from "@/lib/auth";
 import { logAdminAction } from "@/lib/admin";
@@ -86,5 +87,10 @@ export async function POST(req: Request) {
     },
   });
   await logAdminAction(admin.id, "ARTICLE_PUBLISHED", "Article", article.id, data.titleEn);
+  // Purge ISR cache so the new article shows immediately.
+  revalidatePath("/");
+  revalidatePath("/articles");
+  revalidatePath("/explore");
+  revalidatePath(`/articles/${article.slug}`);
   return NextResponse.json({ ok: true, slug: article.slug });
 }

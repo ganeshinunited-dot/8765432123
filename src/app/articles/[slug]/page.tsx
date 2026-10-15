@@ -5,7 +5,12 @@ import { db } from "@/lib/db";
 import { articleCategoryLabel } from "@/lib/articles";
 import { ArticleView } from "@/components/articles/ArticleView";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 300; // ISR: serve cached HTML, regenerate in background; admin/cron purge on publish
+
+export async function generateStaticParams() {
+  const articles = await db.article.findMany({ select: { slug: true } });
+  return articles.map((a) => ({ slug: a.slug }));
+}
 
 export async function generateMetadata({
   params,

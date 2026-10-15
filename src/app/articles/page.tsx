@@ -2,7 +2,7 @@ import Link from "next/link";
 import { db } from "@/lib/db";
 import { ARTICLE_CATEGORIES, articleCategoryLabel } from "@/lib/articles";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 300; // ISR: serve cached HTML, regenerate in background; admin/cron purge on publish
 
 export async function generateMetadata({
   searchParams,

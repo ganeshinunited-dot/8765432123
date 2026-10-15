@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 import { db } from "@/lib/db";
 import { getSessionUser } from "@/lib/auth";
 import { logAdminAction } from "@/lib/admin";
@@ -54,6 +55,11 @@ export async function PUT(
     },
   });
   await logAdminAction(admin.id, "ARTICLE_UPDATED", "Article", id, data.titleEn);
+  // Purge ISR cache so the edit shows immediately.
+  revalidatePath("/");
+  revalidatePath("/articles");
+  revalidatePath("/explore");
+  revalidatePath(`/articles/${article.slug}`);
   return NextResponse.json({ ok: true, slug: article.slug });
 }
 
@@ -64,8 +70,13 @@ export async function DELETE(
   const admin = await isAdmin();
   if (!admin) return NextResponse.json({ error: "Not authorized." }, { status: 403 });
   const { id } = await params;
-  const article = await db.article.findUnique({ where: { id }, select: { titleEn: true } });
+  const article = await db.article.findUnique({ where: { id }, select: { slug: true, titleEn: true } });
   await db.article.delete({ where: { id } });
   await logAdminAction(admin.id, "ARTICLE_DELETED", "Article", id, article?.titleEn ?? "");
+  // Purge ISR cache so the deletion shows immediately.
+  revalidatePath("/");
+  revalidatePath("/articles");
+  revalidatePath("/explore");
+  if (article) revalidatePath(`/articles/${article.slug}`);
   return NextResponse.json({ ok: true });
 }

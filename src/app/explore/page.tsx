@@ -3,7 +3,7 @@ import { db } from "@/lib/db";
 import { ARTICLE_CATEGORIES, INTERNATIONAL_CATEGORIES, articleCategoryLabel } from "@/lib/articles";
 import { articleImagesFor } from "@/data/articleImages";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 300; // ISR: serve cached HTML, regenerate in background; admin/cron purge on publish
 
 export async function generateMetadata({
   searchParams,

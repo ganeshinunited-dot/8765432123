@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 import { db } from "@/lib/db";
 import { articleSlug, titlesAreDuplicates } from "@/lib/articles";
 import {
@@ -181,6 +182,13 @@ export async function GET(req: NextRequest) {
     published++;
     if (isGuide) guidesPublished++;
     titles.push(data.titleEn);
+  }
+
+  // Purge ISR cache so the morning batch shows immediately.
+  if (published > 0) {
+    revalidatePath("/");
+    revalidatePath("/articles");
+    revalidatePath("/explore");
   }
 
   return NextResponse.json({
