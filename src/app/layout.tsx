@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     template: "%s | Growentix",
   },
   description:
-    "Daily job news and vacancy notices from Nepal and around the world — sarkari vacancies, Gulf jobs, Korea & Japan, remote work and work-abroad updates.",
+    "Daily job news and vacancy notices from Nepal and around the world — government vacancies, Gulf jobs, Korea & Japan, remote work and work-abroad updates.",
   metadataBase: new URL(siteUrl),
   alternates: { canonical: "/" },
   openGraph: {
@@ -28,14 +28,14 @@ export const metadata: Metadata = {
     siteName: "Growentix",
     title: "Growentix — Daily Job News & Vacancy Notices | Nepal & Abroad",
     description:
-      "Daily job news and vacancy notices from Nepal and around the world — sarkari vacancies, Gulf jobs, Korea & Japan, remote work and work-abroad updates.",
+      "Daily job news and vacancy notices from Nepal and around the world — government vacancies, Gulf jobs, Korea & Japan, remote work and work-abroad updates.",
     url: "/",
   },
   twitter: {
     card: "summary_large_image",
     title: "Growentix — Daily Job News & Vacancy Notices | Nepal & Abroad",
     description:
-      "Daily job news and vacancy notices from Nepal and around the world — sarkari vacancies, Gulf jobs, Korea & Japan, remote work and work-abroad updates.",
+      "Daily job news and vacancy notices from Nepal and around the world — government vacancies, Gulf jobs, Korea & Japan, remote work and work-abroad updates.",
   },
   robots: { index: true, follow: true },
 };

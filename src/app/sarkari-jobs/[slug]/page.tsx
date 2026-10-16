@@ -200,7 +200,7 @@ export default async function SarkariArticlePage({
       <nav aria-label="Breadcrumb" className="text-sm text-slate-500">
         <Link href="/" className="hover:text-emerald-700 hover:underline">Home</Link>
         <span className="mx-2" aria-hidden="true">›</span>
-        <Link href="/sarkari-jobs" className="hover:text-emerald-700 hover:underline">Sarkari Jobs</Link>
+        <Link href="/sarkari-jobs" className="hover:text-emerald-700 hover:underline">Government Jobs</Link>
         <span className="mx-2" aria-hidden="true">›</span>
         <span className="text-slate-700">{job.postTitle}</span>
       </nav>
@@ -335,7 +335,7 @@ export default async function SarkariArticlePage({
 
         <div className="mt-10">
           <Link href="/sarkari-jobs" className="text-sm font-semibold text-emerald-700 hover:underline">
-            ← All sarkari vacancy notices
+            ← All government vacancy notices
           </Link>
         </div>
       </article>
