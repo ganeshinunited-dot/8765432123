@@ -58,6 +58,16 @@ export const ARTICLE_IMAGES: Record<string, [string, string, string]> = {
     "/article-images/south-korea-to-hire-7-200-nepalis-in-2026-under-eps-20261015/2.jpg",
     "/article-images/south-korea-to-hire-7-200-nepalis-in-2026-under-eps-20261015/3.jpg",
   ],
+  "japan-work-visa-requirements-process-and-eligibility-explained-20261016": [
+    "/article-images/japan-work-visa-requirements-process-and-eligibility-explained-20261016/1.jpg",
+    "/article-images/japan-work-visa-requirements-process-and-eligibility-explained-20261016/2.jpg",
+    "/article-images/japan-work-visa-requirements-process-and-eligibility-explained-20261016/3.jpg",
+  ],
+  "sweetgreen-hiring-kitchen-lead-in-manhattan-for-18-21-an-hour-20261015": [
+    "/article-images/sweetgreen-hiring-kitchen-lead-in-manhattan-for-18-21-an-hour-20261015/1.jpg",
+    "/article-images/sweetgreen-hiring-kitchen-lead-in-manhattan-for-18-21-an-hour-20261015/2.jpg",
+    "/article-images/sweetgreen-hiring-kitchen-lead-in-manhattan-for-18-21-an-hour-20261015/3.jpg",
+  ],
 };
 
 export function articleImagesFor(slug: string): [string, string, string] | null {
