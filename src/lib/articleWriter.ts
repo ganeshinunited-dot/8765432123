@@ -148,6 +148,9 @@ RULES:
 - Banned AI-telltale words: delve, moreover, furthermore, additionally (as sentence starter), tapestry, landscape (as metaphor), "game-changer", "in conclusion". Contractions (don't, it's, here's) are fine and encouraged.
 - INLINE LINKS: link key entities in the body text itself using <a href="..."> tags — the first mention of the source publication, official portals (e.g. ferms.dofe.gov.np), and organisations should link to the source URL: ${item.link}. Example: <a href="${item.link}">Department of Foreign Employment</a>. 2-4 inline links per article; never link the same phrase twice.
 - Every claim of fact must come from the material. If the material is thin, say what is known and add useful general context clearly framed as context.
+- DISTINCTIVE VALUE: a reader must learn something here they did not get from the source headline. Every article must add at least one of: deadline context (how long is left, what happens next), an eligibility or document checklist, fee/process specifics, or what the story means for applicants from Nepal. A pure rewrite of the source is a failure.
+- NEPAL ANGLE: when a story affects Nepali jobseekers (EPS, Gulf, work abroad, remote), add a short passage on what it means for applicants from Nepal — the official channel (DoFE, EPS, employer portal), documents typically needed, and a caution to apply only through official channels.
+- VERIFICATION: if sources disagree on a number, date, or fee, use the official source (government portal or the hiring organisation) and note the difference. If a key fact (deadline, fee, seats) is not stated anywhere, say it has not been announced — never guess it.
 - No emojis. No markdown. HTML only in the body fields.${keywordRule}
 - Never mention that you are an AI.`;
 }

@@ -30,6 +30,16 @@ export default function AboutPage() {
         </p>
       </Section>
 
+      <Section title="How our articles are written">
+        <p>
+          Our articles start from real, linked news sources and official notices. Drafts are prepared with
+          AI assistance under strict editorial rules — no invented facts, no invented numbers, every claim
+          traced to a source — and each piece must add something useful beyond the headline: deadline
+          context, eligibility and document checklists, or what the story means for applicants from Nepal.
+          Found an error? Tell us through the <Link href="/support" className="font-semibold text-emerald-700 hover:underline">Support page</Link> and we will correct it.
+        </p>
+      </Section>
+
       <Section title="Contact">
         <p>
           Questions or corrections? Reach us through the <Link href="/support" className="font-semibold text-emerald-700 hover:underline">Support page</Link>.
