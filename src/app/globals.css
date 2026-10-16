@@ -86,6 +86,29 @@
 .gx-article strong {
   color: #0f172a;
 }
+.gx-article table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0 0 1.4em;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+.gx-article th,
+.gx-article td {
+  border: 1px solid #e2e8f0;
+  padding: 0.6rem 0.8rem;
+  text-align: left;
+  vertical-align: top;
+}
+.gx-article th {
+  background: #f8fafc;
+  font-weight: 700;
+  color: #0f172a;
+  width: 32%;
+}
+.gx-article td {
+  color: #334155;
+}
 .gx-article blockquote {
   border-left: 3px solid #e10600;
   background: #fef2f2;

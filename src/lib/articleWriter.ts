@@ -131,12 +131,13 @@ Return JSON with exactly these keys:
 - "titleNe": the same headline in natural Nepali (Devanagari script) — fluent and idiomatic, not a word-for-word translation
 - "excerptEn": 1-2 sentence summary, British English
 - "excerptNe": the summary in fluent Nepali (Devanagari script)
-- "bodyEn": article body as HTML using only <h2>, <p>, <ul>, <li>, <strong>, <a> tags. 600-800 words. Structure:
+- "bodyEn": article body as HTML using only <h2>, <p>, <ul>, <li>, <strong>, <a>, <table>, <tr>, <th>, <td> tags. 600-800 words. Structure:
   1. <p> lead — what happened, with the key facts up front.
-  2. <h2>Why it matters</h2> — explain the background and what this means practically for a jobseeker. Add clearly-labelled general context where the material is thin (never invent specifics).
-  3. <h2>Key details</h2> — the concrete facts: who, how many posts, eligibility, salary, dates, deadlines.
-  4. <h2>How to apply</h2> — step-by-step, plain-language instructions a reader can actually follow (where to go, what documents, what to watch out for). If the story has no application process, replace this section with <h2>What to do next</h2> giving practical next steps.
-  5. Short closing <p> — one honest takeaway, no hype.
+  2. <h2>At a glance</h2> — a <table> of the key facts, one row per fact: <tr><th>Deadline</th><td>...</td></tr>, Posts, Salary, Location, Eligibility, Official channel. Include ONLY rows for facts stated in the material — omit any row whose fact is not in the material. Keep values short. If the material states none of these facts, omit the whole At a glance section.
+  3. <h2>Why it matters</h2> — explain the background and what this means practically for a jobseeker. Add clearly-labelled general context where the material is thin (never invent specifics).
+  4. <h2>Key details</h2> — the concrete facts: who, how many posts, eligibility, salary, dates, deadlines.
+  5. <h2>How to apply</h2> — step-by-step, plain-language instructions a reader can actually follow (where to go, what documents, what to watch out for). If the story has no application process, replace this section with <h2>What to do next</h2> giving practical next steps.
+  6. Short closing <p> — one honest takeaway, no hype.
   British English.
 - "bodyNe": full Nepali (Devanagari script) version of bodyEn — rewrite it the way a skilled Nepali journalist would write it: natural sentence flow, common Nepali job vocabulary (रोजगारी, भर्ना, आवेदन, तलब, योग्यता), same HTML tags and structure. Never transliterate English sentences word-for-word.
 - "category": one of: nepal, gulf, korea-japan, work-abroad, remote, global, career (pick the best fit)
@@ -300,6 +301,62 @@ export async function writeGuide(spec: GuideSpec): Promise<ArticleJson | null> {
     [
       { role: "system", content: SYSTEM_PROMPT },
       { role: "user", content: buildGuidePrompt(spec) },
+    ],
+    { json: true, maxTokens: 6000 }
+  );
+  const data = parseAiJson<ArticleJson>(raw);
+  if (!data || !data.titleEn || !data.bodyEn || !data.bodyNe) return null;
+  return data;
+}
+
+export interface RoundupItem {
+  titleEn: string;
+  excerptEn: string;
+  slug: string;
+  category: string;
+}
+
+function buildRoundupPrompt(items: RoundupItem[]): string {
+  const list = items
+    .map((it, i) => `${i + 1}. ${it.titleEn} — ${it.excerptEn} (https://growentix.cloud/articles/${it.slug})`)
+    .join("\n");
+  return `Write a weekly job-news roundup based ONLY on the stories below. Do not invent facts, numbers, dates, or deadlines that are not in the story summaries. This is an editorial digest: a reader should get the week's picture in one read and jump to any story for details.
+
+STORIES THIS WEEK:
+${list}
+
+Return JSON with exactly these keys:
+- "titleEn": "Weekly Job Roundup: <short theme of the week's biggest story, no numbers>", British English, max 90 characters
+- "titleNe": the same headline in natural Nepali (Devanagari script)
+- "excerptEn": 1-2 sentence summary, British English
+- "excerptNe": the summary in fluent Nepali (Devanagari script)
+- "bodyEn": roundup body as HTML using only <h2>, <p>, <ul>, <li>, <strong>, <a> tags. 700-900 words. Structure:
+  1. <p> lead — what the week brought, in one paragraph.
+  2. <h2>The biggest stories this week</h2> — each story in 2-3 sentences with its key facts, and a link to the full article on Growentix. Link every story to its URL.
+  3. <h2>Closing soon</h2> — stories whose summaries mention a near deadline, with the deadline stated. Omit this section if no summary mentions a deadline.
+  4. <h2>What to do next</h2> — practical advice: check deadlines, apply only through official channels, never pay anyone for a job.
+  5. Short closing <p> — one honest takeaway.
+  British English.
+- "bodyNe": full Nepali (Devanagari script) version — same structure, natural journalistic Nepali.
+- "category": "global"
+- "country": null
+
+RULES:
+- British English spelling in all English text.
+- Write like a human editor: varied sentence rhythm, concrete and practical, no filler openers.
+- Banned AI-telltale words: delve, moreover, furthermore, additionally (as sentence starter), tapestry, landscape (as metaphor), "game-changer", "in conclusion". Contractions are fine.
+- INLINE LINKS: link every story to its Growentix article URL from the list above. Use ONLY those URLs. Never invent URLs.
+- Every claim of fact must come from the story summaries. If a summary does not state a deadline or number, do not state one.
+- No emojis. No markdown. HTML only in the body fields.
+- Never mention that you are an AI.`;
+}
+
+/** Writes the Saturday weekly roundup from the week's published articles. Returns null on failure. */
+export async function writeRoundup(items: RoundupItem[]): Promise<ArticleJson | null> {
+  const raw = await aiComplete(
+    [
+      { role: "system", content: SYSTEM_PROMPT },
+      { role: "user", content: buildRoundupPrompt(items) },
     ],
     { json: true, maxTokens: 6000 }
   );
