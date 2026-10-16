@@ -117,11 +117,12 @@ export async function GET(req: NextRequest) {
   // 3. Ground each story: fetch the article page text (parallel).
   const pageTexts = await Promise.all(picked.map((p) => fetchPageText(p.link)));
 
-  // 3b. Guide of the day: first long-tail keyword not yet published.
+  // 3b. Guides of the day: first two long-tail keywords not yet published.
   // Runs in parallel with the news batch so it costs no extra wall time.
-  const nextGuide = GUIDE_SPECS.find(
+  // Two a day so the 100 evergreen guides finish in ~50 days.
+  const nextGuides = GUIDE_SPECS.filter(
     (g) => !seenTitles.some((t) => t.includes(g.keyword.toLowerCase()))
-  );
+  ).slice(0, 2);
 
   // 3c. Weekly roundup (Saturdays): digest of the last 7 days' articles.
   // Deterministic slug so a retry never publishes a second roundup.
@@ -144,7 +145,7 @@ export async function GET(req: NextRequest) {
   // 4. Write: one AI call per story, English + Nepali together (parallel).
   const written = await Promise.allSettled([
     ...picked.map((item, i) => writeArticle(item, pageTexts[i])),
-    ...(nextGuide ? [writeGuide(nextGuide).then((d) => ({ guide: true as const, spec: nextGuide, data: d }))] : []),
+    ...nextGuides.map((g) => writeGuide(g).then((d) => ({ guide: true as const, spec: g, data: d }))),
     ...(roundupItems.length >= 4
       ? [writeRoundup(roundupItems).then((d) => ({ roundup: true as const, data: d }))]
       : []),
