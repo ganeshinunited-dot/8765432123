@@ -19,7 +19,7 @@ export interface SarkariJob {
   category: SarkariCategory;
 }
 
-export const SARKARI_UPDATED = "2026-10-14";
+export const SARKARI_UPDATED = "2026-10-17";
 
 export const SARKARI_JOBS: SarkariJob[] = [
   {
@@ -1664,6 +1664,53 @@ export const SARKARI_JOBS: SarkariJob[] = [
     sourceUrl: "https://www.educatenepal.com/vacancies/detail/vacancy-notice-from-lumbini-pradesh-government-of-nepal",
     noticeUrl: "https://www.educatenepal.com/vacancies/detail/vacancy-notice-from-lumbini-pradesh-government-of-nepal",
     category: "local",
+  },
+  // Budhanilkantha Municipality (sj-127) — SaMi Psychosocial Counselor.
+  // Source is an aggregator summary; official notice: budhanilkanthamun.gov.np.
+  // Published Ashoj 29, 2083; deadline = publication + 21 days = 2026-11-05.
+  // Source did not state the minimum qualification, so it is left null.
+  {
+    id: "sj-127",
+    organization: "Budhanilkantha Municipality, Kathmandu",
+    postTitle: "Psychosocial Counselor (SaMi Program)",
+    level: "Assistant 5th",
+    seats: 1,
+    deadline: "2026-11-05",
+    location: "Hattigauda, Kathmandu",
+    minQualification: null,
+    sourceUrl: "https://www.collegenp.com/vacancy/budhanilkantha-municipality-psychosocial-counselor-vacancy",
+    noticeUrl: "https://www.collegenp.com/vacancy/budhanilkantha-municipality-psychosocial-counselor-vacancy",
+    category: "local",
+  },
+  // Lumbini Province PSC, Notice 85/083-84 (sj-128..sj-129) — Level 8 Health Service.
+  // Source is an aggregator summary; official site ppsc.lumbini.gov.np,
+  // applications at ppsconline.lumbini.gov.np. Regular deadline 2083/07/19
+  // = 2026-11-05 (double-fee 2083/07/26 = 2026-11-12).
+  {
+    id: "sj-128",
+    organization: "Lumbini Province Public Service Commission",
+    postTitle: "Medical Officer",
+    level: "8th",
+    seats: 12,
+    deadline: "2026-11-05",
+    location: "Butwal, Lumbini Province",
+    minQualification: "MBBS with Nepal Medical Council registration",
+    sourceUrl: "https://www.collegenp.com/vacancy/lumbini-lok-sewa-aayog-level-8-health-service-vacancy-2083",
+    noticeUrl: "https://www.collegenp.com/vacancy/lumbini-lok-sewa-aayog-level-8-health-service-vacancy-2083",
+    category: "psc",
+  },
+  {
+    id: "sj-129",
+    organization: "Lumbini Province Public Service Commission",
+    postTitle: "Dental Surgeon",
+    level: "8th",
+    seats: 1,
+    deadline: "2026-11-05",
+    location: "Butwal, Lumbini Province",
+    minQualification: "BDS with Nepal Medical Council registration",
+    sourceUrl: "https://www.collegenp.com/vacancy/lumbini-lok-sewa-aayog-level-8-health-service-vacancy-2083",
+    noticeUrl: "https://www.collegenp.com/vacancy/lumbini-lok-sewa-aayog-level-8-health-service-vacancy-2083",
+    category: "psc",
   },
 ];
 
