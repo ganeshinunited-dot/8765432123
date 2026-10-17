@@ -99,3 +99,7 @@ export const ARTICLE_IMAGES: Record<string, [string, string, string]> = {
     "/article-images/ups-to-hire-100-000-temporary-workers-for-peak-holiday-season-20261016/3.jpg",
   ],
 };
+
+export function articleImagesFor(slug: string): [string, string, string] | null {
+  return ARTICLE_IMAGES[slug] ?? null;
+}
