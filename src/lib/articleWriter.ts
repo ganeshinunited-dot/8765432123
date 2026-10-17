@@ -945,7 +945,7 @@ export async function writeGuide(spec: GuideSpec): Promise<ArticleJson | null> {
       { role: "system", content: SYSTEM_PROMPT },
       { role: "user", content: buildGuidePrompt(spec) },
     ],
-    { json: true, maxTokens: 6000 }
+    { json: true, maxTokens: 6000, timeoutMs: 55_000, maxCompletionTokens: 8000 }
   );
   const data = parseAiJson<ArticleJson>(raw);
   if (!data || !data.titleEn || !data.bodyEn || !data.bodyNe) return null;
@@ -1001,7 +1001,7 @@ export async function writeRoundup(items: RoundupItem[]): Promise<ArticleJson | 
       { role: "system", content: SYSTEM_PROMPT },
       { role: "user", content: buildRoundupPrompt(items) },
     ],
-    { json: true, maxTokens: 6000 }
+    { json: true, maxTokens: 6000, timeoutMs: 55_000, maxCompletionTokens: 8000 }
   );
   const data = parseAiJson<ArticleJson>(raw);
   if (!data || !data.titleEn || !data.bodyEn || !data.bodyNe) return null;

@@ -21,7 +21,7 @@ interface ChatMessage {
 }
 
 /** Returns the assistant's text reply, or null when AI is unavailable. */
-export async function aiComplete(messages: ChatMessage[], opts?: { json?: boolean; maxTokens?: number }): Promise<string | null> {
+export async function aiComplete(messages: ChatMessage[], opts?: { json?: boolean; maxTokens?: number; timeoutMs?: number; maxCompletionTokens?: number }): Promise<string | null> {
   const key = process.env.AI_API_KEY;
   if (!key) return null;
   const base = (process.env.AI_BASE_URL || "https://api.meta.ai/v1").replace(/\/+$/, "");
@@ -36,12 +36,15 @@ export async function aiComplete(messages: ChatMessage[], opts?: { json?: boolea
         temperature: 0.7,
         // Meta Model API: max_completion_tokens includes hidden reasoning tokens,
         // so budget generously and keep reasoning minimal for fast, reliable replies.
+        // The 4000 default cap stays for news-size calls; long-form calls
+        // (guides, roundup) pass maxCompletionTokens: 8000 — the cap is a
+        // ceiling, not a target, so this cannot make a succeeding call fail.
         ...(base.includes("api.meta.ai")
-          ? { max_completion_tokens: Math.min(4000, (opts?.maxTokens ?? 700) + 1500), reasoning_effort: "minimal" }
+          ? { max_completion_tokens: Math.min(opts?.maxCompletionTokens ?? 4000, (opts?.maxTokens ?? 700) + 1500), reasoning_effort: "minimal" }
           : { max_tokens: opts?.maxTokens ?? 700 }),
         ...(opts?.json ? { response_format: { type: "json_object" } } : {}),
       }),
-      signal: AbortSignal.timeout(30_000),
+      signal: AbortSignal.timeout(opts?.timeoutMs ?? 30_000),
     });
     if (!res.ok) return null;
     const data = await res.json();

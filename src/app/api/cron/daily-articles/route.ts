@@ -6,13 +6,9 @@ import {
   parseRss,
   fetchPageText,
   writeArticle,
-  writeGuide,
-  writeRoundup,
-  GUIDE_SPECS,
   VALID_CATEGORIES,
   type RssItem,
   type ArticleJson,
-  type RoundupItem,
 } from "@/lib/articleWriter";
 
 export const dynamic = "force-dynamic";
@@ -117,56 +113,20 @@ export async function GET(req: NextRequest) {
   // 3. Ground each story: fetch the article page text (parallel).
   const pageTexts = await Promise.all(picked.map((p) => fetchPageText(p.link)));
 
-  // 3b. Guides of the day: first two long-tail keywords not yet published.
-  // Runs in parallel with the news batch so it costs no extra wall time.
-  // Two a day so the 100 evergreen guides finish in ~50 days.
-  const nextGuides = GUIDE_SPECS.filter(
-    (g) => !seenTitles.some((t) => t.includes(g.keyword.toLowerCase()))
-  ).slice(0, 2);
-
-  // 3c. Weekly roundup (Saturdays): digest of the last 7 days' articles.
-  // Deterministic slug so a retry never publishes a second roundup.
-  const todayStr = new Date().toISOString().slice(0, 10).replace(/-/g, "");
-  const roundupSlug = `weekly-job-roundup-${todayStr}`;
-  let roundupItems: RoundupItem[] = [];
-  if (new Date().getDay() === 6) {
-    const existing = await db.article.findUnique({ where: { slug: roundupSlug }, select: { id: true } });
-    if (!existing) {
-      const week = await db.article.findMany({
-        where: { publishedAt: { gte: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000) } },
-        orderBy: { publishedAt: "desc" },
-        take: 12,
-        select: { titleEn: true, excerptEn: true, slug: true, category: true },
-      });
-      roundupItems = week.filter((a) => !a.slug.startsWith("weekly-job-roundup-"));
-    }
-  }
-
   // 4. Write: one AI call per story, English + Nepali together (parallel).
+  // Guides + roundup live in /api/cron/weekly-content (own 60s budget).
   const written = await Promise.allSettled([
     ...picked.map((item, i) => writeArticle(item, pageTexts[i])),
-    ...nextGuides.map((g) => writeGuide(g).then((d) => ({ guide: true as const, spec: g, data: d }))),
-    ...(roundupItems.length >= 4
-      ? [writeRoundup(roundupItems).then((d) => ({ roundup: true as const, data: d }))]
-      : []),
   ]);
 
   // 5. Publish.
   const dateStr = new Date().toISOString().slice(0, 10).replace(/-/g, "");
   let published = 0;
   const titles: string[] = [];
-  let guidesPublished = 0;
-  let roundupsPublished = 0;
   for (let idx = 0; idx < written.length; idx++) {
     const r = written[idx];
     if (r.status !== "fulfilled" || !r.value) continue;
-    const v = r.value as
-      | ArticleJson
-      | { guide: true; spec: (typeof GUIDE_SPECS)[number]; data: ArticleJson | null }
-      | { roundup: true; data: ArticleJson | null };
-    const isGuide = typeof v === "object" && v !== null && "guide" in v;
-    const isRoundup = typeof v === "object" && v !== null && "roundup" in v;
-    const data = (isGuide || isRoundup ? (v as { data: ArticleJson | null }).data : (v as ArticleJson));
+    const data = r.value as ArticleJson;
     if (!data) continue;
     // Belt-and-suspenders: the AI rewrites titles, so re-check the FINAL
     // title against existing titles and this batch's own titles before
@@ -177,16 +137,11 @@ export async function GET(req: NextRequest) {
     ) {
       continue;
     }
-    const item = isGuide || isRoundup ? null : picked[idx];
-    const category = isGuide
-      ? (v as { spec: (typeof GUIDE_SPECS)[number] }).spec.category
-      : isRoundup
-        ? "global"
-        : VALID_CATEGORIES.has(data.category)
-          ? data.category
-          : (item as RssItem).category;
+    const item = picked[idx];
+    const category = VALID_CATEGORIES.has(data.category)
+      ? data.category
+      : (item as RssItem).category;
     let slug = `${articleSlug(data.titleEn) || "job-news"}-${dateStr}`;
-    if (isRoundup) slug = roundupSlug;
     let n = 2;
     while (await db.article.findUnique({ where: { slug }, select: { id: true } })) {
       slug = `${articleSlug(data.titleEn) || "job-news"}-${dateStr}-${n++}`;
@@ -205,17 +160,11 @@ export async function GET(req: NextRequest) {
         excerptNe: data.excerptNe || data.excerptEn || "",
         bodyEn: data.bodyEn,
         bodyNe: data.bodyNe,
-        sources: isGuide
-          ? (v as { spec: (typeof GUIDE_SPECS)[number] }).spec.referenceUrls
-          : isRoundup
-            ? roundupItems.map((a) => `https://growentix.cloud/articles/${a.slug}`)
-            : [(item as RssItem).link],
+        sources: [(item as RssItem).link],
         publishedAt: new Date(),
       },
     });
     published++;
-    if (isGuide) guidesPublished++;
-    if (isRoundup) roundupsPublished++;
     titles.push(data.titleEn);
   }
 
@@ -231,8 +180,6 @@ export async function GET(req: NextRequest) {
     researched: allItems.length,
     picked: picked.length,
     published,
-    guidesPublished,
-    roundupsPublished,
     titles,
   });
 }
