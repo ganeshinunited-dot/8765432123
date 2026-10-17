@@ -68,8 +68,34 @@ export const ARTICLE_IMAGES: Record<string, [string, string, string]> = {
     "/article-images/sweetgreen-hiring-kitchen-lead-in-manhattan-for-18-21-an-hour-20261015/2.jpg",
     "/article-images/sweetgreen-hiring-kitchen-lead-in-manhattan-for-18-21-an-hour-20261015/3.jpg",
   ],
+  "firms-trim-roles-as-investment-pivots-to-ai-reuters-reports-20261017": [
+    "/article-images/firms-trim-roles-as-investment-pivots-to-ai-reuters-reports-20261017/1.jpg",
+    "/article-images/firms-trim-roles-as-investment-pivots-to-ai-reuters-reports-20261017/2.jpg",
+    "/article-images/firms-trim-roles-as-investment-pivots-to-ai-reuters-reports-20261017/3.jpg",
+  ],
+  "biopharma-layoffs-fall-sharply-in-q3-90-fewer-staff-hit-year-on-year-20261017": [
+    "/article-images/biopharma-layoffs-fall-sharply-in-q3-90-fewer-staff-hit-year-on-year-20261017/1.jpg",
+    "/article-images/biopharma-layoffs-fall-sharply-in-q3-90-fewer-staff-hit-year-on-year-20261017/2.jpg",
+    "/article-images/biopharma-layoffs-fall-sharply-in-q3-90-fewer-staff-hit-year-on-year-20261017/3.jpg",
+  ],
+  "singapore-work-permit-eligibility-and-fees-explained-for-indian-workers-20261017": [
+    "/article-images/singapore-work-permit-eligibility-and-fees-explained-for-indian-workers-20261017/1.jpg",
+    "/article-images/singapore-work-permit-eligibility-and-fees-explained-for-indian-workers-20261017/2.jpg",
+    "/article-images/singapore-work-permit-eligibility-and-fees-explained-for-indian-workers-20261017/3.jpg",
+  ],
+  "luxembourg-in-demand-jobs-2026-flagged-in-y-axis-report-20261017": [
+    "/article-images/luxembourg-in-demand-jobs-2026-flagged-in-y-axis-report-20261017/1.jpg",
+    "/article-images/luxembourg-in-demand-jobs-2026-flagged-in-y-axis-report-20261017/2.jpg",
+    "/article-images/luxembourg-in-demand-jobs-2026-flagged-in-y-axis-report-20261017/3.jpg",
+  ],
+  "krystal-integrated-to-create-10-000-jobs-across-25-cities-in-six-months-20261016": [
+    "/article-images/krystal-integrated-to-create-10-000-jobs-across-25-cities-in-six-months-20261016/1.jpg",
+    "/article-images/krystal-integrated-to-create-10-000-jobs-across-25-cities-in-six-months-20261016/2.jpg",
+    "/article-images/krystal-integrated-to-create-10-000-jobs-across-25-cities-in-six-months-20261016/3.jpg",
+  ],
+  "ups-to-hire-100-000-temporary-workers-for-peak-holiday-season-20261016": [
+    "/article-images/ups-to-hire-100-000-temporary-workers-for-peak-holiday-season-20261016/1.jpg",
+    "/article-images/ups-to-hire-100-000-temporary-workers-for-peak-holiday-season-20261016/2.jpg",
+    "/article-images/ups-to-hire-100-000-temporary-workers-for-peak-holiday-season-20261016/3.jpg",
+  ],
 };
-
-export function articleImagesFor(slug: string): [string, string, string] | null {
-  return ARTICLE_IMAGES[slug] ?? null;
-}
