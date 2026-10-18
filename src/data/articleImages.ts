@@ -98,6 +98,31 @@ export const ARTICLE_IMAGES: Record<string, [string, string, string]> = {
     "/article-images/ups-to-hire-100-000-temporary-workers-for-peak-holiday-season-20261016/2.jpg",
     "/article-images/ups-to-hire-100-000-temporary-workers-for-peak-holiday-season-20261016/3.jpg",
   ],
+  "work-from-home-jobs-for-students-realistic-guide-for-nepal-in-2026-20261018": [
+    "/article-images/work-from-home-jobs-for-students-realistic-guide-for-nepal-in-2026-20261018/1.jpg",
+    "/article-images/work-from-home-jobs-for-students-realistic-guide-for-nepal-in-2026-20261018/2.jpg",
+    "/article-images/work-from-home-jobs-for-students-realistic-guide-for-nepal-in-2026-20261018/3.jpg",
+  ],
+  "remote-data-entry-jobs-no-experience-where-beginners-can-actually-start-20261018": [
+    "/article-images/remote-data-entry-jobs-no-experience-where-beginners-can-actually-start-20261018/1.jpg",
+    "/article-images/remote-data-entry-jobs-no-experience-where-beginners-can-actually-start-20261018/2.jpg",
+    "/article-images/remote-data-entry-jobs-no-experience-where-beginners-can-actually-start-20261018/3.jpg",
+  ],
+  "gsk-to-cut-1-200-jobs-in-belgium-biospace-tracker-reports-20261018": [
+    "/article-images/gsk-to-cut-1-200-jobs-in-belgium-biospace-tracker-reports-20261018/1.jpg",
+    "/article-images/gsk-to-cut-1-200-jobs-in-belgium-biospace-tracker-reports-20261018/2.jpg",
+    "/article-images/gsk-to-cut-1-200-jobs-in-belgium-biospace-tracker-reports-20261018/3.jpg",
+  ],
+  "germany-france-car-deal-hailed-as-jobs-boost-20261018": [
+    "/article-images/germany-france-car-deal-hailed-as-jobs-boost-20261018/1.jpg",
+    "/article-images/germany-france-car-deal-hailed-as-jobs-boost-20261018/2.jpg",
+    "/article-images/germany-france-car-deal-hailed-as-jobs-boost-20261018/3.jpg",
+  ],
+  "canada-drops-canadian-first-hiring-rule-for-express-entry-20261018": [
+    "/article-images/canada-drops-canadian-first-hiring-rule-for-express-entry-20261018/1.jpg",
+    "/article-images/canada-drops-canadian-first-hiring-rule-for-express-entry-20261018/2.jpg",
+    "/article-images/canada-drops-canadian-first-hiring-rule-for-express-entry-20261018/3.jpg",
+  ],
 };
 
 export function articleImagesFor(slug: string): [string, string, string] | null {
