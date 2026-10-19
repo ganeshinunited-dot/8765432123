@@ -17,9 +17,10 @@ export interface SarkariJob {
   sourceUrl: string;
   noticeUrl: string;
   category: SarkariCategory;
+  salary?: string | null; // as listed in the notice; omit period if not stated
 }
 
-export const SARKARI_UPDATED = "2026-10-17";
+export const SARKARI_UPDATED = "2026-10-19";
 
 export const SARKARI_JOBS: SarkariJob[] = [
   {
@@ -1711,6 +1712,266 @@ export const SARKARI_JOBS: SarkariJob[] = [
     sourceUrl: "https://www.collegenp.com/vacancy/lumbini-lok-sewa-aayog-level-8-health-service-vacancy-2083",
     noticeUrl: "https://www.collegenp.com/vacancy/lumbini-lok-sewa-aayog-level-8-health-service-vacancy-2083",
     category: "psc",
+  },
+  // Lumbini Province PSC, Notice 84/083-84 (sj-131) — Level 9 Officer posts.
+  // Source is an aggregator summary; official site ppsc.lumbini.gov.np,
+  // applications at ppsconline.lumbini.gov.np. Regular deadline 2083/07/19
+  // = 2026-11-05 (double-fee 2083/07/26 = 2026-11-12). Fee NPR 1,200.
+  {
+    id: "sj-131",
+    organization: "Lumbini Province Public Service Commission",
+    postTitle: "Officer Level 9 Posts — Technical & Non-Technical (Notice 84/083-84)",
+    level: "9th",
+    seats: 26,
+    deadline: "2026-11-05",
+    location: "Butwal, Lumbini Province",
+    minQualification:
+      "Post-specific — MD/MS for consultant posts; Master's degree for officer posts",
+    sourceUrl:
+      "https://www.collegenp.com/vacancy/lumbini-pradesh-lok-sewa-aayog-level-9-officer-vacancy-2083",
+    noticeUrl:
+      "https://www.collegenp.com/vacancy/lumbini-pradesh-lok-sewa-aayog-level-9-officer-vacancy-2083",
+    category: "psc",
+  },
+  // Securities Board of Nepal (sj-132) — Assistant Director (Law), contract.
+  // Source is an aggregator summary. Notice published Ashoj 27, 2083
+  // (= 2026-10-13); 21-day window → deadline = publication + 21 days
+  // = 2026-11-03. Selection by interview; fee Rs 2,000.
+  {
+    id: "sj-132",
+    organization: "Securities Board of Nepal (SEBON)",
+    postTitle: "Assistant Director (Law) — Contract",
+    level: "Officer Third Class",
+    seats: 2,
+    deadline: "2026-11-03",
+    location: "Jawalakhel, Lalitpur",
+    minQualification: "Master's degree in Law with Commercial Law as major",
+    sourceUrl:
+      "https://www.collegenp.com/vacancy/sebon-assistant-director-law-contract-vacancy-2083",
+    noticeUrl:
+      "https://www.collegenp.com/vacancy/sebon-assistant-director-law-contract-vacancy-2083",
+    category: "enterprise",
+  },
+  // Software Development and Operation Center (SDOC), Singha Durbar (sj-133..sj-144)
+  // — 42 contract IT posts across 15 roles (4 sector-head roles combined in one
+  // entry). First notice 2083/06/29; deadline 2083/07/18 = 2026-11-04 STATED in
+  // the notice (CollegeNP + ComputerKite agree). Pay as listed; period not stated
+  // in the notice. Source is an aggregator summary; apply online at sdoc.gov.np.
+  {
+    id: "sj-133",
+    organization:
+      "Software Development and Operation Center (SDOC), Office of the Prime Minister and Council of Ministers",
+    postTitle: "Chief Technology Officer (CTO) Expert — Contract",
+    level: "Contract",
+    seats: 1,
+    deadline: "2026-11-04",
+    location: "Singha Durbar, Kathmandu",
+    minQualification:
+      "Master's degree in IT-related field with senior leadership experience and experience certificate; Nepali citizen",
+    sourceUrl:
+      "https://www.collegenp.com/vacancy/software-development-operation-center-it-vacancy-2083",
+    noticeUrl:
+      "https://www.collegenp.com/vacancy/software-development-operation-center-it-vacancy-2083",
+    category: "enterprise",
+    salary: "Rs 250,000 (as listed; period not stated)",
+  },
+  {
+    id: "sj-134",
+    organization:
+      "Software Development and Operation Center (SDOC), Office of the Prime Minister and Council of Ministers",
+    postTitle: "Project Manager — Contract",
+    level: "Contract",
+    seats: 2,
+    deadline: "2026-11-04",
+    location: "Singha Durbar, Kathmandu",
+    minQualification:
+      "Master's degree in IT-related field with project management experience and experience certificate; Nepali citizen",
+    sourceUrl:
+      "https://www.collegenp.com/vacancy/software-development-operation-center-it-vacancy-2083",
+    noticeUrl:
+      "https://www.collegenp.com/vacancy/software-development-operation-center-it-vacancy-2083",
+    category: "enterprise",
+    salary: "Rs 200,000 (as listed; period not stated)",
+  },
+  {
+    id: "sj-135",
+    organization:
+      "Software Development and Operation Center (SDOC), Office of the Prime Minister and Council of Ministers",
+    postTitle: "Sector Head — Contract (4 distinct roles)",
+    level: "Contract",
+    seats: 4,
+    deadline: "2026-11-04",
+    location: "Singha Durbar, Kathmandu",
+    minQualification:
+      "Master's degree in IT-related field with relevant experience and experience certificate; Nepali citizen",
+    sourceUrl:
+      "https://www.collegenp.com/vacancy/software-development-operation-center-it-vacancy-2083",
+    noticeUrl:
+      "https://www.collegenp.com/vacancy/software-development-operation-center-it-vacancy-2083",
+    category: "enterprise",
+    salary: "Rs 200,000 each (as listed; period not stated)",
+  },
+  {
+    id: "sj-136",
+    organization:
+      "Software Development and Operation Center (SDOC), Office of the Prime Minister and Council of Ministers",
+    postTitle: "System Analyst — Contract",
+    level: "Contract",
+    seats: 4,
+    deadline: "2026-11-04",
+    location: "Singha Durbar, Kathmandu",
+    minQualification:
+      "Bachelor's degree in IT-related field with relevant experience and experience certificate; Nepali citizen",
+    sourceUrl:
+      "https://www.collegenp.com/vacancy/software-development-operation-center-it-vacancy-2083",
+    noticeUrl:
+      "https://www.collegenp.com/vacancy/software-development-operation-center-it-vacancy-2083",
+    category: "enterprise",
+    salary: "Rs 160,000 (as listed; period not stated)",
+  },
+  {
+    id: "sj-137",
+    organization:
+      "Software Development and Operation Center (SDOC), Office of the Prime Minister and Council of Ministers",
+    postTitle: "Senior Developer — Contract",
+    level: "Contract",
+    seats: 3,
+    deadline: "2026-11-04",
+    location: "Singha Durbar, Kathmandu",
+    minQualification:
+      "Bachelor's degree in IT-related field with relevant experience and experience certificate; Nepali citizen",
+    sourceUrl:
+      "https://www.collegenp.com/vacancy/software-development-operation-center-it-vacancy-2083",
+    noticeUrl:
+      "https://www.collegenp.com/vacancy/software-development-operation-center-it-vacancy-2083",
+    category: "enterprise",
+    salary: "Rs 140,000 (as listed; period not stated)",
+  },
+  {
+    id: "sj-138",
+    organization:
+      "Software Development and Operation Center (SDOC), Office of the Prime Minister and Council of Ministers",
+    postTitle: "System / Network / Database Administrator — Contract",
+    level: "Contract",
+    seats: 2,
+    deadline: "2026-11-04",
+    location: "Singha Durbar, Kathmandu",
+    minQualification:
+      "Bachelor's degree in IT-related field with relevant experience and experience certificate; Nepali citizen",
+    sourceUrl:
+      "https://www.collegenp.com/vacancy/software-development-operation-center-it-vacancy-2083",
+    noticeUrl:
+      "https://www.collegenp.com/vacancy/software-development-operation-center-it-vacancy-2083",
+    category: "enterprise",
+    salary: "Rs 140,000 (as listed; period not stated)",
+  },
+  {
+    id: "sj-139",
+    organization:
+      "Software Development and Operation Center (SDOC), Office of the Prime Minister and Council of Ministers",
+    postTitle: "Mid-Level Developer — Contract",
+    level: "Contract",
+    seats: 15,
+    deadline: "2026-11-04",
+    location: "Singha Durbar, Kathmandu",
+    minQualification:
+      "Bachelor's degree in IT-related field with relevant experience and experience certificate; Nepali citizen",
+    sourceUrl:
+      "https://www.collegenp.com/vacancy/software-development-operation-center-it-vacancy-2083",
+    noticeUrl:
+      "https://www.collegenp.com/vacancy/software-development-operation-center-it-vacancy-2083",
+    category: "enterprise",
+    salary: "Rs 125,000 (as listed; period not stated)",
+  },
+  {
+    id: "sj-140",
+    organization:
+      "Software Development and Operation Center (SDOC), Office of the Prime Minister and Council of Ministers",
+    postTitle: "Cybersecurity Expert — Contract",
+    level: "Contract",
+    seats: 2,
+    deadline: "2026-11-04",
+    location: "Singha Durbar, Kathmandu",
+    minQualification:
+      "Bachelor's degree in IT-related field with relevant experience and experience certificate; Nepali citizen",
+    sourceUrl:
+      "https://www.collegenp.com/vacancy/software-development-operation-center-it-vacancy-2083",
+    noticeUrl:
+      "https://www.collegenp.com/vacancy/software-development-operation-center-it-vacancy-2083",
+    category: "enterprise",
+    salary: "Rs 110,000 (as listed; period not stated)",
+  },
+  {
+    id: "sj-141",
+    organization:
+      "Software Development and Operation Center (SDOC), Office of the Prime Minister and Council of Ministers",
+    postTitle: "Quality Assurance (QA) Engineer — Contract",
+    level: "Contract",
+    seats: 2,
+    deadline: "2026-11-04",
+    location: "Singha Durbar, Kathmandu",
+    minQualification:
+      "Bachelor's degree in IT-related field with relevant experience and experience certificate; Nepali citizen",
+    sourceUrl:
+      "https://www.collegenp.com/vacancy/software-development-operation-center-it-vacancy-2083",
+    noticeUrl:
+      "https://www.collegenp.com/vacancy/software-development-operation-center-it-vacancy-2083",
+    category: "enterprise",
+    salary: "Rs 90,000 (as listed; period not stated)",
+  },
+  {
+    id: "sj-142",
+    organization:
+      "Software Development and Operation Center (SDOC), Office of the Prime Minister and Council of Ministers",
+    postTitle: "UI/UX Designer — Contract",
+    level: "Contract",
+    seats: 2,
+    deadline: "2026-11-04",
+    location: "Singha Durbar, Kathmandu",
+    minQualification:
+      "Bachelor's degree in IT-related or design field with relevant experience and experience certificate; Nepali citizen",
+    sourceUrl:
+      "https://www.collegenp.com/vacancy/software-development-operation-center-it-vacancy-2083",
+    noticeUrl:
+      "https://www.collegenp.com/vacancy/software-development-operation-center-it-vacancy-2083",
+    category: "enterprise",
+    salary: "Rs 90,000 (as listed; period not stated)",
+  },
+  {
+    id: "sj-143",
+    organization:
+      "Software Development and Operation Center (SDOC), Office of the Prime Minister and Council of Ministers",
+    postTitle: "Junior Developer — Contract",
+    level: "Contract",
+    seats: 3,
+    deadline: "2026-11-04",
+    location: "Singha Durbar, Kathmandu",
+    minQualification:
+      "Bachelor's degree in IT-related field with relevant experience and experience certificate; Nepali citizen",
+    sourceUrl:
+      "https://www.collegenp.com/vacancy/software-development-operation-center-it-vacancy-2083",
+    noticeUrl:
+      "https://www.collegenp.com/vacancy/software-development-operation-center-it-vacancy-2083",
+    category: "enterprise",
+    salary: "Rs 48,000 (as listed; period not stated)",
+  },
+  {
+    id: "sj-144",
+    organization:
+      "Software Development and Operation Center (SDOC), Office of the Prime Minister and Council of Ministers",
+    postTitle: "Technical Support Staff — Contract",
+    level: "Contract",
+    seats: 2,
+    deadline: "2026-11-04",
+    location: "Singha Durbar, Kathmandu",
+    minQualification:
+      "Bachelor's degree in IT-related field with relevant experience and experience certificate; Nepali citizen",
+    sourceUrl:
+      "https://www.collegenp.com/vacancy/software-development-operation-center-it-vacancy-2083",
+    noticeUrl:
+      "https://www.collegenp.com/vacancy/software-development-operation-center-it-vacancy-2083",
+    category: "enterprise",
+    salary: "Rs 40,000 (as listed; period not stated)",
   },
 ];
 

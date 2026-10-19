@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { ARTICLE_CATEGORIES, articleCategoryLabel } from "@/lib/articles";
 
 interface Draft {
@@ -30,6 +30,7 @@ export function QuickPostForm() {
   const [publishing, setPublishing] = useState(false);
   const [error, setError] = useState("");
   const [publishedSlug, setPublishedSlug] = useState("");
+  const publishingRef = useRef(false);
 
   async function generate() {
     if (!newsUrl.trim() && !topic.trim()) {
@@ -59,7 +60,8 @@ export function QuickPostForm() {
   }
 
   async function publish() {
-    if (!draft) return;
+    if (!draft || publishingRef.current) return;
+    publishingRef.current = true;
     setPublishing(true);
     setError("");
     setDupeSlug("");
@@ -79,11 +81,12 @@ export function QuickPostForm() {
         throw new Error(data.error || "A similar article already exists.");
       }
       if (!res.ok) throw new Error(data.error || "Publish failed.");
-      setPublishedSlug(data.article?.slug ?? "");
+      setPublishedSlug(data.article?.slug ?? data.slug ?? "");
     } catch (e) {
       setError(e instanceof Error ? e.message : "Publish failed.");
     } finally {
       setPublishing(false);
+      publishingRef.current = false;
     }
   }
 

@@ -31,6 +31,8 @@ const QUERIES: { q: string; category: string; country: string | null }[] = [
   { q: "Korea EPS workers Nepal", category: "korea-japan", country: "South Korea" },
   { q: "Japan work visa jobs foreigners", category: "korea-japan", country: "Japan" },
   { q: "USA jobs hiring visa sponsorship", category: "usa", country: "United States" },
+  { q: "USA remote jobs hiring entry level", category: "usa", country: "United States" },
+  { q: "USA seasonal hiring jobs 2026", category: "usa", country: "United States" },
   { q: "UK jobs hiring visa sponsorship", category: "uk", country: "United Kingdom" },
   { q: "Canada jobs hiring foreign workers", category: "canada", country: "Canada" },
   { q: "Australia jobs hiring skilled visa", category: "australia", country: "Australia" },

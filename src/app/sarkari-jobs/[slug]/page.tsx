@@ -189,6 +189,7 @@ export default async function SarkariArticlePage({
     ["Post", job.postTitle + (job.level ? ` (${job.level})` : "")],
     ["Open seats", job.seats != null ? String(job.seats) : null],
     ["Minimum qualification", job.minQualification],
+    ["Remuneration", job.salary ?? null],
     ["Location", job.location],
     ["Category", CATEGORY_LABELS[job.category]],
     ["Application deadline", fmtDate(job.deadline)],
