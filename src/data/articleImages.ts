@@ -123,6 +123,56 @@ export const ARTICLE_IMAGES: Record<string, [string, string, string]> = {
     "/article-images/canada-drops-canadian-first-hiring-rule-for-express-entry-20261018/2.jpg",
     "/article-images/canada-drops-canadian-first-hiring-rule-for-express-entry-20261018/3.jpg",
   ],
+  "himachal-pradesh-cabinet-approves-14000-government-posts-20261018": [
+    "/article-images/himachal-pradesh-cabinet-approves-14000-government-posts-20261018/1.jpg",
+    "/article-images/himachal-pradesh-cabinet-approves-14000-government-posts-20261018/2.jpg",
+    "/article-images/himachal-pradesh-cabinet-approves-14000-government-posts-20261018/3.jpg",
+  ],
+  "uk-hospitality-100000-roles-neet-youth-pledge-20261018": [
+    "/article-images/uk-hospitality-100000-roles-neet-youth-pledge-20261018/1.jpg",
+    "/article-images/uk-hospitality-100000-roles-neet-youth-pledge-20261018/2.jpg",
+    "/article-images/uk-hospitality-100000-roles-neet-youth-pledge-20261018/3.jpg",
+  ],
+  "un-national-information-officer-unic-kathmandu-20261018": [
+    "/article-images/un-national-information-officer-unic-kathmandu-20261018/1.jpg",
+    "/article-images/un-national-information-officer-unic-kathmandu-20261018/2.jpg",
+    "/article-images/un-national-information-officer-unic-kathmandu-20261018/3.jpg",
+  ],
+  "unocha-humanitarian-affairs-officer-rasuwa-20261018": [
+    "/article-images/unocha-humanitarian-affairs-officer-rasuwa-20261018/1.jpg",
+    "/article-images/unocha-humanitarian-affairs-officer-rasuwa-20261018/2.jpg",
+    "/article-images/unocha-humanitarian-affairs-officer-rasuwa-20261018/3.jpg",
+  ],
+  "phase-nepal-14-jobs-community-health-20261018": [
+    "/article-images/phase-nepal-14-jobs-community-health-20261018/1.jpg",
+    "/article-images/phase-nepal-14-jobs-community-health-20261018/2.jpg",
+    "/article-images/phase-nepal-14-jobs-community-health-20261018/3.jpg",
+  ],
+  "remote-customer-service-jobs-no-experience-what-employers-actually-want-20261019": [
+    "/article-images/remote-customer-service-jobs-no-experience-what-employers-actually-want-20261019/1.jpg",
+    "/article-images/remote-customer-service-jobs-no-experience-what-employers-actually-want-20261019/2.jpg",
+    "/article-images/remote-customer-service-jobs-no-experience-what-employers-actually-want-20261019/3.jpg",
+  ],
+  "virtual-assistant-jobs-for-beginners-skills-pay-where-to-start-20261019": [
+    "/article-images/virtual-assistant-jobs-for-beginners-skills-pay-where-to-start-20261019/1.jpg",
+    "/article-images/virtual-assistant-jobs-for-beginners-skills-pay-where-to-start-20261019/2.jpg",
+    "/article-images/virtual-assistant-jobs-for-beginners-skills-pay-where-to-start-20261019/3.jpg",
+  ],
+  "shiksha-flags-top-part-time-jobs-for-students-abroad-in-2027-20261019": [
+    "/article-images/shiksha-flags-top-part-time-jobs-for-students-abroad-in-2027-20261019/1.jpg",
+    "/article-images/shiksha-flags-top-part-time-jobs-for-students-abroad-in-2027-20261019/2.jpg",
+    "/article-images/shiksha-flags-top-part-time-jobs-for-students-abroad-in-2027-20261019/3.jpg",
+  ],
+  "165-000-brits-now-work-abroad-as-study-ranks-top-digital-nomad-hubs-20261019": [
+    "/article-images/165-000-brits-now-work-abroad-as-study-ranks-top-digital-nomad-hubs-20261019/1.jpg",
+    "/article-images/165-000-brits-now-work-abroad-as-study-ranks-top-digital-nomad-hubs-20261019/2.jpg",
+    "/article-images/165-000-brits-now-work-abroad-as-study-ranks-top-digital-nomad-hubs-20261019/3.jpg",
+  ],
+  "germany-france-car-deal-sparks-jobs-talk-but-details-still-thin-20261019": [
+    "/article-images/germany-france-car-deal-sparks-jobs-talk-but-details-still-thin-20261019/1.jpg",
+    "/article-images/germany-france-car-deal-sparks-jobs-talk-but-details-still-thin-20261019/2.jpg",
+    "/article-images/germany-france-car-deal-sparks-jobs-talk-but-details-still-thin-20261019/3.jpg",
+  ],
 };
 
 export function articleImagesFor(slug: string): [string, string, string] | null {
