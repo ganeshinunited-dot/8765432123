@@ -173,6 +173,16 @@ export const ARTICLE_IMAGES: Record<string, [string, string, string]> = {
     "/article-images/germany-france-car-deal-sparks-jobs-talk-but-details-still-thin-20261019/2.jpg",
     "/article-images/germany-france-car-deal-sparks-jobs-talk-but-details-still-thin-20261019/3.jpg",
   ],
+  "delivery-driver-jobs-dubai-salary-licence-pay-and-how-to-apply-20261020": [
+    "/article-images/delivery-driver-jobs-dubai-salary-licence-pay-and-how-to-apply-20261020/1.jpg",
+    "/article-images/delivery-driver-jobs-dubai-salary-licence-pay-and-how-to-apply-20261020/2.jpg",
+    "/article-images/delivery-driver-jobs-dubai-salary-licence-pay-and-how-to-apply-20261020/3.jpg",
+  ],
+  "jobs-in-dubai-for-foreigners-visa-rules-salaries-and-how-to-apply-20261020": [
+    "/article-images/jobs-in-dubai-for-foreigners-visa-rules-salaries-and-how-to-apply-20261020/1.jpg",
+    "/article-images/jobs-in-dubai-for-foreigners-visa-rules-salaries-and-how-to-apply-20261020/2.jpg",
+    "/article-images/jobs-in-dubai-for-foreigners-visa-rules-salaries-and-how-to-apply-20261020/3.jpg",
+  ],
 };
 
 export function articleImagesFor(slug: string): [string, string, string] | null {
