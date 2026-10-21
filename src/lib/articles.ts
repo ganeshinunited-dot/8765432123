@@ -68,9 +68,23 @@ function titleTokens(title: string): string[] {
 }
 
 export function titlesAreDuplicates(a: string, b: string): boolean {
-  const ta = new Set(titleTokens(a));
-  const tb = new Set(titleTokens(b));
+  const oa = titleTokens(a);
+  const ob = titleTokens(b);
+  const ta = new Set(oa);
+  const tb = new Set(ob);
   if (ta.size === 0 || tb.size === 0) return false;
+  // Shared-trigram rule: 3+ consecutive content tokens in common means the
+  // same story with a reworded headline (e.g. "Germany-France car deal
+  // hailed as jobs boost" vs "Germany-France car deal sparks jobs talk").
+  // Template pairs like "Remote Jobs USA 2026" vs "Remote Jobs Canada
+  // 2026" share only a bigram + year, so they stay distinct.
+  const trigrams = (toks: string[]) => {
+    const s = new Set<string>();
+    for (let i = 0; i + 2 < toks.length; i++) s.add(toks.slice(i, i + 3).join(" "));
+    return s;
+  };
+  const ga = trigrams(oa);
+  if ([...ga].some((g) => trigrams(ob).has(g))) return true;
   const shared = [...ta].filter((t) => tb.has(t));
   const union = new Set([...ta, ...tb]);
   const symDiff = union.size - shared.length;
