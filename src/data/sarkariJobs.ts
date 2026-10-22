@@ -20,7 +20,7 @@ export interface SarkariJob {
   salary?: string | null; // as listed in the notice; omit period if not stated
 }
 
-export const SARKARI_UPDATED = "2026-10-19";
+export const SARKARI_UPDATED = "2026-10-22";
 
 export const SARKARI_JOBS: SarkariJob[] = [
   {
@@ -1972,6 +1972,36 @@ export const SARKARI_JOBS: SarkariJob[] = [
       "https://www.collegenp.com/vacancy/software-development-operation-center-it-vacancy-2083",
     category: "enterprise",
     salary: "Rs 40,000 (as listed; period not stated)",
+  },
+  {
+    id: "sj-145",
+    organization: "Ministry of Health and Population, Madhesh Province",
+    postTitle: "Pharmacy Officer — Contract",
+    level: "Contract",
+    seats: 2,
+    deadline: "2026-10-31",
+    location: "Janakpurdham, Dhanusha",
+    minQualification: null,
+    sourceUrl:
+      "https://pharmainfonepal.com/vacancy-announcement-for-pharmacy-officer-and-pharmacy-assistant/",
+    noticeUrl:
+      "https://pharmainfonepal.com/vacancy-announcement-for-pharmacy-officer-and-pharmacy-assistant/",
+    category: "health",
+  },
+  {
+    id: "sj-146",
+    organization: "Ministry of Health and Population, Madhesh Province",
+    postTitle: "Pharmacy Assistant — Contract",
+    level: "Contract",
+    seats: 4,
+    deadline: "2026-10-31",
+    location: "Janakpurdham, Dhanusha",
+    minQualification: null,
+    sourceUrl:
+      "https://pharmainfonepal.com/vacancy-announcement-for-pharmacy-officer-and-pharmacy-assistant/",
+    noticeUrl:
+      "https://pharmainfonepal.com/vacancy-announcement-for-pharmacy-officer-and-pharmacy-assistant/",
+    category: "health",
   },
 ];
 
