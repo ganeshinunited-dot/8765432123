@@ -20,7 +20,7 @@ export interface SarkariJob {
   salary?: string | null; // as listed in the notice; omit period if not stated
 }
 
-export const SARKARI_UPDATED = "2026-10-22";
+export const SARKARI_UPDATED = "2026-10-23";
 
 export const SARKARI_JOBS: SarkariJob[] = [
   {
@@ -2003,6 +2003,22 @@ export const SARKARI_JOBS: SarkariJob[] = [
       "https://pharmainfonepal.com/vacancy-announcement-for-pharmacy-officer-and-pharmacy-assistant/",
     category: "health",
   },
+  {
+    id: "sj-147",
+    organization: "Ministry of Health and Population, Madhesh Province",
+    postTitle: "Various contract positions (medical, nursing, technical & support staff)",
+    level: "Contract",
+    seats: null,
+    deadline: "2026-11-13",
+    location: "Janakpurdham, Dhanusha",
+    minQualification: "As per Provincial PSC (Madhes) norms; SLC minimum with council registration/renewal where applicable",
+    sourceUrl:
+      "http://english.ratopati.com/story/83947/madhesh-provinces-ministry-of-health-and-population-demands-large-number-of-employees",
+    noticeUrl:
+      "http://english.ratopati.com/story/83947/madhesh-provinces-ministry-of-health-and-population-demands-large-number-of-employees",
+    category: "health",
+  },
+
 ];
 
 /** SEO-friendly unique slug for a vacancy article page. */
