@@ -90,9 +90,17 @@ export async function GET(req: NextRequest) {
     // Belt-and-suspenders: the AI rewrites titles, so re-check the FINAL
     // title against existing titles and this batch's own titles before
     // publishing — catches duplicates the keyword check missed.
+    // Roundups and guides are exempt from the news title dedupe: every
+    // roundup shares the "Weekly Job Roundup" title stem by design (the
+    // deterministic weekly slug + existence check already guard it), and
+    // guide topics are pre-filtered by keyword above. The trigram rule
+    // would otherwise flag every future roundup and same-family guide
+    // (e.g. "data entry jobs from home") as a duplicate forever.
+    const skipDedupe = isRoundup || isGuide;
     if (
-      seenTitles.some((t) => titlesAreDuplicates(data.titleEn, t)) ||
-      titles.some((t) => titlesAreDuplicates(data.titleEn, t))
+      !skipDedupe &&
+      (seenTitles.some((t) => titlesAreDuplicates(data.titleEn, t)) ||
+        titles.some((t) => titlesAreDuplicates(data.titleEn, t)))
     ) {
       continue;
     }
