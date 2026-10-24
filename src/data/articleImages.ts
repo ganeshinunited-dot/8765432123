@@ -73,6 +73,31 @@ export const ARTICLE_IMAGES: Record<string, [string, string, string]> = {
     "/article-images/amazon-to-create-300-000-us-seasonal-jobs-with-higher-pay-20261022/2.jpg",
     "/article-images/amazon-to-create-300-000-us-seasonal-jobs-with-higher-pay-20261022/3.jpg",
   ],
+  "seven-alpine-style-climbs-under-way-in-nepal-right-now-20261023": [
+    "/article-images/seven-alpine-style-climbs-under-way-in-nepal-right-now-20261023/1.jpg",
+    "/article-images/seven-alpine-style-climbs-under-way-in-nepal-right-now-20261023/2.jpg",
+    "/article-images/seven-alpine-style-climbs-under-way-in-nepal-right-now-20261023/3.jpg",
+  ],
+  "minimum-salary-changes-flagged-in-new-update-20261023": [
+    "/article-images/minimum-salary-changes-flagged-in-new-update-20261023/1.jpg",
+    "/article-images/minimum-salary-changes-flagged-in-new-update-20261023/2.jpg",
+    "/article-images/minimum-salary-changes-flagged-in-new-update-20261023/3.jpg",
+  ],
+  "uk-australia-and-japan-update-work-visa-occupation-lists-20261024": [
+    "/article-images/uk-australia-and-japan-update-work-visa-occupation-lists-20261024/1.jpg",
+    "/article-images/uk-australia-and-japan-update-work-visa-occupation-lists-20261024/2.jpg",
+    "/article-images/uk-australia-and-japan-update-work-visa-occupation-lists-20261024/3.jpg",
+  ],
+  "lahore-to-gulf-in-2026-what-young-professionals-should-know-20261024": [
+    "/article-images/lahore-to-gulf-in-2026-what-young-professionals-should-know-20261024/1.jpg",
+    "/article-images/lahore-to-gulf-in-2026-what-young-professionals-should-know-20261024/2.jpg",
+    "/article-images/lahore-to-gulf-in-2026-what-young-professionals-should-know-20261024/3.jpg",
+  ],
+  "caregiver-jobs-abroad-in-2026-salaries-and-visa-routes-in-focus-20261024": [
+    "/article-images/caregiver-jobs-abroad-in-2026-salaries-and-visa-routes-in-focus-20261024/1.jpg",
+    "/article-images/caregiver-jobs-abroad-in-2026-salaries-and-visa-routes-in-focus-20261024/2.jpg",
+    "/article-images/caregiver-jobs-abroad-in-2026-salaries-and-visa-routes-in-focus-20261024/3.jpg",
+  ],
 };
 
 export function articleImagesFor(slug: string): [string, string, string] | null {
