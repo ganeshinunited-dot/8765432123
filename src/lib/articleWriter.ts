@@ -131,21 +131,22 @@ Return JSON with exactly these keys:
 - "titleNe": the same headline in natural Nepali (Devanagari script) — fluent and idiomatic, not a word-for-word translation
 - "excerptEn": 1-2 sentence summary, British English
 - "excerptNe": the summary in fluent Nepali (Devanagari script)
-- "bodyEn": article body as HTML using only <h2>, <p>, <ul>, <li>, <strong>, <a>, <table>, <tr>, <th>, <td> tags. 600-800 words. Structure:
-  1. <p> lead — what happened, with the key facts up front.
+- "bodyEn": article body as HTML using only <h2>, <p>, <ul>, <li>, <strong>, <a>, <table>, <tr>, <th>, <td> tags. 850-1000 words — a clean 4-5 minute read. Structure:
+  1. <p> lead — the NEWEST development first, with its date and the key facts up front. This is news: never bury the latest update below background, and never write old material as if it broke today. If the material is older than 3 days, state its date plainly in the lead.
   2. <h2>At a glance</h2> — a <table> of the key facts, one row per fact: <tr><th>Deadline</th><td>...</td></tr>, Posts, Salary, Location, Eligibility, Official channel. Include ONLY rows for facts stated in the material — omit any row whose fact is not in the material. Keep values short. If the material states none of these facts, omit the whole At a glance section.
-  3. <h2>Why it matters</h2> — explain the background and what this means practically for a jobseeker. Add clearly-labelled general context where the material is thin (never invent specifics).
+  3. <h2>Why it matters</h2> — what this means practically for a jobseeker, in concrete terms.
   4. <h2>Key details</h2> — the concrete facts: who, how many posts, eligibility, salary, dates, deadlines.
-  5. <h2>How to apply</h2> — step-by-step, plain-language instructions a reader can actually follow (where to go, what documents, what to watch out for). If the story has no application process, replace this section with <h2>What to do next</h2> giving practical next steps.
-  6. Short closing <p> — one honest takeaway, no hype.
-  British English.
+  5. <h2>How to apply</h2> — SOLUTIONS, step-by-step, plain-language instructions a reader can act on today (where to go, what documents, what to watch out for, what to do if the deadline is near). If the story has no application process, replace this section with <h2>What to do next</h2> giving practical, ordered next steps — never end on information alone.
+  6. <h2>Background</h2> — ONLY when the story has lasting value (a recurring drive, a visa route, a skill in demand): short evergreen context that stays useful after the news date — what happened before, how this fits a longer trend, what to watch next. Keep it tight and never let it bury the news above.
+  7. Short closing <p> — one honest takeaway, no hype.
+  British English. One idea per paragraph; short paragraphs; never repeat the headline inside the lead.
 - "bodyNe": full Nepali (Devanagari script) version of bodyEn — rewrite it the way a skilled Nepali journalist would write it: natural sentence flow, common Nepali job vocabulary (रोजगारी, भर्ना, आवेदन, तलब, योग्यता), same HTML tags and structure. Never transliterate English sentences word-for-word.
 - "category": one of: nepal, gulf, korea-japan, work-abroad, remote, global, career (pick the best fit)
 - "country": the main country this story is about, or null
 
 RULES:
 - British English spelling in all English text (e.g. "organised", "favour", "labour").
-- Write like a human journalist: vary sentence length and rhythm; lead with concrete facts, not throat-clearing. Never open with "In today's fast-paced world" or similar filler.
+- Write like a real journalist: vary sentence length and rhythm; lead with concrete facts, not throat-clearing. Never open with "In today's fast-paced world" or similar filler. Attribute claims to their source in the text ("the commission said", "according to the notice") — never present a single outlet's claim as established fact.
 - Banned AI-telltale words: delve, moreover, furthermore, additionally (as sentence starter), tapestry, landscape (as metaphor), "game-changer", "in conclusion". Contractions (don't, it's, here's) are fine and encouraged.
 - INLINE LINKS: link key entities in the body text itself using <a href="..."> tags — the first mention of the source publication, official portals (e.g. ferms.dofe.gov.np), and organisations should link to the source URL: ${item.link}. Example: <a href="${item.link}">Department of Foreign Employment</a>. 2-4 inline links per article; never link the same phrase twice.
 - Every claim of fact must come from the material. If the material is thin, say what is known and add useful general context clearly framed as context.
