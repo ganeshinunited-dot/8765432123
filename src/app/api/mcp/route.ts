@@ -133,6 +133,7 @@ export async function POST(req: NextRequest) {
           name: t.name,
           description: t.description,
           inputSchema: t.inputSchema,
+          annotations: t.annotations,
         })),
       });
     }

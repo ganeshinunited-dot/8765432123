@@ -340,6 +340,14 @@ export interface McpToolDef {
   name: string;
   description: string;
   inputSchema: Record<string, unknown>;
+  /** MCP tool annotations: all Growentix tools are read-only and idempotent,
+   * never destructive, and read only Growentix's own data (not the open web). */
+  annotations: {
+    readOnlyHint: boolean;
+    destructiveHint: boolean;
+    idempotentHint: boolean;
+    openWorldHint: boolean;
+  };
   run: (args: unknown) => unknown | Promise<unknown>;
 }
 
@@ -372,6 +380,7 @@ export const MCP_TOOLS: McpToolDef[] = [
         page_size: { type: "integer", minimum: 1, maximum: 50, default: 20 },
       },
     },
+    annotations: { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false },
     run: (args) => searchJobs(args),
   },
   {
@@ -385,6 +394,7 @@ export const MCP_TOOLS: McpToolDef[] = [
         slug: { type: "string", description: "Growentix listing slug.", maxLength: 200 },
       },
     },
+    annotations: { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false },
     run: (args) => getJobDetails(args),
   },
   {
@@ -398,6 +408,7 @@ export const MCP_TOOLS: McpToolDef[] = [
         category: { type: "string", enum: categoryEnum },
       },
     },
+    annotations: { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false },
     run: (args) => latestVacancies(args),
   },
   {
@@ -414,6 +425,7 @@ export const MCP_TOOLS: McpToolDef[] = [
         page_size: { type: "integer", minimum: 1, maximum: 50, default: 20 },
       },
     },
+    annotations: { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false },
     run: (args) => searchArticles(args),
   },
   {
@@ -427,6 +439,7 @@ export const MCP_TOOLS: McpToolDef[] = [
       },
       required: ["slug"],
     },
+    annotations: { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false },
     run: (args) => getArticle(args),
   },
 ];
