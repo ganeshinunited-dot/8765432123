@@ -98,6 +98,37 @@ export const ARTICLE_IMAGES: Record<string, [string, string, string]> = {
     "/article-images/caregiver-jobs-abroad-in-2026-salaries-and-visa-routes-in-focus-20261024/2.jpg",
     "/article-images/caregiver-jobs-abroad-in-2026-salaries-and-visa-routes-in-focus-20261024/3.jpg",
   ],
+  "weekly-job-roundup-20261024": [
+    "/article-images/weekly-job-roundup-20261024/1.jpg",
+    "/article-images/weekly-job-roundup-20261024/2.jpg",
+    "/article-images/weekly-job-roundup-20261024/3.jpg",
+  ],
+  "rrc-jaipur-north-western-railway-apprentice-2008-slots-20261024": [
+    "/article-images/rrc-jaipur-north-western-railway-apprentice-2008-slots-20261024/1.jpg",
+    "/article-images/rrc-jaipur-north-western-railway-apprentice-2008-slots-20261024/2.jpg",
+    "/article-images/rrc-jaipur-north-western-railway-apprentice-2008-slots-20261024/3.jpg",
+  ],
+  "tnpsc-group-4-6574-posts-20261024": [
+    "/article-images/tnpsc-group-4-6574-posts-20261024/1.jpg",
+    "/article-images/tnpsc-group-4-6574-posts-20261024/2.jpg",
+    "/article-images/tnpsc-group-4-6574-posts-20261024/3.jpg",
+  ],
+  "supreme-court-junior-court-assistant-250-posts-20261024": [
+    "/article-images/supreme-court-junior-court-assistant-250-posts-20261024/1.jpg",
+    "/article-images/supreme-court-junior-court-assistant-250-posts-20261024/2.jpg",
+    "/article-images/supreme-court-junior-court-assistant-250-posts-20261024/3.jpg",
+  ],
+  "warehouse-jobs-in-usa-for-foreigners-visa-pay-and-how-to-apply-20261025": [
+    "/article-images/warehouse-jobs-in-usa-for-foreigners-visa-pay-and-how-to-apply-20261025/1.jpg",
+    "/article-images/warehouse-jobs-in-usa-for-foreigners-visa-pay-and-how-to-apply-20261025/2.jpg",
+    "/article-images/warehouse-jobs-in-usa-for-foreigners-visa-pay-and-how-to-apply-20261025/3.jpg",
+  ],
+  "data-entry-jobs-from-home-legit-platforms-vs-the-scams-to-avoid-20261025": [
+    "/article-images/data-entry-jobs-from-home-legit-platforms-vs-the-scams-to-avoid-20261025/1.jpg",
+    "/article-images/data-entry-jobs-from-home-legit-platforms-vs-the-scams-to-avoid-20261025/2.jpg",
+    "/article-images/data-entry-jobs-from-home-legit-platforms-vs-the-scams-to-avoid-20261025/3.jpg",
+  ],
+
 };
 
 export function articleImagesFor(slug: string): [string, string, string] | null {
