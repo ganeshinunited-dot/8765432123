@@ -35,8 +35,8 @@ export default async function SeoLandingPage({ config }: { config: SeoConfig }) 
         {jobs.length === 0 ? (
           <EmptyState
             title="No openings right now."
-            description="New jobs are posted daily — check the full listing."
-            action={<Link href="/jobs" className="font-semibold text-emerald-700 hover:underline">Browse all jobs</Link>}
+            description="Employer-posted jobs are currently paused. See current government vacancy notices instead."
+            action={<Link href="/sarkari-jobs" className="font-semibold text-emerald-700 hover:underline">See government notices</Link>}
           />
         ) : (
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">

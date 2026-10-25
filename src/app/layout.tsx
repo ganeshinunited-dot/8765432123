@@ -54,6 +54,33 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             __html: `try{var m=document.cookie.match(/(?:^|;\\s*)gx_chrome=([^;]*)/);if(m&&decodeURIComponent(m[1])==="app")document.documentElement.setAttribute("data-chrome","app")}catch(e){}`,
           }}
         />
+        {/* Site-wide Organization + WebSite schema: article pages already
+            carry NewsArticle schema; this gives AI tools and search engines
+            the same identity on every page, including home/about/privacy. */}
+        <Script
+          id="gx-org-schema"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@graph": [
+                {
+                  "@type": "Organization",
+                  name: "Growentix",
+                  url: "https://growentix.cloud",
+                  logo: "https://growentix.cloud/icon.svg",
+                  description:
+                    "Daily job news and vacancy notices from Nepal and around the world.",
+                },
+                {
+                  "@type": "WebSite",
+                  name: "Growentix",
+                  url: "https://growentix.cloud",
+                },
+              ],
+            }),
+          }}
+        />
         <ToastProvider>
           <TrackVisit />
           <LogoIntro />

@@ -20,7 +20,7 @@ export interface SarkariJob {
   salary?: string | null; // as listed in the notice; omit period if not stated
 }
 
-export const SARKARI_UPDATED = "2026-10-23";
+export const SARKARI_UPDATED = "2026-10-24";
 
 export const SARKARI_JOBS: SarkariJob[] = [
   {

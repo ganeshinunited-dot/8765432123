@@ -59,7 +59,7 @@ export function AiJobSearch() {
         <h2 className="text-base font-bold text-slate-900">AI Job Assistant</h2>
         <span className="rounded-full bg-emerald-700 px-2 py-0.5 text-[11px] font-bold uppercase tracking-wide text-white">New</span>
       </div>
-      <p className="mt-1.5 text-sm text-slate-600">Describe your ideal job in your own words — English or Nepali mix — and AI finds matching live jobs instantly.</p>
+      <p className="mt-1.5 text-sm text-slate-600">Describe your ideal job in your own words — English or Nepali mix.</p>
 
       <form className="mt-3 flex gap-2" onSubmit={(e) => { e.preventDefault(); search(query); }}>
         <label className="sr-only" htmlFor="ai-search-input">Describe the job you want</label>

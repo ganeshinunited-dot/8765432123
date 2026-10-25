@@ -4,15 +4,10 @@ import { SARKARI_JOBS, SARKARI_UPDATED, sarkariSlug } from "@/data/sarkariJobs";
 export const dynamic = "force-dynamic";
 export const revalidate = 3600;
 
-const SEO_PAGES = [
-  "part-time-jobs", "student-jobs", "remote-jobs", "evening-jobs",
-  "weekend-jobs", "internships", "jobs-in-kathmandu",
-];
-
 export default async function sitemap() {
   const base = process.env.NEXT_PUBLIC_APP_URL || "https://growentix.cloud";
 
-  const staticPages = ["", "/jobs", "/sarkari-jobs", "/articles", "/explore", "/courses", "/course", "/companies", "/signup", "/login", ...SEO_PAGES.map((p) => `/${p}`)].map(
+  const staticPages = ["", "/sarkari-jobs", "/articles", "/explore", "/about", "/privacy", "/terms"].map(
     (path) => ({ url: `${base}${path}`, lastModified: new Date(), changeFrequency: "daily" as const, priority: path === "" ? 1 : 0.8 })
   );
 
