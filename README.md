@@ -1,84 +1,112 @@
-# Growentix (Growentix)
+<p align="center">
+  <img src="src/app/icon.svg" width="96" height="96" alt="Growentix logo" />
+</p>
 
-A job marketplace connecting students in Nepal with part-time work, internships, and flexible gigs. Students use the platform **free forever**; employers pay for job-posting plans.
+<h1 align="center">Growentix</h1>
 
-**⚠️ Safety first:** Never pay an employer to apply for or receive a job. This warning appears in the site footer and on every application flow.
+<p align="center">
+  <strong>Daily Job News &amp; Vacancy Notices — Nepal &amp; Abroad</strong><br />
+  <a href="https://growentix.cloud">Website</a> •
+  <a href="https://growentix.cloud/about">About</a> •
+  <a href="https://growentix.cloud/privacy">Privacy</a> •
+  <a href="https://growentix.cloud/terms">Terms</a> •
+  <a href="https://growentix.cloud/support">Support</a>
+</p>
 
-## Stack
+---
+
+## About
+
+Growentix is a job news platform covering Nepal and the world. It publishes
+daily job news and vacancy notices — Nepal government vacancies alongside
+international hiring news from the USA, UK, Canada, Australia, Europe, Asia,
+the Gulf, Korea &amp; Japan, and remote work worldwide.
+
+Everything published is real: notices carry the deadline and seat count stated
+by the source, articles are attributed to their sources, and figures are never
+guessed. If a source does not state a fact, we say so instead of filling the
+gap.
+
+## What readers get
+
+- **Daily job news** — new articles every day, in English with a Nepali version
+  inside each article (language picker on the article page).
+- **Nepal government vacancy notices** — current notices with deadlines,
+  searchable and filterable by category.
+- **International coverage** — dedicated sections for the USA, UK, Canada,
+  Australia, Europe, Asia, the Gulf, Korea &amp; Japan, Remote, and Work Abroad.
+- **Guides and a weekly roundup** — practical how-to guides and a Saturday
+  roundup of the week's openings.
+- **Trending, from real readers** — the homepage surfaces the most-read stories
+  from actual visits, not editorial picks.
+- **Search** — one dedicated search page for the site's stories and notices.
+- **Privacy-friendly visit analytics** — first-party, cookie-free visit counting.
+
+## Editorial standard
+
+- Real sources only — no invented listings, figures, or deadlines.
+- Source attribution in the article text.
+- Scam caution wherever readers are asked to pay or share documents:
+  **never pay anyone to apply for a job.**
+- British English throughout the public site.
+
+## ChatGPT app
+
+Growentix ships an official read-only integration for ChatGPT (MCP server) at
+`https://growentix.cloud/api/mcp`. Five tools expose live vacancy notices and
+articles — expired vacancies are never shown as active, and fields the source
+data does not carry are left out rather than guessed.
+
+## For developers
+
+### Stack
 
 - **Next.js 16** (App Router) + React 19 + TypeScript + Tailwind CSS v4
 - **PostgreSQL** via Prisma 7 (`@prisma/adapter-pg`)
+- **Vercel** hosting + scheduled content pipelines (daily articles, weekly guides
+  and roundup, article images)
 - Custom **scrypt** password hashing, hashed session tokens in HTTP-only cookies
-- Provider abstractions: storage (local/S3), email (log/SMTP/Resend), payments (mock/eSewa/Khalti), maps (none/Google/Mapbox)
 
-## Quick start
+### Quick start
 
 ```bash
 npm install
 cp .env.example .env        # fill in DATABASE_URL + SESSION_SECRET at minimum
 npx prisma migrate dev      # or: npx prisma db push (quick local)
 npx prisma generate
-npm run seed                # demo data + test accounts
 npm run dev                 # http://localhost:3000
 ```
 
-Test accounts (password `password123`):
-- `student@example.com` — student
-- `employer@example.com` — employer
-- `admin@example.com` — admin
+See [SETUP.md](SETUP.md) for the full local setup, production checklist, and
+admin bootstrap.
 
-See **[SETUP.md](SETUP.md)** for the full local setup, production checklist, and admin bootstrap.
-
-## Project structure
+### Project structure
 
 ```
 src/
-  app/            # Routes (public pages, dashboards, API routes)
-    (public)      # /, /jobs, /companies, SEO landing pages, /p/[slug]
-    dashboard/    # Student: home, profile, applications, saved, messages, interviews
-    employer/     # Employer: home, company, jobs, applicants, messages, billing
-    admin/        # Admin: home, jobs, verifications, reports, users, companies, plans, cms, audit
-    api/          # REST APIs (auth, jobs, applications, messaging, billing, admin…)
-  components/     # UI primitives, forms, dashboards, SEO
-  lib/            # auth, db, validation, storage, email, payments, notifications, analytics
+  app/            # Pages + API routes (public pages, /api/cron/*, /api/mcp)
+  components/     # UI
+  data/           # Curated vacancy notices, article image manifest
+  lib/            # db, auth, articleWriter, mcp, ai, analytics
 prisma/
-  schema.prisma   # Normalized data model
-  seed.ts         # Idempotent demo seed
+  schema.prisma   # Data model
+  migrations/     # Schema + content migrations
+scripts/          # Build-time helpers (article image decoding)
+article-image-sources/  # Generated article artwork sources
 ```
 
-## Key features
+### Environment
 
-**Students**
-- Browse/search/filter jobs, save jobs, apply with cover note + CV
-- Profile with skills, education, documents; match-scored recommendations
-- Applications tracker, interview accept/decline/reschedule, messaging, notifications
+All secrets live in environment variables — see `.env.example`. Optional
+integrations (email, storage, payments) are configured via environment variables
+and degrade gracefully when absent.
 
-**Employers**
-- Company profile + verification (document upload, admin review)
-- 4-step job posting wizard with validation → admin moderation queue
-- Applicant pipeline (view → shortlist → interview → hire/reject), secure CV access
-- Messaging, interview scheduling, subscription plans + billing (eSewa/Khalti/mock)
-
-**Admin**
-- Dashboard metrics, job moderation (approve/reject/takedown), verification review
-- Reports triage, user suspend/reactivate, company oversight, plan editor, CMS pages, audit log
-
-**Platform**
-- SEO landing pages (`/part-time-jobs`, `/internships`, …), company directory, sitemap, robots
-- Rate limiting, server-side authorization on every mutation, private CV access control
-- Analytics events (signup, job_view, application_submitted)
-
-## Environment
-
-All secrets live in environment variables — see `.env.example`. Missing payment/email/maps credentials never block unrelated features; each has a documented fallback driver.
-
-## Scripts
+### Scripts
 
 | Script | Purpose |
 |---|---|
 | `npm run dev` | Development server |
 | `npm run build` | Production build |
-| `npm run seed` | Seed demo data (idempotent) |
 | `npx prisma studio` | Database GUI |
 
 ## License
