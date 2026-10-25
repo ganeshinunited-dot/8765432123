@@ -95,6 +95,13 @@ export default async function ArticlePage({
           bodyEn: a.bodyEn,
           bodyNe: a.bodyNe,
           sources: a.sources,
+          videos: Array.isArray(a.videos)
+            ? (a.videos as unknown as {
+                title: string;
+                url: string;
+                videoId: string;
+              }[])
+            : [],
           publishedAt: a.publishedAt.toISOString(),
         }}
       />

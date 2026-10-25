@@ -17,6 +17,7 @@ export interface ArticleData {
   bodyEn: string;
   bodyNe: string;
   sources: string[];
+  videos: { title: string; url: string; videoId: string }[];
   publishedAt: string;
 }
 
@@ -125,6 +126,43 @@ export function ArticleView({ article }: { article: ArticleData }) {
         className="gx-article mt-6 max-w-none text-slate-700"
         dangerouslySetInnerHTML={{ __html: bodyHtml }}
       />
+
+      {Array.isArray(article.videos) && article.videos.length > 0 && (
+        <div className="mt-10">
+          <h2 className="text-lg font-bold text-slate-900">
+            {lang === "ne" ? "सम्बन्धित भिडियो कोर्सहरू" : "Related video courses"}
+          </h2>
+          <p className="mt-1 text-sm text-slate-500">
+            {lang === "ne"
+              ? "यस विषयमा भिडियो कोर्सहरू:"
+              : "Video courses matching this story:"}
+          </p>
+          <div className="mt-4 space-y-6">
+            {article.videos.map((v) => (
+              <figure key={v.videoId}>
+                <iframe
+                  src={`https://www.youtube-nocookie.com/embed/${v.videoId}`}
+                  title={v.title}
+                  className="aspect-video w-full rounded-2xl border border-slate-200"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                  loading="lazy"
+                />
+                <figcaption className="mt-2 text-sm font-medium text-slate-700">
+                  <a
+                    href={v.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hover:underline"
+                  >
+                    {v.title}
+                  </a>
+                </figcaption>
+              </figure>
+            ))}
+          </div>
+        </div>
+      )}
 
       {article.sources.length > 0 && (
         <div className="mt-10 rounded-2xl border border-slate-200 bg-slate-50 p-6">
