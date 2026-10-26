@@ -12,6 +12,7 @@ export const ARTICLE_CATEGORIES = [
   { slug: "remote", label: "Remote Work" },
   { slug: "global", label: "Global Trends" },
   { slug: "career", label: "Career Guide" },
+  { slug: "taylor-swift", label: "Taylor Swift" },
 ] as const;
 
 export function articleCategoryLabel(slug: string): string {

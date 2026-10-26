@@ -41,6 +41,7 @@ export const VALID_CATEGORIES = new Set([
   "remote",
   "global",
   "career",
+  "taylor-swift",
 ]);
 
 export function decodeEntities(s: string): string {
