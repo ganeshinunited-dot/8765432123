@@ -1,8 +1,8 @@
 import Link from "next/link";
-import type { CSSProperties } from "react";
 import { db } from "@/lib/db";
 import { Reveal } from "@/components/ui/Reveal";
 import { NewsletterForm } from "@/components/NewsletterForm";
+import { HeroGlobe } from "@/components/HeroGlobe";
 import { SARKARI_JOBS, sarkariSlug } from "@/data/sarkariJobs";
 import { articleCategoryLabel } from "@/lib/articles";
 import { articleImagesFor } from "@/data/articleImages";
@@ -155,27 +155,37 @@ export default async function HomePage() {
 
   return (
     <div>
-      {/* Hero — dark, headline + search pill + category pills */}
-      <section className="relative overflow-hidden bg-emerald-950">
-        <div aria-hidden className="gx-glow absolute inset-0 bg-[radial-gradient(65%_55%_at_50%_0%,rgba(232,50,31,0.28),transparent_70%)]" />
-        <div aria-hidden className="gx-glow absolute inset-0 bg-[radial-gradient(40%_35%_at_85%_100%,rgba(192,192,192,0.14),transparent_70%)]" style={{ animationDelay: "-4.5s" }} />
-        <div className="relative mx-auto max-w-7xl px-4 pb-10 pt-10 sm:px-6 sm:pb-14 sm:pt-14">
-          <h1 className="gx-enter max-w-3xl font-display text-[2rem] font-extrabold leading-[1.08] tracking-tight text-white sm:text-6xl" style={{ "--gx-delay": "120ms" } as CSSProperties}>
-            Never miss <span className="text-emerald-300">an opportunity.</span>
-          </h1>
-          <p className="gx-enter mt-4 max-w-xl text-base leading-relaxed text-emerald-100/90 sm:text-lg" style={{ "--gx-delay": "200ms" } as CSSProperties}>
-            Latest job news, vacancies and career opportunities from around the world — all in one place.
-          </p>
+      {/* Hero — dark red, headline + globe + category pills */}
+      <section className="relative overflow-hidden bg-[#0a0a0a]">
+        <div aria-hidden className="absolute inset-0 bg-[radial-gradient(55%_60%_at_85%_0%,rgba(225,6,0,0.35),transparent_70%)]" />
+        <div aria-hidden className="absolute inset-0 bg-[radial-gradient(40%_40%_at_0%_100%,rgba(225,6,0,0.18),transparent_70%)]" />
+        <p aria-hidden className="absolute right-6 top-6 hidden text-sm font-medium tracking-wide text-white/60 lg:block">
+          Real Jobs <span className="mx-1 text-[#ff4d5e]">•</span> Real People <span className="mx-1 text-[#ff4d5e]">•</span> Global Opportunities
+        </p>
+        <div className="relative mx-auto max-w-7xl px-4 pb-14 pt-14 sm:px-6 sm:pb-20 sm:pt-16">
+          <div className="lg:grid lg:grid-cols-[1fr_460px] lg:items-center lg:gap-8">
+            <div>
+              <h1 className="max-w-3xl font-display text-[2.5rem] font-extrabold leading-[1.05] tracking-tight text-white sm:text-7xl">
+                Never miss an <span className="text-[#ff4d5e]">opportunity.</span>
+              </h1>
+              <p className="mt-4 max-w-xl text-base leading-relaxed text-[#c0c0c0]/90 sm:text-lg">
+                Latest job news, vacancies and career opportunities from around the world — all in one place.
+              </p>
+            </div>
+            <div aria-hidden className="hidden lg:block">
+              <HeroGlobe className="h-auto w-full" />
+            </div>
+          </div>
 
           {/* Category pills — horizontal scroll on mobile */}
-          <div className="gx-enter -mx-4 mt-6 flex gap-2 overflow-x-auto px-4 pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" style={{ "--gx-delay": "280ms" } as CSSProperties}>
+          <div className="-mx-4 mt-8 flex gap-2 overflow-x-auto px-4 pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
             {CATEGORY_PILLS.map((p) => (
               <Link
                 key={p.label}
                 href={p.href}
                 className={`flex shrink-0 items-center gap-1.5 rounded-full px-4 py-2.5 text-sm font-semibold transition ${
                   p.label === "All"
-                    ? "bg-emerald-600 text-white shadow-lg shadow-emerald-900/40"
+                    ? "bg-[#e10600] text-white shadow-lg shadow-red-950/40"
                     : "border border-white/15 bg-white/10 text-white backdrop-blur-sm hover:bg-white/20"
                 }`}
               >
