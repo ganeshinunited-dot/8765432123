@@ -1,20 +1,16 @@
-import SeoLandingPage, { type SeoConfig } from "@/components/seo/SeoLandingPage";
-import { Metadata } from "next";
-export const revalidate = 300;
+import type { Metadata } from "next";
+import CityJobHub from "@/components/cities/CityJobHub";
+import { cityPageFor } from "@/data/cityPages";
+
+export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: "Jobs in Kathmandu for Students | Part-Time Work",
-  description: "The biggest student job market in Nepal. Find part-time work, internships, and weekend gigs across Kathmandu — Thamel, Baneshwor, Lalitpur, Bhaktapur ",
-};
-
-const config: SeoConfig = {
-  title: "Jobs in Kathmandu for Students | Part-Time Work",
-  heading: "Student Jobs in Kathmandu",
-  intro: "The biggest student job market in Nepal. Find part-time work, internships, and weekend gigs across Kathmandu — Thamel, Baneshwor, Lalitpur, Bhaktapur and more.",
-  where: { location: { name: { contains: "Kathmandu", mode: "insensitive" } } },
-  faq: [["Which areas of Kathmandu have the most student jobs?", "Thamel, Durbarmarg, Baneshwor, and Lalitpur have the highest concentration of student-friendly employers — cafes, retail, and delivery hubs."]],
+  title: "Government Jobs in Kathmandu Valley | Growentix",
+  description:
+    "Open government job notices in Kathmandu Valley — Kathmandu, Lalitpur and Bhaktapur — with deadlines, seats and official notice links.",
 };
 
 export default function Page() {
-  return <SeoLandingPage config={config} />;
+  const city = cityPageFor("kathmandu")!;
+  return <CityJobHub city={city} />;
 }
