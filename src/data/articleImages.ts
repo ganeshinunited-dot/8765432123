@@ -129,6 +129,52 @@ export const ARTICLE_IMAGES: Record<string, [string, string, string]> = {
     "/article-images/data-entry-jobs-from-home-legit-platforms-vs-the-scams-to-avoid-20261025/3.jpg",
   ],
 
+  "caregiver-jobs-in-usa-for-foreigners-visa-pay-and-how-to-apply-20261026": [
+    "/article-images/caregiver-jobs-in-usa-for-foreigners-visa-pay-and-how-to-apply-20261026/1.jpg",
+    "/article-images/caregiver-jobs-in-usa-for-foreigners-visa-pay-and-how-to-apply-20261026/2.jpg",
+    "/article-images/caregiver-jobs-in-usa-for-foreigners-visa-pay-and-how-to-apply-20261026/3.jpg",
+  ],
+  "truck-driver-jobs-in-usa-salary-cdl-pay-per-mile-visa-routes-20261026": [
+    "/article-images/truck-driver-jobs-in-usa-salary-cdl-pay-per-mile-visa-routes-20261026/1.jpg",
+    "/article-images/truck-driver-jobs-in-usa-salary-cdl-pay-per-mile-visa-routes-20261026/2.jpg",
+    "/article-images/truck-driver-jobs-in-usa-salary-cdl-pay-per-mile-visa-routes-20261026/3.jpg",
+  ],
+  "upessc-tgt-17735-posts-20261025": [
+    "/article-images/upessc-tgt-17735-posts-20261025/1.jpg",
+    "/article-images/upessc-tgt-17735-posts-20261025/2.jpg",
+    "/article-images/upessc-tgt-17735-posts-20261025/3.jpg",
+  ],
+  "hmrc-tax-specialist-programme-500-posts-20261025": [
+    "/article-images/hmrc-tax-specialist-programme-500-posts-20261025/1.jpg",
+    "/article-images/hmrc-tax-specialist-programme-500-posts-20261025/2.jpg",
+    "/article-images/hmrc-tax-specialist-programme-500-posts-20261025/3.jpg",
+  ],
+  "oavs-principals-teachers-815-posts-20261025": [
+    "/article-images/oavs-principals-teachers-815-posts-20261025/1.jpg",
+    "/article-images/oavs-principals-teachers-815-posts-20261025/2.jpg",
+    "/article-images/oavs-principals-teachers-815-posts-20261025/3.jpg",
+  ],
+  "appsc-group-2-686-posts-20261025": [
+    "/article-images/appsc-group-2-686-posts-20261025/1.jpg",
+    "/article-images/appsc-group-2-686-posts-20261025/2.jpg",
+    "/article-images/appsc-group-2-686-posts-20261025/3.jpg",
+  ],
+  "upessc-principal-headmaster-2647-posts-20261025": [
+    "/article-images/upessc-principal-headmaster-2647-posts-20261025/1.jpg",
+    "/article-images/upessc-principal-headmaster-2647-posts-20261025/2.jpg",
+    "/article-images/upessc-principal-headmaster-2647-posts-20261025/3.jpg",
+  ],
+  "bpsc-tre-4-teacher-recruitment-33320-posts-20261025": [
+    "/article-images/bpsc-tre-4-teacher-recruitment-33320-posts-20261025/1.jpg",
+    "/article-images/bpsc-tre-4-teacher-recruitment-33320-posts-20261025/2.jpg",
+    "/article-images/bpsc-tre-4-teacher-recruitment-33320-posts-20261025/3.jpg",
+  ],
+  "upsssc-inter-level-1784-posts-20261025": [
+    "/article-images/upsssc-inter-level-1784-posts-20261025/1.jpg",
+    "/article-images/upsssc-inter-level-1784-posts-20261025/2.jpg",
+    "/article-images/upsssc-inter-level-1784-posts-20261025/3.jpg",
+  ],
+
 };
 
 export function articleImagesFor(slug: string): [string, string, string] | null {
