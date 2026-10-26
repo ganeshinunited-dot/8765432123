@@ -41,6 +41,9 @@ const QUERIES: { q: string; category: string; country: string | null }[] = [
   { q: "remote jobs hiring work from home", category: "remote", country: null },
   { q: "layoffs hiring trends 2026", category: "global", country: null },
   { q: "artificial intelligence jobs hiring", category: "global", country: null },
+  { q: "software IT jobs hiring developers engineers", category: "global", country: null },
+  { q: "tech jobs hiring AI machine learning engineers", category: "global", country: null },
+  { q: "remote tech jobs hiring developers worldwide", category: "remote", country: null },
   { q: "work abroad visa opportunities", category: "work-abroad", country: null },
   { q: "career advice salary interview tips", category: "career", country: null },
 ];

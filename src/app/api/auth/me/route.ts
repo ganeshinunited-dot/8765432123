@@ -1,21 +1,25 @@
 import { NextResponse } from "next/server";
-import { getSessionUser } from "@/lib/auth";
-import { unreadCount } from "@/lib/notifications";
-import { getViewMode } from "@/lib/view-mode";
-import { db } from "@/lib/db";
 
-/** Lightweight session endpoint for client components (e.g. Navbar). */
+function gone() {
+  return NextResponse.json({ error: "Not found" }, { status: 404 });
+}
+
 export async function GET() {
-  const user = await getSessionUser();
-  if (!user) return NextResponse.json({ user: null, unread: 0, view: "employer", hasCompany: false });
-  const unread = await unreadCount(user.id).catch(() => 0);
-  const view = await getViewMode(user.isAdmin);
-  let hasCompany = false;
-  let companyName: string | null = null;
-  if (user.isAdmin && user.role === "EMPLOYER") {
-    const company = await db.company.findFirst({ where: { ownerId: user.id }, select: { name: true } });
-    hasCompany = !!company;
-    companyName = company?.name || null;
-  }
-  return NextResponse.json({ user, unread, view, hasCompany, companyName });
+  return gone();
+}
+
+export async function POST() {
+  return gone();
+}
+
+export async function PUT() {
+  return gone();
+}
+
+export async function PATCH() {
+  return gone();
+}
+
+export async function DELETE() {
+  return gone();
 }

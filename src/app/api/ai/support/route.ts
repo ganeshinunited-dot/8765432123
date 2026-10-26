@@ -1,45 +1,42 @@
 import { NextRequest, NextResponse } from "next/server";
-import { clientKey, rateLimit } from "@/lib/auth";
+import { clientKey, rateLimit } from "@/lib/rate-limit";
 import { aiComplete } from "@/lib/ai";
 
 export const maxDuration = 60;
 
-const PLATFORM_GUIDE = `You are the Growentix Support Assistant for growentix.cloud — a jobs platform in Nepal that connects students with part-time, evening, weekend, remote and internship jobs from employers. Answer ONLY from the guide below. Be friendly, clear and concise (2-6 short sentences or a short numbered list of steps). If something is not in the guide, say you are not sure and suggest emailing support@growentix.cloud. Reply in the same language style the user used (English or Romanized Nepali mix).
+const PLATFORM_GUIDE = `You are the Growentix Support Assistant for growentix.cloud — a daily job news and vacancy notices site for Nepal and abroad. Answer ONLY from the guide below. Be friendly, clear and concise (2-6 short sentences or a short numbered list of steps). If something is not in the guide, say you are not sure and suggest emailing support@growentix.cloud. Reply in the same language style the user used (English or Romanized Nepali mix).
 
-FOR STUDENTS (always free):
-- Sign up: /signup → choose "Student" → verify email from the link we send (check spam too). Login at /login. Forgot password: /forgot-password.
-- Profile: after login, open Profile (/profile). Add headline, bio, city, education/college, skills, preferred job types, schedules and expected pay. A complete profile gets better Smart Match recommendations on the dashboard.
-- CV/documents: upload CV in Profile. Files are private — only you, admins, and an employer you applied to can view them.
-- Find jobs: /jobs with filters (type, schedule, location, arrangement), or use the AI Job Assistant box on /jobs — describe the job in your own words (English/Nepali mix works).
-- Save jobs: bookmark button on a job → find them under Dashboard → Saved.
-- Apply: open a job → "Apply Now" → optionally write a cover message (the "Write my cover letter with AI" button drafts one from your profile) → Submit. Track status under Dashboard → Applications; you can also withdraw there.
-- Messages & interviews: employers can message you (Dashboard → Messages). Interview invitations appear there and under Dashboard → Interviews/Applications; accept or decline from the platform.
-- Safety: NEVER pay an employer to apply or get a job — real employers never charge applicants. Report suspicious jobs with the Report button on the job page.
+WHAT GROWENTIX IS:
+- Growentix publishes daily job news and vacancy notices: government vacancies in Nepal, Gulf jobs, Korea & Japan (EPS), USA/UK/Canada/Australia/Europe jobs, remote work and work-abroad updates. Every article links its source.
+- There are no accounts, no logins and no job applications on Growentix — you read the news here, then apply through the official link in the article (government portal, employer site or recruitment board).
 
-FOR EMPLOYERS:
-- Sign up: /signup → choose "Employer". Then complete Company Profile (/employer/company): name, industry, location, description, logo.
-- Verification: submit business details/documents from the company page; our admin team reviews them. A "Verified" badge builds student trust.
-- Post a job: Employer → Post a Job (/employer/jobs/new). 4 steps: Basics → Details (the AI Job Writer can draft description/responsibilities/requirements from just the title) → Schedule & pay → Review. Jobs go live after a quick admin review.
-- Plans (Employer → Billing): Free = 1 active job post; Basic NPR 999/month = 5 posts; Premium NPR 2,499/month = 20 posts + candidate search. Note: online checkout currently runs in demonstration mode — contact support for activation.
-- Applicants: Employer → Applicants — shortlist, reject, select, download CVs (only for your applicants), message candidates and propose interviews with date/time.
+FINDING NEWS:
+- Home (/) shows the latest job news and live government vacancy notices.
+- News (/articles) lists all job news articles, newest first.
+- Search (/search) is the only search box — search by keyword or filter by category.
+- Explore (/explore) shows international jobs only (USA, UK, Canada, Australia, Europe, Asia, Gulf, Korea & Japan, Remote, Work Abroad).
+- Government notices (/sarkari-jobs) lists live Nepal government vacancies with deadlines, seats and official notice links. Expired notices show as Closed.
+- Articles open in English or Nepali — use the language picker at the top of the article page.
+- Free video courses (/courses) — real YouTube courses matched to job topics, free to watch.
+
+APPLYING FOR A JOB:
+- Open the article or notice, read the deadline, eligibility and documents, then tap the official link (Apply / official notice) — applications happen on the official site, never on Growentix.
+- Deadlines are shown as exact dates. If a fee, seat count or date is not stated, the article says it has not been announced — never guess.
+- Safety: NEVER pay anyone to apply or get a job — genuine recruiters never charge applicants. Beware of agents asking for money; apply only through official portals.
 
 GENERAL:
-- Companies directory: /companies. Pricing is visible to verified employers only (no public prices). Safety: /safety. FAQ: /faq.
-- Account problems: wrong role chosen at signup cannot be changed in settings — contact support.
-- Growentix is for students in Nepal; jobs show NPR pay, locations across Nepal, schedules like Morning/Afternoon/Evening/Weekend.`;
+- New articles publish daily, plus fresh job news through the day.
+- Contact: support@growentix.cloud.`;
 
 // Keyword fallbacks used until an AI key is configured (or if the AI is unreachable).
 const FALLBACKS: Array<{ match: RegExp; answer: string }> = [
-  { match: /apply|application/i, answer: "To apply: open any job from /jobs, tap \"Apply Now\", optionally add a cover message (the AI button can draft one), then Submit. Track or withdraw it anytime under Dashboard → Applications." },
-  { match: /post|employer.*job|job.*post/i, answer: "Employers: sign up as Employer → complete your Company Profile → \"Post a Job\" (4 quick steps; the AI Job Writer can draft the description from just the title). Jobs go live after a short admin review." },
-  { match: /verif/i, answer: "Email verification: open the link we emailed after signup (check spam). Company verification: submit your business details from Employer → Company Profile; our team reviews them and adds the Verified badge." },
-  { match: /cv|resume|document/i, answer: "Upload your CV under Profile. It stays private — only you, admins, and employers you applied to can open it." },
-  { match: /password|forgot|login|log in/i, answer: "Forgot your password? Go to /forgot-password, enter your account email, and use the reset link (valid 1 hour). Then log in at /login with the new password." },
-  { match: /price|pricing|cost|plan|subscription/i, answer: "Students are always free. Employer plan pricing is only shown to verified employers after they sign in — complete verification from your company profile to see plans." },
-  { match: /interview/i, answer: "Employers propose interviews from the Applicants page; you'll see invitations in Dashboard → Messages/Interviews and can accept or decline there." },
-  { match: /message|chat|contact.*employer/i, answer: "Messaging opens once you're connected to an employer (e.g. after applying or being shortlisted). Find conversations under Dashboard → Messages." },
-  { match: /save|bookmark/i, answer: "Tap the bookmark (\"Save Job\") on any job to save it, then find all saved jobs under Dashboard → Saved." },
-  { match: /safe|scam|fraud|pay.*(fee|money)|report/i, answer: "Safety first: NEVER pay an employer to apply or receive a job — genuine employers never charge applicants. If a job looks suspicious, use the Report button on the job page and our team will review it. More at /safety." },
+  { match: /apply|application/i, answer: "To apply: open the article or notice, read the deadline and eligibility, then tap the official link (Apply / official notice). Applications happen on the official site — Growentix itself takes no applications." },
+  { match: /deadline|date|last date/i, answer: "Deadlines are shown as exact dates on each article and government notice. If a date is not stated, the article says it has not been announced." },
+  { match: /search|find/i, answer: "Use Search (/search) — it is the only search box. Search by keyword or filter by category. Explore (/explore) shows international jobs only." },
+  { match: /government|sarkari/i, answer: "Live Nepal government vacancies are on /sarkari-jobs, with deadlines, seats and official notice links. Expired notices show as Closed." },
+  { match: /course|video|learn/i, answer: "Free video courses are on /courses — real YouTube courses matched to job topics, free to watch, no account needed." },
+  { match: /language|nepali|english/i, answer: "Articles open in English or Nepali — use the language picker at the top of the article page." },
+  { match: /safe|scam|fraud|pay.*(fee|money)|report/i, answer: "Safety first: NEVER pay anyone to apply or receive a job — genuine recruiters never charge applicants. Apply only through official portals." },
   { match: /human|person|email|phone|contact/i, answer: "You can reach the Growentix team at support@growentix.cloud. We usually reply within one working day." },
 ];
 
@@ -67,6 +64,6 @@ export async function POST(req: NextRequest) {
   const hit = FALLBACKS.find((f) => f.match.test(question));
   return NextResponse.json({
     source: "smart",
-    answer: hit?.answer ?? "I can help with applying, posting jobs, verification, CV uploads, pricing and safety. Try asking, for example, \"How do I apply for a job?\" — or email support@growentix.cloud for anything else.",
+    answer: hit?.answer ?? "I can help with finding job news, government notices, deadlines, courses and safety. Try asking, for example, \"How do I apply for a job?\" — or email support@growentix.cloud for anything else.",
   });
 }

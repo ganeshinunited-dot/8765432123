@@ -1,4 +1,6 @@
-# SETUP.md — Local development, production deploy, admin bootstrap
+# SETUP.md — Local development and production deploy
+
+> Note (Oct 2026): the login, signup and admin system was removed from the site — those routes return 404 and the code remains in the repo only as dead code. The seed accounts, admin bootstrap, session and payment/email account sections below describe the removed system and no longer apply.
 
 ## 1. Local development
 
@@ -16,29 +18,22 @@ npm install
 cp .env.example .env
 # Edit .env — at minimum set:
 #   DATABASE_URL="postgresql://user:password@localhost:5432/jobplatform"
-#   SESSION_SECRET="$(openssl rand -hex 32)"
 #   NEXT_PUBLIC_APP_URL="http://localhost:3000"
 
 # 2. Create database + apply schema
 createdb jobplatform            # or create via your provider's dashboard
 npx prisma migrate dev          # applies prisma/migrations/*
 
-# 3. Generate client + seed demo data
+# 3. Generate client
 npx prisma generate
-npm run seed
 
 # 4. Run
 npm run dev                     # http://localhost:3000
 ```
 
-### Seed accounts (password: `password123`)
-| Email | Role | Notes |
-|---|---|---|
-| `student@example.com` | STUDENT | Completed profile, saved jobs |
-| `employer@example.com` | EMPLOYER | Demo company + active jobs |
-| `admin@example.com` | ADMIN | Full admin access |
+### Seed accounts
 
-The seed is idempotent — safe to re-run. Demo content is clearly marked.
+Seed accounts no longer exist — the login system was removed (Oct 2026). The seed script remains in the repo but is not part of the production build.
 
 ### Useful commands
 ```bash
@@ -55,13 +50,12 @@ Full reference in `.env.example`. Key groups:
 | Group | Vars | Fallback |
 |---|---|---|
 | Database | `DATABASE_URL` | — (required) |
-| App | `NEXT_PUBLIC_APP_URL`, `SESSION_SECRET`, `SESSION_COOKIE_NAME` | — (required) |
+| App | `NEXT_PUBLIC_APP_URL` | — (required) |
 | Storage | `STORAGE_DRIVER`=`local`\|`s3`, `UPLOAD_DIR`, `S3_STORAGE_*` | local disk |
 | Email | `EMAIL_DRIVER`=`log`\|`smtp`\|`resend`, `EMAIL_FROM` | log (console) |
 | Payments | `PAYMENT_DRIVER`=`mock`\|`esewa`\|`khalti` | mock (dev only) |
 | Maps | `MAPS_PROVIDER`=`none`\|`google`\|`mapbox` | none |
 | OAuth | `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET` | disabled |
-| Admin seed | `ADMIN_EMAIL`, `ADMIN_PASSWORD` | seed only |
 
 **Never commit `.env`.** It is gitignored.
 
@@ -71,7 +65,6 @@ Full reference in `.env.example`. Key groups:
 2. **Vercel** — import the repo, set framework preset to Next.js.
 3. **Env vars** — in Vercel project settings, add:
    - `DATABASE_URL` (use the pooled connection string if provided)
-   - `SESSION_SECRET` (generate: `openssl rand -hex 32`)
    - `NEXT_PUBLIC_APP_URL` (`https://your-domain.com`)
    - `STORAGE_DRIVER=s3` + `S3_STORAGE_*` (local disk is ephemeral on Vercel — **do not use local storage in production**)
    - `EMAIL_DRIVER=smtp` or `resend` + credentials
@@ -88,23 +81,17 @@ Full reference in `.env.example`. Key groups:
 6. **Deploy** — `git push` to the connected branch.
 
 ### Production checklist
-- [ ] `SESSION_SECRET` is a fresh 32-byte random value (not the dev one)
 - [ ] `STORAGE_DRIVER=s3` (local uploads vanish on redeploy)
 - [ ] `EMAIL_DRIVER` is `smtp` or `resend` (not `log`)
 - [ ] `PAYMENT_DRIVER` is `esewa`/`khalti` with live credentials (not `mock`)
 - [ ] `NEXT_PUBLIC_APP_URL` matches the production domain (used in emails/payment callbacks)
 - [ ] Database has `prisma migrate deploy` applied
-- [ ] Admin account created, demo accounts removed/disabled
 - [ ] HTTPS enforced (Vercel does this by default)
-- [ ] Review rate-limit thresholds in `src/lib/auth.ts` for production traffic
+- [ ] Review rate-limit thresholds in `src/lib/rate-limit.ts` for production traffic
 
 ## 4. Admin bootstrap
 
-The first admin is created by the seed script using `ADMIN_EMAIL`/`ADMIN_PASSWORD` from `.env`. To promote another user later, an existing admin can… (currently: via database — set `role='ADMIN'` on the user row):
-
-```sql
-UPDATE "User" SET role='ADMIN' WHERE email='new-admin@example.com';
-```
+Removed Oct 2026 — no admin system exists anymore. Content publishes via database migrations.
 
 ## 5. Payments (eSewa / Khalti)
 
@@ -133,5 +120,4 @@ Templates live in `src/lib/email.ts` (`sendTemplatedEmail`).
 | `P1001` can't reach DB | Postgres not running / wrong `DATABASE_URL` |
 | Prisma "engine not found" | Run `npx prisma generate`; offline envs need the schema-engine binary (see AGENTS.md) |
 | Uploads 404 after redeploy | Local driver on ephemeral disk — switch to S3 |
-| Session lost on refresh | `SESSION_SECRET` changed between deploys, or cookie not HTTPS on custom domain |
 | `/jobs` 500 in dev | Stale dev server — kill old `next dev` processes and restart |

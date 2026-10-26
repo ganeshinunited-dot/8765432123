@@ -1,8 +1,5 @@
-import { redirect } from "next/navigation";
-import { requireAdmin } from "@/lib/admin";
-export const revalidate = 300;
+import { notFound } from "next/navigation";
 
-export default async function AdminIndex() {
-  await requireAdmin();
-  redirect("/admin/home");
+export default function Page() {
+  notFound();
 }

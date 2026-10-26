@@ -7,7 +7,6 @@ import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { LogoIntro } from "@/components/layout/LogoIntro";
 import { BottomNav } from "@/components/layout/BottomNav";
-import { TrackVisit } from "@/components/analytics/TrackVisit";
 
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const jakarta = Plus_Jakarta_Sans({ variable: "--font-jakarta", subsets: ["latin"], weight: ["600", "700", "800"] });
@@ -44,16 +43,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className={`${geistSans.variable} ${jakarta.variable} h-full antialiased`}>
       <body className="flex min-h-full flex-col bg-white text-slate-900">
-        {/* Pre-paint chrome hint: hide the public top bar/footer instantly for
-            signed-in app users (gx_chrome=app cookie set at login). Runs before
-            hydration so there is no flash of the public navbar after login. */}
-        <Script
-          id="gx-chrome-hint"
-          strategy="beforeInteractive"
-          dangerouslySetInnerHTML={{
-            __html: `try{var m=document.cookie.match(/(?:^|;\\s*)gx_chrome=([^;]*)/);if(m&&decodeURIComponent(m[1])==="app")document.documentElement.setAttribute("data-chrome","app")}catch(e){}`,
-          }}
-        />
         {/* Site-wide Organization + WebSite schema: article pages already
             carry NewsArticle schema; this gives AI tools and search engines
             the same identity on every page, including home/about/privacy. */}
@@ -82,7 +71,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           }}
         />
         <ToastProvider>
-          <TrackVisit />
           <LogoIntro />
           <Navbar />
           <main className="flex-1">{children}</main>

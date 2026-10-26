@@ -65,20 +65,18 @@ data does not carry are left out rather than guessed.
 - **PostgreSQL** via Prisma 7 (`@prisma/adapter-pg`)
 - **Vercel** hosting + scheduled content pipelines (daily articles, weekly guides
   and roundup, article images)
-- Custom **scrypt** password hashing, hashed session tokens in HTTP-only cookies
 
 ### Quick start
 
 ```bash
 npm install
-cp .env.example .env        # fill in DATABASE_URL + SESSION_SECRET at minimum
+cp .env.example .env        # fill in DATABASE_URL at minimum
 npx prisma migrate dev      # or: npx prisma db push (quick local)
 npx prisma generate
 npm run dev                 # http://localhost:3000
 ```
 
-See [SETUP.md](SETUP.md) for the full local setup, production checklist, and
-admin bootstrap.
+See [SETUP.md](SETUP.md) for the full local setup and production checklist.
 
 ### Project structure
 
@@ -87,7 +85,7 @@ src/
   app/            # Pages + API routes (public pages, /api/cron/*, /api/mcp)
   components/     # UI
   data/           # Curated vacancy notices, article image manifest
-  lib/            # db, auth, articleWriter, mcp, ai, analytics
+  lib/            # db, articleWriter, mcp, ai, analytics
 prisma/
   schema.prisma   # Data model
   migrations/     # Schema + content migrations
