@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { CSSProperties } from "react";
 import { db } from "@/lib/db";
 import { Reveal } from "@/components/ui/Reveal";
+import { NewsletterForm } from "@/components/NewsletterForm";
 import { SARKARI_JOBS, sarkariSlug } from "@/data/sarkariJobs";
 import { articleCategoryLabel } from "@/lib/articles";
 import { articleImagesFor } from "@/data/articleImages";
@@ -266,6 +267,27 @@ export default async function HomePage() {
                 </Reveal>
               );
             })}
+          </div>
+        </div>
+      </section>
+
+      {/* Weekly job news — email subscribe */}
+      <section className="border-t border-slate-200 bg-white">
+        <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-16">
+          <div className="mx-auto max-w-xl text-center">
+            <span className="gx-eyebrow">Weekly job news</span>
+            <h2 className="gx-h2 mt-2">Get the week&apos;s job news by email</h2>
+            <p className="gx-sub mt-2">The newest vacancies and job news, in your inbox once a week.</p>
+            <div className="mt-6 text-left">
+              <NewsletterForm />
+            </div>
+            <p className="mt-3 text-xs text-slate-500">
+              By subscribing you agree to receive the Growentix weekly newsletter. See our{" "}
+              <Link href="/privacy" className="underline">
+                Privacy Policy
+              </Link>
+              .
+            </p>
           </div>
         </div>
       </section>
