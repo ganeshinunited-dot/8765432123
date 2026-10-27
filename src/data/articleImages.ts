@@ -175,6 +175,57 @@ export const ARTICLE_IMAGES: Record<string, [string, string, string]> = {
     "/article-images/upsssc-inter-level-1784-posts-20261025/3.jpg",
   ],
 
+  "hotel-jobs-in-usa-for-foreigners-roles-pay-visas-and-how-to-apply-20261027": [
+    "/article-images/hotel-jobs-in-usa-for-foreigners-roles-pay-visas-and-how-to-apply-20261027/1.jpg",
+    "/article-images/hotel-jobs-in-usa-for-foreigners-roles-pay-visas-and-how-to-apply-20261027/2.jpg",
+    "/article-images/hotel-jobs-in-usa-for-foreigners-roles-pay-visas-and-how-to-apply-20261027/3.jpg",
+  ],
+  "farm-worker-jobs-in-usa-on-h-2a-visa-pay-housing-and-how-to-apply-20261027": [
+    "/article-images/farm-worker-jobs-in-usa-on-h-2a-visa-pay-housing-and-how-to-apply-20261027/1.jpg",
+    "/article-images/farm-worker-jobs-in-usa-on-h-2a-visa-pay-housing-and-how-to-apply-20261027/2.jpg",
+    "/article-images/farm-worker-jobs-in-usa-on-h-2a-visa-pay-housing-and-how-to-apply-20261027/3.jpg",
+  ],
+  "rrb-station-master-cen-08-2026-20261026": [
+    "/article-images/rrb-station-master-cen-08-2026-20261026/1.jpg",
+    "/article-images/rrb-station-master-cen-08-2026-20261026/2.jpg",
+    "/article-images/rrb-station-master-cen-08-2026-20261026/3.jpg",
+  ],
+  "deprosc-nepal-nuwakot-rasuwa-vacancies-20261026": [
+    "/article-images/deprosc-nepal-nuwakot-rasuwa-vacancies-20261026/1.jpg",
+    "/article-images/deprosc-nepal-nuwakot-rasuwa-vacancies-20261026/2.jpg",
+    "/article-images/deprosc-nepal-nuwakot-rasuwa-vacancies-20261026/3.jpg",
+  ],
+  "taylor-swift-debut-album-turns-20-20261026": [
+    "/article-images/taylor-swift-debut-album-turns-20-20261026/1.jpg",
+    "/article-images/taylor-swift-debut-album-turns-20-20261026/2.jpg",
+    "/article-images/taylor-swift-debut-album-turns-20-20261026/3.jpg",
+  ],
+  "alas-emirates-ready-mix-abu-dhabi-20261026": [
+    "/article-images/alas-emirates-ready-mix-abu-dhabi-20261026/1.jpg",
+    "/article-images/alas-emirates-ready-mix-abu-dhabi-20261026/2.jpg",
+    "/article-images/alas-emirates-ready-mix-abu-dhabi-20261026/3.jpg",
+  ],
+  "nlc-india-apprentice-1067-posts-20261026": [
+    "/article-images/nlc-india-apprentice-1067-posts-20261026/1.jpg",
+    "/article-images/nlc-india-apprentice-1067-posts-20261026/2.jpg",
+    "/article-images/nlc-india-apprentice-1067-posts-20261026/3.jpg",
+  ],
+  "taylor-swift-showgirl-trademark-second-refusal-20261026": [
+    "/article-images/taylor-swift-showgirl-trademark-second-refusal-20261026/1.jpg",
+    "/article-images/taylor-swift-showgirl-trademark-second-refusal-20261026/2.jpg",
+    "/article-images/taylor-swift-showgirl-trademark-second-refusal-20261026/3.jpg",
+  ],
+  "uppsc-ro-aro-501-posts-20261026": [
+    "/article-images/uppsc-ro-aro-501-posts-20261026/1.jpg",
+    "/article-images/uppsc-ro-aro-501-posts-20261026/2.jpg",
+    "/article-images/uppsc-ro-aro-501-posts-20261026/3.jpg",
+  ],
+  "appsc-group-1-166-posts-20261026": [
+    "/article-images/appsc-group-1-166-posts-20261026/1.jpg",
+    "/article-images/appsc-group-1-166-posts-20261026/2.jpg",
+    "/article-images/appsc-group-1-166-posts-20261026/3.jpg",
+  ],
+
 };
 
 export function articleImagesFor(slug: string): [string, string, string] | null {
