@@ -1,10 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import Link from "next/link";
-import { articleCategoryLabel } from "@/lib/articles";
 import { articleImagesFor } from "@/data/articleImages";
-import { LanguagePicker } from "./LanguagePicker";
+import { articleCategoryLabel } from "@/lib/articles";
 
 export interface ArticleData {
   slug: string;
@@ -54,29 +51,14 @@ function withInlineImages(
 }
 
 export function ArticleView({ article }: { article: ArticleData }) {
-  const [lang, setLang] = useState<"en" | "ne">("en");
-  const title = lang === "en" ? article.titleEn : article.titleNe;
-  const excerpt = lang === "en" ? article.excerptEn : article.excerptNe;
-  const body = lang === "en" ? article.bodyEn : article.bodyNe;
   const images = articleImagesFor(article.slug);
-  const bodyHtml = images ? withInlineImages(body, images, title) : body;
+  const bodyHtml = images
+    ? withInlineImages(article.bodyEn, images, article.titleEn)
+    : article.bodyEn;
 
   return (
     <article>
-      {/* Language picker — top of the article, jw.org style */}
-      <div className="mb-4 flex justify-end">
-        <LanguagePicker lang={lang} onChange={setLang} />
-      </div>
-
-      <nav aria-label="Breadcrumb" className="text-sm text-slate-500">
-        <Link href="/" className="hover:text-emerald-700">Home</Link>
-        <span className="mx-2" aria-hidden="true">/</span>
-        <Link href="/articles" className="hover:text-emerald-700">Articles</Link>
-        <span className="mx-2" aria-hidden="true">/</span>
-        <span className="text-slate-700">{articleCategoryLabel(article.category)}</span>
-      </nav>
-
-      <div className="mt-4 flex flex-wrap items-center gap-2">
+      <div className="flex flex-wrap items-center gap-2">
         <span className="rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700">
           {articleCategoryLabel(article.category)}
         </span>
@@ -88,108 +70,61 @@ export function ArticleView({ article }: { article: ArticleData }) {
         <span className="text-xs text-slate-500">{formatDate(article.publishedAt)}</span>
         <span className="inline-flex items-center gap-1 text-xs text-slate-500">
           <svg className="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-            <circle cx="12" cy="12" r="10" />
+            <circle cx="12" r="10" />
             <path d="M12 6v6l4 2" />
           </svg>
-          {readingTime(body)} min read
+          {readingTime(article.bodyEn)} min read
         </span>
       </div>
 
       <h1
-        lang={lang === "ne" ? "ne" : "en"}
+        lang="en"
         className="mt-4 text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl"
       >
-        {title}
+        {article.titleEn}
       </h1>
-
-      {excerpt && (
-        <p
-          lang={lang === "ne" ? "ne" : "en"}
-          className="mt-6 border-l-4 border-emerald-500 bg-emerald-50/60 py-1 pl-4 text-lg font-medium leading-relaxed text-emerald-950"
-        >
-          {excerpt}
-        </p>
-      )}
 
       {images && (
         <figure className="mt-6">
           <img
             src={images[0]}
-            alt={title}
+            alt={article.titleEn}
             className="aspect-video w-full rounded-2xl border border-slate-200 object-cover"
           />
         </figure>
       )}
 
       <div
-        lang={lang === "ne" ? "ne" : "en"}
+        lang="en"
         className="gx-article mt-6 max-w-none text-slate-700"
         dangerouslySetInnerHTML={{ __html: bodyHtml }}
       />
 
-      {Array.isArray(article.videos) && article.videos.length > 0 && (
-        <div className="mt-10">
-          <h2 className="text-lg font-bold text-slate-900">
-            {lang === "ne" ? "सम्बन्धित भिडियो कोर्सहरू" : "Related video courses"}
-          </h2>
-          <p className="mt-1 text-sm text-slate-500">
-            {lang === "ne"
-              ? "यस विषयमा भिडियो कोर्सहरू:"
-              : "Video courses matching this story:"}
-          </p>
-          <div className="mt-4 space-y-6">
-            {article.videos.map((v) => (
-              <figure key={v.videoId}>
-                <iframe
-                  src={`https://www.youtube-nocookie.com/embed/${v.videoId}`}
-                  title={v.title}
-                  className="aspect-video w-full rounded-2xl border border-slate-200"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                  loading="lazy"
-                />
-                <figcaption className="mt-2 text-sm font-medium text-slate-700">
-                  <a
-                    href={v.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="hover:underline"
-                  >
-                    {v.title}
-                  </a>
-                </figcaption>
-              </figure>
-            ))}
-          </div>
-        </div>
-      )}
-
       {article.sources.length > 0 && (
-        <div className="mt-10 rounded-2xl border border-slate-200 bg-slate-50 p-6">
-          <h2 className="text-sm font-bold uppercase tracking-wider text-slate-500">Sources</h2>
-          <ul className="mt-3 space-y-2">
-            {article.sources.map((s) => {
-              let host = s;
-              try {
-                host = new URL(s).hostname.replace(/^www\./, "");
-              } catch {
-                /* keep raw */
-              }
-              return (
-                <li key={s}>
-                  <a
-                    href={s}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-sm font-medium text-emerald-700 hover:underline"
-                  >
-                    {host} <span aria-hidden="true">&rarr;</span>
-                  </a>
-                </li>
-              );
-            })}
-          </ul>
-        </div>
+        <p className="mt-10 text-sm text-slate-500">
+          Sources:{" "}
+          {article.sources.map((s, i) => {
+            let host = s;
+            try {
+              host = new URL(s).hostname.replace(/^www\./, "");
+            } catch {
+              /* keep raw */
+            }
+            return (
+              <span key={s}>
+                {i > 0 && " · "}
+                <a
+                  href={s}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-medium text-emerald-700 hover:underline"
+                >
+                  {host}
+                </a>
+              </span>
+            );
+          })}
+        </p>
       )}
     </article>
   );
