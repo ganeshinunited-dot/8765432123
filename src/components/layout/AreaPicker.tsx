@@ -11,6 +11,7 @@ const AREAS = [
     label: c.label,
     href: `/articles?category=${c.slug}`,
   })),
+  { label: "Tech & AI", href: "/tech-ai" },
 ];
 
 /** Globe "All Areas" dropdown in the public header — jump to any region. */
