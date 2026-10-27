@@ -226,12 +226,6 @@ export const ARTICLE_IMAGES: Record<string, [string, string, string]> = {
     "/article-images/appsc-group-1-166-posts-20261026/3.jpg",
   ],
 
-  "taylor-swift-nashville-songwriters-hall-of-fame-induction-20261027": [
-    "/article-images/taylor-swift-nashville-songwriters-hall-of-fame-induction-20261027/1.jpg",
-    "/article-images/taylor-swift-nashville-songwriters-hall-of-fame-induction-20261027/2.jpg",
-    "/article-images/taylor-swift-nashville-songwriters-hall-of-fame-induction-20261027/3.jpg",
-  ],
-
 };
 
 export function articleImagesFor(slug: string): [string, string, string] | null {

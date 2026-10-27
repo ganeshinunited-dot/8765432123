@@ -4,7 +4,6 @@ import type { Metadata } from "next";
 import { db } from "@/lib/db";
 import { articleCategoryLabel } from "@/lib/articles";
 import { ArticleView } from "@/components/articles/ArticleView";
-import { articleImagesFor } from "@/data/articleImages";
 
 export const revalidate = 300; // ISR: serve cached HTML, regenerate in background; admin/cron purge on publish
 
@@ -24,7 +23,6 @@ export async function generateMetadata({
     select: { titleEn: true, excerptEn: true, updatedAt: true },
   });
   if (!a) return {};
-  const ogImage = articleImagesFor(slug)?.[0];
   return {
     title: a.titleEn,
     description: a.excerptEn,
