@@ -32,7 +32,6 @@ export async function generateMetadata({
       description: a.excerptEn,
       type: "article",
       url: `https://growentix.cloud/articles/${slug}`,
-      ...(ogImage ? { images: [{ url: `https://growentix.cloud${ogImage}` }] } : {}),
     },
   };
 }
