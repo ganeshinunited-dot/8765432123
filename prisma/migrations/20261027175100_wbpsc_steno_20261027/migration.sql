@@ -1,0 +1,35 @@
+INSERT INTO "Article" ("id", "slug", "category", "country", "titleEn", "titleNe", "excerptEn", "excerptNe", "bodyEn", "bodyNe", "sources", "publishedAt", "createdAt", "updatedAt")
+VALUES (
+  gen_random_uuid(),
+  'wbpsc-english-stenographer-266-posts-20261027',
+  'global',
+  'India',
+  'WBPSC English Stenographer Recruitment 2026: 266 Posts, Apply by 7 November',
+  '',
+  'The Public Service Commission, West Bengal has opened applications for 266 English Stenographer (Basic Grade) posts in Schedule A and Schedule B, with an examination tentatively scheduled in December 2026 in Kolkata. Applications close on 7 November 2026 at 3:30 PM.',
+  '',
+  $$<p>The Public Service Commission, West Bengal (WBPSC) has opened online applications under the WBPSC English Stenographer recruitment for 266 English Stenographer (Basic Grade) posts under Advertisement No. 04/2025. The recruitment is formally titled the English Stenographer (Basic Grade) in Schedule A and Schedule B Recruitment Examination, 2025. Applications opened on 18 October 2026 and close on 7 November 2026 at 3:30 PM, and the examination is tentatively scheduled in December 2026 in Kolkata.</p>
+<p>A note on sources: the commission's official website could not be reached at the time of writing, so the figures in this article rest on agreement across secondary reports of the official notification. Readers should confirm every detail in the official notification before applying.</p>
+<table><tbody><tr><th>Recruiting body</th><td>Public Service Commission, West Bengal (WBPSC)</td></tr><tr><th>Advertisement</th><td>No. 04/2025 (detailed advertisement dated 16 October 2026)</td></tr><tr><th>Post</th><td>English Stenographer (Basic Grade), Personal Assistant cadre</td></tr><tr><th>Total posts</th><td>266 (Schedule A 146, Schedule B 120)</td></tr><tr><th>Application window</th><td>18 October to 7 November 2026, 3:30 PM</td></tr><tr><th>Pay</th><td>Level 9, Rs 28,900 to Rs 74,500</td></tr><tr><th>Application fee</th><td>Rs 160 plus applicable charges (exemptions per category)</td></tr><tr><th>Examination</th><td>Tentatively December 2026, Kolkata</td></tr><tr><th>Apply at</th><td>psc.wb.gov.in</td></tr></tbody></table>
+<h2>WBPSC English Stenographer recruitment: vacancy details</h2>
+<p>The 266 posts are Personal Assistant posts in the cadre of English Stenographer (Basic Grade), split into 146 posts under Schedule A and 120 posts under Schedule B. The posts are regular cadre posts in West Bengal government departments and offices, carrying Pay Level 9 under the West Bengal Services (Revision of Pay and Allowance) Rules, 2019, with a pay range of Rs 28,900 to Rs 74,500 plus allowances as admissible.</p>
+<p>The examination carries 600 marks in total. Selection runs through General English, Dictation and Transcription, and a Computer Typing examination, followed by the prescribed verification procedures. The examination is tentatively scheduled for December 2026 at centres in Kolkata, and candidates should watch the commission's website for the exact schedule and admit card notice.</p>
+<h2>Who can apply</h2>
+<p>Applicants must have passed the Madhyamik examination or an equivalent examination, and must possess elementary knowledge of computer operation along with English computer typing at 30 words per minute. The age limit is 18 to 44 years as on 1 January 2025, with relaxations applicable as per the rules for reserved categories.</p>
+<p>One condition needs stating plainly, because it is easy to misread. The notification requires the ability to read, write and speak Bengali — but candidates whose mother tongue is Nepali are exempted from that language requirement. That exemption concerns language only. It does not by itself make Nepali citizens eligible for this recruitment: applicants must still meet the nationality and eligibility conditions in the notification, and the recruitment is a West Bengal government recruitment for candidates who meet those conditions.</p>
+<p>The stenographer cadre is one of the regular feeder routes into secretarial and personal-assistant roles in West Bengal government offices, and the Basic Grade examination has historically drawn large numbers of applicants from across the state. For candidates already working in typing or data-entry roles, the combination of a Madhyamik qualification, 30 words per minute English typing and elementary computer knowledge makes this one of the more accessible state-level examinations — provided the typing speed is genuinely met, since the typing and dictation stages decide the final merit list.</p>
+<h2>Fees, edit window and dates to remember</h2>
+<p>The application fee is Rs 160 plus applicable service charges, with exemptions for categories as specified in the notification. The last date for submitting the application and paying the fee is the same: 7 November 2026, up to 3:30 PM. An edit window runs from 10 November to 13 November 2026, up to 3:30 PM, for corrections to submitted forms. Candidates should complete the form well before the closing time, since the last-day rush routinely causes failed submissions and payment timeouts.</p>
+<h2>How to apply</h2>
+<p>Applications are online only, through the commission's website at psc.wb.gov.in. The steps are: register on the portal and fill the online form with correct personal and educational details; enter the required typing and computer proficiency details; upload the required documents; pay the fee before the last date where applicable; and submit before 7 November 2026 at 3:30 PM. After submission, use the edit window from 10 to 13 November if any correction is needed, and keep a copy of the submitted form and fee receipt.</p>
+<p>As with every government recruitment, the only genuine channel is the commission's own portal. No agent can secure a seat, and any demand for money beyond the notified fee is a scam signal — report it and do not pay.</p>
+<h2>Who this is for — and a caution for readers in Nepal</h2>
+<p>This is a West Bengal state government recruitment, and its eligibility conditions, including nationality, are set by the notification. Readers in Nepal should read it as information about an Indian government drive, and should not assume eligibility from the Nepali language exemption, which waives only the Bengali requirement. The Nepal angle here, as with other Indian drives, is scam caution only: never pay anyone who promises a government post.</p>
+<p>For readers tracking other large Indian government drives, the Andhra Pradesh Group-I recruitment and the Uttar Pradesh RO/ARO recruitment are covered separately: <a href="/articles/appsc-group-1-166-posts-20261026">APPSC Group-I, 166 posts</a> and <a href="/articles/uppsc-ro-aro-501-posts-20261026">UPPSC RO/ARO, 501 posts</a>. The WBPSC Stenographer window closes on 7 November 2026, so eligible candidates have just over a week left to apply.</p>$$,
+  '',
+  ARRAY['Public Service Commission, West Bengal (psc.wb.gov.in)', 'FreeJobAlert', 'Testbook'],
+  '2026-10-27T12:15:00.000Z',
+  NOW(),
+  NOW()
+)
+ON CONFLICT ("slug") DO NOTHING;

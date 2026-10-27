@@ -1,21 +1,30 @@
+import type { Metadata } from "next";
 import { db } from "@/lib/db";
 import { ARTICLE_CATEGORIES } from "@/lib/articles";
-import { FilteredArticleList } from "@/components/articles/FilteredArticleList";
+import { ArticleCards } from "@/components/articles/ArticleCards";
 
-export const revalidate = 300; // ISR: serve cached HTML, regenerate in background; admin/cron purge on publish
+type SearchParams = Promise<{ category?: string | string[] }>;
 
-export const metadata = {
-  title: "Job News & Articles",
-  description:
-    "Daily job news from around the world — hiring trends, Gulf jobs, Korea & Japan opportunities, remote work and career guides.",
-  alternates: { canonical: "https://growentix.cloud/articles" },
-};
+function activeCategory(params: { category?: string | string[] }): string {
+  return Array.isArray(params.category) ? params.category[0] ?? "" : params.category ?? "";
+}
 
-export default async function ArticlesPage() {
-  // NOTE: no searchParams here on purpose — reading searchParams on the
-  // server forces full dynamic rendering and kills the ISR cache. Category
-  // filtering happens client-side in FilteredArticleList; filtered URLs
-  // canonicalise to /articles.
+export async function generateMetadata({ searchParams }: { searchParams: SearchParams }): Promise<Metadata> {
+  const category = activeCategory(await searchParams);
+  return {
+    title: "Job News & Articles",
+    description:
+      "Daily job news from around the world — hiring trends, Gulf jobs, Korea & Japan opportunities, remote work and career guides.",
+    alternates: { canonical: "https://growentix.cloud/articles" },
+    ...(category ? { robots: { index: false, follow: true } } : {}),
+  };
+}
+
+export default async function ArticlesPage({ searchParams }: { searchParams: SearchParams }) {
+  // Server-side category filtering: reading searchParams makes this route
+  // dynamic (no ISR cache), but every article link is rendered into the raw
+  // HTML, so crawlers discover articles without executing JavaScript.
+  const active = activeCategory(await searchParams);
   const rows = await db.article.findMany({
     orderBy: { publishedAt: "desc" },
     take: 60,
@@ -35,12 +44,13 @@ export default async function ArticlesPage() {
       <p className="gx-eyebrow">Daily job news</p>
       <h1 className="gx-h2 mt-2">Articles</h1>
       <p className="gx-sub mt-2 max-w-2xl">Fresh job stories from around the world.</p>
-      <FilteredArticleList
+      <ArticleCards
         articles={articles}
         categories={ARTICLE_CATEGORIES}
         basePath="/articles"
         allLabel="All"
         variant="grid"
+        active={active}
       />
     </div>
   );

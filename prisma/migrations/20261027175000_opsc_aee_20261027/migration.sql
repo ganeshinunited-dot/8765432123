@@ -1,0 +1,35 @@
+INSERT INTO "Article" ("id", "slug", "category", "country", "titleEn", "titleNe", "excerptEn", "excerptNe", "bodyEn", "bodyNe", "sources", "publishedAt", "createdAt", "updatedAt")
+VALUES (
+  gen_random_uuid(),
+  'opsc-aee-758-posts-20261027',
+  'global',
+  'India',
+  'OPSC AEE Recruitment 2026: 758 Assistant Executive Engineer Posts, Apply by 11 November',
+  '',
+  'The Odisha Public Service Commission has opened applications for 758 Assistant Executive Engineer posts in Civil and Mechanical streams, with selection through GATE scores and an interview. Applications close on 11 November 2026 at 5:00 PM.',
+  '',
+  $$<p>The Odisha Public Service Commission (OPSC) has opened online applications under the OPSC AEE recruitment 2026 for 758 Assistant Executive Engineer (AEE) posts in the Odisha Engineering Service, Group A, under Advertisement No. 13 of 2026-27. Applications opened on 22 October 2026 and close on 11 November 2026 at 5:00 PM, and there is no written examination and no application fee — selection rests on a valid GATE score and an interview.</p>
+<p>A note on sources: the commission's official website could not be reached at the time of writing, so the figures in this article rest on agreement across secondary reports of the official notification. Readers should confirm every detail in the official notification before applying. The commission also issued a corrigendum to this advertisement on 16 October 2026; the corrigendum's contents could not be read at the time of writing, so any change it makes is not reflected here.</p>
+<table><tbody><tr><th>Recruiting body</th><td>Odisha Public Service Commission (OPSC)</td></tr><tr><th>Advertisement</th><td>No. 13 of 2026-27 (Notice No. 5762/PSC, dated 9 October 2026)</td></tr><tr><th>Post</th><td>Assistant Executive Engineer (Civil and Mechanical), Group A</td></tr><tr><th>Total posts</th><td>758 (Civil 750, Mechanical 8)</td></tr><tr><th>Application window</th><td>22 October to 11 November 2026, 5:00 PM</td></tr><tr><th>Selection</th><td>GATE score 90% + interview 10%</td></tr><tr><th>Application fee</th><td>Nil</td></tr><tr><th>Pay</th><td>Level-12 of the ORSP Rules, 2017 pay matrix, plus allowances</td></tr><tr><th>Apply at</th><td>opsc.gov.in</td></tr></tbody></table>
+<h2>OPSC AEE recruitment 2026: vacancy details</h2>
+<p>The 758 posts are split into 750 Assistant Executive Engineers (Civil) and 8 Assistant Executive Engineers (Mechanical). The Civil posts carry 247 vacancies reserved for women, and the Mechanical posts carry 3 for women. The Civil posts sit across three departments — Water Resources, Works, and Housing and Urban Development — with Water Resources as the nodal department, while the Mechanical posts sit under Water Resources. Of the 750 Civil posts, 612 are backlog vacancies from previous years and 138 are current vacancies for 2025.</p>
+<p>The category-wise split for the Civil posts is: Unreserved 374 (including 122 women), SEBC 61 (21 women), SC 83 (28 women), and ST 232 (76 women). Persons with disabilities are covered horizontally within these totals, and 8 posts are marked for sportspersons. Candidates for Civil posts must give their order of preference among the three departments in the online form, and that preference cannot be changed before or after the result — so it deserves care before submission.</p>
+<h2>Who can apply</h2>
+<p>Applicants need a degree in Civil or Mechanical Engineering from a recognised university or institution, or Associate Membership (AMIE) in the relevant branch from the Institution of Engineers (India). On top of the degree, candidates must hold a valid GATE score in the same branch — GATE 2024, 2025 or 2026 — and the scorecard uploaded must be the QR-coded scorecard for the one year chosen, with marks at or above the qualifying mark for the candidate's category as printed on the scorecard. A score below the qualifying mark makes a candidate ineligible.</p>
+<p>The age limit is 21 to 42 years as on 1 January 2026, which corresponds to being born between 2 January 1984 and 1 January 2005, with relaxations admissible for reserved categories, women and persons with disabilities as per the rules. Candidates should check the notification for the full relaxation table and for any language or domicile conditions before applying.</p>
+<h2>How selection works</h2>
+<p>There is no written examination in this recruitment. Selection is based on the GATE score with 90% weightage, followed by an interview (viva voce) with 10% weightage. Candidates are shortlisted for interview at roughly twice the number of vacancies in each category, based on GATE scores. Document verification is tentatively scheduled from the first week of December 2026, and the interview schedule will be notified on the commission's website.</p>
+<p>Because the GATE score carries 90% of the weight, the choice of GATE year and the accuracy of the uploaded scorecard matter more than anything else in the application. An incorrect or non-QR-coded document risks rejection before the interview stage.</p>
+<h2>How to apply</h2>
+<p>Applications are online only, through the OPSC website at opsc.gov.in and its e-Chayan portal. The steps are: register on the portal and fill the online form; enter the department preference order for Civil posts; upload the QR-coded GATE scorecard for the chosen year along with the other required documents; check every entry carefully; and submit before 11 November 2026 at 5:00 PM. There is no edit facility after submission — if a correction is needed, the candidate must cancel the application and submit a fresh one within the last date. Applying early is advisable, since the portal typically sees heavy traffic near the deadline.</p>
+<p>There is no application fee for this recruitment, so no payment step is involved, and candidates should be wary of anyone asking for money to complete the application — the only genuine channel is the commission's own portal.</p>
+<h2>Who this is for — and a caution for readers in Nepal</h2>
+<p>This is an Odisha state government recruitment, and applicants must meet the nationality and eligibility conditions in the notification. Readers in Nepal should treat this as information about an Indian government drive, not as a vacancy open to them unless the notification says so — and should never pay any agent who promises a seat in it. Genuine government recruitment never asks for payment outside the official portal, and here there is no fee at all.</p>
+<p>For readers tracking other large Indian government drives, the Andhra Pradesh Group-I recruitment and the Uttar Pradesh RO/ARO recruitment are covered separately: <a href="/articles/appsc-group-1-166-posts-20261026">APPSC Group-I, 166 posts</a> and <a href="/articles/uppsc-ro-aro-501-posts-20261026">UPPSC RO/ARO, 501 posts</a>. The OPSC AEE window closes on 11 November 2026, so eligible engineers have just under two weeks from the opening to apply.</p>$$,
+  '',
+  ARRAY['Odisha Public Service Commission (opsc.gov.in)', 'FreeJobAlert', 'JobShouter', 'Schools360'],
+  '2026-10-27T12:15:00.000Z',
+  NOW(),
+  NOW()
+)
+ON CONFLICT ("slug") DO NOTHING;

@@ -1,22 +1,31 @@
+import type { Metadata } from "next";
 import { db } from "@/lib/db";
 import { ARTICLE_CATEGORIES, INTERNATIONAL_CATEGORIES } from "@/lib/articles";
 import { articleImagesFor } from "@/data/articleImages";
-import { FilteredArticleList } from "@/components/articles/FilteredArticleList";
+import { ArticleCards } from "@/components/articles/ArticleCards";
 
-export const revalidate = 300; // ISR: serve cached HTML, regenerate in background; admin/cron purge on publish
+type SearchParams = Promise<{ category?: string | string[] }>;
 
-export const metadata = {
-  title: "Explore International Jobs — Big Companies, Big Countries",
-  description:
-    "Job news from big companies in big countries — USA, UK, Canada, Australia, Europe, Asia, Gulf, Korea & Japan, remote work and work abroad.",
-  alternates: { canonical: "https://growentix.cloud/explore" },
-};
+function activeCategory(params: { category?: string | string[] }): string {
+  return Array.isArray(params.category) ? params.category[0] ?? "" : params.category ?? "";
+}
 
-export default async function ExplorePage() {
-  // NOTE: no searchParams here on purpose — reading searchParams on the
-  // server forces full dynamic rendering and kills the ISR cache. Category
-  // filtering happens client-side in FilteredArticleList; filtered URLs
-  // canonicalise to /explore.
+export async function generateMetadata({ searchParams }: { searchParams: SearchParams }): Promise<Metadata> {
+  const category = activeCategory(await searchParams);
+  return {
+    title: "Explore International Jobs — Big Companies, Big Countries",
+    description:
+      "Job news from big companies in big countries — USA, UK, Canada, Australia, Europe, Asia, Gulf, Korea & Japan, remote work and work abroad.",
+    alternates: { canonical: "https://growentix.cloud/explore" },
+    ...(category ? { robots: { index: false, follow: true } } : {}),
+  };
+}
+
+export default async function ExplorePage({ searchParams }: { searchParams: SearchParams }) {
+  // Server-side category filtering: reading searchParams makes this route
+  // dynamic (no ISR cache), but every article link is rendered into the raw
+  // HTML, so crawlers discover articles without executing JavaScript.
+  const active = activeCategory(await searchParams);
   const rows = await db.article.findMany({
     where: { category: { in: [...INTERNATIONAL_CATEGORIES] } },
     orderBy: { publishedAt: "desc" },
@@ -39,12 +48,13 @@ export default async function ExplorePage() {
       <p className="gx-sub mt-2 max-w-2xl">
         Job news from big companies in big countries — USA, UK, Canada, Australia, Europe, Asia, Gulf, Korea &amp; Japan, remote work and work abroad.
       </p>
-      <FilteredArticleList
+      <ArticleCards
         articles={articles}
         categories={regions}
         basePath="/explore"
         allLabel="All International"
         variant="list"
+        active={active}
       />
     </div>
   );
