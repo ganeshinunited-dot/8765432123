@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 
 export default function PrivacyPage() {
   return (
-    <StaticPage title="Privacy Policy" subtitle="How Growentix collects, uses, and protects your information." updated="October 15, 2026">
+    <StaticPage title="Privacy Policy" subtitle="How Growentix collects, uses, and protects your information." updated="October 28, 2026">
       <Section title="1. Who we are">
         <p>
           Growentix (&ldquo;we&rdquo;, &ldquo;us&rdquo;) publishes daily job news and vacancy notices from Nepal and
@@ -21,7 +21,7 @@ export default function PrivacyPage() {
       <Section title="2. Information we collect">
         <Bullets
           items={[
-            <><strong>Anonymous visit analytics:</strong> when you visit a page, we record the page viewed and the referrer. Your IP address is stored only as a salted daily hash used to count unique visitors — we do not store raw IP addresses, and we set no tracking cookies for visitors.</>,
+            <><strong>Analytics:</strong> We use Google Analytics to understand which pages readers visit, so we can improve the site. Google Analytics uses cookies and collects anonymised usage data, such as pages viewed and approximate location. It does not identify you personally to us.</>,
             <><strong>Administrator accounts:</strong> the small team that publishes articles signs in with an email address and a securely hashed password. Admin sessions use a signed HTTP-only cookie.</>,
             <><strong>Contact messages:</strong> if you contact us, we keep the message and any contact details you choose to share so we can reply.</>,
           ]}
@@ -49,7 +49,7 @@ export default function PrivacyPage() {
 
       <Section title="5. Cookies">
         <p>
-          Visitors: we set no cookies. Administrators: a single essential session cookie keeps the admin signed in.
+          Visitors: Google Analytics sets cookies to measure site usage, as described in section 2. Administrators: a single essential session cookie keeps the admin signed in.
           You can control cookies in your browser settings; disabling the session cookie will prevent an admin from
           staying signed in.
         </p>
