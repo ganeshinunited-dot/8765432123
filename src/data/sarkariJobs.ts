@@ -20,7 +20,7 @@ export interface SarkariJob {
   salary?: string | null; // as listed in the notice; omit period if not stated
 }
 
-export const SARKARI_UPDATED = "2026-10-24";
+export const SARKARI_UPDATED = "2026-10-28";
 
 export const SARKARI_JOBS: SarkariJob[] = [
   {
@@ -2337,6 +2337,53 @@ export const SARKARI_JOBS: SarkariJob[] = [
     sourceUrl: "https://nepalijob.com/job/64952/karnali-pradesh-loksewa-aayog-vacancy-2083-64-fifth-level-posts-in-biratnagar",
     noticeUrl: "https://www.collegenp.com/vacancy/karnali-pradesh-lok-sewa-aayog-local-service-level-5-vacancy-2083",
     category: "psc",
+  },
+  {
+    id: "sj-171",
+    organization: "Jaleshwar Municipality, Mahottari",
+    postTitle: "Migrant Resource Centre Counsellor (SaMi Program) — Contract",
+    level: "Assistant 5th",
+    seats: 1,
+    deadline: "2026-11-13",
+    location: "Jaleshwar, Mahottari, Madhesh Province",
+    minQualification:
+      "PCL or 10+2 with at least 3 years of experience in counselling or social mobilisation; basic computer skills",
+    sourceUrl:
+      "https://www.collegenp.com/vacancy/jaleshwar-municipality-contract-job-vacancy-2083",
+    noticeUrl:
+      "https://www.collegenp.com/vacancy/jaleshwar-municipality-contract-job-vacancy-2083",
+    category: "local",
+  },
+  {
+    id: "sj-172",
+    organization: "Jaleshwar Municipality, Mahottari",
+    postTitle: "Auxiliary Nurse Midwife (ANM) — Contract",
+    level: "Assistant 4th",
+    seats: 1,
+    deadline: "2026-11-13",
+    location: "Jaleshwar, Mahottari, Madhesh Province",
+    minQualification: "ANM course from a recognised institution + Skilled Birth Attendant (SBA) training",
+    sourceUrl:
+      "https://www.collegenp.com/vacancy/jaleshwar-municipality-contract-job-vacancy-2083",
+    noticeUrl:
+      "https://www.collegenp.com/vacancy/jaleshwar-municipality-contract-job-vacancy-2083",
+    category: "local",
+  },
+  {
+    id: "sj-173",
+    organization: "Jaleshwar Municipality, Mahottari",
+    postTitle: "Enterprise Development Facilitator — Contract",
+    level: "Assistant 4th",
+    seats: 1,
+    deadline: "2026-11-13",
+    location: "Jaleshwar, Mahottari, Madhesh Province",
+    minQualification:
+      "Diploma in Enterprise Development Facilitation (CTEVT), or CTEVT Level 2/3 skill test, or TSLC recognised by CTEVT",
+    sourceUrl:
+      "https://www.collegenp.com/vacancy/jaleshwar-municipality-contract-job-vacancy-2083",
+    noticeUrl:
+      "https://www.collegenp.com/vacancy/jaleshwar-municipality-contract-job-vacancy-2083",
+    category: "local",
   },
 
 ];
