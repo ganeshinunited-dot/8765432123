@@ -232,6 +232,67 @@ export const ARTICLE_IMAGES: Record<string, [string, string, string]> = {
     "/article-images/taylor-swift-nashville-songwriters-hall-of-fame-induction-20261027/3.jpg",
   ],
 
+  "nursing-jobs-in-usa-for-foreign-nurses-nclex-visa-and-pay-guide-20261028": [
+    "/article-images/nursing-jobs-in-usa-for-foreign-nurses-nclex-visa-and-pay-guide-20261028/1.jpg",
+    "/article-images/nursing-jobs-in-usa-for-foreign-nurses-nclex-visa-and-pay-guide-20261028/2.jpg",
+    "/article-images/nursing-jobs-in-usa-for-foreign-nurses-nclex-visa-and-pay-guide-20261028/3.jpg",
+  ],
+  "farm-worker-jobs-in-usa-h-2a-visa-pay-housing-and-legal-guide-20261028": [
+    "/article-images/farm-worker-jobs-in-usa-h-2a-visa-pay-housing-and-legal-guide-20261028/1.jpg",
+    "/article-images/farm-worker-jobs-in-usa-h-2a-visa-pay-housing-and-legal-guide-20261028/2.jpg",
+    "/article-images/farm-worker-jobs-in-usa-h-2a-visa-pay-housing-and-legal-guide-20261028/3.jpg",
+  ],
+  "quantum-computing-jobs-surge-2026-20261027": [
+    "/article-images/quantum-computing-jobs-surge-2026-20261027/1.jpg",
+    "/article-images/quantum-computing-jobs-surge-2026-20261027/2.jpg",
+    "/article-images/quantum-computing-jobs-surge-2026-20261027/3.jpg",
+  ],
+  "canada-summer-jobs-2027-20261027": [
+    "/article-images/canada-summer-jobs-2027-20261027/1.jpg",
+    "/article-images/canada-summer-jobs-2027-20261027/2.jpg",
+    "/article-images/canada-summer-jobs-2027-20261027/3.jpg",
+  ],
+  "rrb-ntpc-graduate-3548-posts-20261027": [
+    "/article-images/rrb-ntpc-graduate-3548-posts-20261027/1.jpg",
+    "/article-images/rrb-ntpc-graduate-3548-posts-20261027/2.jpg",
+    "/article-images/rrb-ntpc-graduate-3548-posts-20261027/3.jpg",
+  ],
+  "opsc-aee-758-posts-20261027": [
+    "/article-images/opsc-aee-758-posts-20261027/1.jpg",
+    "/article-images/opsc-aee-758-posts-20261027/2.jpg",
+    "/article-images/opsc-aee-758-posts-20261027/3.jpg",
+  ],
+  "wbpsc-english-stenographer-266-posts-20261027": [
+    "/article-images/wbpsc-english-stenographer-266-posts-20261027/1.jpg",
+    "/article-images/wbpsc-english-stenographer-266-posts-20261027/2.jpg",
+    "/article-images/wbpsc-english-stenographer-266-posts-20261027/3.jpg",
+  ],
+  "kenya-financial-reporting-centre-jobs-31-posts-20261027": [
+    "/article-images/kenya-financial-reporting-centre-jobs-31-posts-20261027/1.jpg",
+    "/article-images/kenya-financial-reporting-centre-jobs-31-posts-20261027/2.jpg",
+    "/article-images/kenya-financial-reporting-centre-jobs-31-posts-20261027/3.jpg",
+  ],
+  "tntet-working-teachers-2026-20261027": [
+    "/article-images/tntet-working-teachers-2026-20261027/1.jpg",
+    "/article-images/tntet-working-teachers-2026-20261027/2.jpg",
+    "/article-images/tntet-working-teachers-2026-20261027/3.jpg",
+  ],
+  "taylor-swift-brad-paisley-crickets-tour-bus-prank-20261027": [
+    "/article-images/taylor-swift-brad-paisley-crickets-tour-bus-prank-20261027/1.jpg",
+    "/article-images/taylor-swift-brad-paisley-crickets-tour-bus-prank-20261027/2.jpg",
+    "/article-images/taylor-swift-brad-paisley-crickets-tour-bus-prank-20261027/3.jpg",
+  ],
+  "lotte-ax-challenge-2026-20261027": [
+    "/article-images/lotte-ax-challenge-2026-20261027/1.jpg",
+    "/article-images/lotte-ax-challenge-2026-20261027/2.jpg",
+    "/article-images/lotte-ax-challenge-2026-20261027/3.jpg",
+  ],
+  "unicef-digital-data-analyst-consultancy-20261027": [
+    "/article-images/unicef-digital-data-analyst-consultancy-20261027/1.jpg",
+    "/article-images/unicef-digital-data-analyst-consultancy-20261027/2.jpg",
+    "/article-images/unicef-digital-data-analyst-consultancy-20261027/3.jpg",
+  ],
+
 };
 
 export function articleImagesFor(slug: string): [string, string, string] | null {
