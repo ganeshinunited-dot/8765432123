@@ -7,6 +7,7 @@ import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { LogoIntro } from "@/components/layout/LogoIntro";
 import { BottomNav } from "@/components/layout/BottomNav";
+import GoogleAnalytics from "@/components/analytics/GoogleAnalytics";
 
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const jakarta = Plus_Jakarta_Sans({ variable: "--font-jakarta", subsets: ["latin"], weight: ["600", "700", "800"] });
@@ -43,6 +44,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className={`${geistSans.variable} ${jakarta.variable} h-full antialiased`}>
       <body className="flex min-h-full flex-col bg-white text-slate-900">
+        <GoogleAnalytics />
         {/* Site-wide Organization + WebSite schema: article pages already
             carry NewsArticle schema; this gives AI tools and search engines
             the same identity on every page, including home/about/privacy. */}
