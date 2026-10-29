@@ -20,7 +20,7 @@ export interface SarkariJob {
   salary?: string | null; // as listed in the notice; omit period if not stated
 }
 
-export const SARKARI_UPDATED = "2026-10-28";
+export const SARKARI_UPDATED = "2026-10-29";
 
 export const SARKARI_JOBS: SarkariJob[] = [
   {
@@ -2384,6 +2384,41 @@ export const SARKARI_JOBS: SarkariJob[] = [
     noticeUrl:
       "https://www.collegenp.com/vacancy/jaleshwar-municipality-contract-job-vacancy-2083",
     category: "local",
+  },
+
+  // Bir Hospital, Kathmandu (sj-174..sj-175) — contract Nuclear Medicine posts.
+  // Notice published Tuesday 2026-10-27 (Ratopati, 27 Oct 2026); last date
+  // Kartik 16, 2083 BS = 2026-11-02 (Kartik 18, 2083 = 2026-11-04 per SDOC
+  // listing; contact date Kartik 17 = 2026-11-03). Fee Rs. 1,000.
+  {
+    id: "sj-174",
+    organization: "Bir Hospital",
+    postTitle: "Nuclear Medicine Physician — Contract",
+    level: "9th",
+    seats: 1,
+    deadline: "2026-11-02",
+    location: "Kathmandu",
+    minQualification: "MD in Nuclear Medicine",
+    sourceUrl:
+      "http://english.ratopati.com/story/84700/call-for-filling-contract-positions-at-bir-hospital",
+    noticeUrl:
+      "http://english.ratopati.com/story/84700/call-for-filling-contract-positions-at-bir-hospital",
+    category: "health",
+  },
+  {
+    id: "sj-175",
+    organization: "Bir Hospital",
+    postTitle: "Nuclear Medicine Technologist — Contract",
+    level: "7th",
+    seats: 1,
+    deadline: "2026-11-02",
+    location: "Kathmandu",
+    minQualification: "BSc or MSc in a related subject",
+    sourceUrl:
+      "http://english.ratopati.com/story/84700/call-for-filling-contract-positions-at-bir-hospital",
+    noticeUrl:
+      "http://english.ratopati.com/story/84700/call-for-filling-contract-positions-at-bir-hospital",
+    category: "health",
   },
 
 ];
