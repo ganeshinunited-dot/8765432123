@@ -2466,6 +2466,245 @@ export const SARKARI_JOBS: SarkariJob[] = [
     noticeUrl: "https://mmciom.edu.np/vacancy/",
     category: "health",
   },
+  {
+    id: "sj-179",
+    organization: "Nepal Telecom (Nepal Telecommunication Company Limited)",
+    postTitle: "Deputy Manager (CA)",
+    level: "9",
+    seats: 1,
+    deadline: "2026-11-19",
+    location: "Kathmandu",
+    minQualification:
+      "Chartered Accountancy qualification",
+    sourceUrl:
+      "https://myrepublica.nagariknetwork.com/news/nepal-telecom-opens-applications-for-80-vacancies-across-various-positions-13-27.html",
+    noticeUrl: "https://vacancy.ntc.net.np",
+    category: "enterprise",
+  },
+  {
+    id: "sj-180",
+    organization: "Nepal Telecom (Nepal Telecommunication Company Limited)",
+    postTitle: "Senior Engineer (Telecom)",
+    level: "9",
+    seats: 1,
+    deadline: "2026-11-19",
+    location: "Kathmandu",
+    minQualification:
+      "Postgraduate degree in telecom/electronics/IT engineering or a similar subject, NEC registration",
+    sourceUrl:
+      "https://myrepublica.nagariknetwork.com/news/nepal-telecom-opens-applications-for-80-vacancies-across-various-positions-13-27.html",
+    noticeUrl: "https://vacancy.ntc.net.np",
+    category: "enterprise",
+  },
+  {
+    id: "sj-181",
+    organization: "Nepal Telecom (Nepal Telecommunication Company Limited)",
+    postTitle: "Senior Business Officer",
+    level: "9",
+    seats: 1,
+    deadline: "2026-11-19",
+    location: "Kathmandu",
+    minQualification: null,
+    sourceUrl:
+      "https://myrepublica.nagariknetwork.com/news/nepal-telecom-opens-applications-for-80-vacancies-across-various-positions-13-27.html",
+    noticeUrl: "https://vacancy.ntc.net.np",
+    category: "enterprise",
+  },
+  {
+    id: "sj-182",
+    organization: "Nepal Telecom (Nepal Telecommunication Company Limited)",
+    postTitle: "Senior Accounts Officer",
+    level: "9",
+    seats: 1,
+    deadline: "2026-11-19",
+    location: "Kathmandu",
+    minQualification:
+      "Chartered Accountancy or CPA qualification, ICAN registration",
+    sourceUrl:
+      "https://myrepublica.nagariknetwork.com/news/nepal-telecom-opens-applications-for-80-vacancies-across-various-positions-13-27.html",
+    noticeUrl: "https://vacancy.ntc.net.np",
+    category: "enterprise",
+  },
+  {
+    id: "sj-183",
+    organization: "Nepal Telecom (Nepal Telecommunication Company Limited)",
+    postTitle: "Telecom Engineer (Electronics and Communication)",
+    level: null,
+    seats: 3,
+    deadline: "2026-11-19",
+    location: "Kathmandu",
+    minQualification:
+      "Bachelor's degree in telecom/electronics/IT engineering or a similar subject, NEC registration",
+    sourceUrl:
+      "https://myrepublica.nagariknetwork.com/news/nepal-telecom-opens-applications-for-80-vacancies-across-various-positions-13-27.html",
+    noticeUrl: "https://vacancy.ntc.net.np",
+    category: "enterprise",
+  },
+  {
+    id: "sj-184",
+    organization: "Nepal Telecom (Nepal Telecommunication Company Limited)",
+    postTitle: "Telecom Engineer (Computer)",
+    level: null,
+    seats: 10,
+    deadline: "2026-11-19",
+    location: "Kathmandu",
+    minQualification:
+      "Bachelor's degree in computer science/IT or a similar subject, NEC registration",
+    sourceUrl:
+      "https://myrepublica.nagariknetwork.com/news/nepal-telecom-opens-applications-for-80-vacancies-across-various-positions-13-27.html",
+    noticeUrl: "https://vacancy.ntc.net.np",
+    category: "enterprise",
+  },
+  {
+    id: "sj-185",
+    organization: "Nepal Telecom (Nepal Telecommunication Company Limited)",
+    postTitle: "Telecom Engineer (Electrical)",
+    level: null,
+    seats: 3,
+    deadline: "2026-11-19",
+    location: "Kathmandu",
+    minQualification:
+      "Bachelor's degree in electrical/electronics engineering or a similar subject, NEC registration",
+    sourceUrl:
+      "https://myrepublica.nagariknetwork.com/news/nepal-telecom-opens-applications-for-80-vacancies-across-various-positions-13-27.html",
+    noticeUrl: "https://vacancy.ntc.net.np",
+    category: "enterprise",
+  },
+  {
+    id: "sj-186",
+    organization: "Nepal Telecom (Nepal Telecommunication Company Limited)",
+    postTitle: "Assistant Administrative Officer",
+    level: null,
+    seats: 9,
+    deadline: "2026-11-19",
+    location: "Kathmandu",
+    minQualification:
+      "Bachelor's degree or equivalent in any subject",
+    sourceUrl:
+      "https://myrepublica.nagariknetwork.com/news/nepal-telecom-opens-applications-for-80-vacancies-across-various-positions-13-27.html",
+    noticeUrl: "https://vacancy.ntc.net.np",
+    category: "enterprise",
+  },
+  {
+    id: "sj-187",
+    organization: "Nepal Telecom (Nepal Telecommunication Company Limited)",
+    postTitle: "Assistant Business Officer",
+    level: null,
+    seats: 8,
+    deadline: "2026-11-19",
+    location: "Kathmandu",
+    minQualification:
+      "Bachelor's degree in management, commerce or business administration, or economics, mathematics or statistics",
+    sourceUrl:
+      "https://myrepublica.nagariknetwork.com/news/nepal-telecom-opens-applications-for-80-vacancies-across-various-positions-13-27.html",
+    noticeUrl: "https://vacancy.ntc.net.np",
+    category: "enterprise",
+  },
+  {
+    id: "sj-188",
+    organization: "Nepal Telecom (Nepal Telecommunication Company Limited)",
+    postTitle: "Assistant Accounts Officer",
+    level: null,
+    seats: 2,
+    deadline: "2026-11-19",
+    location: "Kathmandu",
+    minQualification:
+      "Bachelor's degree in management, commerce or business administration",
+    sourceUrl:
+      "https://myrepublica.nagariknetwork.com/news/nepal-telecom-opens-applications-for-80-vacancies-across-various-positions-13-27.html",
+    noticeUrl: "https://vacancy.ntc.net.np",
+    category: "enterprise",
+  },
+  {
+    id: "sj-189",
+    organization: "Nepal Telecom (Nepal Telecommunication Company Limited)",
+    postTitle: "Overseer",
+    level: null,
+    seats: 3,
+    deadline: "2026-11-19",
+    location: "Kathmandu",
+    minQualification:
+      "Certificate or diploma in civil, architecture or survey engineering or a similar subject",
+    sourceUrl:
+      "https://myrepublica.nagariknetwork.com/news/nepal-telecom-opens-applications-for-80-vacancies-across-various-positions-13-27.html",
+    noticeUrl: "https://vacancy.ntc.net.np",
+    category: "enterprise",
+  },
+  {
+    id: "sj-190",
+    organization: "Nepal Telecom (Nepal Telecommunication Company Limited)",
+    postTitle: "Telecom Technician",
+    level: null,
+    seats: 9,
+    deadline: "2026-11-19",
+    location: "Kathmandu",
+    minQualification:
+      "SLC plus telecom training or a Level 2 skill test",
+    sourceUrl:
+      "https://myrepublica.nagariknetwork.com/news/nepal-telecom-opens-applications-for-80-vacancies-across-various-positions-13-27.html",
+    noticeUrl: "https://vacancy.ntc.net.np",
+    category: "enterprise",
+  },
+  {
+    id: "sj-191",
+    organization: "Nepal Telecom (Nepal Telecommunication Company Limited)",
+    postTitle: "Assistant",
+    level: null,
+    seats: 17,
+    deadline: "2026-11-19",
+    location: "Kathmandu",
+    minQualification:
+      "SEE/SLC with minimum GPA 2.0",
+    sourceUrl:
+      "https://myrepublica.nagariknetwork.com/news/nepal-telecom-opens-applications-for-80-vacancies-across-various-positions-13-27.html",
+    noticeUrl: "https://vacancy.ntc.net.np",
+    category: "enterprise",
+  },
+  {
+    id: "sj-192",
+    organization: "Nepal Telecom (Nepal Telecommunication Company Limited)",
+    postTitle: "Junior Technician",
+    level: null,
+    seats: 12,
+    deadline: "2026-11-19",
+    location: "Kathmandu",
+    minQualification:
+      "Class 10 pass plus junior technician training or a Level 1 skill test",
+    sourceUrl:
+      "https://myrepublica.nagariknetwork.com/news/nepal-telecom-opens-applications-for-80-vacancies-across-various-positions-13-27.html",
+    noticeUrl: "https://vacancy.ntc.net.np",
+    category: "enterprise",
+  },
+  {
+    id: "sj-193",
+    organization: "Manthali Sahid Smriti Multiple Campus (Tribhuvan University)",
+    postTitle: "Assistant Professor — Contract",
+    level: null,
+    seats: 3,
+    deadline: "2026-11-03",
+    location: "Manthali, Ramechhap",
+    minQualification:
+      "Master's degree (M.Ed., MBS or MA) with at least second division, by subject",
+    sourceUrl:
+      "https://www.collegenp.com/vacancy/manthali-sahid-smriti-campus-assistant-professor-vacancy-2083",
+    noticeUrl: "https://www.collegenp.com/vacancy/manthali-sahid-smriti-campus-assistant-professor-vacancy-2083",
+    category: "education",
+  },
+  {
+    id: "sj-194",
+    organization: "Shree Lape Secondary School",
+    postTitle: "Primary Level Teacher (Relief Quota) — Temporary Contract",
+    level: "Primary Level",
+    seats: 1,
+    deadline: "2026-11-11",
+    location: "Sitganga Municipality, Arghakhanchi",
+    minQualification:
+      "Grade 12 in Education or equivalent, plus teaching licence",
+    sourceUrl:
+      "https://www.collegenp.com/vacancy/lape-secondary-school-arghakhanchi-teacher-vacancy-2083",
+    noticeUrl: "https://www.collegenp.com/vacancy/lape-secondary-school-arghakhanchi-teacher-vacancy-2083",
+    category: "education",
+  },
 ];
 
 /** SEO-friendly unique slug for a vacancy article page. */
