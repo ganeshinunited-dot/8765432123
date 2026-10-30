@@ -9,11 +9,8 @@ export interface ArticleData {
   category: string;
   country: string | null;
   titleEn: string;
-  titleNe: string;
   excerptEn: string;
-  excerptNe: string;
   bodyEn: string;
-  bodyNe: string;
   sources: string[];
   videos: { title: string; url: string; videoId: string }[];
   publishedAt: string;

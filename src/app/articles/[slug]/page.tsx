@@ -55,7 +55,7 @@ export default async function ArticlePage({
     dateModified: a.updatedAt.toISOString(),
     author: { "@type": "Organization", name: "Growentix" },
     publisher: { "@type": "Organization", name: "Growentix" },
-    inLanguage: ["en", "ne"],
+    inLanguage: ["en"],
   };
 
   return (
@@ -70,11 +70,8 @@ export default async function ArticlePage({
           category: a.category,
           country: a.country,
           titleEn: a.titleEn,
-          titleNe: a.titleNe,
           excerptEn: a.excerptEn,
-          excerptNe: a.excerptNe,
           bodyEn: a.bodyEn,
-          bodyNe: a.bodyNe,
           sources: a.sources,
           videos: Array.isArray(a.videos)
             ? (a.videos as unknown as {
