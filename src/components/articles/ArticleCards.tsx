@@ -15,17 +15,28 @@ function formatDate(iso: string) {
   return new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "short", year: "numeric" }).format(new Date(iso));
 }
 
+/** Builds a listing URL that preserves the active category filter and, when > 1, the page number. */
+function listingHref(basePath: string, active: string, page: number): string {
+  const params = new URLSearchParams();
+  if (active) params.set("category", active);
+  if (page > 1) params.set("page", String(page));
+  const qs = params.toString();
+  return qs ? `${basePath}?${qs}` : basePath;
+}
+
 /**
  * Server-rendered category filter + article list.
  *
  * Replaces the previous client-side FilteredArticleList for the /articles and
- * /explore pages: the full card list is rendered on the server, so every
- * article link exists in the raw HTML for crawlers to discover without
- * executing JavaScript. Category filtering happens on the server from the
- * ?category= parameter, which makes these routes dynamic (no ISR cache) —
- * an acceptable trade at this traffic level for real link discovery.
- * Filtered views canonicalise to the base path and are noindex, follow
- * (see generateMetadata in each page).
+ * /explore pages: the card list is rendered on the server, so every article
+ * link exists in the raw HTML for crawlers to discover without executing
+ * JavaScript. Category filtering and pagination happen on the server from
+ * the ?category= and ?page= parameters, which makes these routes dynamic
+ * (no ISR cache) — an acceptable trade at this traffic level for real link
+ * discovery. Pages are 20 cards each; older pages are linked from the
+ * pagination nav below, and every article stays in the sitemap, so
+ * discovery does not regress. Filtered and paged views canonicalise to the
+ * base path and are noindex, follow (see generateMetadata in each page).
  */
 export function ArticleCards({
   articles,
@@ -34,6 +45,8 @@ export function ArticleCards({
   allLabel,
   variant,
   active,
+  page = 1,
+  totalPages = 1,
 }: {
   articles: FilterableArticle[];
   categories: readonly { slug: string; label: string }[];
@@ -41,6 +54,8 @@ export function ArticleCards({
   allLabel: string;
   variant: "grid" | "list";
   active: string;
+  page?: number;
+  totalPages?: number;
 }) {
   const filtered = active ? articles.filter((a) => a.category === active) : articles;
 
@@ -131,6 +146,38 @@ export function ArticleCards({
             </Link>
           ))}
         </div>
+      )}
+
+      {totalPages > 1 && (
+        <nav aria-label="More articles" className="mt-10 flex items-center justify-center gap-3">
+          {page > 1 ? (
+            <Link
+              href={listingHref(basePath, active, page - 1)}
+              className="rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:border-emerald-300"
+            >
+              &larr; Newer
+            </Link>
+          ) : (
+            <span aria-disabled="true" className="rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-400">
+              &larr; Newer
+            </span>
+          )}
+          <span className="text-sm text-slate-600">
+            Page {page} of {totalPages}
+          </span>
+          {page < totalPages ? (
+            <Link
+              href={listingHref(basePath, active, page + 1)}
+              className="rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:border-emerald-300"
+            >
+              Older &rarr;
+            </Link>
+          ) : (
+            <span aria-disabled="true" className="rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-400">
+              Older &rarr;
+            </span>
+          )}
+        </nav>
       )}
     </>
   );
