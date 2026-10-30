@@ -93,7 +93,7 @@ export function ArticleView({ article }: { article: ArticleData }) {
 
       <h1
         lang="en"
-        className="mt-4 text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl"
+        className="gx-article-title mt-4 text-slate-900"
       >
         {article.titleEn}
       </h1>
