@@ -20,7 +20,7 @@ export interface SarkariJob {
   salary?: string | null; // as listed in the notice; omit period if not stated
 }
 
-export const SARKARI_UPDATED = "2026-10-29";
+export const SARKARI_UPDATED = "2026-10-30";
 
 export const SARKARI_JOBS: SarkariJob[] = [
   {
@@ -2421,6 +2421,51 @@ export const SARKARI_JOBS: SarkariJob[] = [
     category: "health",
   },
 
+  {
+    id: "sj-176",
+    organization: "Maharajgunj Medical Campus (IOM, Tribhuvan University)",
+    postTitle: "Assistant Professor (Various Specialties) — Contract",
+    level: null,
+    seats: 28,
+    deadline: "2026-11-23",
+    location: "Maharajgunj, Kathmandu",
+    minQualification:
+      "Postgraduate degree (DM/MD/MDS/MCh/MPhil as per specialty) with council registration",
+    sourceUrl:
+      "https://www.collegenp.com/vacancy/maharajgunj-medical-campus-assistant-professor-officer-vacancy-2083",
+    noticeUrl: "https://mmciom.edu.np/vacancy/",
+    category: "health",
+  },
+  {
+    id: "sj-177",
+    organization: "Maharajgunj Medical Campus (IOM, Tribhuvan University)",
+    postTitle: "Public Health Officer — Contract",
+    level: null,
+    seats: 1,
+    deadline: "2026-11-23",
+    location: "Maharajgunj, Kathmandu",
+    minQualification:
+      "Bachelor's degree in Public Health with at least 1 year of experience in research or data management",
+    sourceUrl:
+      "https://www.collegenp.com/vacancy/maharajgunj-medical-campus-assistant-professor-officer-vacancy-2083",
+    noticeUrl: "https://mmciom.edu.np/vacancy/",
+    category: "health",
+  },
+  {
+    id: "sj-178",
+    organization: "Maharajgunj Medical Campus (IOM, Tribhuvan University)",
+    postTitle: "Information Technology Officer — Contract",
+    level: null,
+    seats: 1,
+    deadline: "2026-11-23",
+    location: "Maharajgunj, Kathmandu",
+    minQualification:
+      "B.Sc. CSIT, B.Sc. IT, BIT, BCA or BIM with at least 1 year of experience in information technology",
+    sourceUrl:
+      "https://www.collegenp.com/vacancy/maharajgunj-medical-campus-assistant-professor-officer-vacancy-2083",
+    noticeUrl: "https://mmciom.edu.np/vacancy/",
+    category: "health",
+  },
 ];
 
 /** SEO-friendly unique slug for a vacancy article page. */
