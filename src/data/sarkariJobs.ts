@@ -20,7 +20,7 @@ export interface SarkariJob {
   salary?: string | null; // as listed in the notice; omit period if not stated
 }
 
-export const SARKARI_UPDATED = "2026-10-31";
+export const SARKARI_UPDATED = "2026-11-01";
 
 export const SARKARI_JOBS: SarkariJob[] = [
   {
@@ -2907,6 +2907,21 @@ export const SARKARI_JOBS: SarkariJob[] = [
     noticeUrl:
       "https://www.collegenp.com/vacancy/madhyanepal-municipality-health-staff-vacancy-2083",
     category: "health",
+  },
+  {
+    id: "sj-210",
+    organization: "Shree Singhkali Secondary School",
+    postTitle: "Teacher, Primary Level — Contract",
+    level: "Primary Level",
+    seats: 1,
+    deadline: "2026-11-19",
+    location: "Ahale, Sangurigadhi Rural Municipality-9, Dhankuta, Koshi Province",
+    minQualification: "Grade 12 or equivalent, plus teaching licence",
+    sourceUrl:
+      "https://www.collegenp.com/vacancy/singhkali-secondary-school-primary-teacher-vacancy-2083",
+    noticeUrl:
+      "https://www.collegenp.com/vacancy/singhkali-secondary-school-primary-teacher-vacancy-2083",
+    category: "education",
   },
 ];
 
