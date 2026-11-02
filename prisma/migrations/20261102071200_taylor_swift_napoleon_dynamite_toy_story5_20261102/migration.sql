@@ -36,5 +36,6 @@ $$<p>Taylor Swift Napoleon Dynamite voices stole the show on 1 November 2026, wh
 <h2>What to watch next</h2>
 <p>First, watch whether "I Knew It, I Knew You" converts its awards buzz into a first Oscar nomination for Swift, as USA Today flagged as a possibility. No nomination has been announced in the reports covered here. Second, watch the Chiefs' next home game: Parade reported that the Chiefs return home to host the New York Jets on Sunday, 8 November 2026. Third, watch whether a longer clip of the Napoleon Dynamite impression itself emerges from the Q&amp;A, as that is the detail fans are most likely to share next.</p>$$,
 '',
-'USA Today, Heavy, Parade, New York Post, WGLR',
-'2026-11-02T07:12:00+05:45', '2026-11-02T07:12:00+05:45', '2026-11-02T07:12:00+05:45');
+ARRAY['https://www.usatoday.com/story/entertainment/music/2026/11/01/taylor-swift-impersonates-napoleon-dynamite-toy-story-5/92550328007/', 'https://heavy.com/sports/nfl/kansas-city-chiefs/taylor-swift-travis-kelce-husband-comment-before-broncos-game/', 'https://parade.com/celebrities/is-taylor-swift-at-chiefs-game-today-november-1-2026', 'https://nypost.com/2026/11/01/sports/taylor-swift-appears-to-skip-supporting-chiefs-travis-klece-during-loss-to-broncos/', 'https://www.wglr.com/2026/11/01/taylor-swift-scores-four-months-atop-top-movie-songs-chart/'],
+NOW(), NOW(), NOW())
+ON CONFLICT ("slug") DO NOTHING;
