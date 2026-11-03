@@ -3326,6 +3326,19 @@ export const SARKARI_JOBS: SarkariJob[] = [
     noticeUrl: "https://www.collegenp.com/vacancy/kankali-secondary-school-primary-teacher-vacancy-2083",
     category: "education",
   },
+  {
+    id: "sj-242",
+    organization: "Shree Annapurna Bagdhan Randipa Rai Secondary School",
+    postTitle: "Teacher, Secondary Level (Mathematics) — Contract",
+    level: "Secondary Level",
+    seats: 1,
+    deadline: "2026-11-09",
+    location: "Dilpa, Temkemaiyung Rural Municipality-3, Bhojpur, Koshi Province",
+    minQualification: "Bachelor's degree or equivalent with Mathematics as a subject, plus teaching licence",
+    sourceUrl: "https://www.collegenp.com/vacancy/annapurna-bagdhan-randipa-rai-school-teacher-vacancy-2083",
+    noticeUrl: "https://www.collegenp.com/vacancy/annapurna-bagdhan-randipa-rai-school-teacher-vacancy-2083",
+    category: "education",
+  },
 ];
 
 /** SEO-friendly unique slug for a vacancy article page. */
