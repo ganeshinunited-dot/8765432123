@@ -20,7 +20,7 @@ export interface SarkariJob {
   salary?: string | null; // as listed in the notice; omit period if not stated
 }
 
-export const SARKARI_UPDATED = "2026-11-03";
+export const SARKARI_UPDATED = "2026-11-04";
 
 export const SARKARI_JOBS: SarkariJob[] = [
   {
@@ -3338,6 +3338,45 @@ export const SARKARI_JOBS: SarkariJob[] = [
     sourceUrl: "https://www.collegenp.com/vacancy/annapurna-bagdhan-randipa-rai-school-teacher-vacancy-2083",
     noticeUrl: "https://www.collegenp.com/vacancy/annapurna-bagdhan-randipa-rai-school-teacher-vacancy-2083",
     category: "education",
+  },
+  {
+    id: "sj-243",
+    organization: "Bhotekoshi Gaunpalika",
+    postTitle: "Auxiliary Nurse Midwife (ANM)",
+    level: null,
+    seats: 2,
+    deadline: "2026-11-13",
+    location: "Bhotekoshi Gaunpalika, Sindhupalchowk, Bagmati Province",
+    minQualification: null,
+    sourceUrl: "https://blog.educatenepal.com/2020/08/vacancy-at-bagmati-province-government.html",
+    noticeUrl: "https://blog.educatenepal.com/2020/08/vacancy-at-bagmati-province-government.html",
+    category: "health",
+  },
+  {
+    id: "sj-244",
+    organization: "Bhotekoshi Gaunpalika",
+    postTitle: "Light Vehicle Driver",
+    level: null,
+    seats: 1,
+    deadline: "2026-11-13",
+    location: "Bhotekoshi Gaunpalika, Sindhupalchowk, Bagmati Province",
+    minQualification: null,
+    sourceUrl: "https://blog.educatenepal.com/2020/08/vacancy-at-bagmati-province-government.html",
+    noticeUrl: "https://blog.educatenepal.com/2020/08/vacancy-at-bagmati-province-government.html",
+    category: "local",
+  },
+  {
+    id: "sj-245",
+    organization: "Bhotekoshi Gaunpalika",
+    postTitle: "Office Helper",
+    level: null,
+    seats: 2,
+    deadline: "2026-11-13",
+    location: "Bhotekoshi Gaunpalika, Sindhupalchowk, Bagmati Province",
+    minQualification: null,
+    sourceUrl: "https://blog.educatenepal.com/2020/08/vacancy-at-bagmati-province-government.html",
+    noticeUrl: "https://blog.educatenepal.com/2020/08/vacancy-at-bagmati-province-government.html",
+    category: "local",
   },
 ];
 
