@@ -293,6 +293,211 @@ export const ARTICLE_IMAGES: Record<string, [string, string, string]> = {
     "/article-images/unicef-digital-data-analyst-consultancy-20261027/3.jpg",
   ],
 
+  "aees-teacher-recruitment-254-posts-20261028": [
+    "/article-images/aees-teacher-recruitment-254-posts-20261028/1.jpg",
+    "/article-images/aees-teacher-recruitment-254-posts-20261028/2.jpg",
+    "/article-images/aees-teacher-recruitment-254-posts-20261028/3.jpg",
+  ],
+  "amazon-warehouse-jobs-pay-shifts-roles-and-how-to-apply-20261031": [
+    "/article-images/amazon-warehouse-jobs-pay-shifts-roles-and-how-to-apply-20261031/1.jpg",
+    "/article-images/amazon-warehouse-jobs-pay-shifts-roles-and-how-to-apply-20261031/2.jpg",
+    "/article-images/amazon-warehouse-jobs-pay-shifts-roles-and-how-to-apply-20261031/3.jpg",
+  ],
+  "bank-of-baroda-officer-11-posts-20261028": [
+    "/article-images/bank-of-baroda-officer-11-posts-20261028/1.jpg",
+    "/article-images/bank-of-baroda-officer-11-posts-20261028/2.jpg",
+    "/article-images/bank-of-baroda-officer-11-posts-20261028/3.jpg",
+  ],
+  "bel-probationary-engineer-350-posts-20261028": [
+    "/article-images/bel-probationary-engineer-350-posts-20261028/1.jpg",
+    "/article-images/bel-probationary-engineer-350-posts-20261028/2.jpg",
+    "/article-images/bel-probationary-engineer-350-posts-20261028/3.jpg",
+  ],
+  "cbp-november-recruiting-events-20261030": [
+    "/article-images/cbp-november-recruiting-events-20261030/1.jpg",
+    "/article-images/cbp-november-recruiting-events-20261030/2.jpg",
+    "/article-images/cbp-november-recruiting-events-20261030/3.jpg",
+  ],
+  "cleaning-jobs-in-usa-for-foreigners-pay-roles-and-how-to-apply-20261030": [
+    "/article-images/cleaning-jobs-in-usa-for-foreigners-pay-roles-and-how-to-apply-20261030/1.jpg",
+    "/article-images/cleaning-jobs-in-usa-for-foreigners-pay-roles-and-how-to-apply-20261030/2.jpg",
+    "/article-images/cleaning-jobs-in-usa-for-foreigners-pay-roles-and-how-to-apply-20261030/3.jpg",
+  ],
+  "construction-jobs-in-usa-for-foreigners-pay-safety-visa-guide-20261029": [
+    "/article-images/construction-jobs-in-usa-for-foreigners-pay-safety-visa-guide-20261029/1.jpg",
+    "/article-images/construction-jobs-in-usa-for-foreigners-pay-safety-visa-guide-20261029/2.jpg",
+    "/article-images/construction-jobs-in-usa-for-foreigners-pay-safety-visa-guide-20261029/3.jpg",
+  ],
+  "dpsa-vacancies-circular-39-2026-20261030": [
+    "/article-images/dpsa-vacancies-circular-39-2026-20261030/1.jpg",
+    "/article-images/dpsa-vacancies-circular-39-2026-20261030/2.jpg",
+    "/article-images/dpsa-vacancies-circular-39-2026-20261030/3.jpg",
+  ],
+  "foreign-interest-in-canada-jobs-falls-as-temporary-rules-tighten-20261030": [
+    "/article-images/foreign-interest-in-canada-jobs-falls-as-temporary-rules-tighten-20261030/1.jpg",
+    "/article-images/foreign-interest-in-canada-jobs-falls-as-temporary-rules-tighten-20261030/2.jpg",
+    "/article-images/foreign-interest-in-canada-jobs-falls-as-temporary-rules-tighten-20261030/3.jpg",
+  ],
+  "ibps-server-administrator-assistant-programming-assistant-20261029": [
+    "/article-images/ibps-server-administrator-assistant-programming-assistant-20261029/1.jpg",
+    "/article-images/ibps-server-administrator-assistant-programming-assistant-20261029/2.jpg",
+    "/article-images/ibps-server-administrator-assistant-programming-assistant-20261029/3.jpg",
+  ],
+  "iiit-pune-recruitment-25-posts-20261029": [
+    "/article-images/iiit-pune-recruitment-25-posts-20261029/1.jpg",
+    "/article-images/iiit-pune-recruitment-25-posts-20261029/2.jpg",
+    "/article-images/iiit-pune-recruitment-25-posts-20261029/3.jpg",
+  ],
+  "jkssb-je-civil-458-posts-20261028": [
+    "/article-images/jkssb-je-civil-458-posts-20261028/1.jpg",
+    "/article-images/jkssb-je-civil-458-posts-20261028/2.jpg",
+    "/article-images/jkssb-je-civil-458-posts-20261028/3.jpg",
+  ],
+  "kea-fda-sda-recruitment-5431-posts-20261030": [
+    "/article-images/kea-fda-sda-recruitment-5431-posts-20261030/1.jpg",
+    "/article-images/kea-fda-sda-recruitment-5431-posts-20261030/2.jpg",
+    "/article-images/kea-fda-sda-recruitment-5431-posts-20261030/3.jpg",
+  ],
+  "negd-ai-ml-lead-4-posts-20261028": [
+    "/article-images/negd-ai-ml-lead-4-posts-20261028/1.jpg",
+    "/article-images/negd-ai-ml-lead-4-posts-20261028/2.jpg",
+    "/article-images/negd-ai-ml-lead-4-posts-20261028/3.jpg",
+  ],
+  "npcil-narora-apprentice-80-posts-20261029": [
+    "/article-images/npcil-narora-apprentice-80-posts-20261029/1.jpg",
+    "/article-images/npcil-narora-apprentice-80-posts-20261029/2.jpg",
+    "/article-images/npcil-narora-apprentice-80-posts-20261029/3.jpg",
+  ],
+  "opm-federal-hiring-fair-29-october-20261028": [
+    "/article-images/opm-federal-hiring-fair-29-october-20261028/1.jpg",
+    "/article-images/opm-federal-hiring-fair-29-october-20261028/2.jpg",
+    "/article-images/opm-federal-hiring-fair-29-october-20261028/3.jpg",
+  ],
+  "opsc-scientific-officer-89-posts-20261029": [
+    "/article-images/opsc-scientific-officer-89-posts-20261029/1.jpg",
+    "/article-images/opsc-scientific-officer-89-posts-20261029/2.jpg",
+    "/article-images/opsc-scientific-officer-89-posts-20261029/3.jpg",
+  ],
+  "restaurant-jobs-in-usa-for-foreigners-roles-pay-and-h-2b-guide-20261030": [
+    "/article-images/restaurant-jobs-in-usa-for-foreigners-roles-pay-and-h-2b-guide-20261030/1.jpg",
+    "/article-images/restaurant-jobs-in-usa-for-foreigners-roles-pay-and-h-2b-guide-20261030/2.jpg",
+    "/article-images/restaurant-jobs-in-usa-for-foreigners-roles-pay-and-h-2b-guide-20261030/3.jpg",
+  ],
+  "rgcb-technical-recruitment-8-posts-20261028": [
+    "/article-images/rgcb-technical-recruitment-8-posts-20261028/1.jpg",
+    "/article-images/rgcb-technical-recruitment-8-posts-20261028/2.jpg",
+    "/article-images/rgcb-technical-recruitment-8-posts-20261028/3.jpg",
+  ],
+  "security-guard-jobs-in-usa-requirements-licence-and-pay-guide-20261031": [
+    "/article-images/security-guard-jobs-in-usa-requirements-licence-and-pay-guide-20261031/1.jpg",
+    "/article-images/security-guard-jobs-in-usa-requirements-licence-and-pay-guide-20261031/2.jpg",
+    "/article-images/security-guard-jobs-in-usa-requirements-licence-and-pay-guide-20261031/3.jpg",
+  ],
+  "singapore-q3-2026-retrenchments-4800-20261030": [
+    "/article-images/singapore-q3-2026-retrenchments-4800-20261030/1.jpg",
+    "/article-images/singapore-q3-2026-retrenchments-4800-20261030/2.jpg",
+    "/article-images/singapore-q3-2026-retrenchments-4800-20261030/3.jpg",
+  ],
+  "software-engineer-jobs-in-usa-for-foreigners-h-1b-pay-and-hiring-guide-20261029": [
+    "/article-images/software-engineer-jobs-in-usa-for-foreigners-h-1b-pay-and-hiring-guide-20261029/1.jpg",
+    "/article-images/software-engineer-jobs-in-usa-for-foreigners-h-1b-pay-and-hiring-guide-20261029/2.jpg",
+    "/article-images/software-engineer-jobs-in-usa-for-foreigners-h-1b-pay-and-hiring-guide-20261029/3.jpg",
+  ],
+  "taylor-swift-seahawks-end-game-friendship-bracelet-backlash-20261028": [
+    "/article-images/taylor-swift-seahawks-end-game-friendship-bracelet-backlash-20261028/1.jpg",
+    "/article-images/taylor-swift-seahawks-end-game-friendship-bracelet-backlash-20261028/2.jpg",
+    "/article-images/taylor-swift-seahawks-end-game-friendship-bracelet-backlash-20261028/3.jpg",
+  ],
+  "taylor-swift-tim-mcgraw-wedding-performance-rumour-20261031": [
+    "/article-images/taylor-swift-tim-mcgraw-wedding-performance-rumour-20261031/1.jpg",
+    "/article-images/taylor-swift-tim-mcgraw-wedding-performance-rumour-20261031/2.jpg",
+    "/article-images/taylor-swift-tim-mcgraw-wedding-performance-rumour-20261031/3.jpg",
+  ],
+  "taylor-swift-travis-kelce-prince-william-selfie-reaction-20261029": [
+    "/article-images/taylor-swift-travis-kelce-prince-william-selfie-reaction-20261029/1.jpg",
+    "/article-images/taylor-swift-travis-kelce-prince-william-selfie-reaction-20261029/2.jpg",
+    "/article-images/taylor-swift-travis-kelce-prince-william-selfie-reaction-20261029/3.jpg",
+  ],
+  "taylor-swift-wedding-photos-may-never-be-released-20261030": [
+    "/article-images/taylor-swift-wedding-photos-may-never-be-released-20261030/1.jpg",
+    "/article-images/taylor-swift-wedding-photos-may-never-be-released-20261030/2.jpg",
+    "/article-images/taylor-swift-wedding-photos-may-never-be-released-20261030/3.jpg",
+  ],
+  "tgpsc-aso-mpso-102-posts-20261028": [
+    "/article-images/tgpsc-aso-mpso-102-posts-20261028/1.jpg",
+    "/article-images/tgpsc-aso-mpso-102-posts-20261028/2.jpg",
+    "/article-images/tgpsc-aso-mpso-102-posts-20261028/3.jpg",
+  ],
+  "tnpsc-group-ii-iia-prelims-1-november-20261028": [
+    "/article-images/tnpsc-group-ii-iia-prelims-1-november-20261028/1.jpg",
+    "/article-images/tnpsc-group-ii-iia-prelims-1-november-20261028/2.jpg",
+    "/article-images/tnpsc-group-ii-iia-prelims-1-november-20261028/3.jpg",
+  ],
+  "weekly-job-roundup-20261031": [
+    "/article-images/weekly-job-roundup-20261031/1.jpg",
+    "/article-images/weekly-job-roundup-20261031/2.jpg",
+    "/article-images/weekly-job-roundup-20261031/3.jpg",
+  ],
+  "taylor-swift-halloween-costume-backlash-ttpd-blocked-billie-20261101": [
+    "/article-images/taylor-swift-halloween-costume-backlash-ttpd-blocked-billie-20261101/1.jpg",
+    "/article-images/taylor-swift-halloween-costume-backlash-ttpd-blocked-billie-20261101/2.jpg",
+    "/article-images/taylor-swift-halloween-costume-backlash-ttpd-blocked-billie-20261101/3.jpg",
+  ],
+  "taylor-swift-napoleon-dynamite-toy-story-5-screening-20261102": [
+    "/article-images/taylor-swift-napoleon-dynamite-toy-story-5-screening-20261102/1.jpg",
+    "/article-images/taylor-swift-napoleon-dynamite-toy-story-5-screening-20261102/2.jpg",
+    "/article-images/taylor-swift-napoleon-dynamite-toy-story-5-screening-20261102/3.jpg",
+  ],
+  "ai-contact-centre-jobs-south-korea-redesign-20261103": [
+    "/article-images/ai-contact-centre-jobs-south-korea-redesign-20261103/1.jpg",
+    "/article-images/ai-contact-centre-jobs-south-korea-redesign-20261103/2.jpg",
+    "/article-images/ai-contact-centre-jobs-south-korea-redesign-20261103/3.jpg",
+  ],
+  "ai-jobs-india-hiring-october-naukri-jobspeak-20261103": [
+    "/article-images/ai-jobs-india-hiring-october-naukri-jobspeak-20261103/1.jpg",
+    "/article-images/ai-jobs-india-hiring-october-naukri-jobspeak-20261103/2.jpg",
+    "/article-images/ai-jobs-india-hiring-october-naukri-jobspeak-20261103/3.jpg",
+  ],
+  "appsc-assistant-executive-engineer-503-posts-20261103": [
+    "/article-images/appsc-assistant-executive-engineer-503-posts-20261103/1.jpg",
+    "/article-images/appsc-assistant-executive-engineer-503-posts-20261103/2.jpg",
+    "/article-images/appsc-assistant-executive-engineer-503-posts-20261103/3.jpg",
+  ],
+  "pgcil-engineer-trainee-319-posts-20261103": [
+    "/article-images/pgcil-engineer-trainee-319-posts-20261103/1.jpg",
+    "/article-images/pgcil-engineer-trainee-319-posts-20261103/2.jpg",
+    "/article-images/pgcil-engineer-trainee-319-posts-20261103/3.jpg",
+  ],
+  "slalom-singapore-hub-ai-jobs-20261103": [
+    "/article-images/slalom-singapore-hub-ai-jobs-20261103/1.jpg",
+    "/article-images/slalom-singapore-hub-ai-jobs-20261103/2.jpg",
+    "/article-images/slalom-singapore-hub-ai-jobs-20261103/3.jpg",
+  ],
+  "supreme-court-court-assistant-programmer-15-posts-20261103": [
+    "/article-images/supreme-court-court-assistant-programmer-15-posts-20261103/1.jpg",
+    "/article-images/supreme-court-court-assistant-programmer-15-posts-20261103/2.jpg",
+    "/article-images/supreme-court-court-assistant-programmer-15-posts-20261103/3.jpg",
+  ],
+  "taylor-swift-hollywood-music-media-awards-nomination-20261103": [
+    "/article-images/taylor-swift-hollywood-music-media-awards-nomination-20261103/1.jpg",
+    "/article-images/taylor-swift-hollywood-music-media-awards-nomination-20261103/2.jpg",
+    "/article-images/taylor-swift-hollywood-music-media-awards-nomination-20261103/3.jpg",
+  ],
+  "upessc-prt-assistant-teacher-12405-posts-20261103": [
+    "/article-images/upessc-prt-assistant-teacher-12405-posts-20261103/1.jpg",
+    "/article-images/upessc-prt-assistant-teacher-12405-posts-20261103/2.jpg",
+    "/article-images/upessc-prt-assistant-teacher-12405-posts-20261103/3.jpg",
+  ],
+  "upsssc-je-mechanical-1156-posts-20261103": [
+    "/article-images/upsssc-je-mechanical-1156-posts-20261103/1.jpg",
+    "/article-images/upsssc-je-mechanical-1156-posts-20261103/2.jpg",
+    "/article-images/upsssc-je-mechanical-1156-posts-20261103/3.jpg",
+  ],
+  "us-job-cuts-october-2026-ai-153074-20261103": [
+    "/article-images/us-job-cuts-october-2026-ai-153074-20261103/1.jpg",
+    "/article-images/us-job-cuts-october-2026-ai-153074-20261103/2.jpg",
+    "/article-images/us-job-cuts-october-2026-ai-153074-20261103/3.jpg",
+  ],
 };
 
 export function articleImagesFor(slug: string): [string, string, string] | null {
