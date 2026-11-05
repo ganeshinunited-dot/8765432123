@@ -498,6 +498,131 @@ export const ARTICLE_IMAGES: Record<string, [string, string, string]> = {
     "/article-images/us-job-cuts-october-2026-ai-153074-20261103/2.jpg",
     "/article-images/us-job-cuts-october-2026-ai-153074-20261103/3.jpg",
   ],
+  "dhfws-purba-medinipur-67-posts-20261104": [
+    "/article-images/dhfws-purba-medinipur-67-posts-20261104/1.jpg",
+    "/article-images/dhfws-purba-medinipur-67-posts-20261104/2.jpg",
+    "/article-images/dhfws-purba-medinipur-67-posts-20261104/3.jpg",
+  ],
+  "nicl-graduate-apprentice-200-posts-20261104": [
+    "/article-images/nicl-graduate-apprentice-200-posts-20261104/1.jpg",
+    "/article-images/nicl-graduate-apprentice-200-posts-20261104/2.jpg",
+    "/article-images/nicl-graduate-apprentice-200-posts-20261104/3.jpg",
+  ],
+  "anthropic-residency-ai-safety-20261104": [
+    "/article-images/anthropic-residency-ai-safety-20261104/1.jpg",
+    "/article-images/anthropic-residency-ai-safety-20261104/2.jpg",
+    "/article-images/anthropic-residency-ai-safety-20261104/3.jpg",
+  ],
+  "rrb-ntpc-undergraduate-1688-posts-20261104": [
+    "/article-images/rrb-ntpc-undergraduate-1688-posts-20261104/1.jpg",
+    "/article-images/rrb-ntpc-undergraduate-1688-posts-20261104/2.jpg",
+    "/article-images/rrb-ntpc-undergraduate-1688-posts-20261104/3.jpg",
+  ],
+  "ousssc-constable-7268-posts-20261031": [
+    "/article-images/ousssc-constable-7268-posts-20261031/1.jpg",
+    "/article-images/ousssc-constable-7268-posts-20261031/2.jpg",
+    "/article-images/ousssc-constable-7268-posts-20261031/3.jpg",
+  ],
+  "gsssb-cce-1237-posts-20261104": [
+    "/article-images/gsssb-cce-1237-posts-20261104/1.jpg",
+    "/article-images/gsssb-cce-1237-posts-20261104/2.jpg",
+    "/article-images/gsssb-cce-1237-posts-20261104/3.jpg",
+  ],
+  "bob-wms-837-posts-20261104": [
+    "/article-images/bob-wms-837-posts-20261104/1.jpg",
+    "/article-images/bob-wms-837-posts-20261104/2.jpg",
+    "/article-images/bob-wms-837-posts-20261104/3.jpg",
+  ],
+  "periscope-labs-senior-applied-ai-engineer-dhaka-20261104": [
+    "/article-images/periscope-labs-senior-applied-ai-engineer-dhaka-20261104/1.jpg",
+    "/article-images/periscope-labs-senior-applied-ai-engineer-dhaka-20261104/2.jpg",
+    "/article-images/periscope-labs-senior-applied-ai-engineer-dhaka-20261104/3.jpg",
+  ],
+  "hcl-malanjkhand-trade-apprentice-171-posts-20261104": [
+    "/article-images/hcl-malanjkhand-trade-apprentice-171-posts-20261104/1.jpg",
+    "/article-images/hcl-malanjkhand-trade-apprentice-171-posts-20261104/2.jpg",
+    "/article-images/hcl-malanjkhand-trade-apprentice-171-posts-20261104/3.jpg",
+  ],
+  "rrc-central-railway-act-apprentice-2861-posts-20261104": [
+    "/article-images/rrc-central-railway-act-apprentice-2861-posts-20261104/1.jpg",
+    "/article-images/rrc-central-railway-act-apprentice-2861-posts-20261104/2.jpg",
+    "/article-images/rrc-central-railway-act-apprentice-2861-posts-20261104/3.jpg",
+  ],
+  "sbi-security-officer-60-posts-20261104": [
+    "/article-images/sbi-security-officer-60-posts-20261104/1.jpg",
+    "/article-images/sbi-security-officer-60-posts-20261104/2.jpg",
+    "/article-images/sbi-security-officer-60-posts-20261104/3.jpg",
+  ],
+  "indian-bank-apprentice-1500-posts-20261104": [
+    "/article-images/indian-bank-apprentice-1500-posts-20261104/1.jpg",
+    "/article-images/indian-bank-apprentice-1500-posts-20261104/2.jpg",
+    "/article-images/indian-bank-apprentice-1500-posts-20261104/3.jpg",
+  ],
+  "robot-training-jobs-1136-roles-20261104": [
+    "/article-images/robot-training-jobs-1136-roles-20261104/1.jpg",
+    "/article-images/robot-training-jobs-1136-roles-20261104/2.jpg",
+    "/article-images/robot-training-jobs-1136-roles-20261104/3.jpg",
+  ],
+  "ai-training-jobs-consultants-20261104": [
+    "/article-images/ai-training-jobs-consultants-20261104/1.jpg",
+    "/article-images/ai-training-jobs-consultants-20261104/2.jpg",
+    "/article-images/ai-training-jobs-consultants-20261104/3.jpg",
+  ],
+  "hprca-teacher-2423-posts-20261104": [
+    "/article-images/hprca-teacher-2423-posts-20261104/1.jpg",
+    "/article-images/hprca-teacher-2423-posts-20261104/2.jpg",
+    "/article-images/hprca-teacher-2423-posts-20261104/3.jpg",
+  ],
+  "dsssb-delhi-court-641-posts-20261104": [
+    "/article-images/dsssb-delhi-court-641-posts-20261104/1.jpg",
+    "/article-images/dsssb-delhi-court-641-posts-20261104/2.jpg",
+    "/article-images/dsssb-delhi-court-641-posts-20261104/3.jpg",
+  ],
+  "ai-training-jobs-software-engineers-20261104": [
+    "/article-images/ai-training-jobs-software-engineers-20261104/1.jpg",
+    "/article-images/ai-training-jobs-software-engineers-20261104/2.jpg",
+    "/article-images/ai-training-jobs-software-engineers-20261104/3.jpg",
+  ],
+  "dubai-government-jobs-expats-45-roles-20261104": [
+    "/article-images/dubai-government-jobs-expats-45-roles-20261104/1.jpg",
+    "/article-images/dubai-government-jobs-expats-45-roles-20261104/2.jpg",
+    "/article-images/dubai-government-jobs-expats-45-roles-20261104/3.jpg",
+  ],
+  "punjab-court-clerk-1270-posts-20261104": [
+    "/article-images/punjab-court-clerk-1270-posts-20261104/1.jpg",
+    "/article-images/punjab-court-clerk-1270-posts-20261104/2.jpg",
+    "/article-images/punjab-court-clerk-1270-posts-20261104/3.jpg",
+  ],
+  "ai-startup-jobs-13514-roles-20261104": [
+    "/article-images/ai-startup-jobs-13514-roles-20261104/1.jpg",
+    "/article-images/ai-startup-jobs-13514-roles-20261104/2.jpg",
+    "/article-images/ai-startup-jobs-13514-roles-20261104/3.jpg",
+  ],
+  "supreme-court-junior-court-attendant-130-posts-20261104": [
+    "/article-images/supreme-court-junior-court-attendant-130-posts-20261104/1.jpg",
+    "/article-images/supreme-court-junior-court-attendant-130-posts-20261104/2.jpg",
+    "/article-images/supreme-court-junior-court-attendant-130-posts-20261104/3.jpg",
+  ],
+  "eps-korea-language-tests-76173-applicants-20261103": [
+    "/article-images/eps-korea-language-tests-76173-applicants-20261103/1.jpg",
+    "/article-images/eps-korea-language-tests-76173-applicants-20261103/2.jpg",
+    "/article-images/eps-korea-language-tests-76173-applicants-20261103/3.jpg",
+  ],
+  "nice-layoffs-500-ai-transition-20261103": [
+    "/article-images/nice-layoffs-500-ai-transition-20261103/1.jpg",
+    "/article-images/nice-layoffs-500-ai-transition-20261103/2.jpg",
+    "/article-images/nice-layoffs-500-ai-transition-20261103/3.jpg",
+  ],
+  "taylor-swift-private-investigator-wedding-leak-20261104": [
+    "/article-images/taylor-swift-private-investigator-wedding-leak-20261104/1.jpg",
+    "/article-images/taylor-swift-private-investigator-wedding-leak-20261104/2.jpg",
+    "/article-images/taylor-swift-private-investigator-wedding-leak-20261104/3.jpg",
+  ],
+  "taylor-swift-toy-story-5-song-condition-20261105": [
+    "/article-images/taylor-swift-toy-story-5-song-condition-20261105/1.jpg",
+    "/article-images/taylor-swift-toy-story-5-song-condition-20261105/2.jpg",
+    "/article-images/taylor-swift-toy-story-5-song-condition-20261105/3.jpg",
+  ],
 };
 
 export function articleImagesFor(slug: string): [string, string, string] | null {
