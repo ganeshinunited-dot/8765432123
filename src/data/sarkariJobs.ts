@@ -4015,6 +4015,19 @@ export const SARKARI_JOBS: SarkariJob[] = [
     noticeUrl: "https://www.collegenp.com/vacancy/kawasoti-municipality-police-constable-vacancy-2083",
     category: "security",
   },
+  {
+    id: "sj-295",
+    organization: "Khwopa Engineering College",
+    postTitle: "Faculty — Assistant Lecturer, Lecturer and Senior Lecturer",
+    level: null,
+    seats: null,
+    deadline: "2026-11-06",
+    location: "Libali, Bhaktapur",
+    minQualification: "ME, MSc, MTech, MIT, MPhil or PhD in the relevant subject",
+    sourceUrl: "https://www.collegenp.com/vacancy/khwopa-engineering-college-faculty-vacancy-2026",
+    noticeUrl: "https://www.collegenp.com/vacancy/khwopa-engineering-college-faculty-vacancy-2026",
+    category: "education",
+  },
 ];
 
 /** SEO-friendly unique slug for a vacancy article page. */
