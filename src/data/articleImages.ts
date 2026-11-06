@@ -623,6 +623,86 @@ export const ARTICLE_IMAGES: Record<string, [string, string, string]> = {
     "/article-images/taylor-swift-toy-story-5-song-condition-20261105/2.jpg",
     "/article-images/taylor-swift-toy-story-5-song-condition-20261105/3.jpg",
   ],
+  "adp-jobs-report-october-2026-20261105": [
+    "/article-images/adp-jobs-report-october-2026-20261105/1.jpg",
+    "/article-images/adp-jobs-report-october-2026-20261105/2.jpg",
+    "/article-images/adp-jobs-report-october-2026-20261105/3.jpg",
+  ],
+  "ai-jobs-india-gcc-hiring-quess-report-20261105": [
+    "/article-images/ai-jobs-india-gcc-hiring-quess-report-20261105/1.jpg",
+    "/article-images/ai-jobs-india-gcc-hiring-quess-report-20261105/2.jpg",
+    "/article-images/ai-jobs-india-gcc-hiring-quess-report-20261105/3.jpg",
+  ],
+  "ai-layoffs-reversed-companies-rehire-roles-20261105": [
+    "/article-images/ai-layoffs-reversed-companies-rehire-roles-20261105/1.jpg",
+    "/article-images/ai-layoffs-reversed-companies-rehire-roles-20261105/2.jpg",
+    "/article-images/ai-layoffs-reversed-companies-rehire-roles-20261105/3.jpg",
+  ],
+  "ai-reskilling-jobs-redeployment-gap-20261105": [
+    "/article-images/ai-reskilling-jobs-redeployment-gap-20261105/1.jpg",
+    "/article-images/ai-reskilling-jobs-redeployment-gap-20261105/2.jpg",
+    "/article-images/ai-reskilling-jobs-redeployment-gap-20261105/3.jpg",
+  ],
+  "canva-layoffs-1271-jobs-20261105": [
+    "/article-images/canva-layoffs-1271-jobs-20261105/1.jpg",
+    "/article-images/canva-layoffs-1271-jobs-20261105/2.jpg",
+    "/article-images/canva-layoffs-1271-jobs-20261105/3.jpg",
+  ],
+  "co-operative-bank-kenya-ai-jobs-11-posts-20261105": [
+    "/article-images/co-operative-bank-kenya-ai-jobs-11-posts-20261105/1.jpg",
+    "/article-images/co-operative-bank-kenya-ai-jobs-11-posts-20261105/2.jpg",
+    "/article-images/co-operative-bank-kenya-ai-jobs-11-posts-20261105/3.jpg",
+  ],
+  "gates-foundation-ai-fellowship-africa-20261105": [
+    "/article-images/gates-foundation-ai-fellowship-africa-20261105/1.jpg",
+    "/article-images/gates-foundation-ai-fellowship-africa-20261105/2.jpg",
+    "/article-images/gates-foundation-ai-fellowship-africa-20261105/3.jpg",
+  ],
+  "jobs-in-india-2027-foundit-survey-20261105": [
+    "/article-images/jobs-in-india-2027-foundit-survey-20261105/1.jpg",
+    "/article-images/jobs-in-india-2027-foundit-survey-20261105/2.jpg",
+    "/article-images/jobs-in-india-2027-foundit-survey-20261105/3.jpg",
+  ],
+  "nhidcl-senior-associate-25-posts-20261105": [
+    "/article-images/nhidcl-senior-associate-25-posts-20261105/1.jpg",
+    "/article-images/nhidcl-senior-associate-25-posts-20261105/2.jpg",
+    "/article-images/nhidcl-senior-associate-25-posts-20261105/3.jpg",
+  ],
+  "sbi-chief-ai-officer-6-posts-20261105": [
+    "/article-images/sbi-chief-ai-officer-6-posts-20261105/1.jpg",
+    "/article-images/sbi-chief-ai-officer-6-posts-20261105/2.jpg",
+    "/article-images/sbi-chief-ai-officer-6-posts-20261105/3.jpg",
+  ],
+  "uae-highest-paying-jobs-2027-20261105": [
+    "/article-images/uae-highest-paying-jobs-2027-20261105/1.jpg",
+    "/article-images/uae-highest-paying-jobs-2027-20261105/2.jpg",
+    "/article-images/uae-highest-paying-jobs-2027-20261105/3.jpg",
+  ],
+  "va-veterans-service-representative-jobs-20261105": [
+    "/article-images/va-veterans-service-representative-jobs-20261105/1.jpg",
+    "/article-images/va-veterans-service-representative-jobs-20261105/2.jpg",
+    "/article-images/va-veterans-service-representative-jobs-20261105/3.jpg",
+  ],
+  "xai-ai-tutor-jobs-remote-20261105": [
+    "/article-images/xai-ai-tutor-jobs-remote-20261105/1.jpg",
+    "/article-images/xai-ai-tutor-jobs-remote-20261105/2.jpg",
+    "/article-images/xai-ai-tutor-jobs-remote-20261105/3.jpg",
+  ],
+  "rites-apprentice-281-posts-20261104": [
+    "/article-images/rites-apprentice-281-posts-20261104/1.jpg",
+    "/article-images/rites-apprentice-281-posts-20261104/2.jpg",
+    "/article-images/rites-apprentice-281-posts-20261104/3.jpg",
+  ],
+  "cabinet-secretariat-dfo-technical-250-posts-20261104": [
+    "/article-images/cabinet-secretariat-dfo-technical-250-posts-20261104/1.jpg",
+    "/article-images/cabinet-secretariat-dfo-technical-250-posts-20261104/2.jpg",
+    "/article-images/cabinet-secretariat-dfo-technical-250-posts-20261104/3.jpg",
+  ],
+  "ai-agent-jobs-2965-roles-november-2026-20261104": [
+    "/article-images/ai-agent-jobs-2965-roles-november-2026-20261104/1.jpg",
+    "/article-images/ai-agent-jobs-2965-roles-november-2026-20261104/2.jpg",
+    "/article-images/ai-agent-jobs-2965-roles-november-2026-20261104/3.jpg",
+  ],
 };
 
 export function articleImagesFor(slug: string): [string, string, string] | null {
