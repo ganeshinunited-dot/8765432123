@@ -1,14 +1,14 @@
 -- job-news-2h run 2026-11-05 19:48 NPT: Quess GCC Tech Talent Landscape Q2 FY27 (AI, data & cybersecurity 30.3% of GCC tech hiring demand; overall demand -3.5% QoQ; AI demand +14%; Business Standard + YourStory + India Education Diary, 5 Nov 2026)
 -- VERIFIED: Business Standard (3.5% fall, 19.7% AI share, sector falls incl. telecom -24%) + YourStory (30.3% share, 38-42% / 30-35% supply gaps) + India Education Diary (Coimbatore ~30% QoQ, sector table). GCC = Global Capability Centres (India), not Gulf.
 -- Dedupe: slug absent from the live sitemap crawled 2026-11-05 14:11 UTC (545 URLs). All 3 internal links resolve in that sitemap.
--- NOTE: STAGED ONLY — this run's one push was used for the 17:48 batch (commit 45b4f2fc). Next unblocked run pushes this migration first.
+-- FIX 2026-11-06 05:48 NPT: escaped apostrophe in excerpt (India''s) — original failed deploy dpl_9dYPUzBF58pFC2uKaXF8HhEfj2P8 with P3018 syntax error at or near "s"; body is $$-quoted and untouched.
 
 
 INSERT INTO "Article" ("id", "slug", "category", "country", "titleEn", "titleNe", "excerptEn", "excerptNe", "bodyEn", "bodyNe", "sources", "publishedAt", "createdAt", "updatedAt") VALUES
 (gen_random_uuid(), 'ai-jobs-india-gcc-hiring-quess-report-20261105', 'global', 'India',
 'AI Jobs in India: GCC Hiring Shifts to AI, Data and Cybersecurity as Overall Tech Demand Falls 3.5%',
 '',
-'Quess Corp said on 5 November 2026 that demand for AI, data and cybersecurity specialists rose sharply in the July to September quarter, while overall tech hiring demand across India's global capability centres fell 3.5 per cent.',
+'Quess Corp said on 5 November 2026 that demand for AI, data and cybersecurity specialists rose sharply in the July to September quarter, while overall tech hiring demand across India''s global capability centres fell 3.5 per cent.',
 '',
 $$<p>AI jobs in India are now driving hiring at the country's global capability centres, even as overall technology recruitment slows. Quess Corp said on 5 November 2026 that demand for artificial intelligence, data and cybersecurity specialists rose sharply in July to September, while total tech hiring demand across India's global capability centres fell 3.5 per cent quarter on quarter.</p>
 <p>The findings come from the staffing firm's India GCC Tech Talent Landscape Q2 FY27 report. Global capability centres, known as GCCs, are the India-based technology and operations units of multinational companies. The report shows their hiring is splitting in two: routine technology roles are shrinking, while specialist AI roles keep growing.</p>
