@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 
 export default function PrivacyPage() {
   return (
-    <StaticPage title="Privacy Policy" subtitle="How Growentix collects, uses, and protects your information." updated="October 28, 2026">
+    <StaticPage title="Privacy Policy" subtitle="How Growentix collects, uses, and protects your information." updated="November 6, 2026">
       <Section title="1. Who we are">
         <p>
           Growentix (&ldquo;we&rdquo;, &ldquo;us&rdquo;) publishes daily job news and vacancy notices from Nepal and
@@ -22,7 +22,7 @@ export default function PrivacyPage() {
         <Bullets
           items={[
             <><strong>Analytics:</strong> We use Google Analytics to understand which pages readers visit, so we can improve the site. Google Analytics uses cookies and collects anonymised usage data, such as pages viewed and approximate location. It does not identify you personally to us.</>,
-            <><strong>Administrator accounts:</strong> the small team that publishes articles signs in with an email address and a securely hashed password. Admin sessions use a signed HTTP-only cookie.</>,
+            <><strong>Weekly job news email:</strong> if you subscribe, we collect your email address and store it with our email provider, Klaviyo, so we can send you one email a week. We send a confirmation email first — you only start receiving it after you click the link in it. You can unsubscribe at any time.</>,
             <><strong>Contact messages:</strong> if you contact us, we keep the message and any contact details you choose to share so we can reply.</>,
           ]}
         />
@@ -32,7 +32,7 @@ export default function PrivacyPage() {
         <Bullets
           items={[
             "To count page views and unique visitors so we can see which news readers find useful.",
-            "To keep administrator accounts secure and to publish articles.",
+            "To send the Weekly job news email to readers who asked for it.",
             "To respond to messages you send us.",
             "To improve the site, fix problems, and measure overall usage in aggregate form.",
           ]}
@@ -41,24 +41,25 @@ export default function PrivacyPage() {
 
       <Section title="4. When we share information">
         <p>
-          We do not sell your personal information. We do not share visitor data with third parties. We may disclose
-          information when required by law, to protect the safety of our users, or with service providers (such as
-          hosting) who process it on our behalf under appropriate safeguards.
+          We do not sell your personal information. We share limited information with service providers who process it
+          on our behalf: Google Analytics receives anonymised usage data, and Klaviyo receives subscriber email
+          addresses for the weekly email. We may disclose information when required by law, to protect the safety of
+          our users, or with service providers (such as hosting) who process it on our behalf under appropriate
+          safeguards.
         </p>
       </Section>
 
       <Section title="5. Cookies">
         <p>
-          Visitors: Google Analytics sets cookies to measure site usage, as described in section 2. Administrators: a single essential session cookie keeps the admin signed in.
-          You can control cookies in your browser settings; disabling the session cookie will prevent an admin from
-          staying signed in.
+          Google Analytics sets cookies to measure site usage, as described in section 2. You can control cookies in
+          your browser settings.
         </p>
       </Section>
 
       <Section title="6. Data retention">
         <p>
           Anonymous visit analytics are kept in aggregate form. Contact messages are kept for as long as needed to
-          respond. Administrator account information is kept while the account is active. You may request deletion of
+          respond. Subscriber email addresses are kept until you unsubscribe. You may request deletion of
           information you provided; some records may be retained where the law requires it.
         </p>
       </Section>
@@ -75,8 +76,8 @@ export default function PrivacyPage() {
 
       <Section title="8. Security">
         <p>
-          Passwords are stored using a strong one-way hashing algorithm, and admin sessions use signed HTTP-only
-          cookies. No system is completely secure, so please tell us immediately if you suspect unauthorized access.
+          We use appropriate safeguards to protect the information we hold. No system is completely secure, so please
+          tell us immediately if you suspect unauthorised access.
         </p>
       </Section>
 

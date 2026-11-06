@@ -12,7 +12,7 @@ const config: SeoConfig = {
   heading: "Remote Jobs for Students",
   intro: "Work from your room, your hostel, or anywhere with internet. These remote and hybrid roles are perfect for students who want to earn without commuting.",
   where: { workArrangement: { in: ["REMOTE", "HYBRID"] } },
-  faq: [["What do I need for a remote student job?", "A reliable internet connection and a laptop or smartphone. Most remote roles here involve customer chat support, data entry, social media, or tutoring."], ["How do remote employers pay students?", "Most pay monthly via bank transfer or digital wallets like eSewa and Khalti. Confirm payment terms before you start."]],
+  faq: [["What do I need for a remote student job?", "A reliable internet connection and a laptop or smartphone. Most remote roles for students involve customer chat support, data entry, social media, or tutoring."], ["How do remote employers pay students?", "Most pay monthly via bank transfer or digital wallets like eSewa and Khalti. Confirm payment terms before you start."]],
 };
 
 export default function Page() {

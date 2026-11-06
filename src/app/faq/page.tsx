@@ -5,80 +5,54 @@ export const revalidate = 300;
 
 export const metadata: Metadata = {
   title: "Frequently Asked Questions",
-  description: "Answers for students and employers using Growentix.",
+  description: "Quick answers about Growentix — daily job news and government job vacancy notices.",
 };
 
-const STUDENT_FAQS = [
+const FAQS = [
   {
-    q: "Is Growentix free for students?",
-    a: "Yes — completely. Students never pay to create a profile, search, save jobs, or apply. Employers fund the platform through subscription plans. If anyone ever asks you to pay to apply for a job, it is a scam: report it immediately.",
+    q: "What is Growentix?",
+    a: "Growentix publishes daily job news and government job vacancy notices from Nepal and around the world. It is free to read, and there are no accounts — you do not need to sign up to read anything.",
   },
   {
-    q: "How do I apply for a job?",
-    a: "Create your free profile, add your education, skills, and availability, then open any job and tap Apply. You can attach a short cover note and your CV. The employer sees your application in their dashboard and can shortlist you, message you, or invite you to an interview.",
+    q: "Is Growentix free?",
+    a: "Yes — completely free to read. Growentix never asks you to pay to read a notice or an article. If anyone asks you to pay to apply for a job, it is a scam.",
   },
   {
-    q: "Who can see my CV?",
-    a: "Only employers you apply to, and only for your application to them. Your CV is never public and is not searchable by employers you haven't applied to.",
+    q: "Do I need an account to use Growentix?",
+    a: "No. There are no user accounts on Growentix. You cannot create a profile, log in, or save jobs — just open a notice or an article and read it.",
   },
   {
-    q: "How does job matching work?",
-    a: "We compare your skills, location, availability, and schedule preferences with each job's requirements and show a match score on recommended jobs. The more complete your profile, the better your matches.",
+    q: "How do I apply for a government job listed here?",
+    a: "Through the official link in the notice itself. Each vacancy notice shows the deadline, the eligibility conditions, and a link to the official notice. Read the official notice before you apply, and apply only through the official channel it names. Growentix does not collect applications or CVs.",
   },
   {
-    q: "What kinds of jobs can I find?",
-    a: "Part-time, evening, weekend, remote, and internship roles across Nepal — tutoring, retail, hospitality, digital and creative work, customer support, and more. Use the filters on the Find Jobs page to match your class schedule.",
+    q: "How do I know a vacancy is real?",
+    a: "Every notice links to its official source, and the deadline and post count come from that source. Still, always check the official notice yourself before applying or paying anything — a deadline or a detail can change after we publish.",
   },
   {
-    q: "I forgot my password. What do I do?",
-    a: "Use the 'Forgot password?' link on the login page. We'll email you a secure reset link that expires in one hour. If the email doesn't arrive, check your spam folder.",
+    q: "What is the Weekly job news email?",
+    a: "A short email, once a week, with the week's job news. Subscribe from the form at the bottom of the homepage. We send a confirmation email — click the link in it to start receiving it — and you can unsubscribe at any time.",
   },
   {
-    q: "An employer asked me for money. What should I do?",
-    a: "Stop communicating and report the job or conversation using the report button. Never pay to apply, interview, or 'train'. See our safety guide for more warning signs.",
-  },
-];
-
-const EMPLOYER_FAQS = [
-  {
-    q: "How much does it cost to post a job?",
-    a: "You can start with a free job post. Plan options and pricing are shown to verified employers after they sign in. Students are always free." ,
+    q: "Someone asked me to pay to apply, or to get a job. What should I do?",
+    a: "Do not pay. Never pay to apply, to interview, or for 'training' for a job. Growentix never asks you for money, and a genuine government vacancy never charges you to apply. Check the official notice, and stop contact with anyone demanding payment.",
   },
   {
-    q: "What is employer verification?",
-    a: "Verified employers submit business documents that our team reviews. Verified companies receive a badge on their profile and job posts, which students are told to look for. Verification can be completed from your company profile.",
+    q: "Can employers post jobs on Growentix?",
+    a: "Not at the moment. Vacancy notices on Growentix are informational listings taken from official notices — employers cannot post jobs or manage applications here.",
   },
   {
-    q: "How do I manage applicants?",
-    a: "From your employer dashboard you can view every application, open CVs of your applicants, and move candidates through stages: viewed, shortlisted, interview, selected, or rejected. Candidates are notified automatically at each stage and you can message them directly.",
-  },
-  {
-    q: "Why was my job post paused or rejected?",
-    a: "Posts are moderated against our employer guidelines: they must describe a real vacancy with accurate pay and schedule, and must never charge applicants fees. You'll receive a notification with the reason and can edit and resubmit.",
-  },
-  {
-    q: "How do payments work?",
-    a: "Employer plans can be paid via eSewa or Khalti where available. Your subscription, limits, and payment history are shown on your Billing page.",
+    q: "How often is Growentix updated?",
+    a: "Daily — new job news articles and new vacancy notices are published every day.",
   },
 ];
 
 export default function FaqPage() {
   return (
-    <StaticPage title="Frequently asked questions" subtitle="Quick answers for students and employers.">
-      <Section title="For students">
+    <StaticPage title="Frequently asked questions" subtitle="Quick answers about Growentix.">
+      <Section title="General">
         <div className="space-y-3">
-          {STUDENT_FAQS.map((f) => (
-            <details key={f.q} className="rounded-xl border border-slate-200 bg-white px-5 py-4">
-              <summary className="cursor-pointer text-[15px] font-semibold text-slate-900">{f.q}</summary>
-              <p className="mt-2 text-sm leading-relaxed text-slate-600">{f.a}</p>
-            </details>
-          ))}
-        </div>
-      </Section>
-
-      <Section title="For employers">
-        <div className="space-y-3">
-          {EMPLOYER_FAQS.map((f) => (
+          {FAQS.map((f) => (
             <details key={f.q} className="rounded-xl border border-slate-200 bg-white px-5 py-4">
               <summary className="cursor-pointer text-[15px] font-semibold text-slate-900">{f.q}</summary>
               <p className="mt-2 text-sm leading-relaxed text-slate-600">{f.a}</p>
@@ -89,8 +63,7 @@ export default function FaqPage() {
 
       <Section title="Still need help?">
         <p>
-          Read our <Link href="/safety" className="font-semibold text-emerald-700 hover:underline">safety guide</Link>,{" "}
-          <Link href="/employer-guidelines" className="font-semibold text-emerald-700 hover:underline">employer guidelines</Link>, or{" "}
+          Read our <Link href="/safety" className="font-semibold text-emerald-700 hover:underline">safety guide</Link>, or{" "}
           <Link href="/about" className="font-semibold text-emerald-700 hover:underline">learn more about Growentix</Link>.
         </p>
       </Section>

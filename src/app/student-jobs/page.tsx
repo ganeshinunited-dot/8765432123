@@ -12,7 +12,7 @@ const config: SeoConfig = {
   heading: "Jobs for Students in Nepal",
   intro: "The job board built for students. Browse part-time work, internships, and flexible gigs from verified employers across Nepal — all free for students, forever.",
   where: {},
-  faq: [["Is this platform free for students?", "Yes. Students never pay to browse, apply, or message employers. If anyone asks you for money to get a job, report them immediately."], ["How do I apply?", "Create a free profile, complete it to at least 60%, then hit Apply on any job. You can track every application from your dashboard."]],
+  faq: [["Is this platform free for students?", "Yes. Reading Growentix is free, and there are no accounts. If anyone asks you for money to get a job, report them immediately — never pay to apply."], ["How do I apply?", "Through the official link in the vacancy notice. Growentix does not take applications — read the official notice and apply only through the official channel it names."]],
 };
 
 export default function Page() {
