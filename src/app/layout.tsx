@@ -45,6 +45,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" className={`${geistSans.variable} ${jakarta.variable} h-full antialiased`}>
       <body className="flex min-h-full flex-col bg-white text-slate-900">
         <GoogleAnalytics />
+        {/* Google AdSense - site-wide verification script (ca-pub-4375599901125250) */}
+        <Script
+          strategy="afterInteractive"
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4375599901125250"
+          crossOrigin="anonymous"
+        />
         {/* Site-wide Organization + WebSite schema: article pages already
             carry NewsArticle schema; this gives AI tools and search engines
             the same identity on every page, including home/about/privacy. */}
