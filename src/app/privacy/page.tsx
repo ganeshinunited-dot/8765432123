@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 
 export default function PrivacyPage() {
   return (
-    <StaticPage title="Privacy Policy" subtitle="How Growentix collects, uses, and protects your information." updated="November 6, 2026">
+    <StaticPage title="Privacy Policy" subtitle="How Growentix collects, uses, and protects your information." updated="November 11, 2026">
       <Section title="1. Who we are">
         <p>
           Growentix (&ldquo;we&rdquo;, &ldquo;us&rdquo;) publishes daily job news and vacancy notices from Nepal and
@@ -43,7 +43,7 @@ export default function PrivacyPage() {
         <p>
           We do not sell your personal information. We share limited information with service providers who process it
           on our behalf: Google Analytics receives anonymised usage data, and Klaviyo receives subscriber email
-          addresses for the weekly email. We may disclose information when required by law, to protect the safety of
+          addresses for the weekly email. Google AdSense and its advertising partners may receive anonymised usage data and cookie identifiers so they can serve and measure advertisements. We may disclose information when required by law, to protect the safety of
           our users, or with service providers (such as hosting) who process it on our behalf under appropriate
           safeguards.
         </p>
@@ -53,6 +53,14 @@ export default function PrivacyPage() {
         <p>
           Google Analytics sets cookies to measure site usage, as described in section 2. You can control cookies in
           your browser settings.
+        </p>
+        <p>
+          <strong>Advertising:</strong> We may show advertisements on Growentix through Google AdSense. Google and
+          its advertising partners may use cookies to show ads based on your previous visits to this site or other
+          websites. You can opt out of personalised advertising at any time by visiting Google Ads Settings
+          (https://www.google.com/settings/ads) or www.aboutads.info/choices. We do not control the cookies set by
+          advertisers. For how Google uses information from sites that use its services, see Google&apos;s Privacy
+          &amp; Terms (https://policies.google.com/technologies/partner-sites).
         </p>
       </Section>
 
