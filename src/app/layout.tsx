@@ -38,6 +38,7 @@ export const metadata: Metadata = {
       "Daily job news and vacancy notices from Nepal and around the world — government vacancies, Gulf jobs, Korea & Japan, remote work and work-abroad updates.",
   },
   robots: { index: true, follow: true },
+  other: { "google-adsense-account": "ca-pub-4375599901125250" },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
