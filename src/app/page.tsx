@@ -26,7 +26,7 @@ const CATEGORY_PILLS: { label: string; href: string; icon: React.ReactNode }[] =
   },
   {
     label: "Remote",
-    href: "/articles?category=remote",
+    href: "/remote",
     icon: (
       <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
         <rect x="2" y="4" width="20" height="12" rx="2" />
@@ -36,7 +36,7 @@ const CATEGORY_PILLS: { label: string; href: string; icon: React.ReactNode }[] =
   },
   {
     label: "Gulf",
-    href: "/articles?category=gulf",
+    href: "/gulf",
     icon: (
       <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
         <path d="M12 21s-7-5.5-7-11a7 7 0 0 1 14 0c0 5.5-7 11-7 11z" />
@@ -46,7 +46,7 @@ const CATEGORY_PILLS: { label: string; href: string; icon: React.ReactNode }[] =
   },
   {
     label: "USA",
-    href: "/articles?category=usa",
+    href: "/usa",
     icon: (
       <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
         <path d="M12 21s-7-5.5-7-11a7 7 0 0 1 14 0c0 5.5-7 11-7 11z" />
@@ -56,7 +56,7 @@ const CATEGORY_PILLS: { label: string; href: string; icon: React.ReactNode }[] =
   },
   {
     label: "UK",
-    href: "/articles?category=uk",
+    href: "/uk",
     icon: (
       <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
         <path d="M12 21s-7-5.5-7-11a7 7 0 0 1 14 0c0 5.5-7 11-7 11z" />
@@ -66,7 +66,7 @@ const CATEGORY_PILLS: { label: string; href: string; icon: React.ReactNode }[] =
   },
   {
     label: "Canada",
-    href: "/articles?category=canada",
+    href: "/canada",
     icon: (
       <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
         <path d="M12 21s-7-5.5-7-11a7 7 0 0 1 14 0c0 5.5-7 11-7 11z" />
@@ -76,7 +76,7 @@ const CATEGORY_PILLS: { label: string; href: string; icon: React.ReactNode }[] =
   },
   {
     label: "Australia",
-    href: "/articles?category=australia",
+    href: "/australia",
     icon: (
       <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
         <path d="M12 21s-7-5.5-7-11a7 7 0 0 1 14 0c0 5.5-7 11-7 11z" />
@@ -86,7 +86,7 @@ const CATEGORY_PILLS: { label: string; href: string; icon: React.ReactNode }[] =
   },
   {
     label: "Europe",
-    href: "/articles?category=europe",
+    href: "/europe",
     icon: (
       <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
         <path d="M12 21s-7-5.5-7-11a7 7 0 0 1 14 0c0 5.5-7 11-7 11z" />
@@ -96,7 +96,7 @@ const CATEGORY_PILLS: { label: string; href: string; icon: React.ReactNode }[] =
   },
   {
     label: "Asia",
-    href: "/articles?category=asia",
+    href: "/asia",
     icon: (
       <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
         <path d="M12 21s-7-5.5-7-11a7 7 0 0 1 14 0c0 5.5-7 11-7 11z" />
@@ -106,7 +106,7 @@ const CATEGORY_PILLS: { label: string; href: string; icon: React.ReactNode }[] =
   },
   {
     label: "Korea & Japan",
-    href: "/articles?category=korea-japan",
+    href: "/korea-japan",
     icon: (
       <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
         <path d="M12 21s-7-5.5-7-11a7 7 0 0 1 14 0c0 5.5-7 11-7 11z" />
@@ -116,7 +116,7 @@ const CATEGORY_PILLS: { label: string; href: string; icon: React.ReactNode }[] =
   },
   {
     label: "Work Abroad",
-    href: "/articles?category=work-abroad",
+    href: "/work-abroad",
     icon: (
       <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
         <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" />
@@ -125,7 +125,7 @@ const CATEGORY_PILLS: { label: string; href: string; icon: React.ReactNode }[] =
   },
   {
     label: "Nepal",
-    href: "/articles?category=nepal",
+    href: "/nepal",
     icon: (
       <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
         <path d="M12 21s-7-5.5-7-11a7 7 0 0 1 14 0c0 5.5-7 11-7 11z" />

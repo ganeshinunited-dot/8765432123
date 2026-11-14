@@ -7,7 +7,7 @@ export const revalidate = 3600;
 export default async function sitemap() {
   const base = process.env.NEXT_PUBLIC_APP_URL || "https://growentix.cloud";
 
-  const staticPages = ["", "/sarkari-jobs", "/articles", "/explore", "/about", "/privacy", "/terms", "/courses", "/support", "/tech-ai", "/popmusic"].map(
+  const staticPages = ["", "/sarkari-jobs", "/articles", "/explore", "/about", "/privacy", "/terms", "/courses", "/support", "/tech-ai", "/popmusic", "/nepal", "/gulf", "/korea-japan", "/usa", "/uk", "/canada", "/australia", "/europe", "/asia", "/work-abroad", "/remote", "/global", "/career"].map(
     (path) => ({ url: `${base}${path}`, lastModified: new Date(), changeFrequency: "daily" as const, priority: path === "" ? 1 : 0.8 })
   );
 
