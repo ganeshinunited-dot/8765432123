@@ -53,6 +53,7 @@ export function Footer() {
             <Link href="/about" className="hover:text-emerald-300">About</Link>
             <Link href="/privacy" className="hover:text-emerald-300">Privacy policy</Link>
             <Link href="/terms" className="hover:text-emerald-300">Terms of service</Link>
+            <a href="https://www.facebook.com/MysticVibes123" target="_blank" rel="noopener noreferrer" className="hover:text-emerald-300">Mystic Vibes on Facebook</a>
           </nav>
         </div>
         <div className="mt-6 border-t border-white/10 pt-5 text-center text-sm text-slate-500">
