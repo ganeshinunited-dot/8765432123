@@ -134,7 +134,7 @@ const CATEGORY_PILLS: { label: string; href: string; icon: React.ReactNode }[] =
     ),
   {
     label: "Pop Music",
-    href: "/articles?category=pop-music",
+    href: "/popmusic",
     icon: (
       <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
         <path d="M9 18V5l12-2v13" />
