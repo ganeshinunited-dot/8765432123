@@ -132,6 +132,7 @@ const CATEGORY_PILLS: { label: string; href: string; icon: React.ReactNode }[] =
         <circle cx="12" cy="10" r="2.5" />
       </svg>
     ),
+  },
   {
     label: "Pop Music",
     href: "/popmusic",
@@ -142,7 +143,6 @@ const CATEGORY_PILLS: { label: string; href: string; icon: React.ReactNode }[] =
         <circle cx="18" cy="16" r="3" />
       </svg>
     ),
-  },
   },
 ];
 
