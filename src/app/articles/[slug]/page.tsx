@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { db } from "@/lib/db";
 import { ArticleView } from "@/components/articles/ArticleView";
+import { CommentSection } from "@/components/articles/CommentSection";
 import { articleImagesFor } from "@/data/articleImages";
 
 export const revalidate = 300; // ISR: serve cached HTML, regenerate in background; admin/cron purge on publish
@@ -83,6 +84,7 @@ export default async function ArticlePage({
           publishedAt: a.publishedAt.toISOString(),
         }}
       />
+      <CommentSection slug={a.slug} />
 
     </div>
   );

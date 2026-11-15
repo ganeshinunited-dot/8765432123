@@ -756,8 +756,22 @@ model Article {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
+  comments ArticleComment[]
+
   @@index([publishedAt])
   @@index([category])
+}
+
+model ArticleComment {
+  id        String   @id @default(uuid())
+  articleId String
+  article   Article  @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  name      String
+  body      String
+  status    String   @default("published")
+  createdAt DateTime @default(now())
+
+  @@index([articleId, createdAt])
 }
 
 model SiteVisit {
