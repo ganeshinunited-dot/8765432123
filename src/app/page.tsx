@@ -6,6 +6,7 @@ import { HeroGlobe } from "@/components/HeroGlobe";
 import { SARKARI_JOBS, sarkariSlug } from "@/data/sarkariJobs";
 import { articleCategoryLabel } from "@/lib/articles";
 import { articleImagesFor } from "@/data/articleImages";
+import { ManualAdSlot } from "@/components/ads/ManualAdSlot";
 
 export const revalidate = 60;
 
@@ -208,57 +209,114 @@ export default async function HomePage() {
         </div>
       </section>
 
+      {/* Manual ad — leaderboard under the hero */}
+      <div className="mx-auto max-w-7xl px-4 pt-8 sm:px-6">
+        <ManualAdSlot slot="leaderboard" className="h-[90px] w-full" />
+      </div>
+
       {/* Latest Job News */}
       <section className="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-12">
-        <div className="flex items-center justify-between gap-3">
-          <h2 className="gx-h2 mt-0">Latest Job News</h2>
-          <Link href="/articles" className="shrink-0 text-sm font-bold text-emerald-700 hover:underline">
-            View All <span aria-hidden="true">→</span>
-          </Link>
-        </div>
-        <div className="mt-6 space-y-3">
-          {articles.map((a, i) => {
-            const images = articleImagesFor(a.slug);
-            return (
-              <Reveal key={a.slug} delay={Math.min(i, 5) * 60}>
-                <Link href={`/articles/${a.slug}`} className="gx-lift group flex gap-4 rounded-2xl border border-slate-200 bg-white p-4 sm:p-5">
-                  {images ? (
+        <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_300px] lg:gap-8">
+          <div className="min-w-0">
+            <div className="flex items-center justify-between gap-3">
+              <h2 className="gx-h2 mt-0">Latest Job News</h2>
+              <Link href="/articles" className="shrink-0 text-sm font-bold text-emerald-700 hover:underline">
+                View All <span aria-hidden="true">→</span>
+              </Link>
+            </div>
+
+            {/* Featured — the newest article, big card */}
+            {articles[0] && (
+              <Reveal>
+                <Link
+                  href={`/articles/${articles[0].slug}`}
+                  className="gx-lift group mt-6 block overflow-hidden rounded-2xl border border-slate-200 bg-white"
+                >
+                  {articleImagesFor(articles[0].slug) ? (
                     <img
-                      src={images[0]}
+                      src={articleImagesFor(articles[0].slug)![0]}
                       alt=""
                       loading="lazy"
-                      className="hidden h-20 w-24 shrink-0 rounded-xl object-cover sm:block"
+                      className="h-56 w-full object-cover sm:h-72"
                     />
-                  ) : (
-                    <span className="hidden h-20 w-24 shrink-0 items-center justify-center rounded-xl bg-emerald-50 font-display text-2xl font-extrabold text-emerald-700 sm:flex">
-                      {articleCategoryLabel(a.category).charAt(0)}
-                    </span>
-                  )}
-                  <div className="min-w-0 flex-1">
-                    <div className="flex items-start justify-between gap-3">
-                      <p className="font-display text-[15px] font-bold leading-snug text-slate-900 group-hover:text-emerald-800 sm:text-base">
-                        {a.titleEn}
-                      </p>
-                      <span className="shrink-0 text-xs text-slate-500">{formatDate(a.publishedAt)}</span>
-                    </div>
-                    <p className="mt-1 truncate text-sm text-slate-600">
-                      {a.country ?? articleCategoryLabel(a.category)}
-                    </p>
-                    <div className="mt-2.5 flex flex-wrap gap-1.5">
+                  ) : null}
+                  <div className="p-5 sm:p-6">
+                    <div className="flex flex-wrap items-center gap-2">
                       <span className="rounded-full bg-emerald-50 px-2.5 py-0.5 text-xs font-semibold text-emerald-700">
-                        {articleCategoryLabel(a.category)}
+                        {articleCategoryLabel(articles[0].category)}
                       </span>
-                      {a.country && (
+                      {articles[0].country && (
                         <span className="rounded-full bg-slate-100 px-2.5 py-0.5 text-xs font-medium text-slate-600">
-                          {a.country}
+                          {articles[0].country}
                         </span>
                       )}
+                      <span className="text-xs text-slate-500">{formatDate(articles[0].publishedAt)}</span>
                     </div>
+                    <p className="mt-3 font-display text-xl font-bold leading-snug text-slate-900 group-hover:text-emerald-800 sm:text-2xl">
+                      {articles[0].titleEn}
+                    </p>
+                    <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-slate-600">
+                      {articles[0].excerptEn}
+                    </p>
                   </div>
                 </Link>
               </Reveal>
-            );
-          })}
+            )}
+
+            {/* The rest — neat grid on desktop */}
+            <div className="mt-6 grid gap-4 lg:grid-cols-2">
+              {articles.slice(1).map((a, i) => {
+                const images = articleImagesFor(a.slug);
+                return (
+                  <Reveal key={a.slug} delay={Math.min(i, 5) * 60} className="h-full">
+                    <Link
+                      href={`/articles/${a.slug}`}
+                      className="gx-lift group flex h-full flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white"
+                    >
+                      {images ? (
+                        <img
+                          src={images[0]}
+                          alt=""
+                          loading="lazy"
+                          className="h-36 w-full object-cover"
+                        />
+                      ) : (
+                        <span className="flex h-36 items-center justify-center bg-emerald-50 font-display text-3xl font-extrabold text-emerald-700">
+                          {articleCategoryLabel(a.category).charAt(0)}
+                        </span>
+                      )}
+                      <div className="flex flex-1 flex-col p-4">
+                        <p className="font-display text-[15px] font-bold leading-snug text-slate-900 group-hover:text-emerald-800">
+                          {a.titleEn}
+                        </p>
+                        <p className="mt-1 text-sm text-slate-600">
+                          {a.country ?? articleCategoryLabel(a.category)}
+                        </p>
+                        <div className="mt-auto flex items-center justify-between gap-2 pt-3">
+                          <span className="rounded-full bg-emerald-50 px-2.5 py-0.5 text-xs font-semibold text-emerald-700">
+                            {articleCategoryLabel(a.category)}
+                          </span>
+                          <span className="shrink-0 text-xs text-slate-500">{formatDate(a.publishedAt)}</span>
+                        </div>
+                      </div>
+                    </Link>
+                  </Reveal>
+                );
+              })}
+            </div>
+
+            {/* Manual ad — in-feed banner under the grid */}
+            <div className="mt-6">
+              <ManualAdSlot slot="infeed-home" className="h-[90px] w-full" />
+            </div>
+          </div>
+
+          {/* Sidebar — manual ad space (sticky on desktop) */}
+          <aside className="mt-10 lg:mt-0">
+            <div className="space-y-6 lg:sticky lg:top-6">
+              <ManualAdSlot slot="sidebar-home" className="h-[250px] w-full" />
+            </div>
+          </aside>
         </div>
       </section>
 

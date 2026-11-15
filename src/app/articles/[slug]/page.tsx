@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { db } from "@/lib/db";
 import { ArticleView } from "@/components/articles/ArticleView";
 import { CommentSection } from "@/components/articles/CommentSection";
+import { ManualAdSlot } from "@/components/ads/ManualAdSlot";
 import { articleImagesFor } from "@/data/articleImages";
 
 export const revalidate = 300; // ISR: serve cached HTML, regenerate in background; admin/cron purge on publish
@@ -60,7 +61,9 @@ export default async function ArticlePage({
   };
 
   return (
-    <div className="mx-auto max-w-3xl px-4 py-10 sm:px-6">
+    <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6">
+      <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_300px] lg:gap-10">
+        <div className="mx-auto w-full max-w-3xl">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
@@ -85,7 +88,16 @@ export default async function ArticlePage({
         }}
       />
       <CommentSection slug={a.slug} />
+        </div>
 
+        {/* Sidebar — manual ad space (sticky on desktop) */}
+        <aside className="mx-auto mt-10 w-full max-w-3xl lg:mt-0 lg:max-w-none">
+          <div className="space-y-6 lg:sticky lg:top-6">
+            <ManualAdSlot slot="sidebar-article-top" className="h-[250px] w-full" />
+            <ManualAdSlot slot="sidebar-article-bottom" className="h-[250px] w-full" />
+          </div>
+        </aside>
+      </div>
     </div>
   );
 }
