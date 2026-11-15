@@ -21,7 +21,7 @@ function WhatsAppButton({ compact = false }: { compact?: boolean }) {
       >
         <path d="M20 2H4a2 2 0 0 0-2 2v18l4-4h14a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2z" />
       </svg>
-      WhatsApp ma message garnuhos
+      Message us on WhatsApp
     </span>
   );
 }
@@ -81,7 +81,7 @@ export function ManualAdSlot({
             Your Ads Here
           </span>
           <span className="hidden text-xs font-semibold text-white/90 sm:inline">
-            Growentix ma ad rakhnuhos
+            Advertise on Growentix
           </span>
           <WhatsAppButton compact />
         </span>
@@ -93,7 +93,7 @@ export function ManualAdSlot({
             Ads Here
           </span>
           <span className="text-xs font-semibold text-white/90">
-            Growentix ma ad rakhnuhos — hazarau job khojne manche samma pugnuhos
+            Advertise on Growentix — reach thousands of job seekers
           </span>
           <WhatsAppButton />
         </span>
