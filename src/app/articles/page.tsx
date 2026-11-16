@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { db } from "@/lib/db";
 import { ARTICLE_CATEGORIES } from "@/lib/articles";
 import { ArticleCards } from "@/components/articles/ArticleCards";
+import { SmallSearch } from "@/components/articles/SmallSearch";
 
 type SearchParams = Promise<{ category?: string | string[]; page?: string | string[] }>;
 
@@ -69,6 +70,9 @@ export default async function ArticlesPage({ searchParams }: { searchParams: Sea
       <p className="gx-eyebrow">Daily job news</p>
       <h1 className="gx-h2 mt-2">Articles</h1>
       <p className="gx-sub mt-2 max-w-2xl">Fresh job stories from around the world.</p>
+      <div className="mt-5">
+        <SmallSearch />
+      </div>
       <ArticleCards
         articles={articles}
         categories={ARTICLE_CATEGORIES}

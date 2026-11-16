@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { db } from "@/lib/db";
-import { ARTICLE_CATEGORIES, articleCategoryLabel, matchesSearch } from "@/lib/articles";
+import { articleCategoryLabel, matchesSearch } from "@/lib/articles";
 
 export const dynamic = "force-dynamic";
 
@@ -13,8 +13,6 @@ export const metadata = {
 function formatDate(d: Date) {
   return new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "short", year: "numeric" }).format(d);
 }
-
-const TRENDING = ["AI jobs", "EPS Korea", "Gulf", "Caregiver", "Remote", "USA visa"];
 
 export default async function SearchPage({
   searchParams,
@@ -67,36 +65,6 @@ export default async function SearchPage({
           </svg>
         </button>
       </form>
-
-      {/* Category filter */}
-      <div className="mt-6 flex flex-wrap gap-2">
-        <Link
-          href="/search"
-          className={`rounded-full px-4 py-2 text-sm font-medium transition ${!active ? "bg-emerald-600 text-white" : "border border-slate-200 bg-white text-slate-700 hover:border-emerald-300"}`}
-        >
-          All
-        </Link>
-        {ARTICLE_CATEGORIES.map((c) => (
-          <Link
-            key={c.slug}
-            href={`/search?category=${c.slug}${query ? `&search=${encodeURIComponent(query)}` : ""}`}
-            className={`rounded-full px-4 py-2 text-sm font-medium transition ${active === c.slug ? "bg-emerald-600 text-white" : "border border-slate-200 bg-white text-slate-700 hover:border-emerald-300"}`}
-          >
-            {c.label}
-          </Link>
-        ))}
-      </div>
-
-      {!query && (
-        <div className="mt-6 flex flex-wrap items-center gap-2">
-          <span className="text-xs font-bold uppercase tracking-wider text-slate-500">Trending:</span>
-          {TRENDING.map((t) => (
-            <Link key={t} href={`/search?search=${encodeURIComponent(t)}`} className="rounded-full border border-slate-200 bg-white px-3.5 py-1.5 text-xs font-semibold text-slate-700 transition hover:border-emerald-400 hover:text-emerald-800">
-              {t}
-            </Link>
-          ))}
-        </div>
-      )}
 
       {query && (
         <p className="mt-8 text-sm text-slate-600">

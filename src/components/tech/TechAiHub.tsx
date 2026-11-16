@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { db } from "@/lib/db";
+import { SmallSearch } from "@/components/articles/SmallSearch";
 
 /** Word-boundary match so "IT" never matches "with" and "app" never matches "apple". */
 const TECH_PATTERN =
@@ -41,6 +42,9 @@ export default async function TechAiHub() {
         Tech and AI job news — hiring, skills and remote tech roles from around the world, with the
         newest stories first.
       </p>
+      <div className="mt-5">
+        <SmallSearch />
+      </div>
 
       {articles.length > 0 ? (
         <ul className="mt-8 space-y-4">

@@ -2,21 +2,36 @@ import Link from "next/link";
 import { db } from "@/lib/db";
 import { Reveal } from "@/components/ui/Reveal";
 import { NewsletterForm } from "@/components/NewsletterForm";
+import { SmallSearch } from "@/components/articles/SmallSearch";
 import { SARKARI_JOBS, sarkariSlug } from "@/data/sarkariJobs";
 
 export const revalidate = 60;
+
+type SearchParams = Promise<{ page?: string | string[] }>;
+
+const PAGE_SIZE = 20;
+
+function activePage(params: { page?: string | string[] }): number {
+  const n = parseInt(Array.isArray(params.page) ? params.page[0] ?? "" : params.page ?? "", 10);
+  return Number.isFinite(n) && n > 0 ? n : 1;
+}
 
 function formatDate(d: Date) {
   return new Intl.DateTimeFormat("en-US", { month: "long", day: "numeric", year: "numeric" }).format(d);
 }
 
 
-export default async function HomePage() {
-  // Latest job news — the front page lists the newest articles. View counts
-  // are no longer collected since the login system was removed.
+export default async function HomePage({ searchParams }: { searchParams: SearchParams }) {
+  // All job news — the front page lists every article, 20 per page, newest first.
+  const params = await searchParams;
+  const requestedPage = activePage(params);
+  const total = await db.article.count();
+  const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
+  const page = Math.min(requestedPage, totalPages);
   const articles = await db.article.findMany({
     orderBy: { publishedAt: "desc" },
-    take: 6,
+    skip: (page - 1) * PAGE_SIZE,
+    take: PAGE_SIZE,
     select: { slug: true, category: true, country: true, titleEn: true, excerptEn: true, publishedAt: true },
   });
 
@@ -35,7 +50,10 @@ export default async function HomePage() {
       <section className="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-12">
         <div>
           <div className="min-w-0">
-            <div className="flex items-center justify-between gap-3">
+            <div className="mt-1">
+              <SmallSearch />
+            </div>
+            <div className="mt-6 flex items-center justify-between gap-3">
               <h2 className="gx-h2 mt-0">Latest Articles</h2>
               <Link href="/articles" className="shrink-0 text-sm font-bold text-emerald-700 hover:underline">
                 View All <span aria-hidden="true">→</span>
@@ -65,6 +83,22 @@ export default async function HomePage() {
                 );
               })}
             </div>
+
+            {totalPages > 1 && (
+              <nav className="mt-8 flex items-center justify-between gap-3 text-sm" aria-label="Pagination">
+                {page > 1 ? (
+                  <Link href={`/?page=${page - 1}`} className="font-semibold text-emerald-700 hover:underline">← Previous</Link>
+                ) : (
+                  <span className="text-slate-400">← Previous</span>
+                )}
+                <span className="text-slate-500">Page {page} of {totalPages}</span>
+                {page < totalPages ? (
+                  <Link href={`/?page=${page + 1}`} className="font-semibold text-emerald-700 hover:underline">Next →</Link>
+                ) : (
+                  <span className="text-slate-400">Next →</span>
+                )}
+              </nav>
+            )}
           </div>
         </div>
       </section>

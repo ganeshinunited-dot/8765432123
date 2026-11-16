@@ -1,5 +1,6 @@
 import { db } from "@/lib/db";
 import { ArticleCards } from "@/components/articles/ArticleCards";
+import { SmallSearch } from "@/components/articles/SmallSearch";
 
 const PAGE_SIZE = 20;
 
@@ -52,6 +53,9 @@ export default async function CategoryListing({
       <p className="gx-eyebrow">{label}</p>
       <h1 className="gx-h2 mt-2">{label}</h1>
       <p className="gx-sub mt-2 max-w-2xl">{subtitle}</p>
+      <div className="mt-5">
+        <SmallSearch />
+      </div>
       <ArticleCards
         articles={articles}
         categories={[{ slug, label }]}
