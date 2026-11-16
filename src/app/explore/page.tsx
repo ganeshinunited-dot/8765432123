@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { db } from "@/lib/db";
 import { ARTICLE_CATEGORIES, INTERNATIONAL_CATEGORIES } from "@/lib/articles";
-import { articleImagesFor } from "@/data/articleImages";
 import { ArticleCards } from "@/components/articles/ArticleCards";
 
 type SearchParams = Promise<{ category?: string | string[]; page?: string | string[] }>;
@@ -63,7 +62,6 @@ export default async function ExplorePage({ searchParams }: { searchParams: Sear
   const articles = rows.map((a) => ({
     ...a,
     publishedAt: a.publishedAt.toISOString(),
-    image: articleImagesFor(a.slug)?.[0] ?? null,
   }));
   const regions = ARTICLE_CATEGORIES.filter((c) =>
     (INTERNATIONAL_CATEGORIES as readonly string[]).includes(c.slug)

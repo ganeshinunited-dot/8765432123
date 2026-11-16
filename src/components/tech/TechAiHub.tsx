@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { db } from "@/lib/db";
-import { articleImagesFor } from "@/data/articleImages";
 
 /** Word-boundary match so "IT" never matches "with" and "app" never matches "apple". */
 const TECH_PATTERN =
@@ -17,7 +16,7 @@ function formatDate(iso: string): string {
 /**
  * Tech & AI hub — server-rendered so Google indexes real article links, not an
  * empty shell. Lists recent articles whose title or excerpt matches tech/AI
- * keywords, newest first, with their hero image when the article has one.
+ * keywords, newest first.
  */
 export default async function TechAiHub() {
   const recent = await db.article.findMany({
@@ -46,23 +45,14 @@ export default async function TechAiHub() {
       {articles.length > 0 ? (
         <ul className="mt-8 space-y-4">
           {articles.map((a) => {
-            const images = articleImagesFor(a.slug);
             return (
               <li key={a.slug} className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
                 <Link href={`/articles/${a.slug}`} className="block">
-                  {images && (
-                    <img
-                      src={images[0]}
-                      alt={a.titleEn}
-                      className="aspect-video w-full object-cover"
-                      loading="lazy"
-                    />
-                  )}
                   <span className="block p-4">
                     <span className="text-xs text-slate-500">
                       {formatDate(a.publishedAt.toISOString())}
                     </span>
-                    <span className="mt-1 block text-lg font-bold text-slate-900 hover:underline">
+                    <span className="mt-1 block font-serif text-lg font-bold text-slate-900 hover:underline">
                       {a.titleEn}
                     </span>
                     {a.excerptEn && (

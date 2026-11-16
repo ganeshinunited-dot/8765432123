@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { db } from "@/lib/db";
 import { ARTICLE_CATEGORIES, articleCategoryLabel, matchesSearch } from "@/lib/articles";
-import { articleImagesFor } from "@/data/articleImages";
 
 export const dynamic = "force-dynamic";
 
@@ -118,19 +117,11 @@ export default async function SearchPage({
       ) : (
         <div className="mt-6 space-y-3">
           {results.map((a) => {
-            const images = articleImagesFor(a.slug);
             return (
               <Link key={a.slug} href={`/articles/${a.slug}`} className="gx-lift group flex gap-4 rounded-2xl border border-slate-200 bg-white p-4 sm:p-5">
-                {images ? (
-                  <img src={images[0]} alt="" loading="lazy" className="hidden h-20 w-24 shrink-0 rounded-xl object-cover sm:block" />
-                ) : (
-                  <span className="hidden h-20 w-24 shrink-0 items-center justify-center rounded-xl bg-emerald-50 font-display text-2xl font-extrabold text-emerald-700 sm:flex">
-                    {articleCategoryLabel(a.category).charAt(0)}
-                  </span>
-                )}
                 <div className="min-w-0 flex-1">
                   <div className="flex items-start justify-between gap-3">
-                    <p className="font-display text-[15px] font-bold leading-snug text-slate-900 group-hover:text-emerald-800 sm:text-base">{a.titleEn}</p>
+                    <p className="font-serif text-[15px] font-bold leading-snug text-slate-900 group-hover:text-emerald-800 sm:text-base">{a.titleEn}</p>
                     <span className="shrink-0 text-xs text-slate-500">{formatDate(a.publishedAt)}</span>
                   </div>
                   <p className="mt-1 truncate text-sm text-slate-600">{a.country ?? articleCategoryLabel(a.category)}</p>
