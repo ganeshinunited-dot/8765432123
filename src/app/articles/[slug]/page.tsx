@@ -4,7 +4,6 @@ import { db } from "@/lib/db";
 import { ArticleView } from "@/components/articles/ArticleView";
 import { CommentSection } from "@/components/articles/CommentSection";
 import { ManualAdSlot } from "@/components/ads/ManualAdSlot";
-import { articleImagesFor } from "@/data/articleImages";
 
 export const revalidate = 300; // ISR: serve cached HTML, regenerate in background; admin/cron purge on publish
 
@@ -24,7 +23,6 @@ export async function generateMetadata({
     select: { titleEn: true, excerptEn: true, updatedAt: true },
   });
   if (!a) return {};
-  const ogImage = articleImagesFor(slug)?.[0];
   return {
     title: a.titleEn,
     description: a.excerptEn,
@@ -34,7 +32,6 @@ export async function generateMetadata({
       description: a.excerptEn,
       type: "article",
       url: `https://growentix.cloud/articles/${slug}`,
-      ...(ogImage ? { images: [{ url: `https://growentix.cloud${ogImage}` }] } : {}),
     },
   };
 }

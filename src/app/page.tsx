@@ -2,10 +2,7 @@ import Link from "next/link";
 import { db } from "@/lib/db";
 import { Reveal } from "@/components/ui/Reveal";
 import { NewsletterForm } from "@/components/NewsletterForm";
-import { HeroGlobe } from "@/components/HeroGlobe";
 import { SARKARI_JOBS, sarkariSlug } from "@/data/sarkariJobs";
-import { articleCategoryLabel } from "@/lib/articles";
-import { articleImagesFor } from "@/data/articleImages";
 import { ManualAdSlot } from "@/components/ads/ManualAdSlot";
 
 export const revalidate = 60;
@@ -14,138 +11,6 @@ function formatDate(d: Date) {
   return new Intl.DateTimeFormat("en-US", { month: "long", day: "numeric", year: "numeric" }).format(d);
 }
 
-const CATEGORY_PILLS: { label: string; href: string; icon: React.ReactNode }[] = [
-  {
-    label: "All",
-    href: "/articles",
-    icon: (
-      <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-        <circle cx="12" cy="12" r="10" />
-        <path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
-      </svg>
-    ),
-  },
-  {
-    label: "Remote",
-    href: "/remote",
-    icon: (
-      <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-        <rect x="2" y="4" width="20" height="12" rx="2" />
-        <path d="M2 20h20" />
-      </svg>
-    ),
-  },
-  {
-    label: "Gulf",
-    href: "/gulf",
-    icon: (
-      <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-        <path d="M12 21s-7-5.5-7-11a7 7 0 0 1 14 0c0 5.5-7 11-7 11z" />
-        <circle cx="12" cy="10" r="2.5" />
-      </svg>
-    ),
-  },
-  {
-    label: "USA",
-    href: "/usa",
-    icon: (
-      <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-        <path d="M12 21s-7-5.5-7-11a7 7 0 0 1 14 0c0 5.5-7 11-7 11z" />
-        <circle cx="12" cy="10" r="2.5" />
-      </svg>
-    ),
-  },
-  {
-    label: "UK",
-    href: "/uk",
-    icon: (
-      <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-        <path d="M12 21s-7-5.5-7-11a7 7 0 0 1 14 0c0 5.5-7 11-7 11z" />
-        <circle cx="12" cy="10" r="2.5" />
-      </svg>
-    ),
-  },
-  {
-    label: "Canada",
-    href: "/canada",
-    icon: (
-      <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-        <path d="M12 21s-7-5.5-7-11a7 7 0 0 1 14 0c0 5.5-7 11-7 11z" />
-        <circle cx="12" cy="10" r="2.5" />
-      </svg>
-    ),
-  },
-  {
-    label: "Australia",
-    href: "/australia",
-    icon: (
-      <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-        <path d="M12 21s-7-5.5-7-11a7 7 0 0 1 14 0c0 5.5-7 11-7 11z" />
-        <circle cx="12" cy="10" r="2.5" />
-      </svg>
-    ),
-  },
-  {
-    label: "Europe",
-    href: "/europe",
-    icon: (
-      <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-        <path d="M12 21s-7-5.5-7-11a7 7 0 0 1 14 0c0 5.5-7 11-7 11z" />
-        <circle cx="12" cy="10" r="2.5" />
-      </svg>
-    ),
-  },
-  {
-    label: "Asia",
-    href: "/asia",
-    icon: (
-      <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-        <path d="M12 21s-7-5.5-7-11a7 7 0 0 1 14 0c0 5.5-7 11-7 11z" />
-        <circle cx="12" cy="10" r="2.5" />
-      </svg>
-    ),
-  },
-  {
-    label: "Korea & Japan",
-    href: "/korea-japan",
-    icon: (
-      <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-        <path d="M12 21s-7-5.5-7-11a7 7 0 0 1 14 0c0 5.5-7 11-7 11z" />
-        <circle cx="12" cy="10" r="2.5" />
-      </svg>
-    ),
-  },
-  {
-    label: "Work Abroad",
-    href: "/work-abroad",
-    icon: (
-      <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-        <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" />
-      </svg>
-    ),
-  },
-  {
-    label: "Nepal",
-    href: "/nepal",
-    icon: (
-      <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-        <path d="M12 21s-7-5.5-7-11a7 7 0 0 1 14 0c0 5.5-7 11-7 11z" />
-        <circle cx="12" cy="10" r="2.5" />
-      </svg>
-    ),
-  },
-  {
-    label: "Pop Music",
-    href: "/popmusic",
-    icon: (
-      <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-        <path d="M9 18V5l12-2v13" />
-        <circle cx="6" cy="18" r="3" />
-        <circle cx="18" cy="16" r="3" />
-      </svg>
-    ),
-  },
-];
 
 export default async function HomePage() {
   // Latest job news — the front page lists the newest articles. View counts
@@ -167,49 +32,7 @@ export default async function HomePage() {
 
   return (
     <div>
-      {/* Hero — dark red, headline + globe + category pills */}
-      <section className="relative overflow-hidden bg-[#0a0a0a]">
-        <div aria-hidden className="absolute inset-0 bg-[radial-gradient(55%_60%_at_85%_0%,rgba(225,6,0,0.35),transparent_70%)]" />
-        <div aria-hidden className="absolute inset-0 bg-[radial-gradient(40%_40%_at_0%_100%,rgba(225,6,0,0.18),transparent_70%)]" />
-        <p aria-hidden className="absolute right-6 top-6 hidden text-sm font-medium tracking-wide text-white/60 lg:block">
-          Real Jobs <span className="mx-1 text-[#ff4d5e]">•</span> Real People <span className="mx-1 text-[#ff4d5e]">•</span> Global Opportunities
-        </p>
-        <div className="relative mx-auto max-w-7xl px-4 pb-14 pt-14 sm:px-6 sm:pb-20 sm:pt-16">
-          <div className="lg:grid lg:grid-cols-[1fr_460px] lg:items-center lg:gap-8">
-            <div>
-              <h1 className="max-w-3xl font-display text-[2.5rem] font-extrabold leading-[1.05] tracking-tight text-white sm:text-7xl">
-                Never miss an <span className="text-[#ff4d5e]">opportunity.</span>
-              </h1>
-              <p className="mt-4 max-w-xl text-base leading-relaxed text-[#c0c0c0]/90 sm:text-lg">
-                Latest job news, vacancies and career opportunities from around the world — all in one place.
-              </p>
-            </div>
-            <div aria-hidden className="hidden lg:block">
-              <HeroGlobe className="h-auto w-full" />
-            </div>
-          </div>
-
-          {/* Category pills — horizontal scroll on mobile */}
-          <div className="-mx-4 mt-8 flex gap-2 overflow-x-auto px-4 pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-            {CATEGORY_PILLS.map((p) => (
-              <Link
-                key={p.label}
-                href={p.href}
-                className={`flex shrink-0 items-center gap-1.5 rounded-full px-4 py-2.5 text-sm font-semibold transition ${
-                  p.label === "All"
-                    ? "bg-[#e10600] text-white shadow-lg shadow-red-950/40"
-                    : "border border-white/15 bg-white/10 text-white backdrop-blur-sm hover:bg-white/20"
-                }`}
-              >
-                {p.icon}
-                {p.label}
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Manual ad — leaderboard under the hero */}
+      {/* Manual ad — leaderboard at the top */}
       <div className="mx-auto max-w-7xl px-4 pt-8 sm:px-6">
         <ManualAdSlot slot="leaderboard" className="h-[90px] w-full" />
       </div>
@@ -228,28 +51,15 @@ export default async function HomePage() {
             {/* Latest articles — 3-column card grid */}
             <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {articles.map((a, i) => {
-                const images = articleImagesFor(a.slug);
                 return (
                   <Reveal key={a.slug} delay={Math.min(i, 5) * 60} className="h-full">
                     <Link
                       href={`/articles/${a.slug}`}
                       className="gx-lift group flex h-full flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white"
                     >
-                      {images ? (
-                        <img
-                          src={images[0]}
-                          alt=""
-                          loading="lazy"
-                          className="h-44 w-full object-cover"
-                        />
-                      ) : (
-                        <span className="flex h-44 items-center justify-center bg-emerald-50 font-display text-3xl font-extrabold text-emerald-700">
-                          {articleCategoryLabel(a.category).charAt(0)}
-                        </span>
-                      )}
                       <div className="flex flex-1 flex-col p-5">
                         <span className="text-xs text-slate-500">{formatDate(a.publishedAt)}</span>
-                        <p className="mt-2 font-display text-lg font-bold leading-snug text-slate-900 group-hover:text-emerald-800">
+                        <p className="mt-2 font-serif text-lg font-bold leading-snug text-slate-900 group-hover:text-emerald-800">
                           {a.titleEn}
                         </p>
                         <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-slate-600">

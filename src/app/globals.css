@@ -1,8 +1,9 @@
 @import "tailwindcss";
 
 @theme inline {
-  --font-sans: var(--font-geist-sans), system-ui, -apple-system, "Segoe UI", sans-serif;
-  --font-display: var(--font-jakarta), var(--font-geist-sans), system-ui, sans-serif;
+  --font-sans: var(--font-inter), system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: var(--font-inter), var(--font-sans), system-ui, sans-serif;
+  --font-serif: var(--font-source-serif), Georgia, "Times New Roman", serif;
 
   /* Brand palette: Charcoal Grey + Moonlit Silver + Signal Red.
      The emerald scale is remapped to Signal Red so every emerald-*
@@ -43,18 +44,19 @@
   border-color: rgba(240, 106, 94, 0.55);
 }
 
-/* Article body typography (HTML stored in the DB) */
+/* Article body typography (HTML stored in the DB) — James Clear style:
+   serif body text, clean sans headings, generous line spacing. */
 .gx-article {
-  font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-  font-size: 17px;
+  font-family: var(--font-serif);
+  font-size: 18px;
   font-weight: 400;
-  line-height: 1.5;
+  line-height: 1.7;
 }
 .gx-article p {
   margin: 0 0 1.5em;
 }
 .gx-article h2 {
-  font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font-family: var(--font-sans);
   font-size: 35px;
   font-weight: 700;
   line-height: 1.2;
@@ -62,7 +64,7 @@
   margin: 1.8em 0 20px;
 }
 .gx-article h3 {
-  font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font-family: var(--font-sans);
   font-size: 29px;
   font-weight: 700;
   line-height: 1.2;
@@ -123,22 +125,18 @@
 }
 /* Article title (H1) — GeneratePress match, article pages only */
 .gx-article-title {
-  font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font-family: var(--font-sans);
   font-size: 42px;
   font-weight: 700;
   line-height: 1.2;
   margin-bottom: 20px;
 }
 
-.gx-article-figure {
-  margin: 1.6em 0;
-}
-.gx-article-figure img {
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  object-fit: cover;
-  border-radius: 1rem;
-  border: 1px solid #e2e8f0;
+/* No images anywhere on the site: never render an image that arrives
+   inside article HTML (legacy bodies) or a figure block. */
+.gx-article img,
+.gx-article figure {
+  display: none !important;
 }
 
 html {
