@@ -5,23 +5,13 @@ import { usePathname } from "next/navigation";
 
 const TABS = [
   {
-    label: "Home",
+    label: "Jobs",
     href: "/",
     active: (p: string) => p === "/",
     icon: (active: boolean) => (
-      <svg className="h-6 w-6" viewBox="0 0 24 24" fill={active ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2" aria-hidden="true">
-        <path d="M3 10.5L12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z" />
-      </svg>
-    ),
-  },
-  {
-    label: "Search",
-    href: "/search",
-    active: (p: string) => p.startsWith("/search"),
-    icon: (active: boolean) => (
       <svg className="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-        <circle cx="11" cy="11" r="8" />
-        <path d="M21 21l-4.35-4.35" />
+        <rect x="2" y="7" width="20" height="14" rx="2" />
+        <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
       </svg>
     ),
   },
@@ -37,13 +27,25 @@ const TABS = [
     ),
   },
   {
-    label: "Explore",
-    href: "/explore",
-    active: (p: string) => p.startsWith("/explore"),
+    label: "Stories",
+    href: "/search",
+    active: (p: string) => p.startsWith("/search"),
     icon: (active: boolean) => (
       <svg className="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-        <circle cx="12" cy="12" r="10" />
-        <path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+        <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
+        <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
+      </svg>
+    ),
+  },
+  {
+    label: "Pop Music",
+    href: "/popmusic",
+    active: (p: string) => p.startsWith("/popmusic"),
+    icon: (active: boolean) => (
+      <svg className="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+        <path d="M9 18V5l12-2v13" />
+        <circle cx="6" cy="18" r="3" />
+        <circle cx="18" cy="16" r="3" />
       </svg>
     ),
   },
