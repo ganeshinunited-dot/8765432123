@@ -22,10 +22,11 @@ function formatDate(d: Date) {
 
 export default async function HomePage({ searchParams }: { searchParams: SearchParams }) {
   // Jobs only — the front page lists job articles (every category except
-  // pop-music), 20 per page, newest first.
+  // pop-music and tech-ai, which have their own sections), 20 per page,
+  // newest first.
   const params = await searchParams;
   const requestedPage = activePage(params);
-  const where = { category: { not: "pop-music" } };
+  const where = { category: { notIn: ["pop-music", "tech-ai"] } };
   const total = await db.article.count({ where });
   const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
   const page = Math.min(requestedPage, totalPages);
