@@ -3,7 +3,6 @@ import { db } from "@/lib/db";
 import { Reveal } from "@/components/ui/Reveal";
 import { NewsletterForm } from "@/components/NewsletterForm";
 import { SARKARI_JOBS, sarkariSlug } from "@/data/sarkariJobs";
-import { ManualAdSlot } from "@/components/ads/ManualAdSlot";
 
 export const revalidate = 60;
 
@@ -32,14 +31,9 @@ export default async function HomePage() {
 
   return (
     <div>
-      {/* Manual ad — leaderboard at the top */}
-      <div className="mx-auto max-w-7xl px-4 pt-8 sm:px-6">
-        <ManualAdSlot slot="leaderboard" className="h-[90px] w-full" />
-      </div>
-
       {/* Latest Job News */}
       <section className="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-12">
-        <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_300px] lg:gap-8">
+        <div>
           <div className="min-w-0">
             <div className="flex items-center justify-between gap-3">
               <h2 className="gx-h2 mt-0">Latest Articles</h2>
@@ -71,19 +65,7 @@ export default async function HomePage() {
                 );
               })}
             </div>
-
-            {/* Manual ad — in-feed banner under the grid */}
-            <div className="mt-6">
-              <ManualAdSlot slot="infeed-home" className="h-[90px] w-full" />
-            </div>
           </div>
-
-          {/* Sidebar — manual ad space (sticky on desktop) */}
-          <aside className="mt-10 lg:mt-0">
-            <div className="space-y-6 lg:sticky lg:top-6">
-              <ManualAdSlot slot="sidebar-home" className="h-[250px] w-full" />
-            </div>
-          </aside>
         </div>
       </section>
 
