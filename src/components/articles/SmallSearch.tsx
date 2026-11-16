@@ -1,8 +1,8 @@
-/** Small search bar — submits to the Stories (/search) page. Used on Jobs, News, Tech and category pages. */
-export function SmallSearch({ placeholder = "Search job news…" }: { placeholder?: string }) {
+/** Small search bar — submits to the Stories (/stories) page. Used on Jobs, News, Tech and category pages. */
+export function SmallSearch({ placeholder = "Search job news…", defaultValue = "" }: { placeholder?: string; defaultValue?: string }) {
   return (
     <form
-      action="/search"
+      action="/stories"
       method="get"
       role="search"
       className="flex max-w-md items-center rounded-full bg-white p-1 shadow-sm ring-1 ring-slate-200"
@@ -14,6 +14,7 @@ export function SmallSearch({ placeholder = "Search job news…" }: { placeholde
         id="small-search"
         name="search"
         type="search"
+        defaultValue={defaultValue}
         placeholder={placeholder}
         className="h-9 w-full flex-1 bg-transparent px-3 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none"
       />
