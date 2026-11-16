@@ -11,7 +11,7 @@ import { ManualAdSlot } from "@/components/ads/ManualAdSlot";
 export const revalidate = 60;
 
 function formatDate(d: Date) {
-  return new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "short", year: "numeric" }).format(d);
+  return new Intl.DateTimeFormat("en-US", { month: "long", day: "numeric", year: "numeric" }).format(d);
 }
 
 const CATEGORY_PILLS: { label: string; href: string; icon: React.ReactNode }[] = [
@@ -219,53 +219,15 @@ export default async function HomePage() {
         <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_300px] lg:gap-8">
           <div className="min-w-0">
             <div className="flex items-center justify-between gap-3">
-              <h2 className="gx-h2 mt-0">Latest Job News</h2>
+              <h2 className="gx-h2 mt-0">Latest Articles</h2>
               <Link href="/articles" className="shrink-0 text-sm font-bold text-emerald-700 hover:underline">
                 View All <span aria-hidden="true">→</span>
               </Link>
             </div>
 
-            {/* Featured — the newest article, big card */}
-            {articles[0] && (
-              <Reveal>
-                <Link
-                  href={`/articles/${articles[0].slug}`}
-                  className="gx-lift group mt-6 block overflow-hidden rounded-2xl border border-slate-200 bg-white"
-                >
-                  {articleImagesFor(articles[0].slug) ? (
-                    <img
-                      src={articleImagesFor(articles[0].slug)![0]}
-                      alt=""
-                      loading="lazy"
-                      className="h-56 w-full object-cover sm:h-72"
-                    />
-                  ) : null}
-                  <div className="p-5 sm:p-6">
-                    <div className="flex flex-wrap items-center gap-2">
-                      <span className="rounded-full bg-emerald-50 px-2.5 py-0.5 text-xs font-semibold text-emerald-700">
-                        {articleCategoryLabel(articles[0].category)}
-                      </span>
-                      {articles[0].country && (
-                        <span className="rounded-full bg-slate-100 px-2.5 py-0.5 text-xs font-medium text-slate-600">
-                          {articles[0].country}
-                        </span>
-                      )}
-                      <span className="text-xs text-slate-500">{formatDate(articles[0].publishedAt)}</span>
-                    </div>
-                    <p className="mt-3 font-display text-xl font-bold leading-snug text-slate-900 group-hover:text-emerald-800 sm:text-2xl">
-                      {articles[0].titleEn}
-                    </p>
-                    <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-slate-600">
-                      {articles[0].excerptEn}
-                    </p>
-                  </div>
-                </Link>
-              </Reveal>
-            )}
-
-            {/* The rest — neat grid on desktop */}
-            <div className="mt-6 grid gap-4 lg:grid-cols-2">
-              {articles.slice(1).map((a, i) => {
+            {/* Latest articles — 3-column card grid */}
+            <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {articles.map((a, i) => {
                 const images = articleImagesFor(a.slug);
                 return (
                   <Reveal key={a.slug} delay={Math.min(i, 5) * 60} className="h-full">
@@ -278,26 +240,21 @@ export default async function HomePage() {
                           src={images[0]}
                           alt=""
                           loading="lazy"
-                          className="h-36 w-full object-cover"
+                          className="h-44 w-full object-cover"
                         />
                       ) : (
-                        <span className="flex h-36 items-center justify-center bg-emerald-50 font-display text-3xl font-extrabold text-emerald-700">
+                        <span className="flex h-44 items-center justify-center bg-emerald-50 font-display text-3xl font-extrabold text-emerald-700">
                           {articleCategoryLabel(a.category).charAt(0)}
                         </span>
                       )}
-                      <div className="flex flex-1 flex-col p-4">
-                        <p className="font-display text-[15px] font-bold leading-snug text-slate-900 group-hover:text-emerald-800">
+                      <div className="flex flex-1 flex-col p-5">
+                        <span className="text-xs text-slate-500">{formatDate(a.publishedAt)}</span>
+                        <p className="mt-2 font-display text-lg font-bold leading-snug text-slate-900 group-hover:text-emerald-800">
                           {a.titleEn}
                         </p>
-                        <p className="mt-1 text-sm text-slate-600">
-                          {a.country ?? articleCategoryLabel(a.category)}
+                        <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-slate-600">
+                          {a.excerptEn}
                         </p>
-                        <div className="mt-auto flex items-center justify-between gap-2 pt-3">
-                          <span className="rounded-full bg-emerald-50 px-2.5 py-0.5 text-xs font-semibold text-emerald-700">
-                            {articleCategoryLabel(a.category)}
-                          </span>
-                          <span className="shrink-0 text-xs text-slate-500">{formatDate(a.publishedAt)}</span>
-                        </div>
                       </div>
                     </Link>
                   </Reveal>
