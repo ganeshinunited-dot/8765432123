@@ -5,6 +5,14 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       {
+        // Stories tab moved from /search to /stories (2026-11-17) — old
+        // /search links land on /stories, query string carried over.
+        // Temporary (307) so a future URL change is not stuck in caches.
+        source: "/search",
+        destination: "/stories",
+        permanent: false,
+      },
+      {
         // Duplicate merged 2026-10-19: Oct 18 Germany-France car-deal story
         // consolidated into the Oct 19 canonical article.
         source:
