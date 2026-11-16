@@ -54,7 +54,7 @@ export default async function HomePage({ searchParams }: { searchParams: SearchP
         <div>
           <div className="min-w-0">
             <div className="mt-1">
-              <SmallSearch />
+              <SmallSearch scope="jobs" />
             </div>
             <div className="mt-6 flex items-center justify-between gap-3">
               <h2 className="gx-h2 mt-0">Latest Jobs</h2>

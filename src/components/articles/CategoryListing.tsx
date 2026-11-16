@@ -54,7 +54,7 @@ export default async function CategoryListing({
       <h1 className="gx-h2 mt-2">{label}</h1>
       <p className="gx-sub mt-2 max-w-2xl">{subtitle}</p>
       <div className="mt-5">
-        <SmallSearch />
+        <SmallSearch scope={slug} />
       </div>
       <ArticleCards
         articles={articles}

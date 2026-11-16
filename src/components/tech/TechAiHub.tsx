@@ -40,7 +40,7 @@ export default async function TechAiHub({ searchParams }: { searchParams: Search
       <h1 className="gx-h2 mt-2">Tech &amp; AI</h1>
       <p className="gx-sub mt-2 max-w-2xl">Tech and AI news — new models, launches, outages and the companies behind them, with the newest stories first.</p>
       <div className="mt-5">
-        <SmallSearch />
+        <SmallSearch scope="tech-ai" />
       </div>
       <ArticleCards
         articles={articles}

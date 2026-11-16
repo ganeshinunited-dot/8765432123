@@ -70,7 +70,7 @@ export default async function ArticlesPage({ searchParams }: { searchParams: Sea
       <h1 className="gx-h2 mt-2">News</h1>
       <p className="gx-sub mt-2 max-w-2xl">Fresh news stories from around the world.</p>
       <div className="mt-5">
-        <SmallSearch />
+        <SmallSearch scope="all" placeholder="Search news…" />
       </div>
       <ArticleCards
         articles={articles}
