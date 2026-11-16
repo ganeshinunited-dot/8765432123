@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { Inter, Source_Serif_4 } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 import { ToastProvider } from "@/components/ui/Toast";
@@ -8,9 +7,6 @@ import { Footer } from "@/components/layout/Footer";
 import { LogoIntro } from "@/components/layout/LogoIntro";
 import { BottomNav } from "@/components/layout/BottomNav";
 import GoogleAnalytics from "@/components/analytics/GoogleAnalytics";
-
-const inter = Inter({ variable: "--font-inter", subsets: ["latin"], weight: ["400", "500", "600", "700", "800"] });
-const sourceSerif = Source_Serif_4({ variable: "--font-source-serif", subsets: ["latin"], weight: ["400", "600", "700"] });
 
 const siteUrl = process.env.NEXT_PUBLIC_APP_URL || "https://growentix.cloud";
 
@@ -43,7 +39,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${inter.variable} ${sourceSerif.variable} h-full antialiased`}>
+    <html lang="en" className="h-full antialiased">
       <body className="flex min-h-full flex-col bg-white text-slate-900">
         <GoogleAnalytics />
         {/* Google AdSense - site-wide verification script (ca-pub-4375599901125250) */}
