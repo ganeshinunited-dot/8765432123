@@ -58,7 +58,7 @@ export default async function CategoryListing({
       </div>
       <ArticleCards
         articles={articles}
-        categories={[{ slug, label }]}
+        categories={[]}
         basePath={`/${slug}`}
         allLabel="All"
         variant="grid"

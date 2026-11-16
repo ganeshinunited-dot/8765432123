@@ -60,27 +60,29 @@ export function ArticleCards({
 
   return (
     <>
-      <div className="mt-6 flex flex-wrap gap-2">
-        <Link
-          href={basePath}
-          className={`rounded-full px-4 py-2 text-sm font-medium transition ${
-            !active ? "bg-emerald-600 text-white" : "border border-slate-200 bg-white text-slate-700 hover:border-emerald-300"
-          }`}
-        >
-          {allLabel}
-        </Link>
-        {categories.map((c) => (
+      {categories.length > 0 && (
+        <div className="mt-6 flex flex-wrap gap-2">
           <Link
-            key={c.slug}
-            href={`${basePath}?category=${c.slug}`}
+            href={basePath}
             className={`rounded-full px-4 py-2 text-sm font-medium transition ${
-              active === c.slug ? "bg-emerald-600 text-white" : "border border-slate-200 bg-white text-slate-700 hover:border-emerald-300"
+              !active ? "bg-emerald-600 text-white" : "border border-slate-200 bg-white text-slate-700 hover:border-emerald-300"
             }`}
           >
-            {c.label}
+            {allLabel}
           </Link>
-        ))}
-      </div>
+          {categories.map((c) => (
+            <Link
+              key={c.slug}
+              href={`${basePath}?category=${c.slug}`}
+              className={`rounded-full px-4 py-2 text-sm font-medium transition ${
+                active === c.slug ? "bg-emerald-600 text-white" : "border border-slate-200 bg-white text-slate-700 hover:border-emerald-300"
+              }`}
+            >
+              {c.label}
+            </Link>
+          ))}
+        </div>
+      )}
 
       {filtered.length === 0 ? (
         <div className="mt-10 rounded-2xl border border-slate-200 bg-white p-10 text-center">

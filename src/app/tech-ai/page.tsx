@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import TechAiHub from "@/components/tech/TechAiHub";
 
-export const revalidate = 3600;
-
 export const metadata: Metadata = {
   title: "Tech & AI Job News | Growentix",
   description:
@@ -16,6 +14,6 @@ export const metadata: Metadata = {
   },
 };
 
-export default function Page() {
-  return <TechAiHub />;
+export default function Page({ searchParams }: { searchParams: Promise<{ page?: string | string[] }> }) {
+  return <TechAiHub searchParams={searchParams} />;
 }

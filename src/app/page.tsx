@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { db } from "@/lib/db";
-import { Reveal } from "@/components/ui/Reveal";
 import { NewsletterForm } from "@/components/NewsletterForm";
 import { SmallSearch } from "@/components/articles/SmallSearch";
 import { SARKARI_JOBS, sarkariSlug } from "@/data/sarkariJobs";
@@ -22,13 +21,16 @@ function formatDate(d: Date) {
 
 
 export default async function HomePage({ searchParams }: { searchParams: SearchParams }) {
-  // All job news — the front page lists every article, 20 per page, newest first.
+  // Jobs only — the front page lists job articles (every category except
+  // pop-music), 20 per page, newest first.
   const params = await searchParams;
   const requestedPage = activePage(params);
-  const total = await db.article.count();
+  const where = { category: { not: "pop-music" } };
+  const total = await db.article.count({ where });
   const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
   const page = Math.min(requestedPage, totalPages);
   const articles = await db.article.findMany({
+    where,
     orderBy: { publishedAt: "desc" },
     skip: (page - 1) * PAGE_SIZE,
     take: PAGE_SIZE,
@@ -54,7 +56,7 @@ export default async function HomePage({ searchParams }: { searchParams: SearchP
               <SmallSearch />
             </div>
             <div className="mt-6 flex items-center justify-between gap-3">
-              <h2 className="gx-h2 mt-0">Latest Articles</h2>
+              <h2 className="gx-h2 mt-0">Latest Jobs</h2>
               <Link href="/articles" className="shrink-0 text-sm font-bold text-emerald-700 hover:underline">
                 View All <span aria-hidden="true">→</span>
               </Link>
@@ -62,24 +64,23 @@ export default async function HomePage({ searchParams }: { searchParams: SearchP
 
             {/* Latest articles — 3-column card grid */}
             <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {articles.map((a, i) => {
+              {articles.map((a) => {
                 return (
-                  <Reveal key={a.slug} delay={Math.min(i, 5) * 60} className="h-full">
-                    <Link
-                      href={`/articles/${a.slug}`}
-                      className="gx-lift group flex h-full flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white"
-                    >
-                      <div className="flex flex-1 flex-col p-5">
-                        <span className="text-xs text-slate-500">{formatDate(a.publishedAt)}</span>
-                        <p className="mt-2 font-serif text-lg font-bold leading-snug text-slate-900 group-hover:text-emerald-800">
-                          {a.titleEn}
-                        </p>
-                        <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-slate-600">
-                          {a.excerptEn}
-                        </p>
-                      </div>
-                    </Link>
-                  </Reveal>
+                  <Link
+                    key={a.slug}
+                    href={`/articles/${a.slug}`}
+                    className="gx-lift group flex h-full flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white"
+                  >
+                    <div className="flex flex-1 flex-col p-5">
+                      <span className="text-xs text-slate-500">{formatDate(a.publishedAt)}</span>
+                      <p className="mt-2 font-serif text-lg font-bold leading-snug text-slate-900 group-hover:text-emerald-800">
+                        {a.titleEn}
+                      </p>
+                      <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-slate-600">
+                        {a.excerptEn}
+                      </p>
+                    </div>
+                  </Link>
                 );
               })}
             </div>
@@ -115,18 +116,16 @@ export default async function HomePage({ searchParams }: { searchParams: SearchP
             <Link href="/sarkari-jobs" className="rounded-full border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 hover:border-emerald-500 hover:text-emerald-800">View all notices →</Link>
           </div>
           <div className="mt-7 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {latestNotices.map((j, i) => {
+            {latestNotices.map((j) => {
               const left = daysLeft(j.deadline);
               const badge = left <= 0 ? "Closing today" : left === 1 ? "1 day left" : `${left} days left`;
               return (
-                <Reveal key={j.id} delay={Math.min(i, 5) * 60} className="h-full">
-                  <Link href={`/sarkari-jobs/${sarkariSlug(j)}`} className="gx-lift group block h-full rounded-2xl border border-slate-200 bg-white p-5">
-                    <span className="inline-flex items-center rounded-full bg-amber-100 px-2.5 py-0.5 text-xs font-bold uppercase tracking-wide text-amber-900">{badge}</span>
-                    <p className="mt-3 font-display text-[15px] font-bold leading-snug text-slate-900 group-hover:text-emerald-800">{j.postTitle}</p>
-                    <p className="mt-1 text-sm text-slate-600">{j.organization}{j.location ? ` · ${j.location}` : ""}</p>
-                    <p className="mt-3 text-xs font-semibold text-emerald-700">Full details →</p>
-                  </Link>
-                </Reveal>
+                <Link key={j.id} href={`/sarkari-jobs/${sarkariSlug(j)}`} className="gx-lift group block h-full rounded-2xl border border-slate-200 bg-white p-5">
+                  <span className="inline-flex items-center rounded-full bg-amber-100 px-2.5 py-0.5 text-xs font-bold uppercase tracking-wide text-amber-900">{badge}</span>
+                  <p className="mt-3 font-display text-[15px] font-bold leading-snug text-slate-900 group-hover:text-emerald-800">{j.postTitle}</p>
+                  <p className="mt-1 text-sm text-slate-600">{j.organization}{j.location ? ` · ${j.location}` : ""}</p>
+                  <p className="mt-3 text-xs font-semibold text-emerald-700">Full details →</p>
+                </Link>
               );
             })}
           </div>

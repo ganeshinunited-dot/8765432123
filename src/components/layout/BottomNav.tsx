@@ -18,7 +18,7 @@ const TABS = [
   {
     label: "News",
     href: "/articles",
-    active: (p: string) => p.startsWith("/articles"),
+    active: (p: string) => p === "/articles",
     icon: (active: boolean) => (
       <svg className="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
         <path d="M4 19V5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2zm0 0a2 2 0 0 0 2 2h13" />

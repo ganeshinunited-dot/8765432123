@@ -1,90 +1,64 @@
-import Link from "next/link";
 import { db } from "@/lib/db";
+import { ArticleCards } from "@/components/articles/ArticleCards";
 import { SmallSearch } from "@/components/articles/SmallSearch";
 
 /** Word-boundary match so "IT" never matches "with" and "app" never matches "apple". */
 const TECH_PATTERN =
   /\b(ai|artificial intelligence|tech|technology|software|developer|programmer|programming|coding|machine learning|robot|semiconductor|chip|cloud|cyber|startup|digital|data|automation)\b/i;
 
-function formatDate(iso: string): string {
-  return new Intl.DateTimeFormat("en-GB", {
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-  }).format(new Date(iso));
+const PAGE_SIZE = 20;
+
+type SearchParams = Promise<{ page?: string | string[] }>;
+
+function firstParam(params: string | string[] | undefined): string {
+  return Array.isArray(params) ? params[0] ?? "" : params ?? "";
 }
 
 /**
- * Tech & AI hub — server-rendered so Google indexes real article links, not an
- * empty shell. Lists recent articles whose title or excerpt matches tech/AI
- * keywords, newest first.
+ * Tech & AI hub — same body as every other section (eyebrow + heading +
+ * small search + article grid + pager) so all tabs feel identical.
+ * Server-rendered so Google indexes real article links, not an empty shell.
+ * Lists recent articles whose title or excerpt matches tech/AI keywords,
+ * newest first, paginated 20 per page from the newest 200 rows.
  */
-export default async function TechAiHub() {
+export default async function TechAiHub({ searchParams }: { searchParams: SearchParams }) {
+  const params = await searchParams;
+  const requestedPage = parseInt(firstParam(params.page), 10);
+  const page = Number.isFinite(requestedPage) && requestedPage > 0 ? requestedPage : 1;
   const recent = await db.article.findMany({
     orderBy: { publishedAt: "desc" },
-    take: 80,
-    select: { slug: true, titleEn: true, excerptEn: true, publishedAt: true, category: true },
+    take: 200,
+    select: { slug: true, titleEn: true, excerptEn: true, publishedAt: true, category: true, country: true },
   });
-  const articles = recent
-    .filter(
-      (a) =>
-        a.category !== "taylor-swift" &&
-        (TECH_PATTERN.test(a.titleEn) || TECH_PATTERN.test(a.excerptEn))
-    )
-    .slice(0, 24);
+  const matched = recent.filter(
+    (a) =>
+      a.category !== "pop-music" &&
+      (TECH_PATTERN.test(a.titleEn) || TECH_PATTERN.test(a.excerptEn))
+  );
+  const totalPages = Math.max(1, Math.ceil(matched.length / PAGE_SIZE));
+  const safePage = Math.min(page, totalPages);
+  const articles = matched
+    .slice((safePage - 1) * PAGE_SIZE, safePage * PAGE_SIZE)
+    .map((a) => ({ ...a, publishedAt: a.publishedAt.toISOString() }));
 
   return (
-    <main className="mx-auto max-w-4xl px-4 py-8 sm:px-6">
-      <h1 className="text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">
-        Tech &amp; AI Job News
-      </h1>
-      <p className="mt-2 text-base leading-relaxed text-slate-600">
-        Tech and AI job news — hiring, skills and remote tech roles from around the world, with the
-        newest stories first.
-      </p>
+    <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6">
+      <p className="gx-eyebrow">Tech &amp; AI</p>
+      <h1 className="gx-h2 mt-2">Tech &amp; AI</h1>
+      <p className="gx-sub mt-2 max-w-2xl">Tech and AI job news — hiring, skills and remote tech roles from around the world, with the newest stories first.</p>
       <div className="mt-5">
         <SmallSearch />
       </div>
-
-      {articles.length > 0 ? (
-        <ul className="mt-8 space-y-4">
-          {articles.map((a) => {
-            return (
-              <li key={a.slug} className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
-                <Link href={`/articles/${a.slug}`} className="block">
-                  <span className="block p-4">
-                    <span className="text-xs text-slate-500">
-                      {formatDate(a.publishedAt.toISOString())}
-                    </span>
-                    <span className="mt-1 block font-serif text-lg font-bold text-slate-900 hover:underline">
-                      {a.titleEn}
-                    </span>
-                    {a.excerptEn && (
-                      <span className="mt-1 block text-sm leading-relaxed text-slate-600">
-                        {a.excerptEn}
-                      </span>
-                    )}
-                  </span>
-                </Link>
-              </li>
-            );
-          })}
-        </ul>
-      ) : (
-        <p className="mt-8 text-base text-slate-600">
-          No tech and AI stories yet —{" "}
-          <Link href="/articles" className="font-semibold text-emerald-700 hover:underline">
-            see all job news
-          </Link>
-          .
-        </p>
-      )}
-
-      <p className="mt-10 border-t border-slate-200 pt-6 text-sm text-slate-500">
-        <Link href="/articles" className="font-semibold text-emerald-700 hover:underline">
-          All job news
-        </Link>
-      </p>
-    </main>
+      <ArticleCards
+        articles={articles}
+        categories={[]}
+        basePath="/tech-ai"
+        allLabel="All"
+        variant="grid"
+        active=""
+        page={safePage}
+        totalPages={totalPages}
+      />
+    </div>
   );
 }
