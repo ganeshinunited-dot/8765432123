@@ -7,6 +7,7 @@ const SCOPE_PLACEHOLDERS: Record<string, string> = {
   stories: "Search stories…",
   "tech-ai": "Search tech news…",
   "pop-music": "Search pop music…",
+  news: "Search news…",
 };
 
 /**

@@ -34,6 +34,7 @@ const SCOPE_SUBTITLES: Record<string, string> = {
   stories: "Search stories from around the world.",
   "tech-ai": "Search tech and AI news from around the world.",
   "pop-music": "Search pop music stories from around the world.",
+  news: "Search news stories from around the world.",
 };
 
 const SCOPE_HINTS: Record<string, string> = {
@@ -42,12 +43,14 @@ const SCOPE_HINTS: Record<string, string> = {
   stories: "stories",
   "tech-ai": "tech and AI news",
   "pop-music": "pop music stories",
+  news: "news stories",
 };
 
 const SCOPE_SUGGESTIONS: Record<string, string[]> = {
   stories: ["Taylor Swift", "AI", "Grammy"],
   "tech-ai": ["AI", "ChatGPT", "Gemini"],
   "pop-music": ["Taylor Swift", "Grammy", "Coachella"],
+  news: ["Nepal", "World", "Politics"],
 };
 const DEFAULT_SUGGESTIONS = ["AI jobs", "Korea", "Gulf"];
 
@@ -64,7 +67,7 @@ export default async function StoriesPage({
     scope === "all"
       ? undefined
       : scope === "jobs"
-        ? { category: { notIn: ["pop-music", "tech-ai"] } }
+        ? { category: { notIn: ["pop-music", "tech-ai", "news"] } }
         : scope === "stories"
           ? { category: { in: ["pop-music", "tech-ai"] } }
           : { category: scope };

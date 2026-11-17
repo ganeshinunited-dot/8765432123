@@ -13,17 +13,20 @@ function firstParam(params: string | string[] | undefined): string {
 /**
  * Shared listing for the clean category pages (/nepal, /gulf, /popmusic ...).
  * The route fixes the category, so the filter row shows only that category;
- * pagination reads ?page= like the /articles page.
+ * pagination reads ?page= like the /articles page. basePath is the route's
+ * own URL when it differs from the slug (e.g. /articles serves "news").
  */
 export default async function CategoryListing({
   slug,
   label,
   subtitle,
+  basePath,
   searchParams,
 }: {
   slug: string;
   label: string;
   subtitle: string;
+  basePath?: string;
   searchParams: SearchParams;
 }) {
   const params = await searchParams;
@@ -59,7 +62,7 @@ export default async function CategoryListing({
       <ArticleCards
         articles={articles}
         categories={[]}
-        basePath={`/${slug}`}
+        basePath={basePath ?? `/${slug}`}
         allLabel="All"
         variant="grid"
         active={slug}
