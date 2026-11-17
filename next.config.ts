@@ -34,33 +34,33 @@ const nextConfig: NextConfig = {
       // vacancy published twice under two slugs. The older slug 301s to
       // the newer one; no DB rows are deleted.
       {
-        // RRB NTPC UG: 1,688 vacancies, same notice.
+        // RRB NTPC Undergraduate: 1,688 vacancies, same notice.
         source:
-          "/articles/rrb-ntpc-ug-vacancy-2026-1688-posts-eligibility-dates-20261104",
+          "/articles/rrb-ntpc-undergraduate-1688-posts-20261104",
         destination:
-          "/articles/rrb-ntpc-ug-1688-vacancies-apply-by-15-december-20261109",
+          "/articles/rrb-ntpc-undergraduate-1688-posts-20261109",
         permanent: true,
       },
       {
         // Indian Bank Apprentice: 1,500 posts, same intake.
         source:
-          "/articles/indian-bank-apprentice-2026-1500-vacancies-eligibility-fee-20261104",
+          "/articles/indian-bank-apprentice-1500-posts-20261104",
         destination:
-          "/articles/indian-bank-apprentice-1500-posts-apply-by-24-november-20261106",
+          "/articles/indian-bank-apprentice-1500-posts-20261106",
         permanent: true,
       },
       {
-        // NICL Assistant: 200 posts, same intake.
+        // NICL Graduate Apprentice: 200 posts, same intake.
         source:
-          "/articles/nicl-assistant-recruitment-2026-200-posts-eligibility-fee-20261104",
+          "/articles/nicl-graduate-apprentice-200-posts-20261104",
         destination:
-          "/articles/nicl-assistant-200-posts-apply-by-1-december-20261106",
+          "/articles/nicl-graduate-apprentice-200-posts-20261106",
         permanent: true,
       },
       {
-        // RRC Central Railway Apprentice: 2,861 posts, same intake.
+        // RRC Central Railway Act Apprentice: 2,861 posts, same intake.
         source:
-          "/articles/rrc-central-railway-apprentice-2861-posts-apply-by-12-december-20261104",
+          "/articles/rrc-central-railway-act-apprentice-2861-posts-20261104",
         destination:
           "/articles/rrc-central-railway-act-apprentice-2861-posts-20261111",
         permanent: true,
