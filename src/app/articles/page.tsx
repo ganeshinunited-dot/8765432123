@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { CategoryListing } from "@/components/articles/CategoryListing";
+import CategoryListing from "@/components/articles/CategoryListing";
 
 type SearchParams = Promise<{ page?: string | string[] }>;
 
