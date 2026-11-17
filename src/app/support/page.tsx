@@ -7,6 +7,7 @@ export const revalidate = 300;
 export const metadata: Metadata = {
   title: "Help & Support",
   description: "Ask the Growentix support assistant how to apply, post jobs, verify your company, manage CVs and safety.",
+  alternates: { canonical: "https://growentix.cloud/support" },
 };
 
 const FAQS = [

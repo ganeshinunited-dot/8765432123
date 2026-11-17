@@ -5,6 +5,7 @@ export const revalidate = 300;
 export const metadata: Metadata = {
   title: "Privacy Policy",
   description: "How Growentix collects, uses, and protects your personal information.",
+  alternates: { canonical: "https://growentix.cloud/privacy" },
 };
 
 export default function PrivacyPage() {

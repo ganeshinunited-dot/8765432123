@@ -17,7 +17,13 @@ export default async function sitemap() {
     changeFrequency: "weekly" as const, priority: 0.8,
   }));
 
-  const sarkariPages = SARKARI_JOBS.map((j) => ({
+  // Expired legacy notices leave the sitemap (same deadline rule as the
+  // homepage live count, Asia/Kathmandu date). sj-112/sj-113 are two
+  // distinct posts (5th vs 4th level facilitator, same deadline) — both
+  // expire out through this filter, so no separate dedupe is needed.
+  const todayNpt = new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Kathmandu", year: "numeric", month: "2-digit", day: "2-digit" }).format(new Date());
+  const liveSarkariJobs = SARKARI_JOBS.filter((j) => j.deadline >= todayNpt);
+  const sarkariPages = liveSarkariJobs.map((j) => ({
     url: `${base}/sarkari-jobs/${sarkariSlug(j)}`, lastModified: new Date(SARKARI_UPDATED),
     changeFrequency: "weekly" as const, priority: 0.8,
   }));

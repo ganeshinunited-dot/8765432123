@@ -12,6 +12,12 @@ export interface ArticleData {
   sources: string[];
   videos: { title: string; url: string; videoId: string }[];
   publishedAt: string;
+  /** True when a job post's apply-by date has passed (SEO audit fix). */
+  closed?: boolean;
+  /** ISO apply-by date (YYYY-MM-DD) when closed, else null. */
+  closedDeadline?: string | null;
+  /** Same-section stories, newest first (SEO audit fix). */
+  related?: { slug: string; titleEn: string; excerptEn: string; publishedAt: string }[];
 }
 
 function formatDate(iso: string): string {
@@ -57,6 +63,17 @@ export function ArticleView({ article }: { article: ArticleData }) {
         {article.titleEn}
       </h1>
 
+      {article.closed && (
+        <div className="mt-6 rounded-xl border border-slate-300 bg-slate-100 p-4 text-sm text-slate-700">
+          This vacancy has closed — the application deadline
+          {article.closedDeadline ? ` (${formatDate(article.closedDeadline)})` : ""} has passed.
+          The details below are kept for reference.{" "}
+          <a href="/jobs" className="font-semibold text-emerald-700 hover:underline">
+            Browse current jobs →
+          </a>
+        </div>
+      )}
+
       <div
         lang="en"
         className="gx-article mt-6 max-w-none text-slate-700"
@@ -89,6 +106,25 @@ export function ArticleView({ article }: { article: ArticleData }) {
             );
           })}
         </p>
+      )}
+
+      {article.related && article.related.length > 0 && (
+        <section className="mt-10 border-t border-slate-200 pt-8">
+          <h2 className="gx-h2 mt-0">Related stories</h2>
+          <div className="mt-5 grid gap-4 sm:grid-cols-2">
+            {article.related.map((r) => (
+              <a
+                key={r.slug}
+                href={`/articles/${r.slug}`}
+                className="block rounded-xl border border-slate-200 p-4 transition hover:border-emerald-600 hover:shadow-sm"
+              >
+                <span className="text-xs text-slate-500">{formatDate(r.publishedAt)}</span>
+                <p className="mt-1 font-semibold leading-snug text-slate-900">{r.titleEn}</p>
+                <p className="mt-1 text-sm leading-relaxed text-slate-600">{r.excerptEn}</p>
+              </a>
+            ))}
+          </div>
+        </section>
       )}
     </article>
   );

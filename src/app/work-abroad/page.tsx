@@ -9,12 +9,12 @@ export async function generateMetadata({ searchParams }: { searchParams: SearchP
   const params = await searchParams;
   const page = parseInt(Array.isArray(params.page) ? params.page[0] ?? "1" : params.page ?? "1", 10);
   return {
-    title: "Work Abroad | Growentix",
-    description: "Work abroad opportunities from around the world, newest first.",
+    title: "Work Abroad",
+    description: "Work abroad opportunities from around the world — visas, salaries and deadlines. Newest overseas job news first, apply before the last date.",
     alternates: { canonical: "https://growentix.cloud/work-abroad" },
     openGraph: {
       title: "Work Abroad | Growentix",
-      description: "Work abroad opportunities from around the world, newest first.",
+      description: "Work abroad opportunities from around the world — visas, salaries and deadlines. Newest overseas job news first, apply before the last date.",
       url: "https://growentix.cloud/work-abroad",
     },
     ...(Number.isFinite(page) && page > 1 ? { robots: { index: false, follow: true } } : {}),

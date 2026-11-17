@@ -6,6 +6,7 @@ export const metadata: Metadata = {
   title: "Government Jobs in Nepal | Vacancy Notices",
   description:
     "Current government vacancy notices in Nepal — PSC, security forces, public banks, hospitals, local levels. Informational listings with official notice links.",
+  alternates: { canonical: "https://growentix.cloud/sarkari-jobs" },
 };
 
 export default function SarkariJobsPage() {

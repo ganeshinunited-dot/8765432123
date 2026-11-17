@@ -9,12 +9,12 @@ export async function generateMetadata({ searchParams }: { searchParams: SearchP
   const params = await searchParams;
   const page = parseInt(Array.isArray(params.page) ? params.page[0] ?? "1" : params.page ?? "1", 10);
   return {
-    title: "Asia Jobs | Growentix",
-    description: "Asia job news — India, government vacancies and regional opportunities, newest first.",
+    title: "Asia Jobs",
+    description: "Asia job news — India government vacancies, Gulf-style overseas roles and regional opportunities. Newest Asia jobs first, with deadlines.",
     alternates: { canonical: "https://growentix.cloud/asia" },
     openGraph: {
       title: "Asia Jobs | Growentix",
-      description: "Asia job news — India, government vacancies and regional opportunities, newest first.",
+      description: "Asia job news — India government vacancies, Gulf-style overseas roles and regional opportunities. Newest Asia jobs first, with deadlines.",
       url: "https://growentix.cloud/asia",
     },
     ...(Number.isFinite(page) && page > 1 ? { robots: { index: false, follow: true } } : {}),

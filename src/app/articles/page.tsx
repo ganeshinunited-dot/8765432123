@@ -14,8 +14,8 @@ export async function generateMetadata({ searchParams }: { searchParams: SearchP
   const page = parseInt(Array.isArray(params.page) ? params.page[0] ?? "" : params.page ?? "", 10);
   const country = Array.isArray(params.country) ? params.country[0] ?? "" : params.country ?? "";
   return {
-    title: "News | Growentix",
-    description: "Fresh news stories from around the world.",
+    title: "News",
+    description: "Breaking international news — world politics, business, sport and culture. The biggest stories and the people behind them, updated daily.",
     alternates: { canonical: "https://growentix.cloud/articles" },
     // Filtered (?country=) and paged views are noindex, follow — same rule
     // as the Explore page — so only the unfiltered first page is indexed.

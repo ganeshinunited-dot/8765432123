@@ -21,9 +21,11 @@ export async function generateMetadata({ searchParams }: { searchParams: SearchP
   const params = await searchParams;
   const category = firstParam(params.category);
   const valid = JOB_ARTICLE_CATEGORIES.some((c) => c.slug === category);
+  const page = parseInt(firstParam(params.page), 10);
   // A filtered (?category=) Jobs view is noindex, follow — same rule as
-  // Explore — so only the unfiltered first page is indexed.
-  return valid ? { robots: { index: false, follow: true } } : {};
+  // Explore — so only the unfiltered first page is indexed. Paged views
+  // (?page=2+) are noindex too, matching /articles, /popmusic and /usa.
+  return valid || (Number.isFinite(page) && page > 1) ? { robots: { index: false, follow: true } } : {};
 }
 
 function activePage(params: { page?: string | string[] }): number {
@@ -84,7 +86,7 @@ export default async function HomePage({ searchParams }: { searchParams: SearchP
               <SmallSearch scope="jobs" />
             </div>
             <div className="mt-6 flex items-center justify-between gap-3">
-              <h2 className="gx-h2 mt-0">Latest Jobs</h2>
+              <h1 className="gx-h2 mt-0">Latest Jobs</h1>
               <Link href="/articles" className="shrink-0 text-sm font-bold text-emerald-700 hover:underline">
                 View All <span aria-hidden="true">→</span>
               </Link>

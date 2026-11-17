@@ -6,7 +6,7 @@ import { Card } from "@/components/ui/primitives";
 import { CourseCarousel } from "@/components/courses/CourseCarousel";
 import { CourseCard, type CarouselCourse } from "@/components/courses/CourseCard";
 
-export const metadata: Metadata = { title: "Courses", description: "Free and paid courses for Nepali students on Growentix." };
+export const metadata: Metadata = { title: "Courses", description: "Free and paid courses for Nepali students on Growentix.", alternates: { canonical: "https://growentix.cloud/courses" } };
 export const dynamic = "force-dynamic";
 
 export default async function CoursesIndex() {

@@ -9,12 +9,12 @@ export async function generateMetadata({ searchParams }: { searchParams: SearchP
   const params = await searchParams;
   const page = parseInt(Array.isArray(params.page) ? params.page[0] ?? "1" : params.page ?? "1", 10);
   return {
-    title: "Nepal Jobs | Growentix",
-    description: "Nepal government and private job news — Lok Sewa, banks, Nepal Telecom and more, newest first.",
+    title: "Nepal Jobs",
+    description: "Nepal government and private job news — Lok Sewa, banks, Nepal Telecom and more. Newest Nepal vacancies first, with deadlines and how to apply.",
     alternates: { canonical: "https://growentix.cloud/nepal" },
     openGraph: {
       title: "Nepal Jobs | Growentix",
-      description: "Nepal government and private job news — Lok Sewa, banks, Nepal Telecom and more, newest first.",
+      description: "Nepal government and private job news — Lok Sewa, banks, Nepal Telecom and more. Newest Nepal vacancies first, with deadlines and how to apply.",
       url: "https://growentix.cloud/nepal",
     },
     ...(Number.isFinite(page) && page > 1 ? { robots: { index: false, follow: true } } : {}),

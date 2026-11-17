@@ -26,12 +26,14 @@ export const metadata: Metadata = {
     description:
       "Daily job news and vacancy notices from Nepal and around the world — government vacancies, Gulf jobs, Korea & Japan, remote work and work-abroad updates.",
     url: "/",
+    images: ["https://growentix.cloud/icon.svg"],
   },
   twitter: {
     card: "summary_large_image",
     title: "Growentix — Daily Job News & Vacancy Notices | Nepal & Abroad",
     description:
       "Daily job news and vacancy notices from Nepal and around the world — government vacancies, Gulf jobs, Korea & Japan, remote work and work-abroad updates.",
+    images: ["https://growentix.cloud/icon.svg"],
   },
   robots: { index: true, follow: true },
   other: { "google-adsense-account": "ca-pub-4375599901125250" },

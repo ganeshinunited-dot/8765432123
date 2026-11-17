@@ -4,8 +4,9 @@ import { StaticPage, Section } from "@/components/layout/StaticPage";
 export const revalidate = 300;
 
 export const metadata: Metadata = {
-  title: "About Growentix",
+  title: "About",
   description: "Growentix publishes daily job news and vacancy notices from Nepal and around the world.",
+  alternates: { canonical: "https://growentix.cloud/about" },
 };
 
 export default function AboutPage() {

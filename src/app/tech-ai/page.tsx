@@ -9,7 +9,7 @@ export async function generateMetadata({
   const params = await searchParams;
   const topic = Array.isArray(params.topic) ? params.topic[0] ?? "" : params.topic ?? "";
   return {
-    title: "Tech & AI News | Growentix",
+    title: "Tech & AI News",
     description:
       "Tech and AI news — new models, launches, outages and the companies behind them, with the newest stories first.",
     alternates: { canonical: "https://growentix.cloud/tech-ai" },

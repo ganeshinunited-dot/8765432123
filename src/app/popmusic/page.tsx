@@ -9,7 +9,7 @@ export async function generateMetadata({ searchParams }: { searchParams: SearchP
   const params = await searchParams;
   const page = parseInt(Array.isArray(params.page) ? params.page[0] ?? "1" : params.page ?? "1", 10);
   return {
-    title: "Pop Music | Growentix",
+    title: "Pop Music",
     description: "Pop music news — Taylor Swift, chart hits, award shows and the biggest pop moments, with the newest stories first.",
     alternates: { canonical: "https://growentix.cloud/popmusic" },
     openGraph: {
@@ -22,5 +22,5 @@ export async function generateMetadata({ searchParams }: { searchParams: SearchP
 }
 
 export default function Page({ searchParams }: { searchParams: SearchParams }) {
-  return <CategoryListing slug="pop-music" label="Pop Music" subtitle="Pop music news — Taylor Swift, chart hits, award shows and the biggest pop moments, with the newest stories first." searchParams={searchParams} />;
+  return <CategoryListing slug="pop-music" label="Pop Music" subtitle="Pop music news — Taylor Swift, chart hits, award shows and the biggest pop moments, with the newest stories first." basePath="/popmusic" searchParams={searchParams} />;
 }

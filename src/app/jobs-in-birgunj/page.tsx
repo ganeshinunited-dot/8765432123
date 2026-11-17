@@ -5,9 +5,10 @@ import { cityPageFor } from "@/data/cityPages";
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: "Government Jobs in Birgunj | Growentix",
+  title: "Government Jobs in Birgunj",
   description:
     "Open government job notices in Birgunj, Madhesh Province — with deadlines, seats and official notice links.",
+  alternates: { canonical: "https://growentix.cloud/jobs-in-birgunj" },
 };
 
 export default function Page() {

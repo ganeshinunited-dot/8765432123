@@ -9,12 +9,12 @@ export async function generateMetadata({ searchParams }: { searchParams: SearchP
   const params = await searchParams;
   const page = parseInt(Array.isArray(params.page) ? params.page[0] ?? "1" : params.page ?? "1", 10);
   return {
-    title: "Career Guide | Growentix",
-    description: "Career guides, exam tips and job preparation, newest first.",
+    title: "Career Guide",
+    description: "Career guides, exam tips and job preparation — interviews, CVs and government exam strategy. Newest career guides first, updated regularly.",
     alternates: { canonical: "https://growentix.cloud/career" },
     openGraph: {
       title: "Career Guide | Growentix",
-      description: "Career guides, exam tips and job preparation, newest first.",
+      description: "Career guides, exam tips and job preparation — interviews, CVs and government exam strategy. Newest career guides first, updated regularly.",
       url: "https://growentix.cloud/career",
     },
     ...(Number.isFinite(page) && page > 1 ? { robots: { index: false, follow: true } } : {}),

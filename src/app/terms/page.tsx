@@ -6,6 +6,7 @@ export const revalidate = 300;
 export const metadata: Metadata = {
   title: "Terms of Service",
   description: "The terms that govern your use of Growentix.",
+  alternates: { canonical: "https://growentix.cloud/terms" },
 };
 
 export default function TermsPage() {

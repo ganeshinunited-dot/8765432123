@@ -9,12 +9,12 @@ export async function generateMetadata({ searchParams }: { searchParams: SearchP
   const params = await searchParams;
   const page = parseInt(Array.isArray(params.page) ? params.page[0] ?? "1" : params.page ?? "1", 10);
   return {
-    title: "UK Jobs | Growentix",
-    description: "UK job news — NHS, care and skilled worker roles, newest first.",
+    title: "UK Jobs",
+    description: "UK job news — NHS, care and skilled worker roles, salaries and visa routes. Newest UK vacancies first, with deadlines and how to apply.",
     alternates: { canonical: "https://growentix.cloud/uk" },
     openGraph: {
       title: "UK Jobs | Growentix",
-      description: "UK job news — NHS, care and skilled worker roles, newest first.",
+      description: "UK job news — NHS, care and skilled worker roles, salaries and visa routes. Newest UK vacancies first, with deadlines and how to apply.",
       url: "https://growentix.cloud/uk",
     },
     ...(Number.isFinite(page) && page > 1 ? { robots: { index: false, follow: true } } : {}),

@@ -30,6 +30,59 @@ const nextConfig: NextConfig = {
           "/articles/germany-france-car-deal-sparks-jobs-talk-but-details-still-thin-20261019",
         permanent: true,
       },
+      // Duplicate job notices merged 2026-11-17 (SEO audit): the same
+      // vacancy published twice under two slugs. The older slug 301s to
+      // the newer one; no DB rows are deleted.
+      {
+        // RRB NTPC UG: 1,688 vacancies, same notice.
+        source:
+          "/articles/rrb-ntpc-ug-vacancy-2026-1688-posts-eligibility-dates-20261104",
+        destination:
+          "/articles/rrb-ntpc-ug-1688-vacancies-apply-by-15-december-20261109",
+        permanent: true,
+      },
+      {
+        // Indian Bank Apprentice: 1,500 posts, same intake.
+        source:
+          "/articles/indian-bank-apprentice-2026-1500-vacancies-eligibility-fee-20261104",
+        destination:
+          "/articles/indian-bank-apprentice-1500-posts-apply-by-24-november-20261106",
+        permanent: true,
+      },
+      {
+        // NICL Assistant: 200 posts, same intake.
+        source:
+          "/articles/nicl-assistant-recruitment-2026-200-posts-eligibility-fee-20261104",
+        destination:
+          "/articles/nicl-assistant-200-posts-apply-by-1-december-20261106",
+        permanent: true,
+      },
+      {
+        // RRC Central Railway Apprentice: 2,861 posts, same intake.
+        source:
+          "/articles/rrc-central-railway-apprentice-2861-posts-apply-by-12-december-20261104",
+        destination:
+          "/articles/rrc-central-railway-act-apprentice-2861-posts-20261111",
+        permanent: true,
+      },
+      {
+        // RRC North Western Railway Apprentice: 2,008 slots, Notice No.
+        // 04/2026 (NWR/AA), same 23 Oct–22 Nov 2026 window.
+        source:
+          "/articles/rrc-jaipur-north-western-railway-apprentice-2008-slots-20261024",
+        destination:
+          "/articles/rrc-north-western-railway-act-apprentice-2008-posts-20261111",
+        permanent: true,
+      },
+      {
+        // H-2A farm-worker guide published twice with near-identical
+        // content (27 Oct vs 28 Oct).
+        source:
+          "/articles/farm-worker-jobs-in-usa-on-h-2a-visa-pay-housing-and-how-to-apply-20261027",
+        destination:
+          "/articles/farm-worker-jobs-in-usa-h-2a-visa-pay-housing-and-legal-guide-20261028",
+        permanent: true,
+      },
     ];
   },
 };

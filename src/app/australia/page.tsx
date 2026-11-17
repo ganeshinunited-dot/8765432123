@@ -9,12 +9,12 @@ export async function generateMetadata({ searchParams }: { searchParams: SearchP
   const params = await searchParams;
   const page = parseInt(Array.isArray(params.page) ? params.page[0] ?? "1" : params.page ?? "1", 10);
   return {
-    title: "Australia Jobs | Growentix",
-    description: "Australia job news and work opportunities, newest first.",
+    title: "Australia Jobs",
+    description: "Australia job news — skilled migration, healthcare, trades and government roles. Newest Australia vacancies first, with deadlines and how to apply.",
     alternates: { canonical: "https://growentix.cloud/australia" },
     openGraph: {
       title: "Australia Jobs | Growentix",
-      description: "Australia job news and work opportunities, newest first.",
+      description: "Australia job news — skilled migration, healthcare, trades and government roles. Newest Australia vacancies first, with deadlines and how to apply.",
       url: "https://growentix.cloud/australia",
     },
     ...(Number.isFinite(page) && page > 1 ? { robots: { index: false, follow: true } } : {}),

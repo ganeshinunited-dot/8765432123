@@ -9,12 +9,12 @@ export async function generateMetadata({ searchParams }: { searchParams: SearchP
   const params = await searchParams;
   const page = parseInt(Array.isArray(params.page) ? params.page[0] ?? "1" : params.page ?? "1", 10);
   return {
-    title: "Korea & Japan | Growentix",
-    description: "Korea and Japan work opportunities — EPS, SSW and other overseas jobs, newest first.",
+    title: "Korea & Japan",
+    description: "Korea and Japan work opportunities — EPS, SSW and other overseas jobs, salaries and deadlines. Newest Korea and Japan jobs first.",
     alternates: { canonical: "https://growentix.cloud/korea-japan" },
     openGraph: {
       title: "Korea & Japan | Growentix",
-      description: "Korea and Japan work opportunities — EPS, SSW and other overseas jobs, newest first.",
+      description: "Korea and Japan work opportunities — EPS, SSW and other overseas jobs, salaries and deadlines. Newest Korea and Japan jobs first.",
       url: "https://growentix.cloud/korea-japan",
     },
     ...(Number.isFinite(page) && page > 1 ? { robots: { index: false, follow: true } } : {}),

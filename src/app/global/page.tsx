@@ -9,12 +9,12 @@ export async function generateMetadata({ searchParams }: { searchParams: SearchP
   const params = await searchParams;
   const page = parseInt(Array.isArray(params.page) ? params.page[0] ?? "1" : params.page ?? "1", 10);
   return {
-    title: "Global Trends | Growentix",
-    description: "Global job trends and hiring news from around the world, newest first.",
+    title: "Global Trends",
+    description: "Global job trends and hiring news — layoffs, salaries and the companies hiring now. Newest global employment stories first, updated daily.",
     alternates: { canonical: "https://growentix.cloud/global" },
     openGraph: {
       title: "Global Trends | Growentix",
-      description: "Global job trends and hiring news from around the world, newest first.",
+      description: "Global job trends and hiring news — layoffs, salaries and the companies hiring now. Newest global employment stories first, updated daily.",
       url: "https://growentix.cloud/global",
     },
     ...(Number.isFinite(page) && page > 1 ? { robots: { index: false, follow: true } } : {}),
