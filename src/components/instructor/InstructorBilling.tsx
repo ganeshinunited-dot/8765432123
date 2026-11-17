@@ -81,7 +81,7 @@ export function InstructorBilling({ name, email, phone }: { name: string; email:
           <div className="mt-4 flex justify-center">
             <DemoQr seed={ref} />
           </div>
-          <p className="mt-3 font-mono text-xs text-slate-400">{ref}</p>
+          <p className="mt-3 text-xs text-slate-400">{ref}</p>
           <p className="mt-2 text-sm text-slate-500">eSewa / Khalti demo. In production this opens your wallet app.</p>
           <div className="mt-5 flex gap-2">
             <Button variant="secondary" className="flex-1" onClick={() => setStep("details")}>Back</Button>

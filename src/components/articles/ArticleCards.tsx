@@ -105,7 +105,7 @@ export function ArticleCards({
                   <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-600">{a.country}</span>
                 )}
               </div>
-              <h2 className="mt-3 font-serif text-lg font-bold leading-snug text-slate-900 group-hover:text-emerald-700">{a.titleEn}</h2>
+              <h2 className="mt-3 font-sans text-lg font-bold leading-snug text-slate-900 group-hover:text-emerald-700">{a.titleEn}</h2>
               <p className="mt-2 flex-1 text-sm leading-relaxed text-slate-600">{a.excerptEn}</p>
               <div className="mt-4 flex items-center justify-between">
                 <span className="text-xs text-slate-500">{formatDate(a.publishedAt)}</span>
@@ -126,7 +126,7 @@ export function ArticleCards({
             >
               <div className="min-w-0 flex-1">
                 <div className="flex items-start justify-between gap-3">
-                  <p className="font-serif text-[15px] font-bold leading-snug text-slate-900 group-hover:text-emerald-800 sm:text-base">{a.titleEn}</p>
+                  <p className="font-sans text-[15px] font-bold leading-snug text-slate-900 group-hover:text-emerald-800 sm:text-base">{a.titleEn}</p>
                   <span className="shrink-0 text-xs text-slate-500">{formatDate(a.publishedAt)}</span>
                 </div>
                 <p className="mt-1 truncate text-sm text-slate-600">{a.country ?? articleCategoryLabel(a.category)}</p>

@@ -74,7 +74,7 @@ export default async function HomePage({ searchParams }: { searchParams: SearchP
                   >
                     <div className="flex flex-1 flex-col p-5">
                       <span className="text-xs text-slate-500">{formatDate(a.publishedAt)}</span>
-                      <p className="mt-2 font-serif text-lg font-bold leading-snug text-slate-900 group-hover:text-emerald-800">
+                      <p className="mt-2 font-sans text-lg font-bold leading-snug text-slate-900 group-hover:text-emerald-800">
                         {a.titleEn}
                       </p>
                       <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-slate-600">
