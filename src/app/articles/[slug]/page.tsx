@@ -89,13 +89,17 @@ export default async function ArticlePage({
 
   // Related stories from the same section — newest first, excluding this
   // article (SEO audit fix, 2026-11-17). Server-side so the client
-  // ArticleView only receives plain data.
-  const related = await db.article.findMany({
-    where: { category: a.category, slug: { not: slug } },
+  // ArticleView only receives plain data. NOTE: the exclusion is done in
+  // JS, not with `slug: { not }` in the where clause — the where clause
+  // keeps exactly the shape CategoryListing uses (plain category equality),
+  // which is proven to work in production.
+  const candidates = await db.article.findMany({
+    where: { category: a.category },
     orderBy: { publishedAt: "desc" },
-    take: 4,
+    take: 5,
     select: { slug: true, titleEn: true, excerptEn: true, publishedAt: true },
   });
+  const related = candidates.filter((r) => r.slug !== slug).slice(0, 4);
 
   const jsonLd = {
     "@context": "https://schema.org",
