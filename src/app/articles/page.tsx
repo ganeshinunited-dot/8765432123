@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import CategoryListing from "@/components/articles/CategoryListing";
 
-type SearchParams = Promise<{ page?: string | string[] }>;
+type SearchParams = Promise<{ page?: string | string[]; country?: string | string[] }>;
 
 /**
  * News — its own section now, like every other tab: only articles published
@@ -12,11 +12,14 @@ type SearchParams = Promise<{ page?: string | string[] }>;
 export async function generateMetadata({ searchParams }: { searchParams: SearchParams }): Promise<Metadata> {
   const params = await searchParams;
   const page = parseInt(Array.isArray(params.page) ? params.page[0] ?? "" : params.page ?? "", 10);
+  const country = Array.isArray(params.country) ? params.country[0] ?? "" : params.country ?? "";
   return {
     title: "News | Growentix",
     description: "Fresh news stories from around the world.",
     alternates: { canonical: "https://growentix.cloud/articles" },
-    ...(Number.isFinite(page) && page > 1 ? { robots: { index: false, follow: true } } : {}),
+    // Filtered (?country=) and paged views are noindex, follow — same rule
+    // as the Explore page — so only the unfiltered first page is indexed.
+    ...(country || (Number.isFinite(page) && page > 1) ? { robots: { index: false, follow: true } } : {}),
   };
 }
 
@@ -28,6 +31,7 @@ export default async function ArticlesPage({ searchParams }: { searchParams: Sea
       subtitle="Fresh news stories from around the world."
       basePath="/articles"
       searchParams={searchParams}
+      showCountryPills
     />
   );
 }

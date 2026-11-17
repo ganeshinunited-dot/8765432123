@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { articleCategoryLabel } from "@/lib/articles";
+import { CategoryPills } from "@/components/articles/CategoryPills";
 
 export interface FilterableArticle {
   slug: string;
@@ -14,9 +15,15 @@ function formatDate(iso: string) {
   return new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "short", year: "numeric" }).format(new Date(iso));
 }
 
-/** Builds a listing URL that preserves the active category filter and, when > 1, the page number. */
-function listingHref(basePath: string, active: string, page: number): string {
+/** Builds a listing URL that preserves the active category filter and, when > 1, the page number. preserveParams carries any extra filter the page adds (e.g. News ?country=, Tech ?topic=) so paging never drops it. */
+function listingHref(
+  basePath: string,
+  active: string,
+  page: number,
+  preserveParams: ReadonlyArray<{ key: string; value: string }> = []
+): string {
   const params = new URLSearchParams();
+  for (const p of preserveParams) if (p.value) params.set(p.key, p.value);
   if (active) params.set("category", active);
   if (page > 1) params.set("page", String(page));
   const qs = params.toString();
@@ -24,7 +31,10 @@ function listingHref(basePath: string, active: string, page: number): string {
 }
 
 /**
- * Server-rendered category filter + article list.
+ * Server-rendered category filter + article list. The filter row is the
+ * shared <CategoryPills> — one horizontally scrollable row, same pills in
+ * every section — so the row here, on Explore and on the section pages all
+ * behave the same.
  *
  * Replaces the previous client-side FilteredArticleList for the /articles and
  * /explore pages: the card list is rendered on the server, so every article
@@ -46,6 +56,7 @@ export function ArticleCards({
   active,
   page = 1,
   totalPages = 1,
+  preserveParams = [],
 }: {
   articles: FilterableArticle[];
   categories: readonly { slug: string; label: string }[];
@@ -55,33 +66,25 @@ export function ArticleCards({
   active: string;
   page?: number;
   totalPages?: number;
+  /** Extra query params a page-level filter adds (?country=, ?topic=) — kept on every link so paging never drops the filter. */
+  preserveParams?: ReadonlyArray<{ key: string; value: string }>;
 }) {
   const filtered = active ? articles.filter((a) => a.category === active) : articles;
 
   return (
     <>
       {categories.length > 0 && (
-        <div className="mt-6 flex flex-wrap gap-2">
-          <Link
-            href={basePath}
-            className={`rounded-full px-4 py-2 text-sm font-medium transition ${
-              !active ? "bg-emerald-600 text-white" : "border border-slate-200 bg-white text-slate-700 hover:border-emerald-300"
-            }`}
-          >
-            {allLabel}
-          </Link>
-          {categories.map((c) => (
-            <Link
-              key={c.slug}
-              href={`${basePath}?category=${c.slug}`}
-              className={`rounded-full px-4 py-2 text-sm font-medium transition ${
-                active === c.slug ? "bg-emerald-600 text-white" : "border border-slate-200 bg-white text-slate-700 hover:border-emerald-300"
-              }`}
-            >
-              {c.label}
-            </Link>
-          ))}
-        </div>
+        <CategoryPills
+          ariaLabel="Filter articles by category"
+          pills={[
+            { label: allLabel, href: listingHref(basePath, "", 1, preserveParams), active: !active },
+            ...categories.map((c) => ({
+              label: c.label,
+              href: listingHref(basePath, c.slug, 1, preserveParams),
+              active: active === c.slug,
+            })),
+          ]}
+        />
       )}
 
       {filtered.length === 0 ? (
@@ -146,7 +149,7 @@ export function ArticleCards({
         <nav aria-label="More articles" className="mt-10 flex items-center justify-center gap-3">
           {page > 1 ? (
             <Link
-              href={listingHref(basePath, active, page - 1)}
+              href={listingHref(basePath, active, page - 1, preserveParams)}
               className="rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:border-emerald-300"
             >
               &larr; Newer
@@ -161,7 +164,7 @@ export function ArticleCards({
           </span>
           {page < totalPages ? (
             <Link
-              href={listingHref(basePath, active, page + 1)}
+              href={listingHref(basePath, active, page + 1, preserveParams)}
               className="rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:border-emerald-300"
             >
               Older &rarr;

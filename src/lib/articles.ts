@@ -21,6 +21,59 @@ export function articleCategoryLabel(slug: string): string {
   return ARTICLE_CATEGORIES.find((c) => c.slug === slug)?.label ?? slug;
 }
 
+/** Job categories only — the 13 categories that live in the Jobs section. */
+export const JOB_ARTICLE_CATEGORIES = ARTICLE_CATEGORIES.filter(
+  (c) => c.slug !== "pop-music" && c.slug !== "tech-ai" && c.slug !== "news"
+);
+
+/**
+ * Tech topic for a tech-ai article, derived from the slug (the article's
+ * main keyword lives there) with the title as a fallback. The slug's first
+ * word is the company or product — "google-gemini-..." is Google,
+ * "google-deepmind-..." is DeepMind, "claude-..." is Anthropic. Anything
+ * with no known company/product word falls under "Other" and is never
+ * dropped from the list.
+ */
+const TECH_TOPIC_PREFIXES: { prefix: string; topic: string }[] = [
+  { prefix: "google-deepmind", topic: "DeepMind" },
+  { prefix: "deepmind", topic: "DeepMind" },
+  { prefix: "google", topic: "Google" },
+  { prefix: "gemini", topic: "Google" },
+  { prefix: "anthropic", topic: "Anthropic" },
+  { prefix: "claude", topic: "Anthropic" },
+  { prefix: "openai", topic: "OpenAI" },
+  { prefix: "chatgpt", topic: "OpenAI" },
+  { prefix: "apple", topic: "Apple" },
+  { prefix: "microsoft", topic: "Microsoft" },
+  { prefix: "amazon", topic: "Amazon" },
+  { prefix: "alexa", topic: "Amazon" },
+  { prefix: "nvidia", topic: "NVIDIA" },
+  { prefix: "github", topic: "GitHub" },
+  { prefix: "meta", topic: "Meta" },
+  { prefix: "grok", topic: "xAI" },
+  { prefix: "xai", topic: "xAI" },
+  { prefix: "samsung", topic: "Samsung" },
+  { prefix: "intel", topic: "Intel" },
+  { prefix: "amd", topic: "AMD" },
+  { prefix: "tesla", topic: "Tesla" },
+  { prefix: "oracle", topic: "Oracle" },
+  { prefix: "adobe", topic: "Adobe" },
+  { prefix: "salesforce", topic: "Salesforce" },
+  { prefix: "servicenow", topic: "ServiceNow" },
+];
+
+function topicFromWords(words: string): string | null {
+  const lower = words.toLowerCase();
+  for (const { prefix, topic } of TECH_TOPIC_PREFIXES) {
+    if (lower === prefix || lower.startsWith(`${prefix}-`) || lower.startsWith(`${prefix} `)) return topic;
+  }
+  return null;
+}
+
+export function techTopicForArticle(slug: string, titleEn: string): string {
+  return topicFromWords(slug) ?? topicFromWords(titleEn.replace(/[^a-z0-9]+/gi, " ").trim()) ?? "Other";
+}
+
 export function articleSlug(titleEn: string): string {
   return titleEn
     .toLowerCase()

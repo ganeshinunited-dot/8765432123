@@ -160,6 +160,17 @@ input[type="number"]::-webkit-inner-spin-button {
   -webkit-appearance: none;
 }
 
+/* Horizontally scrollable pill rows: hide the scrollbar, keep touch,
+   wheel and drag scrolling. The row itself signals that it slides with a
+   fade at its right edge (see CategoryPills). */
+.gx-no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.gx-no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
 /* Instant public-chrome hiding for signed-in app users.
    <html data-chrome="app"> is set pre-paint by the inline head script (and
    kept in sync by Navbar/Footer), so logged-in students/employers/instructors

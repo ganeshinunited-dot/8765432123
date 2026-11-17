@@ -1,14 +1,30 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { db } from "@/lib/db";
+import { JOB_ARTICLE_CATEGORIES } from "@/lib/articles";
+import { CategoryPills } from "@/components/articles/CategoryPills";
 import { NewsletterForm } from "@/components/NewsletterForm";
 import { SmallSearch } from "@/components/articles/SmallSearch";
 import { SARKARI_JOBS, sarkariSlug } from "@/data/sarkariJobs";
 
 export const revalidate = 60;
 
-type SearchParams = Promise<{ page?: string | string[] }>;
+type SearchParams = Promise<{ page?: string | string[]; category?: string | string[] }>;
 
 const PAGE_SIZE = 20;
+
+function firstParam(params: string | string[] | undefined): string {
+  return Array.isArray(params) ? params[0] ?? "" : params ?? "";
+}
+
+export async function generateMetadata({ searchParams }: { searchParams: SearchParams }): Promise<Metadata> {
+  const params = await searchParams;
+  const category = firstParam(params.category);
+  const valid = JOB_ARTICLE_CATEGORIES.some((c) => c.slug === category);
+  // A filtered (?category=) Jobs view is noindex, follow — same rule as
+  // Explore — so only the unfiltered first page is indexed.
+  return valid ? { robots: { index: false, follow: true } } : {};
+}
 
 function activePage(params: { page?: string | string[] }): number {
   const n = parseInt(Array.isArray(params.page) ? params.page[0] ?? "" : params.page ?? "", 10);
@@ -19,14 +35,25 @@ function formatDate(d: Date) {
   return new Intl.DateTimeFormat("en-US", { month: "long", day: "numeric", year: "numeric" }).format(d);
 }
 
+/** Jobs pagination link — keeps the active category filter (?category=) when set. */
+function pageHref(page: number, category: string): string {
+  const params = new URLSearchParams();
+  if (category) params.set("category", category);
+  if (page > 1) params.set("page", String(page));
+  const qs = params.toString();
+  return qs ? `/?${qs}` : "/";
+}
+
 
 export default async function HomePage({ searchParams }: { searchParams: SearchParams }) {
   // Jobs only — the front page lists job articles (every category except
   // pop-music, tech-ai and news, which have their own sections), 20 per page,
-  // newest first.
+  // newest first. A ?category= pill narrows it to one job category.
   const params = await searchParams;
   const requestedPage = activePage(params);
-  const where = { category: { notIn: ["pop-music", "tech-ai", "news"] } };
+  const requestedCategory = firstParam(params.category);
+  const activeCategory = JOB_ARTICLE_CATEGORIES.some((c) => c.slug === requestedCategory) ? requestedCategory : "";
+  const where = activeCategory ? { category: activeCategory } : { category: { notIn: ["pop-music", "tech-ai", "news"] } };
   const total = await db.article.count({ where });
   const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
   const page = Math.min(requestedPage, totalPages);
@@ -63,6 +90,18 @@ export default async function HomePage({ searchParams }: { searchParams: SearchP
               </Link>
             </div>
 
+            <CategoryPills
+              ariaLabel="Filter jobs by category"
+              pills={[
+                { label: "All", href: "/", active: !activeCategory },
+                ...JOB_ARTICLE_CATEGORIES.map((c) => ({
+                  label: c.label,
+                  href: `/?category=${c.slug}`,
+                  active: activeCategory === c.slug,
+                })),
+              ]}
+            />
+
             {/* Latest articles — 3-column card grid */}
             <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {articles.map((a) => {
@@ -89,13 +128,13 @@ export default async function HomePage({ searchParams }: { searchParams: SearchP
             {totalPages > 1 && (
               <nav className="mt-8 flex items-center justify-between gap-3 text-sm" aria-label="Pagination">
                 {page > 1 ? (
-                  <Link href={`/?page=${page - 1}`} className="font-semibold text-emerald-700 hover:underline">← Previous</Link>
+                  <Link href={pageHref(page - 1, activeCategory)} className="font-semibold text-emerald-700 hover:underline">← Previous</Link>
                 ) : (
                   <span className="text-slate-400">← Previous</span>
                 )}
                 <span className="text-slate-500">Page {page} of {totalPages}</span>
                 {page < totalPages ? (
-                  <Link href={`/?page=${page + 1}`} className="font-semibold text-emerald-700 hover:underline">Next →</Link>
+                  <Link href={pageHref(page + 1, activeCategory)} className="font-semibold text-emerald-700 hover:underline">Next →</Link>
                 ) : (
                   <span className="text-slate-400">Next →</span>
                 )}
