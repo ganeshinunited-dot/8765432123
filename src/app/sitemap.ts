@@ -8,7 +8,7 @@ export const revalidate = 3600;
 export default async function sitemap() {
   const base = process.env.NEXT_PUBLIC_APP_URL || "https://growentix.cloud";
 
-  const staticPages = ["", "/jobs", "/sarkari-jobs", "/articles", "/explore", "/countries", "/government-jobs", "/private-jobs", "/industries", "/about", "/privacy", "/terms", "/courses", "/support", "/contact", "/editorial-policy", "/verification-policy", "/faq", "/safety", "/tech-ai", "/popmusic", "/nepal", "/gulf", "/korea-japan", "/usa", "/uk", "/canada", "/australia", "/europe", "/asia", "/work-abroad", "/remote", "/remote-jobs", "/global", "/career"].map(
+  const staticPages = ["", "/jobs", "/sarkari-jobs", "/articles", "/explore", "/countries", "/government-jobs", "/private-jobs", "/industries", "/companies", "/for-employers", "/about", "/privacy", "/terms", "/courses", "/support", "/contact", "/editorial-policy", "/verification-policy", "/faq", "/safety", "/tech-ai", "/popmusic", "/nepal", "/gulf", "/korea-japan", "/usa", "/uk", "/canada", "/australia", "/europe", "/asia", "/work-abroad", "/remote", "/remote-jobs", "/global", "/career"].map(
     (path) => ({ url: `${base}${path}`, lastModified: new Date(), changeFrequency: "daily" as const, priority: path === "" ? 1 : 0.8 })
   );
 
@@ -47,5 +47,18 @@ export default async function sitemap() {
     changeFrequency: "daily" as const, priority: 0.8,
   }));
 
-  return [...staticPages, ...industryPages, ...cityPages, ...sarkariPages, ...articlePages];
+  // Verified company profiles only — pending/rejected/expired companies
+  // never appear (their profile pages are 404 by design).
+  const verifiedCompanies = await db.company.findMany({
+    where: { verificationStatus: "VERIFIED" },
+    select: { slug: true, updatedAt: true, verificationExpiresAt: true },
+  });
+  const companyPages = verifiedCompanies
+    .filter((c) => !c.verificationExpiresAt || new Date(c.verificationExpiresAt).getTime() > Date.now())
+    .map((c) => ({
+      url: `${base}/companies/${c.slug}`, lastModified: c.updatedAt,
+      changeFrequency: "daily" as const, priority: 0.8,
+    }));
+
+  return [...staticPages, ...industryPages, ...cityPages, ...sarkariPages, ...articlePages, ...companyPages];
 }

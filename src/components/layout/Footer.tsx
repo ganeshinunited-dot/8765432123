@@ -55,6 +55,8 @@ export function Footer() {
             <Link href="/government-jobs" className="hover:text-emerald-300">Government Jobs</Link>
             <Link href="/private-jobs" className="hover:text-emerald-300">Private Jobs</Link>
             <Link href="/industries" className="hover:text-emerald-300">Industries</Link>
+            <Link href="/companies" className="hover:text-emerald-300">Companies</Link>
+            <Link href="/for-employers" className="hover:text-emerald-300">For Employers</Link>
             <Link href="/editorial-policy" className="hover:text-emerald-300">Editorial policy</Link>
             <Link href="/verification-policy" className="hover:text-emerald-300">Verification policy</Link>
             <Link href="/contact" className="hover:text-emerald-300">Contact</Link>

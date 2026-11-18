@@ -71,6 +71,19 @@ export default function VerificationPolicyPage() {
           <Link href="/editorial-policy" className="font-semibold text-emerald-700 hover:underline">Editorial Policy</Link>.
         </p>
       </Section>
+
+      <Section title="6. For employers">
+        <p>
+          Companies can apply for a verified employer profile, free of charge. We check the business
+          registration, website and contact details against official sources before granting the
+          Verified badge, which is valid for 12 months and renewable. Only verified companies appear
+          in the{" "}
+          <Link href="/companies" className="font-semibold text-emerald-700 hover:underline">Companies directory</Link>
+          . Apply at{" "}
+          <Link href="/for-employers" className="font-semibold text-emerald-700 hover:underline">For Employers</Link>
+          .
+        </p>
+      </Section>
     </StaticPage>
   );
 }

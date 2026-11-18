@@ -1,25 +1,10 @@
 import { NextResponse } from "next/server";
+import { getSessionUser } from "@/lib/auth";
 
-function gone() {
-  return NextResponse.json({ error: "Not found" }, { status: 404 });
-}
-
+// Used by the footer to reconcile the chrome-hint cookie and to hide the
+// public footer for signed-in non-admin users. Always 200 — logged out
+// is a normal state, not an error.
 export async function GET() {
-  return gone();
-}
-
-export async function POST() {
-  return gone();
-}
-
-export async function PUT() {
-  return gone();
-}
-
-export async function PATCH() {
-  return gone();
-}
-
-export async function DELETE() {
-  return gone();
+  const user = await getSessionUser();
+  return NextResponse.json({ user: user ?? null });
 }

@@ -299,6 +299,7 @@ model Company {
   owner        User          @relation("CompanyOwner", fields: [ownerId], references: [id], onDelete: Cascade)
   location     Location?     @relation(fields: [locationId], references: [id])
   jobs         Job[]
+  articles     Article[]
   verifications CompanyVerification[]
   subscriptions Subscription[]
   payments      Payment[]
@@ -744,6 +745,7 @@ model Article {
   slug        String   @unique
   category    String
   country     String?
+  companyId   String?
   titleEn     String
   titleNe     String
   excerptEn   String
@@ -757,9 +759,11 @@ model Article {
   updatedAt   DateTime @updatedAt
 
   comments ArticleComment[]
+  company  Company? @relation(fields: [companyId], references: [id], onDelete: SetNull)
 
   @@index([publishedAt])
   @@index([category])
+  @@index([companyId])
 }
 
 model ArticleComment {

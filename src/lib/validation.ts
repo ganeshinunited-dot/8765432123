@@ -20,6 +20,42 @@ export const loginSchema = z.object({
   password: z.string().min(1, "Please enter your password."),
 });
 
+// Employer onboarding application (v1): account + company + verification
+// details in one form. Location is free-text city + country (the Location
+// table holds Nepali cities only; this is a global platform). `website2`
+// is the honeypot field — it must stay empty.
+export const employerOnboardingSchema = z.object({
+  contactName: z.string().trim().min(2, "Please enter the contact person's name.").max(120),
+  email: emailSchema,
+  password: passwordSchema,
+  phone: z.string().trim().max(20).optional().or(z.literal("")),
+  companyName: z.string().trim().min(2, "Company name is required.").max(120),
+  website: z.string().url("Please enter a valid website URL."),
+  industry: z.string().max(100).optional().or(z.literal("")),
+  description: z.string().max(3000).optional().or(z.literal("")),
+  size: z.string().max(50).optional().or(z.literal("")),
+  registrationNo: z.string().trim().min(1, "Business registration number is required.").max(100),
+  address: z.string().trim().min(1, "Registered address is required.").max(500),
+  contactTitle: z.string().trim().max(100).optional().or(z.literal("")),
+  city: z.string().trim().max(100).optional().or(z.literal("")),
+  country: z.string().trim().max(100).optional().or(z.literal("")),
+  logoUrl: z.string().max(500).optional().or(z.literal("")),
+  agree: z.boolean().refine((v) => v === true, {
+    message: "You must agree to the Employer Guidelines and Verification Policy.",
+  }),
+  marketingOptIn: z.boolean().optional().default(false),
+  website2: z.string().max(200).optional().or(z.literal("")),
+});
+
+export const forgotPasswordSchema = z.object({
+  email: emailSchema,
+});
+
+export const resetPasswordSchema = z.object({
+  token: z.string().min(1, "Reset link is missing."),
+  password: passwordSchema,
+});
+
 export const studentProfileSchema = z.object({
   headline: z.string().max(120).optional().or(z.literal("")),
   bio: z.string().max(2000).optional().or(z.literal("")),
