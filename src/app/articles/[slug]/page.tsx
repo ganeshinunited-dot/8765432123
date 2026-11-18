@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { db } from "@/lib/db";
 import { ArticleView } from "@/components/articles/ArticleView";
 import { CommentSection } from "@/components/articles/CommentSection";
-import { articleCategoryLabel, applyByDate } from "@/lib/articles";
+import { articleCategoryLabel, applyByDate, isJobCategory } from "@/lib/articles";
 
 export const revalidate = 300; // ISR: serve cached HTML, regenerate in background; admin/cron purge on publish
 
@@ -52,7 +52,7 @@ export default async function ArticlePage({
   const a = await db.article.findUnique({ where: { slug } });
   if (!a) notFound();
 
-  const isJob = !["pop-music", "tech-ai", "news"].includes(a.category);
+  const isJob = isJobCategory(a.category);
   const deadline = isJob ? applyByDate(a.titleEn, a.excerptEn, a.bodyEn) : null;
   const todayNpt = new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Kathmandu", year: "numeric", month: "2-digit", day: "2-digit" }).format(new Date());
   const closed = deadline !== null && deadline < todayNpt;
@@ -142,6 +142,7 @@ export default async function ArticlePage({
         article={{
           slug: a.slug,
           category: a.category,
+          verified: isJob,
           country: a.country,
           titleEn: a.titleEn,
           excerptEn: a.excerptEn,

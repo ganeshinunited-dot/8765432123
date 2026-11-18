@@ -12,6 +12,9 @@ export interface ArticleData {
   sources: string[];
   videos: { title: string; url: string; videoId: string }[];
   publishedAt: string;
+  /** True for job-category articles — the vacancy was verified against
+   *  its official source before publish (see /verification-policy). */
+  verified?: boolean;
   /** True when a job post's apply-by date has passed (SEO audit fix). */
   closed?: boolean;
   /** ISO apply-by date (YYYY-MM-DD) when closed, else null. */
@@ -41,6 +44,18 @@ export function ArticleView({ article }: { article: ArticleData }) {
         <span className="rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700">
           {articleCategoryLabel(article.category)}
         </span>
+        {article.verified && (
+          <a
+            href="/verification-policy"
+            title="Verified against the official source — see our Verification Policy"
+            className="inline-flex items-center gap-1 rounded-full bg-emerald-600 px-3 py-1 text-xs font-semibold text-white hover:bg-emerald-700"
+          >
+            <svg className="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true">
+              <path d="M20 6L9 17l-5-5" />
+            </svg>
+            Verified
+          </a>
+        )}
         {article.country && (
           <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-600">
             {article.country}
@@ -62,6 +77,13 @@ export function ArticleView({ article }: { article: ArticleData }) {
       >
         {article.titleEn}
       </h1>
+
+      <p className="mt-3 text-sm text-slate-500">
+        By{" "}
+        <a href="/editorial-policy" className="font-medium text-emerald-700 hover:underline">
+          Growentix Editorial Team
+        </a>
+      </p>
 
       {article.closed && (
         <div className="mt-6 rounded-xl border border-slate-300 bg-slate-100 p-4 text-sm text-slate-700">

@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { db } from "@/lib/db";
 import { ArticleView } from "@/components/articles/ArticleView";
 import { CommentSection } from "@/components/articles/CommentSection";
-import { applyByDate } from "@/lib/articles";
+import { applyByDate, isJobCategory } from "@/lib/articles";
 
 export const revalidate = 300; // ISR: serve cached HTML, regenerate in background; admin/cron purge on publish
 
@@ -11,12 +11,12 @@ export const revalidate = 300; // ISR: serve cached HTML, regenerate in backgrou
  * Job-detail route (Master Plan Phase 1, Batch 2). Renders the same
  * job-category article as /articles/[slug] under its /jobs URL — the
  * canonical stays /articles/[slug] and the page is noindex, follow, so
- * the duplicate URL never competes in search. Pop-music, tech-ai and
- * news articles 404 here: they have their own detail URLs.
+ * the duplicate URL never competes in search. Pop-music, tech-ai, news
+ * and legacy taylor-swift articles 404 here: they have their own detail URLs.
  */
 export async function generateStaticParams() {
   const articles = await db.article.findMany({
-    where: { category: { notIn: ["pop-music", "tech-ai", "news"] } },
+    where: { category: { notIn: ["pop-music", "tech-ai", "news", "taylor-swift"] } },
     select: { slug: true },
   });
   return articles.map((a) => ({ slug: a.slug }));
@@ -61,7 +61,7 @@ export default async function JobDetailPage({
 }) {
   const { slug } = await params;
   const a = await db.article.findUnique({ where: { slug } });
-  if (!a || ["pop-music", "tech-ai", "news"].includes(a.category)) notFound();
+  if (!a || !isJobCategory(a.category)) notFound();
 
   const deadline = applyByDate(a.titleEn, a.excerptEn, a.bodyEn);
   const todayNpt = new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Kathmandu", year: "numeric", month: "2-digit", day: "2-digit" }).format(new Date());
@@ -135,6 +135,7 @@ export default async function JobDetailPage({
         article={{
           slug: a.slug,
           category: a.category,
+          verified: isJobCategory(a.category),
           country: a.country,
           titleEn: a.titleEn,
           excerptEn: a.excerptEn,

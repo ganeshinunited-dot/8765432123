@@ -21,6 +21,16 @@ export function articleCategoryLabel(slug: string): string {
   return ARTICLE_CATEGORIES.find((c) => c.slug === slug)?.label ?? slug;
 }
 
+/**
+ * True for job-article categories — everything except news, pop-music,
+ * tech-ai and the legacy taylor-swift pop category. One definition of
+ * "job article" for the Verified badge, the JobPosting schema and the
+ * job-detail route (Master Plan Phase 1, Batch 3).
+ */
+export function isJobCategory(category: string): boolean {
+  return !["pop-music", "tech-ai", "news", "taylor-swift"].includes(category);
+}
+
 /** Job categories only — the 13 categories that live in the Jobs section. */
 export const JOB_ARTICLE_CATEGORIES = ARTICLE_CATEGORIES.filter(
   (c) => c.slug !== "pop-music" && c.slug !== "tech-ai" && c.slug !== "news"
