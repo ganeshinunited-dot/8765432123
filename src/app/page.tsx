@@ -7,7 +7,13 @@ import { NewsletterForm } from "@/components/NewsletterForm";
 import { SmallSearch } from "@/components/articles/SmallSearch";
 import { SARKARI_JOBS, sarkariSlug } from "@/data/sarkariJobs";
 
-export const revalidate = 60;
+// Homepage HTML is cached for 1 hour (ISR). The listing only changes when
+// a daily batch publishes (once a day), so a 60 s window meant almost
+// every cold visit paid a full DB-backed regeneration — the H1 arrived
+// ~1.8 s after the shell on a cold render, which is what pushed mobile
+// LCP to 3.3 s. After a publish, warm the cache (curl / twice) so the
+// fresh listing is cached immediately instead of waiting out the hour.
+export const revalidate = 3600;
 
 type SearchParams = Promise<{ page?: string | string[]; category?: string | string[] }>;
 
@@ -56,16 +62,32 @@ export default async function HomePage({ searchParams }: { searchParams: SearchP
   const requestedCategory = firstParam(params.category);
   const activeCategory = JOB_ARTICLE_CATEGORIES.some((c) => c.slug === requestedCategory) ? requestedCategory : "";
   const where = activeCategory ? { category: activeCategory } : { category: { notIn: ["pop-music", "tech-ai", "news"] } };
-  const total = await db.article.count({ where });
+  // Count and listing run in parallel instead of sequentially — one fewer
+  // round trip on every regeneration. The listing uses the requested page
+  // for its offset; if that page is past the last page it comes back
+  // empty, so refetch the clamped page (only for out-of-range ?page=).
+  const [total, firstTry] = await Promise.all([
+    db.article.count({ where }),
+    db.article.findMany({
+      where,
+      orderBy: { publishedAt: "desc" },
+      skip: (requestedPage - 1) * PAGE_SIZE,
+      take: PAGE_SIZE,
+      select: { slug: true, category: true, country: true, titleEn: true, excerptEn: true, publishedAt: true },
+    }),
+  ]);
   const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
   const page = Math.min(requestedPage, totalPages);
-  const articles = await db.article.findMany({
-    where,
-    orderBy: { publishedAt: "desc" },
-    skip: (page - 1) * PAGE_SIZE,
-    take: PAGE_SIZE,
-    select: { slug: true, category: true, country: true, titleEn: true, excerptEn: true, publishedAt: true },
-  });
+  const articles =
+    page === requestedPage
+      ? firstTry
+      : await db.article.findMany({
+          where,
+          orderBy: { publishedAt: "desc" },
+          skip: (page - 1) * PAGE_SIZE,
+          take: PAGE_SIZE,
+          select: { slug: true, category: true, country: true, titleEn: true, excerptEn: true, publishedAt: true },
+        });
 
   // Sarkari notices auto-expire by deadline — count only live ones (Asia/Kathmandu date).
   const todayNpt = new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Kathmandu", year: "numeric", month: "2-digit", day: "2-digit" }).format(new Date());

@@ -44,9 +44,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" className="h-full antialiased">
       <body className="flex min-h-full flex-col bg-white text-slate-900">
         <GoogleAnalytics />
-        {/* Google AdSense - site-wide verification script (ca-pub-4375599901125250) */}
+        {/* Google AdSense - site-wide verification script (ca-pub-4375599901125250).
+            lazyOnload (like GA): the 204 KB third-party script used to load
+            afterInteractive AND get preloaded in <head>, competing with the
+            page's own CSS/JS on slow phones and pushing mobile LCP to 3.3 s.
+            It still loads on every page, just after load — the verification
+            meta tag above is untouched and no ad slots render on the site. */}
         <Script
-          strategy="afterInteractive"
+          strategy="lazyOnload"
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4375599901125250"
           crossOrigin="anonymous"
         />
