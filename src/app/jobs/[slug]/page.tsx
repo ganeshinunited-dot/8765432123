@@ -136,6 +136,8 @@ export default async function JobDetailPage({
           slug: a.slug,
           category: a.category,
           verified: isJobCategory(a.category),
+          verifiedAt: a.verifiedAt?.toISOString() ?? null,
+          authorName: a.authorName ?? null,
           country: a.country,
           titleEn: a.titleEn,
           excerptEn: a.excerptEn,

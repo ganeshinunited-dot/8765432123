@@ -143,6 +143,8 @@ export default async function ArticlePage({
           slug: a.slug,
           category: a.category,
           verified: isJob,
+          verifiedAt: a.verifiedAt?.toISOString() ?? null,
+          authorName: a.authorName ?? null,
           country: a.country,
           titleEn: a.titleEn,
           excerptEn: a.excerptEn,

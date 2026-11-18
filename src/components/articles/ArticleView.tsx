@@ -15,6 +15,10 @@ export interface ArticleData {
   /** True for job-category articles — the vacancy was verified against
    *  its official source before publish (see /verification-policy). */
   verified?: boolean;
+  /** ISO verification date — badge shows "Verified {date}" when set. */
+  verifiedAt?: string | null;
+  /** Named author when set; null renders "Growentix Editorial Team". */
+  authorName?: string | null;
   /** True when a job post's apply-by date has passed (SEO audit fix). */
   closed?: boolean;
   /** ISO apply-by date (YYYY-MM-DD) when closed, else null. */
@@ -27,6 +31,14 @@ function formatDate(iso: string): string {
   return new Intl.DateTimeFormat("en-GB", {
     day: "numeric",
     month: "long",
+    year: "numeric",
+  }).format(new Date(iso));
+}
+
+function formatShortDate(iso: string): string {
+  return new Intl.DateTimeFormat("en-GB", {
+    day: "numeric",
+    month: "short",
     year: "numeric",
   }).format(new Date(iso));
 }
@@ -53,7 +65,7 @@ export function ArticleView({ article }: { article: ArticleData }) {
             <svg className="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true">
               <path d="M20 6L9 17l-5-5" />
             </svg>
-            Verified
+            {article.verifiedAt ? `Verified ${formatShortDate(article.verifiedAt)}` : "Verified"}
           </a>
         )}
         {article.country && (
@@ -81,7 +93,7 @@ export function ArticleView({ article }: { article: ArticleData }) {
       <p className="mt-3 text-sm text-slate-500">
         By{" "}
         <a href="/editorial-policy" className="font-medium text-emerald-700 hover:underline">
-          Growentix Editorial Team
+          {article.authorName ?? "Growentix Editorial Team"}
         </a>
       </p>
 
