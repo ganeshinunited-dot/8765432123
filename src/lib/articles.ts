@@ -184,3 +184,228 @@ export function matchesSearch(
     return haystack.includes(w);
   });
 }
+
+// ---------------------------------------------------------------------------
+// Government / Private classification + Industries (Master Plan Phase 1,
+// Batch 2). The Article model has no employer or sector field, so the
+// government/private split and the industry of a job article are derived
+// from the title (+ source domains for government). Validated against the
+// full corpus on 2026-11-18: 118 government, 13 private, 33 neither out
+// of 164 job articles; industries with 5+ articles: Engineering 42,
+// Technology 30, Banking & Finance 14, Education 10, Healthcare 6,
+// Defence & Security 6 (Energy 1, Transport & Logistics 2, Agriculture 1,
+// Hospitality 0 — below the threshold, so not listed). Keep the lists
+// curated: add a pattern only after eyeballing what it matches on the
+// corpus, because a sloppy pattern misfiles real articles. Government
+// takes precedence over private (e.g. a public-sector bank is government,
+// never private); layoff news is never a vacancy.
+// ---------------------------------------------------------------------------
+
+export interface ClassifiableArticle {
+  titleEn: string;
+  sources: string[];
+}
+
+const GOVERNMENT_TITLE_PATTERNS: RegExp[] = [
+  /\bupsc\b/i, /\bssc\b/i, /\bpsc\b/i, /\bpublic service commission\b/i,
+  /\bstaff selection commission\b/i, /\bunion public service\b/i,
+  /\brrb\b/i, /\brrc\b/i, /\brailway\b/i, /\brailways\b/i,
+  /\bpolice\b/i, /\barmy\b/i, /\bnavy\b/i, /\bair force\b/i, /\bafcat\b/i,
+  /\bassam rifles\b/i, /\bcoast guard\b/i, /\bparamilitary\b/i,
+  /\bdefence\b/i, /\bdefense\b/i, /\blok sewa\b/i,
+  /\bcivil service\b/i, /\bcivil services\b/i,
+  /\bgovernment\b/i, /\bgovt\b/i, /\bfederal\b/i, /\bmunicipal\b/i,
+  /\bparliament\b/i, /\bvidhan sabha\b/i, /\bsupreme court\b/i,
+  /\bhigh court\b/i, /\bdistrict court\b/i, /\bcourt\b/i,
+  /\bbhel\b/i, /\bbel\b/i, /\biocl\b/i, /\bnhpc\b/i, /\bnlc\b/i,
+  /\bpowergrid\b/i, /\bpgcil\b/i, /\bongc\b/i, /\bsail\b/i,
+  /\bcoal india\b/i, /\bntpc\b/i, /\bgail\b/i, /\bhpcl\b/i, /\bbpcl\b/i,
+  /\bhal\b/i, /\bdrdo\b/i, /\bisro\b/i, /\bbarc\b/i, /\bnpcil\b/i,
+  /\boil india\b/i, /\brecpdcl\b/i, /\brites\b/i, /\bgrse\b/i, /\bgstat\b/i,
+  /\bexim bank\b/i, /\bindia post\b/i, /\bnepal telecom\b/i,
+  /\bindian bank\b/i, /\bsbi\b/i, /\bbank of baroda\b/i, /\bj&k bank\b/i,
+  /\bibps\b/i, /\bnicl\b/i, /\bdvc\b/i, /\bnhidcl\b/i, /\bcsir\b/i,
+  /\bicar\b/i, /\basrb\b/i, /\baiims\b/i, /\bafms\b/i, /\biiit\b/i,
+  /\bdelhi university\b/i, /\bsvsu\b/i, /\bdpsa\b/i, /\bfpsc\b/i,
+  /\bhmrc\b/i, /\bcbp\b/i, /\bopm\b/i, /\busda\b/i, /\boaic\b/i,
+  /\bcorrectional officer\b/i, /\bcanada summer jobs\b/i,
+  /\beps korea\b/i, /\bisrael caregiver\b/i, /\bnepal police\b/i,
+  /\bteacher recruitment\b/i, /tet\b/i, /\bdsc\b/i,
+  /\bva veterans\b/i, /\bgsssb\b/i, /\bkea\b/i, /\btnpsc\b/i,
+  /\btgpsc\b/i, /\buppsc\b/i, /\bupsssc\b/i, /\bwbpsc\b/i, /\bhppsc\b/i,
+  /\bukpsc\b/i, /\bmpsc\b/i, /\bopsc\b/i, /\bappsc\b/i, /\bjkssb\b/i,
+  /\bosssc\b/i, /\bousssc\b/i, /\bupessc\b/i, /\bircc\b/i, /\bdwcd\b/i,
+  /\banganwadi\b/i, /\bstate power\b/i, /\bdsssb\b/i, /\bjshps\b/i,
+  /\bjrhms\b/i, /\bhprca\b/i, /\bdhfws\b/i, /\brgcb\b/i, /\bnegd\b/i,
+  /\bcabinet\b/i,
+];
+
+// A .gov.* source only counts when the title itself reads like a vacancy
+// or government programme — a market report or visa guide that merely
+// cites a government source is not a government job.
+const GOVERNMENT_VACANCY_WORDS =
+  /recruitment|vacancy|vacancies|posts|apply|hiring|jobs|roles|test|exam|result|programme|program|call|fair|event|incentive|officer|engineer|apprentice|trainee|clerk|assistant|teacher|nurse|doctor|driver|constable|inspector|manager|executive|technician|operator|worker|fellowship|residency|walk-in|interview|opening|openings/i;
+const GOVERNMENT_NEWS_MARKERS =
+  /market|guide|report|survey|\bsays\b|layoff|roundup|jobs report|job cuts|unemployment/i;
+
+function isGovernmentSource(hostname: string): boolean {
+  return /(^|\.)gov(\.|$)/.test(hostname) || hostname.endsWith(".gc.ca");
+}
+
+export function isGovernmentJob(a: ClassifiableArticle): boolean {
+  const title = a.titleEn || "";
+  if (GOVERNMENT_TITLE_PATTERNS.some((rx) => rx.test(title))) return true;
+  const citesGovernment = (a.sources || []).some((url) => {
+    try {
+      return isGovernmentSource(new URL(url).hostname);
+    } catch {
+      return false;
+    }
+  });
+  if (!citesGovernment) return false;
+  return GOVERNMENT_VACANCY_WORDS.test(title) && !GOVERNMENT_NEWS_MARKERS.test(title);
+}
+
+const PRIVATE_TITLE_PATTERNS: RegExp[] = [
+  /\bamazon\b/i, /\bgoogle\b/i, /\bmicrosoft\b/i, /\bapple\b/i,
+  /\bmeta\b/i, /\btesla\b/i, /\bxai\b/i, /\banthropic\b/i, /\bopenai\b/i,
+  /\broyal mail\b/i, /\bbritish steel\b/i, /\bslalom\b/i,
+  /\bperiscope\b/i, /\blotte\b/i, /\bcanva\b/i, /\bservicenow\b/i,
+  /\bco-operative bank\b/i, /\bstartup jobs\b/i, /\bwalk-in\b/i,
+  /\bgates foundation\b/i, /\bdeprosc\b/i,
+];
+
+export function isPrivateJob(a: ClassifiableArticle): boolean {
+  if (isGovernmentJob(a)) return false;
+  const title = a.titleEn || "";
+  if (/layoff/i.test(title)) return false; // layoff news is not a vacancy
+  // A bank hiring is private — unless the title reads like news about a
+  // bank ("Bank of England Says…"), which is market news, not a vacancy.
+  if (/\bbank\b/i.test(title) && !/\bsays\b|\breport\b|\bsurvey\b|data shows/i.test(title)) return true;
+  return PRIVATE_TITLE_PATTERNS.some((rx) => rx.test(title));
+}
+
+export interface Industry {
+  slug: string;
+  name: string;
+  description: string;
+  /** Title-only keyword patterns — the title is the article's own
+   *  summary, so title matching stays clean where excerpt matching
+   *  pulled in omnibus recruitments that merely mention a sector. */
+  patterns: RegExp[];
+}
+
+/** Industries with 5+ job articles in the corpus (2026-11-18). An
+ *  industry appears on /industries once it reaches 5 articles; below
+ *  that it stays on /jobs only. */
+export const INDUSTRIES: Industry[] = [
+  {
+    slug: "engineering",
+    name: "Engineering",
+    description: "Engineering vacancies — civil, mechanical, electrical and electronics engineers, railway and PSU apprenticeships, and GATE-based trainee roles.",
+    patterns: [
+      /engineer/i, /engineering/i, /railway/i, /power/i,
+      /electricity/i, /telecom/i, /civil/i, /mechanical/i,
+      /electrical/i, /electronics/i, /apprentice/i,
+      /\baee\b/i, /\bje\b/i, /\bgate\b/i, /\brrb\b/i, /\brrc\b/i,
+    ],
+  },
+  {
+    slug: "technology",
+    name: "Technology",
+    description: "Technology and AI jobs — AI, data, software and cybersecurity roles, from startups to global tech employers.",
+    patterns: [
+      /software/i, /artificial intelligence/i, /\bai\b/i, /\bdata\b/i,
+      /cyber/i, /machine learning/i, /computer/i, /programmer/i,
+      /developer/i, /information technology/i, /digital/i, /quantum/i,
+    ],
+  },
+  {
+    slug: "banking-finance",
+    name: "Banking & Finance",
+    description: "Banking and finance vacancies — public-sector banks, insurance, wealth management and accounting roles.",
+    patterns: [
+      /bank/i, /banking/i, /finance/i, /financial/i,
+      /insurance/i, /accountant/i, /chartered accountant/i,
+      /wealth management/i, /audit/i, /\bsbi\b/i, /\bnicl\b/i, /\bibps\b/i,
+    ],
+  },
+  {
+    slug: "education",
+    name: "Education",
+    description: "Education jobs — teachers, instructors, professors and tutors, including TET and teaching recruitments.",
+    patterns: [
+      /teacher/i, /teaching/i, /instructor/i, /professor/i,
+      /lecturer/i, /assistant professor/i, /tutor/i, /school/i,
+      /tet\b/i, /education/i,
+    ],
+  },
+  {
+    slug: "healthcare",
+    name: "Healthcare",
+    description: "Healthcare jobs — doctors, nurses, pharmacists, caregivers and community health officers.",
+    patterns: [
+      /nurs/i, /doctor/i, /medical/i, /health/i, /hospital/i,
+      /pharmac/i, /dentist/i, /dental/i, /caregiver/i,
+      /health officer/i, /ophthalmic/i, /surgeon/i, /physician/i,
+      /psychiatrist/i, /pathologist/i, /radiologist/i,
+      /community health/i, /medical officer/i, /health assistant/i,
+      /staff nurse/i, /lab technician/i, /pharmacy officer/i,
+      /\bnhm\b/i,
+    ],
+  },
+  {
+    slug: "defence-security",
+    name: "Defence & Security",
+    description: "Defence and security jobs — police, armed forces, paramilitary and correctional roles.",
+    patterns: [
+      /police/i, /army/i, /navy/i, /air force/i, /defence/i,
+      /defense/i, /security officer/i, /constable/i,
+      /firefighter/i, /correctional/i, /paramilitary/i,
+      /\bafms\b/i, /armed forces/i,
+    ],
+  },
+];
+
+export function industryBySlug(slug: string): Industry | undefined {
+  return INDUSTRIES.find((i) => i.slug === slug);
+}
+
+export function industriesForTitle(titleEn: string): Industry[] {
+  const title = titleEn || "";
+  return INDUSTRIES.filter((ind) => ind.patterns.some((rx) => rx.test(title)));
+}
+
+// ---------------------------------------------------------------------------
+// Best-effort apply-by date for job posts (shared by /articles/[slug] and
+// /jobs/[slug]). Deadline phrasings vary — "Apply by 30 November 2026"
+// (often only in the title), "Applications close on 17 November", "Last
+// date | 17 November 2026" (at-a-glance table), "the form runs from 15
+// October to 13 November 2026" (end date), "Submit before 11:59 pm on
+// 13 November 2026". Returns ISO date (YYYY-MM-DD) or null. Year is taken
+// from the text when present, else the current year. Only used for
+// job-category articles — news/pop/tech never get a closed banner.
+// ---------------------------------------------------------------------------
+
+const APPLY_BY_MONTHS = ["january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december"];
+
+export function applyByDate(titleEn: string, excerptEn: string, bodyEn: string): string | null {
+  const text = `${titleEn} ${excerptEn} ${bodyEn.replace(/<[^>]+>/g, " ")}`;
+  const monthPat = APPLY_BY_MONTHS.join("|");
+  const patterns = [
+    `apply by\\s+(\\d{1,2})\\s+(${monthPat})(?:\\s+(\\d{4}))?`,
+    `applications?\\s+close[sd]?\\s+(?:on\\s+)?(\\d{1,2})\\s+(${monthPat})(?:\\s+(\\d{4}))?`,
+    `last date[^.]{0,80}?(\\d{1,2})\\s+(${monthPat})(?:\\s+(\\d{4}))?`,
+    `runs from[^.]{0,80}?to\\s+(\\d{1,2})\\s+(${monthPat})(?:\\s+(\\d{4}))?`,
+    `submit\\s+(?:before|by)[^.]{0,40}?(\\d{1,2})\\s+(${monthPat})(?:\\s+(\\d{4}))?`,
+  ];
+  for (const p of patterns) {
+    const m = text.match(new RegExp(p, "i"));
+    if (m) {
+      const year = m[3] ? parseInt(m[3], 10) : new Date().getFullYear();
+      const month = APPLY_BY_MONTHS.indexOf(m[2].toLowerCase()) + 1;
+      return `${year}-${String(month).padStart(2, "0")}-${m[1].padStart(2, "0")}`;
+    }
+  }
+  return null;
+}

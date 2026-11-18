@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { db } from "@/lib/db";
 import { ArticleView } from "@/components/articles/ArticleView";
 import { CommentSection } from "@/components/articles/CommentSection";
-import { articleCategoryLabel } from "@/lib/articles";
+import { articleCategoryLabel, applyByDate } from "@/lib/articles";
 
 export const revalidate = 300; // ISR: serve cached HTML, regenerate in background; admin/cron purge on publish
 
@@ -41,37 +41,6 @@ export async function generateMetadata({
       images: ["https://growentix.cloud/icon.svg"],
     },
   };
-}
-
-const MONTHS = ["january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december"];
-
-/** Best-effort apply-by date for job posts. Deadline phrasings vary —
- *  "Apply by 30 November 2026" (often only in the title), "Applications
- *  close on 17 November", "Last date | 17 November 2026" (at-a-glance
- *  table), "the form runs from 15 October to 13 November 2026" (end date),
- *  "Submit before 11:59 pm on 13 November 2026". Returns ISO date
- *  (YYYY-MM-DD) or null. Year is taken from the text when present, else
- *  the current year. Only used for job-category articles — news/pop/tech
- *  never get a closed banner. */
-function applyByDate(titleEn: string, excerptEn: string, bodyEn: string): string | null {
-  const text = `${titleEn} ${excerptEn} ${bodyEn.replace(/<[^>]+>/g, " ")}`;
-  const monthPat = MONTHS.join("|");
-  const patterns = [
-    `apply by\\s+(\\d{1,2})\\s+(${monthPat})(?:\\s+(\\d{4}))?`,
-    `applications?\\s+close[sd]?\\s+(?:on\\s+)?(\\d{1,2})\\s+(${monthPat})(?:\\s+(\\d{4}))?`,
-    `last date[^.]{0,80}?(\\d{1,2})\\s+(${monthPat})(?:\\s+(\\d{4}))?`,
-    `runs from[^.]{0,80}?to\\s+(\\d{1,2})\\s+(${monthPat})(?:\\s+(\\d{4}))?`,
-    `submit\\s+(?:before|by)[^.]{0,40}?(\\d{1,2})\\s+(${monthPat})(?:\\s+(\\d{4}))?`,
-  ];
-  for (const p of patterns) {
-    const m = text.match(new RegExp(p, "i"));
-    if (m) {
-      const year = m[3] ? parseInt(m[3], 10) : new Date().getFullYear();
-      const month = MONTHS.indexOf(m[2].toLowerCase()) + 1;
-      return `${year}-${String(month).padStart(2, "0")}-${m[1].padStart(2, "0")}`;
-    }
-  }
-  return null;
 }
 
 export default async function ArticlePage({

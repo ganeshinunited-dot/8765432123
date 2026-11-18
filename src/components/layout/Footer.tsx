@@ -52,6 +52,9 @@ export function Footer() {
           <nav aria-label="Company" className="flex flex-wrap gap-x-6 gap-y-2 text-sm text-slate-400">
             <Link href="/about" className="hover:text-emerald-300">About</Link>
             <Link href="/countries" className="hover:text-emerald-300">Countries</Link>
+            <Link href="/government-jobs" className="hover:text-emerald-300">Government Jobs</Link>
+            <Link href="/private-jobs" className="hover:text-emerald-300">Private Jobs</Link>
+            <Link href="/industries" className="hover:text-emerald-300">Industries</Link>
             <Link href="/editorial-policy" className="hover:text-emerald-300">Editorial policy</Link>
             <Link href="/verification-policy" className="hover:text-emerald-300">Verification policy</Link>
             <Link href="/contact" className="hover:text-emerald-300">Contact</Link>
