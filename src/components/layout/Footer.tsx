@@ -51,13 +51,18 @@ export function Footer() {
           </Link>
           <nav aria-label="Company" className="flex flex-wrap gap-x-6 gap-y-2 text-sm text-slate-400">
             <Link href="/about" className="hover:text-emerald-300">About</Link>
+            <Link href="/countries" className="hover:text-emerald-300">Countries</Link>
+            <Link href="/editorial-policy" className="hover:text-emerald-300">Editorial policy</Link>
+            <Link href="/verification-policy" className="hover:text-emerald-300">Verification policy</Link>
+            <Link href="/contact" className="hover:text-emerald-300">Contact</Link>
             <Link href="/privacy" className="hover:text-emerald-300">Privacy policy</Link>
             <Link href="/terms" className="hover:text-emerald-300">Terms of service</Link>
             <a href="https://www.facebook.com/MysticVibes123" target="_blank" rel="noopener noreferrer" className="hover:text-emerald-300">Mystic Vibes on Facebook</a>
           </nav>
         </div>
         <div className="mt-6 border-t border-white/10 pt-5 text-center text-sm text-slate-500">
-          <p>© 2026 Growentix. All rights reserved.</p>
+          <p>Growentix – Global Jobs. Trusted Opportunities.</p>
+          <p className="mt-1">© 2026 Growentix. All rights reserved.</p>
         </div>
       </div>
     </footer>

@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { db } from "@/lib/db";
 import { ArticleView } from "@/components/articles/ArticleView";
 import { CommentSection } from "@/components/articles/CommentSection";
+import { articleCategoryLabel } from "@/lib/articles";
 
 export const revalidate = 300; // ISR: serve cached HTML, regenerate in background; admin/cron purge on publish
 
@@ -114,6 +115,42 @@ export default async function ArticlePage({
     inLanguage: ["en"],
   };
 
+  // Breadcrumb: Home → section → article. Job categories link to their
+  // country/region page (/<slug>); news, pop-music and tech-ai link to
+  // their section pages.
+  const section =
+    a.category === "news"
+      ? { name: "News", url: "https://growentix.cloud/articles" }
+      : a.category === "pop-music"
+        ? { name: "Pop Music", url: "https://growentix.cloud/popmusic" }
+        : a.category === "tech-ai"
+          ? { name: "Tech & AI", url: "https://growentix.cloud/tech-ai" }
+          : { name: articleCategoryLabel(a.category), url: `https://growentix.cloud/${a.category}` };
+  const breadcrumbLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: "https://growentix.cloud/" },
+      { "@type": "ListItem", position: 2, name: section.name, item: section.url },
+      { "@type": "ListItem", position: 3, name: a.titleEn, item: `https://growentix.cloud/articles/${slug}` },
+    ],
+  };
+
+  // JobPosting — job-category articles only, and only with facts the
+  // article itself verifies. The Article model has no structured employer,
+  // salary or location fields, so those are omitted rather than invented;
+  // validThrough comes from the same deadline parse as the closed banner.
+  const jobPostingLd = isJob
+    ? {
+        "@context": "https://schema.org",
+        "@type": "JobPosting",
+        title: a.titleEn,
+        description: a.excerptEn,
+        datePosted: a.publishedAt.toISOString().split("T")[0],
+        ...(deadline ? { validThrough: deadline } : {}),
+      }
+    : null;
+
   return (
     <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6">
       <div>
@@ -122,6 +159,16 @@ export default async function ArticlePage({
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
+      />
+      {jobPostingLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jobPostingLd) }}
+        />
+      )}
       <ArticleView
         article={{
           slug: a.slug,

@@ -91,6 +91,10 @@ export default async function HomePage({ searchParams }: { searchParams: SearchP
                 View All <span aria-hidden="true">→</span>
               </Link>
             </div>
+            <p className="mt-3 max-w-2xl text-sm leading-relaxed text-slate-600">
+              Global jobs. Trusted opportunities. Verified vacancies and job news from the United States,
+              United Kingdom, Canada, Australia, Europe, Asia and beyond.
+            </p>
 
             <CategoryPills
               ariaLabel="Filter jobs by category"
@@ -146,7 +150,7 @@ export default async function HomePage({ searchParams }: { searchParams: SearchP
         </div>
       </section>
 
-      {/* Latest vacancy notices — national government jobs */}
+      {/* Latest vacancy notices — government jobs */}
       <section className="border-t border-slate-200 bg-slate-50">
         <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-16">
           <div className="flex flex-wrap items-end justify-between gap-3">

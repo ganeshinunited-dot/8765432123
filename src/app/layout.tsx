@@ -12,27 +12,27 @@ const siteUrl = process.env.NEXT_PUBLIC_APP_URL || "https://growentix.cloud";
 
 export const metadata: Metadata = {
   title: {
-    default: "Growentix — Daily Job News & Vacancy Notices | Nepal & Abroad",
+    default: "Growentix – Global Jobs. Trusted Opportunities.",
     template: "%s | Growentix",
   },
   description:
-    "Daily job news and vacancy notices from Nepal and around the world — government vacancies, Gulf jobs, Korea & Japan, remote work and work-abroad updates.",
+    "Global job news and trusted opportunities from around the world — international recruitment, remote jobs, government and private sector vacancies, and career news, verified against official sources.",
   metadataBase: new URL(siteUrl),
   alternates: { canonical: "/" },
   openGraph: {
     type: "website",
     siteName: "Growentix",
-    title: "Growentix — Daily Job News & Vacancy Notices | Nepal & Abroad",
+    title: "Growentix – Global Jobs. Trusted Opportunities.",
     description:
-      "Daily job news and vacancy notices from Nepal and around the world — government vacancies, Gulf jobs, Korea & Japan, remote work and work-abroad updates.",
+      "Global job news and trusted opportunities from around the world — international recruitment, remote jobs, government and private sector vacancies, and career news.",
     url: "/",
     images: ["https://growentix.cloud/icon.svg"],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Growentix — Daily Job News & Vacancy Notices | Nepal & Abroad",
+    title: "Growentix – Global Jobs. Trusted Opportunities.",
     description:
-      "Daily job news and vacancy notices from Nepal and around the world — government vacancies, Gulf jobs, Korea & Japan, remote work and work-abroad updates.",
+      "Global job news and trusted opportunities from around the world — international recruitment, remote jobs, government and private sector vacancies, and career news.",
     images: ["https://growentix.cloud/icon.svg"],
   },
   robots: { index: true, follow: true },
@@ -66,7 +66,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                   url: "https://growentix.cloud",
                   logo: "https://growentix.cloud/icon.svg",
                   description:
-                    "Daily job news and vacancy notices from Nepal and around the world.",
+                    "Global job news and trusted opportunities from around the world.",
                 },
                 {
                   "@type": "WebSite",
