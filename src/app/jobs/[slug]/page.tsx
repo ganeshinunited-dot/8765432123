@@ -4,6 +4,7 @@ import { db } from "@/lib/db";
 import { ArticleView } from "@/components/articles/ArticleView";
 import { CommentSection } from "@/components/articles/CommentSection";
 import { applyByDate, isJobCategory } from "@/lib/articles";
+import { extractKeyFacts } from "@/lib/keyFacts";
 
 export const revalidate = 300; // ISR: serve cached HTML, regenerate in background; admin/cron purge on publish
 
@@ -66,6 +67,21 @@ export default async function JobDetailPage({
   const deadline = applyByDate(a.titleEn, a.excerptEn, a.bodyEn);
   const todayNpt = new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Kathmandu", year: "numeric", month: "2-digit", day: "2-digit" }).format(new Date());
   const closed = deadline !== null && deadline < todayNpt;
+
+  // Key Facts box (GEO Step 2): parsed from the article's own summary
+  // table + derived fields only — nothing invented. The parsed table is
+  // removed from the body so it never renders twice. This route is
+  // job-category articles only.
+  const keyFacts = extractKeyFacts(a.bodyEn, {
+    isJob: true,
+    country: a.country,
+    categoryLabel: a.category,
+    publishedAt: a.publishedAt,
+    updatedAt: a.updatedAt,
+    verifiedAt: a.verifiedAt ?? null,
+    deadline,
+    closed,
+  });
 
   // Related stories from the same section — newest first, excluding this
   // article (same rule as /articles/[slug]).
@@ -141,7 +157,8 @@ export default async function JobDetailPage({
           country: a.country,
           titleEn: a.titleEn,
           excerptEn: a.excerptEn,
-          bodyEn: a.bodyEn,
+          bodyEn: keyFacts.bodyWithoutSummaryTable,
+          keyFacts: keyFacts.facts,
           sources: a.sources,
           videos: Array.isArray(a.videos)
             ? (a.videos as unknown as {
@@ -167,3 +184,4 @@ export default async function JobDetailPage({
     </div>
   );
 }
+

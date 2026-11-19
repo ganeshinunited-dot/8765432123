@@ -25,6 +25,9 @@ export interface ArticleData {
   closedDeadline?: string | null;
   /** Same-section stories, newest first (SEO audit fix). */
   related?: { slug: string; titleEn: string; excerptEn: string; publishedAt: string }[];
+  /** Key Facts rows derived server-side (GEO Step 2) — only fields the
+   *  article itself states; never invented. Empty/missing renders no box. */
+  keyFacts?: { label: string; value: string }[];
 }
 
 function formatDate(iso: string): string {
@@ -108,6 +111,20 @@ export function ArticleView({ article }: { article: ArticleData }) {
         </div>
       )}
 
+      {article.keyFacts && article.keyFacts.length > 0 && (
+        <section aria-label="Key facts" className="mt-6 rounded-xl border border-slate-200 bg-slate-50 p-5">
+          <h2 className="gx-h2 mt-0">Key facts</h2>
+          <dl className="mt-4 space-y-2.5">
+            {article.keyFacts.map((f) => (
+              <div key={f.label} className="flex flex-wrap gap-x-3 gap-y-0.5 text-sm">
+                <dt className="w-32 shrink-0 font-semibold text-slate-900">{f.label}</dt>
+                <dd className="min-w-0 flex-1 text-slate-700">{f.value}</dd>
+              </div>
+            ))}
+          </dl>
+        </section>
+      )}
+
       <div
         lang="en"
         className="gx-article mt-6 max-w-none text-slate-700"
@@ -163,3 +180,4 @@ export function ArticleView({ article }: { article: ArticleData }) {
     </article>
   );
 }
+
