@@ -8,7 +8,7 @@ export const revalidate = 3600;
 export default async function sitemap() {
   const base = process.env.NEXT_PUBLIC_APP_URL || "https://growentix.cloud";
 
-  const staticPages = ["", "/jobs", "/sarkari-jobs", "/articles", "/explore", "/countries", "/government-jobs", "/private-jobs", "/industries", "/companies", "/for-employers", "/about", "/privacy", "/terms", "/courses", "/support", "/contact", "/editorial-policy", "/verification-policy", "/faq", "/safety", "/tech-ai", "/popmusic", "/nepal", "/gulf", "/korea-japan", "/usa", "/uk", "/canada", "/australia", "/europe", "/asia", "/work-abroad", "/remote", "/remote-jobs", "/global", "/career"].map(
+  const staticPages = ["", "/jobs", "/sarkari-jobs", "/articles", "/explore", "/countries", "/government-jobs", "/private-jobs", "/industries", "/companies", "/for-employers", "/about", "/privacy", "/terms", "/courses", "/support", "/contact", "/editorial-policy", "/verification-policy", "/editorial-team", "/faq", "/safety", "/tech-ai", "/popmusic", "/nepal", "/gulf", "/korea-japan", "/usa", "/uk", "/canada", "/australia", "/europe", "/asia", "/work-abroad", "/remote", "/remote-jobs", "/global", "/career"].map(
     (path) => ({ url: `${base}${path}`, lastModified: new Date(), changeFrequency: "daily" as const, priority: path === "" ? 1 : 0.8 })
   );
 

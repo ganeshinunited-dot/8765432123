@@ -70,7 +70,9 @@ export default function EditorialPolicyPage() {
         <p>
           Growentix articles are published under the Growentix name, and every article lists its official
           sources so readers can check the facts for themselves. Individual authors are credited where an
-          article carries a named byline.
+          article carries a named byline. The team behind every byline is described on our{" "}
+          <Link href="/editorial-team" className="font-semibold text-emerald-700 hover:underline">Editorial Team page</Link>
+          .
         </p>
       </Section>
 

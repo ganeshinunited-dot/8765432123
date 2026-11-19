@@ -101,7 +101,7 @@ export default async function JobDetailPage({
     image: "https://growentix.cloud/icon.svg",
     datePublished: a.publishedAt.toISOString(),
     dateModified: a.updatedAt.toISOString(),
-    author: { "@type": "Organization", name: "Growentix" },
+    author: { "@type": "Organization", name: "Growentix", url: "https://growentix.cloud/editorial-team" },
     publisher: { "@type": "Organization", name: "Growentix", logo: { "@type": "ImageObject", url: "https://growentix.cloud/icon.svg" } },
     inLanguage: ["en"],
   };

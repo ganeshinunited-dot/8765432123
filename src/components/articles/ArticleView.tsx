@@ -95,7 +95,7 @@ export function ArticleView({ article }: { article: ArticleData }) {
 
       <p className="mt-3 text-sm text-slate-500">
         By{" "}
-        <a href="/editorial-policy" className="font-medium text-emerald-700 hover:underline">
+        <a href="/editorial-team" className="font-medium text-emerald-700 hover:underline">
           {article.authorName ?? "Growentix Editorial Team"}
         </a>
       </p>

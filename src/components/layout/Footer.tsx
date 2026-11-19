@@ -32,6 +32,7 @@ export function Footer() {
             <Link href="/companies" className="hover:text-emerald-300">Companies</Link>
             <Link href="/for-employers" className="hover:text-emerald-300">For Employers</Link>
             <Link href="/editorial-policy" className="hover:text-emerald-300">Editorial policy</Link>
+            <Link href="/editorial-team" className="hover:text-emerald-300">Editorial team</Link>
             <Link href="/verification-policy" className="hover:text-emerald-300">Verification policy</Link>
             <Link href="/contact" className="hover:text-emerald-300">Contact</Link>
             <Link href="/privacy" className="hover:text-emerald-300">Privacy policy</Link>
