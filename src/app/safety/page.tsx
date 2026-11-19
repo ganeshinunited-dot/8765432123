@@ -7,6 +7,7 @@ export const revalidate = 300;
 export const metadata: Metadata = {
   title: "Job Seeker Safety",
   description: "How to stay safe when searching and applying for jobs on Growentix.",
+  alternates: { canonical: "https://growentix.cloud/safety" },
 };
 
 export default function SafetyPage() {

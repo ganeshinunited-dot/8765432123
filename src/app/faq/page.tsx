@@ -6,6 +6,7 @@ export const revalidate = 300;
 export const metadata: Metadata = {
   title: "Frequently Asked Questions",
   description: "Quick answers about Growentix — global job news, verified vacancies, work-visa guides, and employer verification.",
+  alternates: { canonical: "https://growentix.cloud/faq" },
 };
 
 const FAQS = [
