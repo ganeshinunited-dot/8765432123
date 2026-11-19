@@ -5,6 +5,7 @@ import { ArticleView } from "@/components/articles/ArticleView";
 import { CommentSection } from "@/components/articles/CommentSection";
 import { articleCategoryLabel, applyByDate, isJobCategory } from "@/lib/articles";
 import { extractKeyFacts } from "@/lib/keyFacts";
+import { extractFaqs } from "@/lib/faq";
 
 export const revalidate = 300; // ISR: serve cached HTML, regenerate in background; admin/cron purge on publish
 
@@ -71,6 +72,27 @@ export default async function ArticlePage({
     deadline,
     closed,
   });
+
+  // Per-article FAQ (GEO Step 5): parsed from the FAQ block at the very
+  // end of the body — 2–5 genuine Q&A pairs written by the builder from
+  // the article's own sources. A malformed or missing block parses to
+  // nothing: the body renders untouched and no FAQPage schema is emitted.
+  const faqResult = extractFaqs(keyFacts.bodyWithoutSummaryTable);
+
+  // FAQPage schema — only when the article actually carries an FAQ block,
+  // and only with the exact questions and answers shown on the page.
+  const faqLd =
+    faqResult.faqs.length > 0
+      ? {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          mainEntity: faqResult.faqs.map((f) => ({
+            "@type": "Question",
+            name: f.question,
+            acceptedAnswer: { "@type": "Answer", text: f.answer },
+          })),
+        }
+      : null;
 
   // Related stories from the same section — newest first, excluding this
   // article (SEO audit fix, 2026-11-17). Server-side so the client
@@ -153,6 +175,12 @@ export default async function ArticlePage({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jobPostingLd) }}
         />
       )}
+      {faqLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }}
+        />
+      )}
       <ArticleView
         article={{
           slug: a.slug,
@@ -163,8 +191,9 @@ export default async function ArticlePage({
           country: a.country,
           titleEn: a.titleEn,
           excerptEn: a.excerptEn,
-          bodyEn: keyFacts.bodyWithoutSummaryTable,
+          bodyEn: faqResult.bodyWithoutFaq,
           keyFacts: keyFacts.facts,
+          faqs: faqResult.faqs,
           sources: a.sources,
           videos: Array.isArray(a.videos)
             ? (a.videos as unknown as {

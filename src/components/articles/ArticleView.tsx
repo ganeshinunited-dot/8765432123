@@ -28,6 +28,10 @@ export interface ArticleData {
   /** Key Facts rows derived server-side (GEO Step 2) — only fields the
    *  article itself states; never invented. Empty/missing renders no box. */
   keyFacts?: { label: string; value: string }[];
+  /** Per-article FAQs parsed server-side (GEO Step 5) — the builder writes
+   *  them from the article's own sources; empty/missing renders no section
+   *  and no FAQPage schema. */
+  faqs?: { question: string; answer: string; answerHtml: string }[];
 }
 
 function formatDate(iso: string): string {
@@ -131,6 +135,23 @@ export function ArticleView({ article }: { article: ArticleData }) {
       >
         <div dangerouslySetInnerHTML={{ __html: article.bodyEn }} />
       </div>
+
+      {article.faqs && article.faqs.length > 0 && (
+        <section aria-label="Frequently asked questions" className="mt-10 border-t border-slate-200 pt-8">
+          <h2 className="gx-h2 mt-0">Frequently asked questions</h2>
+          <div className="mt-5 space-y-5">
+            {article.faqs.map((f) => (
+              <div key={f.question}>
+                <h3 className="text-base font-semibold leading-snug text-slate-900">{f.question}</h3>
+                <div
+                  className="mt-1 text-sm leading-relaxed text-slate-700"
+                  dangerouslySetInnerHTML={{ __html: f.answerHtml }}
+                />
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
 
       {article.sources.length > 0 && (
         <section aria-label="Sources and references" className="mt-10 border-t border-slate-200 pt-8">
