@@ -133,30 +133,39 @@ export function ArticleView({ article }: { article: ArticleData }) {
       </div>
 
       {article.sources.length > 0 && (
-        <p className="mt-10 text-sm text-slate-500">
-          Sources:{" "}
-          {article.sources.map((s, i) => {
-            let host = s;
-            try {
-              host = new URL(s).hostname.replace(/^www\./, "");
-            } catch {
-              /* keep raw */
-            }
-            return (
-              <span key={s}>
-                {i > 0 && " · "}
-                <a
-                  href={s}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="font-medium text-emerald-700 hover:underline"
-                >
-                  {host}
-                </a>
-              </span>
-            );
-          })}
-        </p>
+        <section aria-label="Sources and references" className="mt-10 border-t border-slate-200 pt-8">
+          <h2 className="gx-h2 mt-0">Sources and references</h2>
+          <p className="mt-3 text-sm text-slate-500">
+            Information checked: {formatDate(article.verifiedAt ?? article.publishedAt)}
+          </p>
+          <ul className="mt-4 space-y-2">
+            {article.sources.map((s) => {
+              let host = s;
+              let valid = true;
+              try {
+                host = new URL(s).hostname.replace(/^www\./, "");
+              } catch {
+                valid = false;
+              }
+              return (
+                <li key={s} className="text-sm">
+                  {valid ? (
+                    <a
+                      href={s}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="font-medium text-emerald-700 hover:underline"
+                    >
+                      {host}
+                    </a>
+                  ) : (
+                    <span className="text-slate-700">{s}</span>
+                  )}
+                </li>
+              );
+            })}
+          </ul>
+        </section>
       )}
 
       {article.related && article.related.length > 0 && (
