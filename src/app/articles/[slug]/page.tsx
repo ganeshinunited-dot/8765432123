@@ -6,6 +6,7 @@ import { CommentSection } from "@/components/articles/CommentSection";
 import { articleCategoryLabel, applyByDate, isJobCategory } from "@/lib/articles";
 import { extractKeyFacts } from "@/lib/keyFacts";
 import { extractFaqs } from "@/lib/faq";
+import { buildJobPosting } from "@/lib/jobPosting";
 
 export const revalidate = 300; // ISR: serve cached HTML, regenerate in background; admin/cron purge on publish
 
@@ -116,8 +117,8 @@ export default async function ArticlePage({
     image: "https://growentix.cloud/icon.svg",
     datePublished: a.publishedAt.toISOString(),
     dateModified: a.updatedAt.toISOString(),
-    author: { "@type": "Organization", name: "Growentix", url: "https://growentix.cloud/editorial-team" },
-    publisher: { "@type": "Organization", name: "Growentix", logo: { "@type": "ImageObject", url: "https://growentix.cloud/icon.svg" } },
+    author: { "@type": "Organization", "@id": "https://growentix.cloud/#organization", name: "Growentix", url: "https://growentix.cloud/editorial-team" },
+    publisher: { "@type": "Organization", "@id": "https://growentix.cloud/#organization", name: "Growentix", logo: { "@type": "ImageObject", url: "https://growentix.cloud/icon.svg" } },
     inLanguage: ["en"],
   };
 
@@ -146,15 +147,21 @@ export default async function ArticlePage({
   // article itself verifies. The Article model has no structured employer,
   // salary or location fields, so those are omitted rather than invented;
   // validThrough comes from the same deadline parse as the closed banner.
+  // GEO Step 7: no JobPosting at all once the vacancy has closed — a
+  // closed vacancy is not a genuine active vacancy. hiringOrganization
+  // and jobLocation come from the article's own Key Facts (employer row
+  // from its summary table, country label mapped to ISO); either is
+  // omitted when the article does not state it.
   const jobPostingLd = isJob
-    ? {
-        "@context": "https://schema.org",
-        "@type": "JobPosting",
+    ? buildJobPosting({
         title: a.titleEn,
         description: a.excerptEn,
         datePosted: a.publishedAt.toISOString().split("T")[0],
-        ...(deadline ? { validThrough: deadline } : {}),
-      }
+        deadline,
+        closed,
+        employer: keyFacts.facts.find((f) => f.label === "Employer")?.value ?? null,
+        country: a.country,
+      })
     : null;
 
   return (
@@ -189,6 +196,7 @@ export default async function ArticlePage({
           verifiedAt: a.verifiedAt?.toISOString() ?? null,
           authorName: a.authorName ?? null,
           country: a.country,
+          breadcrumb: { sectionName: section.name, sectionUrl: section.url },
           titleEn: a.titleEn,
           excerptEn: a.excerptEn,
           bodyEn: faqResult.bodyWithoutFaq,

@@ -32,6 +32,10 @@ export interface ArticleData {
    *  them from the article's own sources; empty/missing renders no section
    *  and no FAQPage schema. */
   faqs?: { question: string; answer: string; answerHtml: string }[];
+  /** Visible breadcrumb trail (GEO Step 7) — mirrors the BreadcrumbList
+   *  schema exactly: schema must match visible page content, so the trail
+   *  the schema describes is rendered, not just declared. */
+  breadcrumb?: { sectionName: string; sectionUrl: string };
 }
 
 function formatDate(iso: string): string {
@@ -59,6 +63,27 @@ function readingTime(html: string): number {
 export function ArticleView({ article }: { article: ArticleData }) {
   return (
     <article>
+      {article.breadcrumb && (
+        <nav aria-label="Breadcrumb" className="mb-6 text-sm text-slate-500">
+          <ol className="flex flex-wrap items-center gap-1.5">
+            <li>
+              <a href="/" className="hover:text-emerald-700 hover:underline">
+                Home
+              </a>
+            </li>
+            <li aria-hidden="true">/</li>
+            <li>
+              <a href={article.breadcrumb.sectionUrl} className="hover:text-emerald-700 hover:underline">
+                {article.breadcrumb.sectionName}
+              </a>
+            </li>
+            <li aria-hidden="true">/</li>
+            <li aria-current="page" className="min-w-0 flex-1 truncate text-slate-700">
+              {article.titleEn}
+            </li>
+          </ol>
+        </nav>
+      )}
       <div className="flex flex-wrap items-center gap-2">
         <span className="rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700">
           {articleCategoryLabel(article.category)}

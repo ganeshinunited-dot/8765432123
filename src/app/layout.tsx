@@ -55,11 +55,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4375599901125250"
           crossOrigin="anonymous"
         />
-        {/* Site-wide Organization + WebSite schema: article pages already
-            carry NewsArticle schema; this gives AI tools and search engines
-            the same identity on every page, including home/about/privacy. */}
-        <Script
-          id="gx-org-schema"
+        {/* Site-wide Organization + WebSite schema. A plain <script> tag
+            (not next/script): next/script only injects inline JSON-LD
+            after hydration, so crawlers that do not run JavaScript never
+            saw the site's identity at all. The "@id" lets article pages
+            reference this same Organization entity. */}
+        <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
@@ -67,6 +68,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               "@graph": [
                 {
                   "@type": "Organization",
+                  "@id": "https://growentix.cloud/#organization",
                   name: "Growentix",
                   url: "https://growentix.cloud",
                   logo: "https://growentix.cloud/icon.svg",

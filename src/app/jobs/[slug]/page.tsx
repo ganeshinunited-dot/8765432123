@@ -6,6 +6,7 @@ import { CommentSection } from "@/components/articles/CommentSection";
 import { applyByDate, isJobCategory } from "@/lib/articles";
 import { extractKeyFacts } from "@/lib/keyFacts";
 import { extractFaqs } from "@/lib/faq";
+import { buildJobPosting } from "@/lib/jobPosting";
 
 export const revalidate = 300; // ISR: serve cached HTML, regenerate in background; admin/cron purge on publish
 
@@ -122,8 +123,8 @@ export default async function JobDetailPage({
     image: "https://growentix.cloud/icon.svg",
     datePublished: a.publishedAt.toISOString(),
     dateModified: a.updatedAt.toISOString(),
-    author: { "@type": "Organization", name: "Growentix", url: "https://growentix.cloud/editorial-team" },
-    publisher: { "@type": "Organization", name: "Growentix", logo: { "@type": "ImageObject", url: "https://growentix.cloud/icon.svg" } },
+    author: { "@type": "Organization", "@id": "https://growentix.cloud/#organization", name: "Growentix", url: "https://growentix.cloud/editorial-team" },
+    publisher: { "@type": "Organization", "@id": "https://growentix.cloud/#organization", name: "Growentix", logo: { "@type": "ImageObject", url: "https://growentix.cloud/icon.svg" } },
     inLanguage: ["en"],
   };
 
@@ -143,14 +144,20 @@ export default async function JobDetailPage({
   // model has no structured employer, salary or location fields, so those
   // are omitted rather than invented; validThrough comes from the same
   // deadline parse as the closed banner.
-  const jobPostingLd = {
-    "@context": "https://schema.org",
-    "@type": "JobPosting",
+  // GEO Step 7: no JobPosting at all once the vacancy has closed — a
+  // closed vacancy is not a genuine active vacancy. hiringOrganization
+  // and jobLocation come from the article's own Key Facts (employer row
+  // from its summary table, country label mapped to ISO); either is
+  // omitted when the article does not state it.
+  const jobPostingLd = buildJobPosting({
     title: a.titleEn,
     description: a.excerptEn,
     datePosted: a.publishedAt.toISOString().split("T")[0],
-    ...(deadline ? { validThrough: deadline } : {}),
-  };
+    deadline,
+    closed,
+    employer: keyFacts.facts.find((f) => f.label === "Employer")?.value ?? null,
+    country: a.country,
+  });
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6">
@@ -164,10 +171,12 @@ export default async function JobDetailPage({
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
       />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jobPostingLd) }}
-      />
+      {jobPostingLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jobPostingLd) }}
+        />
+      )}
       {faqLd && (
         <script
           type="application/ld+json"
@@ -182,6 +191,7 @@ export default async function JobDetailPage({
           verifiedAt: a.verifiedAt?.toISOString() ?? null,
           authorName: a.authorName ?? null,
           country: a.country,
+          breadcrumb: { sectionName: "Jobs", sectionUrl: "https://growentix.cloud/jobs" },
           titleEn: a.titleEn,
           excerptEn: a.excerptEn,
           bodyEn: faqResult.bodyWithoutFaq,
