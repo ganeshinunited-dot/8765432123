@@ -7,6 +7,7 @@ import { articleCategoryLabel, applyByDate, isJobCategory } from "@/lib/articles
 import { extractKeyFacts } from "@/lib/keyFacts";
 import { extractFaqs } from "@/lib/faq";
 import { buildJobPosting } from "@/lib/jobPosting";
+import { isVisaGuide, topicLinksForArticle, VISA_GUIDES } from "@/lib/topicLinks";
 
 export const revalidate = 300; // ISR: serve cached HTML, regenerate in background; admin/cron purge on publish
 
@@ -108,6 +109,32 @@ export default async function ArticlePage({
     select: { slug: true, titleEn: true, excerptEn: true, publishedAt: true },
   });
   const related = candidates.filter((r) => r.slug !== slug).slice(0, 4);
+
+  // "More in this topic" hub links (GEO Step 8): section + government/
+  // private + industry hubs derived from the article itself.
+  const topicLinks = topicLinksForArticle({
+    category: a.category,
+    titleEn: a.titleEn,
+    sources: a.sources,
+  });
+
+  // Work-visa guide cluster (GEO Step 8): on a guide article, link the
+  // sibling guides. Only slugs that still exist in the DB are shown, in
+  // curated order; the current article is never listed.
+  const visaGuideSlugs = isVisaGuide(slug)
+    ? VISA_GUIDES.map((g) => g.slug).filter((s) => s !== slug)
+    : [];
+  const existingGuideSlugs = new Set(
+    visaGuideSlugs.length > 0
+      ? (
+          await db.article.findMany({
+            where: { slug: { in: visaGuideSlugs } },
+            select: { slug: true },
+          })
+        ).map((r) => r.slug)
+      : []
+  );
+  const visaGuides = VISA_GUIDES.filter((g) => existingGuideSlugs.has(g.slug));
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -213,6 +240,8 @@ export default async function ArticlePage({
           publishedAt: a.publishedAt.toISOString(),
           closed,
           closedDeadline: deadline,
+          topicLinks,
+          visaGuides,
           related: related.map((r) => ({
             slug: r.slug,
             titleEn: r.titleEn,

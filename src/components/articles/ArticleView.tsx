@@ -36,6 +36,13 @@ export interface ArticleData {
    *  schema exactly: schema must match visible page content, so the trail
    *  the schema describes is rendered, not just declared. */
   breadcrumb?: { sectionName: string; sectionUrl: string };
+  /** "More in this topic" hub links (GEO Step 8) — section, government/
+   *  private and industry hubs derived from the article itself.
+   *  Empty/missing renders no section. */
+  topicLinks?: { label: string; url: string }[];
+  /** Sibling work-visa guides (GEO Step 8) — only on the curated guide
+   *  cluster; the current article is excluded by the page. */
+  visaGuides?: { slug: string; label: string }[];
 }
 
 function formatDate(iso: string): string {
@@ -232,6 +239,38 @@ export function ArticleView({ article }: { article: ArticleData }) {
           </div>
         </section>
       )}
+
+      {(article.topicLinks?.length || article.visaGuides?.length) ? (
+        <section className="mt-10 border-t border-slate-200 pt-8">
+          <h2 className="gx-h2 mt-0">More in this topic</h2>
+          {article.topicLinks && article.topicLinks.length > 0 && (
+            <nav aria-label="More in this topic" className="mt-4 flex flex-wrap gap-2">
+              {article.topicLinks.map((l) => (
+                <a
+                  key={l.url}
+                  href={l.url}
+                  className="rounded-full border border-slate-200 px-3 py-1.5 text-sm font-medium text-emerald-700 hover:border-emerald-600 hover:underline"
+                >
+                  {l.label}
+                </a>
+              ))}
+            </nav>
+          )}
+          {article.visaGuides && article.visaGuides.length > 0 && (
+            <p className="mt-4 text-sm leading-relaxed text-slate-700">
+              <span className="font-semibold text-slate-900">Work visa guides: </span>
+              {article.visaGuides.map((g, i) => (
+                <span key={g.slug}>
+                  {i > 0 && " · "}
+                  <a href={`/articles/${g.slug}`} className="font-medium text-emerald-700 hover:underline">
+                    {g.label}
+                  </a>
+                </span>
+              ))}
+            </p>
+          )}
+        </section>
+      ) : null}
     </article>
   );
 }

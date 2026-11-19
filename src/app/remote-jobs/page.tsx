@@ -1,20 +1,38 @@
-import SeoLandingPage, { type SeoConfig } from "@/components/seo/SeoLandingPage";
-import { Metadata } from "next";
-export const revalidate = 300;
+import type { Metadata } from "next";
+import CategoryListing from "@/components/articles/CategoryListing";
 
-export const metadata: Metadata = {
-  title: "Remote Jobs for Students in Nepal | Work From Home",
-  description: "Work from your room, your hostel, or anywhere with internet. These remote and hybrid roles are perfect for students who want to earn without commuting",
-};
+export const revalidate = 60;
 
-const config: SeoConfig = {
-  title: "Remote Jobs for Students in Nepal | Work From Home",
-  heading: "Remote Jobs for Students",
-  intro: "Work from your room, your hostel, or anywhere with internet. These remote and hybrid roles are perfect for students who want to earn without commuting.",
-  where: { workArrangement: { in: ["REMOTE", "HYBRID"] } },
-  faq: [["What do I need for a remote student job?", "A reliable internet connection and a laptop or smartphone. Most remote roles for students involve customer chat support, data entry, social media, or tutoring."], ["How do remote employers pay students?", "Most pay monthly via bank transfer or digital wallets like eSewa and Khalti. Confirm payment terms before you start."]],
-};
+type SearchParams = Promise<{ page?: string | string[] }>;
 
-export default function Page() {
-  return <SeoLandingPage config={config} />;
+/**
+ * Remote Jobs hub (GEO Step 8, plan §9). This used to be a legacy
+ * SeoLandingPage over employer-posted jobs (workArrangement REMOTE/HYBRID)
+ * — employer posting is paused, so it rendered "Latest openings (0)" with
+ * no article links at all, a dead end for readers arriving from /usa,
+ * /europe and /countries. It now lists the same remote-category articles
+ * as /remote, newest first. The listing is identical to /remote, so this
+ * URL is noindex with canonical → /remote: it stays live for visitors and
+ * never competes with /remote in search. Nothing was deleted — the URL,
+ * its sitemap entry and its inbound links are unchanged.
+ */
+export async function generateMetadata({ searchParams }: { searchParams: SearchParams }): Promise<Metadata> {
+  const params = await searchParams;
+  const page = parseInt(Array.isArray(params.page) ? params.page[0] ?? "1" : params.page ?? "1", 10);
+  return {
+    title: "Remote Jobs",
+    description: "Remote jobs and work-from-home opportunities from around the world — worldwide remote roles, salaries and hiring news. Newest remote jobs first, apply today.",
+    alternates: { canonical: "https://growentix.cloud/remote" },
+    robots: { index: false, follow: true },
+    openGraph: {
+      title: "Remote Jobs | Growentix",
+      description: "Remote jobs and work-from-home opportunities from around the world — worldwide remote roles, salaries and hiring news. Newest remote jobs first, apply today.",
+      url: "https://growentix.cloud/remote-jobs",
+    },
+    ...(Number.isFinite(page) && page > 1 ? { robots: { index: false, follow: true } } : {}),
+  };
+}
+
+export default function Page({ searchParams }: { searchParams: SearchParams }) {
+  return <CategoryListing slug="remote" label="Remote Jobs" subtitle="Remote jobs and work-from-home opportunities, newest first." searchParams={searchParams} />;
 }
