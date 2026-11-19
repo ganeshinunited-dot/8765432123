@@ -1,49 +1,23 @@
-"use client";
-
-import { useEffect, useState } from "react";
-import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { Logo } from "./Logo";
-import { readChromeCookie, writeChromeCookie, syncChromeAttr } from "@/lib/chrome-cookie";
 
-interface SessionState {
-  loggedIn: boolean;
-  isAdmin: boolean;
-}
-
+// Public footer — renders on every public page, articles included, for
+// every visitor: logged out, admin, and signed-in employers alike.
+//
+// It used to hide for signed-in non-admin users (dashboard-app chrome
+// hiding: the gx_chrome cookie + /api/auth/me fetch + the
+// html[data-chrome="app"] .gx-public-chrome CSS rule). That chain is
+// fragile on flaky mobile data — a stale "app" cookie plus a failed or
+// slow reconcile fetch left the footer hidden for the admin too, on
+// article pages, while the homepage (seen logged out) still showed it.
+// The footer belongs on every public page, so it no longer takes part
+// in chrome hiding: no session fetch, no gx-public-chrome class, so
+// neither the React guard nor the CSS rule can hide it.
+// (The Navbar keeps its own session-aware header; the CSS rule now only
+// affects it.)
 export function Footer() {
-  const pathname = usePathname();
-  const [session, setSession] = useState<SessionState | null>(null);
-
-  useEffect(() => {
-    // Instant hide from the readable chrome-hint cookie (set at login) —
-    // covers client-side navigations with no reload.
-    syncChromeAttr();
-    fetch("/api/auth/me")
-      .then((r) => r.json())
-      .then((d) => {
-        const s = { loggedIn: !!d.user, isAdmin: !!d.user?.isAdmin };
-        setSession(s);
-        // Reconcile the hint cookie with the server truth.
-        const want = s.loggedIn ? (s.isAdmin ? "admin" : "app") : "";
-        if (readChromeCookie() !== want) {
-          writeChromeCookie(want);
-          syncChromeAttr();
-        }
-      })
-      .catch(() => setSession({ loggedIn: false, isAdmin: false }));
-    // Re-run on every navigation: the layout persists across client-side
-    // route changes, so without this the footer would stay stale after login.
-  }, [pathname]);
-
-  // Logged-in non-admins live in their dashboard app — the public footer is
-  // hidden for them everywhere. Admins keep the public chrome as before.
-  // (Also hidden instantly via CSS from the pre-paint script; this removes it
-  // from the DOM once the session is confirmed.)
-  if (session && session.loggedIn && !session.isAdmin) return null;
-
   return (
-    <footer className="gx-public-chrome bg-slate-950 text-slate-300">
+    <footer className="bg-slate-950 text-slate-300">
       <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <Link href="/" aria-label="Growentix home">
