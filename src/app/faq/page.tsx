@@ -5,13 +5,13 @@ export const revalidate = 300;
 
 export const metadata: Metadata = {
   title: "Frequently Asked Questions",
-  description: "Quick answers about Growentix — daily job news and government job vacancy notices.",
+  description: "Quick answers about Growentix — global job news, verified vacancies, work-visa guides, and employer verification.",
 };
 
 const FAQS = [
   {
     q: "What is Growentix?",
-    a: "Growentix publishes daily job news and government job vacancy notices from Nepal and around the world. It is free to read, and there are no accounts — you do not need to sign up to read anything.",
+    a: "Growentix is a global job news platform — Growentix – Global Jobs. Trusted Opportunities. It publishes daily job vacancies, recruitment news, career guides and work-visa guides for job seekers worldwide, with priority coverage of the USA, UK, Canada, Australia and Germany, plus the UAE, Singapore, Japan and other countries. It is free to read, and you do not need an account to read anything.",
   },
   {
     q: "Is Growentix free?",
@@ -19,15 +19,15 @@ const FAQS = [
   },
   {
     q: "Do I need an account to use Growentix?",
-    a: "No. There are no user accounts on Growentix. You cannot create a profile, log in, or save jobs — just open a notice or an article and read it.",
+    a: "No. Reading is free and needs no account — just open a notice or an article and read it. Accounts exist only for employers applying for a verified company profile, and for site administrators.",
   },
   {
-    q: "How do I apply for a government job listed here?",
-    a: "Through the official link in the notice itself. Each vacancy notice shows the deadline, the eligibility conditions, and a link to the official notice. Read the official notice before you apply, and apply only through the official channel it names. Growentix does not collect applications or CVs.",
+    q: "How do I apply for a job listed here?",
+    a: "Through the official link in the article itself. Each job article shows the deadline, the eligibility conditions, and a link to the official notice. Read the official notice before you apply, and apply only through the official channel it names. Growentix does not collect applications or CVs.",
   },
   {
     q: "How do I know a vacancy is real?",
-    a: "Every notice links to its official source, and the deadline and post count come from that source. Still, always check the official notice yourself before applying or paying anything — a deadline or a detail can change after we publish.",
+    a: "Job articles carry a 'Verified' label with a verification date when the vacancy was checked against an official notice — see our verification policy for exactly what is checked. Every article links to its official source, and the deadline and post count come from that source. Still, always check the official notice yourself before applying or paying anything — a deadline or a detail can change after we publish.",
   },
   {
     q: "What is the Weekly job news email?",
@@ -39,7 +39,7 @@ const FAQS = [
   },
   {
     q: "Can employers post jobs on Growentix?",
-    a: "Not at the moment. Vacancy notices on Growentix are informational listings taken from official notices — employers cannot post jobs or manage applications here.",
+    a: "Employers cannot post job listings directly — vacancies on Growentix are editorial listings checked against official notices. Employers can apply for a verified company profile from the For Employers page; verified employers appear on the Companies page with a verification badge.",
   },
   {
     q: "How often is Growentix updated?",
@@ -47,26 +47,42 @@ const FAQS = [
   },
 ];
 
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: FAQS.map((f) => ({
+    "@type": "Question",
+    name: f.q,
+    acceptedAnswer: { "@type": "Answer", text: f.a },
+  })),
+};
+
 export default function FaqPage() {
   return (
-    <StaticPage title="Frequently asked questions" subtitle="Quick answers about Growentix.">
-      <Section title="General">
-        <div className="space-y-3">
-          {FAQS.map((f) => (
-            <details key={f.q} className="rounded-xl border border-slate-200 bg-white px-5 py-4">
-              <summary className="cursor-pointer text-[15px] font-semibold text-slate-900">{f.q}</summary>
-              <p className="mt-2 text-sm leading-relaxed text-slate-600">{f.a}</p>
-            </details>
-          ))}
-        </div>
-      </Section>
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+      />
+      <StaticPage title="Frequently asked questions" subtitle="Quick answers about Growentix.">
+        <Section title="General">
+          <div className="space-y-3">
+            {FAQS.map((f) => (
+              <details key={f.q} className="rounded-xl border border-slate-200 bg-white px-5 py-4">
+                <summary className="cursor-pointer text-[15px] font-semibold text-slate-900">{f.q}</summary>
+                <p className="mt-2 text-sm leading-relaxed text-slate-600">{f.a}</p>
+              </details>
+            ))}
+          </div>
+        </Section>
 
-      <Section title="Still need help?">
-        <p>
-          Read our <Link href="/safety" className="font-semibold text-emerald-700 hover:underline">safety guide</Link>, or{" "}
-          <Link href="/about" className="font-semibold text-emerald-700 hover:underline">learn more about Growentix</Link>.
-        </p>
-      </Section>
-    </StaticPage>
+        <Section title="Still need help?">
+          <p>
+            Read our <Link href="/safety" className="font-semibold text-emerald-700 hover:underline">safety guide</Link>, or{" "}
+            <Link href="/about" className="font-semibold text-emerald-700 hover:underline">learn more about Growentix</Link>.
+          </p>
+        </Section>
+      </StaticPage>
+    </>
   );
 }

@@ -1,0 +1,44 @@
+# Growentix
+
+> Growentix is a global job news and employment information platform. It publishes daily, verified job vacancies, recruitment news, career guides and work-visa guides for job seekers worldwide. Reading is free and needs no account. Growentix never asks readers to pay, and every job article warns never to pay anyone to apply for a job.
+
+## About Growentix
+
+- [About Growentix](https://growentix.cloud/about): What Growentix is, who it serves, and how it works.
+- [Editorial Policy](https://growentix.cloud/editorial-policy): Original reporting, official sources, no copied or spun content, no fake vacancies, no misleading headlines.
+- [Verification Policy](https://growentix.cloud/verification-policy): How vacancies are verified against official notices — title, location, eligibility, deadline, salary where published, official application link, and visa and sponsorship checks. Only verified opportunities carry the "Verified" label with a verification date.
+- [Contact](https://growentix.cloud/contact): Contact Growentix (support@growentix.cloud).
+
+## Sections
+
+- [Latest Jobs](https://growentix.cloud/): Daily job vacancies from around the world, newest first.
+- [News](https://growentix.cloud/articles): Career and employment news.
+- [Government Jobs](https://growentix.cloud/government-jobs): Government and public-sector vacancies.
+- [Private Jobs](https://growentix.cloud/private-jobs): Private-sector vacancies.
+- [Remote Jobs](https://growentix.cloud/remote-jobs): Remote and work-from-home jobs.
+- [Countries](https://growentix.cloud/countries): Job news by country — USA, UK, Canada, Australia, Germany, UAE, Singapore, Japan, Nepal and more.
+- [Industries](https://growentix.cloud/industries): Hiring by industry — Engineering, Technology, Banking & Finance, Education, Healthcare, Defence & Security.
+- [Tech & AI](https://growentix.cloud/tech-ai): Technology news.
+- [Pop Music](https://growentix.cloud/popmusic): Pop music news.
+- [Companies](https://growentix.cloud/companies): Verified employers on Growentix.
+- [For Employers](https://growentix.cloud/for-employers): Employers can apply for a verified company profile.
+- [Frequently Asked Questions](https://growentix.cloud/faq): Direct answers about Growentix.
+- [Safety Guide](https://growentix.cloud/safety): How to spot job scams — never pay to apply.
+
+## Work-visa and career guides
+
+- [Singapore Work Visa for Indians: Employment Pass and S Pass](https://growentix.cloud/articles/singapore-work-visa-for-indians-employment-pass-s-pass-20261120)
+- [Japan Work Visa (SSW) for Indians: Specified Skilled Worker](https://growentix.cloud/articles/japan-work-visa-ssw-specified-skilled-worker-indians-20261120)
+- [Japan Work Visa: Requirements, Process and Eligibility](https://growentix.cloud/articles/japan-work-visa-requirements-process-and-eligibility-explained-20261016)
+- [South Korea to Hire 7,200 Nepalis in 2026 under EPS](https://growentix.cloud/articles/south-korea-to-hire-7-200-nepalis-in-2026-under-eps-20261015)
+- [UK NHS Jobs with Visa Sponsorship](https://growentix.cloud/articles/uk-nhs-jobs-visa-sponsorship-november-2026-20261121)
+- [Nursing Jobs in the USA for Foreign Nurses: NCLEX, Visa and Pay](https://growentix.cloud/articles/nursing-jobs-in-usa-for-foreign-nurses-nclex-visa-and-pay-guide-20261028)
+- [Caregiver Jobs Abroad in 2026: Salaries and Visa Routes](https://growentix.cloud/articles/caregiver-jobs-abroad-in-2026-salaries-and-visa-routes-in-focus-20261024)
+- [Jobs in Dubai for Foreigners: Visa Rules, Salaries and How to Apply](https://growentix.cloud/articles/jobs-in-dubai-for-foreigners-visa-rules-salaries-and-how-to-apply-20261020)
+- [No-Experience Jobs Abroad: Legal Guide to the Gulf, Korea and More](https://growentix.cloud/articles/no-experience-jobs-abroad-nepal-legal-guide-to-gulf-korea-more-20261021)
+
+## How to cite Growentix
+
+- Job articles carry a "Verified" label with a verification date only when the vacancy was checked against an official notice. Cite the article URL, the verification date shown on the page, and the official source linked in the article.
+- Every article lists its sources and states what the sources do not say. Do not present a vacancy as open if the article's deadline has passed.
+- Full article inventory: https://growentix.cloud/sitemap.xml
