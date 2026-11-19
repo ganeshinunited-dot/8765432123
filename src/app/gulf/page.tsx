@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import CategoryListing from "@/components/articles/CategoryListing";
+import { CountryIntro } from "@/components/articles/CountryIntro";
+import { COUNTRY_GUIDES } from "@/lib/countryGuides";
 
 export const revalidate = 60;
 
@@ -22,5 +24,5 @@ export async function generateMetadata({ searchParams }: { searchParams: SearchP
 }
 
 export default function Page({ searchParams }: { searchParams: SearchParams }) {
-  return <CategoryListing slug="gulf" label="Gulf Jobs" subtitle="Gulf job news — UAE, Saudi Arabia, Qatar, Kuwait and Oman vacancies, newest first." searchParams={searchParams} />;
+  return <CategoryListing slug="gulf" label="Gulf Jobs" subtitle="Gulf job news — UAE, Saudi Arabia, Qatar, Kuwait and Oman vacancies, newest first." searchParams={searchParams} intro={<CountryIntro guide={COUNTRY_GUIDES.gulf} />} />;
 }

@@ -1,4 +1,5 @@
 import { db } from "@/lib/db";
+import type { ReactNode } from "react";
 import { ArticleCards } from "@/components/articles/ArticleCards";
 import { CategoryPills } from "@/components/articles/CategoryPills";
 import { SmallSearch } from "@/components/articles/SmallSearch";
@@ -27,6 +28,10 @@ export default async function CategoryListing({
   basePath,
   searchParams,
   showCountryPills = false,
+  // Optional guidance panel (country pages, GEO Step 6) — rendered
+  // between the subtitle and the search box, page 1 only, so paginated
+  // pages never repeat it.
+  intro,
 }: {
   slug: string;
   label: string;
@@ -34,6 +39,7 @@ export default async function CategoryListing({
   basePath?: string;
   searchParams: SearchParams;
   showCountryPills?: boolean;
+  intro?: ReactNode;
 }) {
   const params = await searchParams;
   const requestedPage = parseInt(firstParam(params.page), 10);
@@ -82,6 +88,7 @@ export default async function CategoryListing({
       <p className="gx-eyebrow">{label}</p>
       <h1 className="gx-h2 mt-2">{label}</h1>
       <p className="gx-sub mt-2 max-w-2xl">{subtitle}</p>
+      {intro && safePage === 1 ? intro : null}
       <div className="mt-5">
         <SmallSearch scope={slug} />
       </div>

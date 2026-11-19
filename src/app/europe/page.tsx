@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import CategoryListing from "@/components/articles/CategoryListing";
+import { CountryIntro } from "@/components/articles/CountryIntro";
+import { COUNTRY_GUIDES } from "@/lib/countryGuides";
 
 export const revalidate = 60;
 
@@ -22,5 +24,5 @@ export async function generateMetadata({ searchParams }: { searchParams: SearchP
 }
 
 export default function Page({ searchParams }: { searchParams: SearchParams }) {
-  return <CategoryListing slug="europe" label="Europe Jobs" subtitle="Europe job news and work opportunities, newest first." searchParams={searchParams} />;
+  return <CategoryListing slug="europe" label="Europe Jobs" subtitle="Europe job news and work opportunities, newest first." searchParams={searchParams} intro={<CountryIntro guide={COUNTRY_GUIDES.europe} />} />;
 }
