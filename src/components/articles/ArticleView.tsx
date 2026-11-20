@@ -1,6 +1,8 @@
 "use client";
 
 import { articleCategoryLabel } from "@/lib/articles";
+import { AUTHOR } from "@/lib/author";
+import { VerifiedBadge } from "./VerifiedBadge";
 
 export interface ArticleData {
   slug: string;
@@ -17,7 +19,11 @@ export interface ArticleData {
   verified?: boolean;
   /** ISO verification date — badge shows "Verified {date}" when set. */
   verifiedAt?: string | null;
-  /** Named author when set; null renders "Growentix Editorial Team". */
+  /** Named author when set. Currently unused by the render: since
+   *  2026-11-20 the byline always shows the site author (Ganesh Karki)
+   *  with the blue verified badge — the old "Growentix Editorial Team"
+   *  fallback is gone. Kept for a future named author, if one is ever
+   *  credited on an article. */
   authorName?: string | null;
   /** True when a job post's apply-by date has passed (SEO audit fix). */
   closed?: boolean;
@@ -129,10 +135,14 @@ export function ArticleView({ article }: { article: ArticleData }) {
         {article.titleEn}
       </h1>
 
-      <p className="mt-3 text-sm text-slate-500">
+      <p className="mt-3 flex items-center gap-1.5 text-sm text-slate-500">
         By{" "}
-        <a href="/editorial-team" className="font-medium text-emerald-700 hover:underline">
-          {article.authorName ?? "Growentix Editorial Team"}
+        <a
+          href={AUTHOR.path}
+          className="inline-flex items-center gap-1 font-medium text-emerald-700 hover:underline"
+        >
+          {AUTHOR.name}
+          <VerifiedBadge className="h-4 w-4" />
         </a>
       </p>
 

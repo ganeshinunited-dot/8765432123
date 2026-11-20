@@ -7,6 +7,7 @@ import { applyByDate, isJobCategory } from "@/lib/articles";
 import { extractKeyFacts } from "@/lib/keyFacts";
 import { extractFaqs } from "@/lib/faq";
 import { buildJobPosting } from "@/lib/jobPosting";
+import { AUTHOR } from "@/lib/author";
 import { isVisaGuide, topicLinksForArticle, VISA_GUIDES } from "@/lib/topicLinks";
 
 export const revalidate = 300; // ISR: serve cached HTML, regenerate in background; admin/cron purge on publish
@@ -150,7 +151,7 @@ export default async function JobDetailPage({
     image: "https://growentix.cloud/icon.svg",
     datePublished: a.publishedAt.toISOString(),
     dateModified: a.updatedAt.toISOString(),
-    author: { "@type": "Organization", "@id": "https://growentix.cloud/#organization", name: "Growentix", url: "https://growentix.cloud/editorial-team" },
+    author: AUTHOR.jsonLd,
     publisher: { "@type": "Organization", "@id": "https://growentix.cloud/#organization", name: "Growentix", logo: { "@type": "ImageObject", url: "https://growentix.cloud/icon.svg" } },
     inLanguage: ["en"],
   };

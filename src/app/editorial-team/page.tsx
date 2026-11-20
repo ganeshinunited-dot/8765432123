@@ -5,7 +5,7 @@ export const revalidate = 300;
 
 export const metadata: Metadata = {
   title: "Editorial Team",
-  description: "Who writes and checks Growentix: the Growentix Editorial Team reviews every article against its official source before publication — no article goes live without human review.",
+  description: "Who writes and checks Growentix: Ganesh Karki writes every article, and the Growentix editorial process reviews each one against its official source before publication — no article goes live without human review.",
   alternates: { canonical: "https://growentix.cloud/editorial-team" },
 };
 
@@ -18,10 +18,14 @@ export default function EditorialTeamPage() {
     >
       <Section title="1. Who we are">
         <p>
-          Growentix articles are written and reviewed by the Growentix Editorial Team. Articles are published
-          under the team name, and the byline on every article links to this page. Where an article carries a
-          named byline, that author is credited on the article itself. We publish as a team: no single person
-          is presented as the author of work the whole team stands behind.
+          Growentix articles are written by{" "}
+          <Link href="/authors/ganesh-karki" className="font-semibold text-emerald-700 hover:underline">
+            Ganesh Karki
+          </Link>
+          , the founder of Growentix — the byline on every article names him and links to his author page.
+          Each article is then checked through the Growentix editorial review process before publication: a
+          human editor verifies the facts against the official source, and no article goes live without
+          that review.
         </p>
       </Section>
 
