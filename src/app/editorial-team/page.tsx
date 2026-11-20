@@ -19,10 +19,10 @@ export default function EditorialTeamPage() {
       <Section title="1. Who we are">
         <p>
           Growentix articles are written by{" "}
-          <Link href="/authors/ganesh-karki" className="font-semibold text-emerald-700 hover:underline">
+          <a href="https://ganeshkarki.info.np/" target="_blank" rel="noopener noreferrer" className="font-semibold text-emerald-700 hover:underline">
             Ganesh Karki
-          </Link>
-          , the founder of Growentix — the byline on every article names him and links to his author page.
+          </a>
+          , the founder of Growentix — the byline on every article names him and links to his portfolio.
           Each article is then checked through the Growentix editorial review process before publication: a
           human editor verifies the facts against the official source, and no article goes live without
           that review.

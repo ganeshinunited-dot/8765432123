@@ -1,19 +1,20 @@
 // ---------------------------------------------------------------------------
 // Site author (2026-11-20): the article byline names Ganesh Karki, founder
 // of Growentix, with a blue verified badge — replacing the old "Growentix
-// Editorial Team" byline. Every fact here comes from his published
-// portfolio page (https://ganeshkarki.info.np/); nothing is invented:
-// no credentials, degrees, awards or job titles beyond what that page
-// states. The green Verified badge on job articles is separate — it
-// certifies the vacancy, not the author — and is untouched.
+// Editorial Team" byline. The byline links straight to his portfolio page
+// (https://ganeshkarki.info.np/) — owner order 2026-11-20 evening: the
+// in-site /authors/ganesh-karki page was deleted and now redirects there.
+// Every fact here comes from his published portfolio page; nothing is
+// invented: no credentials, degrees, awards or job titles beyond what
+// that page states. The green Verified badge on job articles is separate —
+// it certifies the vacancy, not the author — and is untouched.
 // ---------------------------------------------------------------------------
 
 export const AUTHOR = {
   name: "Ganesh Karki",
   role: "Founder, Growentix",
-  /** In-site author page path (the byline links here). */
-  path: "/authors/ganesh-karki",
-  url: "https://growentix.cloud/authors/ganesh-karki",
+  /** Portfolio page (the byline links here). */
+  url: "https://ganeshkarki.info.np/",
   portfolioUrl: "https://ganeshkarki.info.np/",
   linkedinUrl: "https://www.linkedin.com/in/ganesh-karki-260849250/",
   /** Short bio — grounded in the portfolio page only. */
@@ -22,7 +23,7 @@ export const AUTHOR = {
   jsonLd: {
     "@type": "Person",
     name: "Ganesh Karki",
-    url: "https://growentix.cloud/authors/ganesh-karki",
+    url: "https://ganeshkarki.info.np/",
     jobTitle: "Founder, Growentix",
     sameAs: [
       "https://www.linkedin.com/in/ganesh-karki-260849250/",

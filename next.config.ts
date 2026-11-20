@@ -13,6 +13,14 @@ const nextConfig: NextConfig = {
         permanent: false,
       },
       {
+        // Author page removed 2026-11-20 (owner order): the byline now
+        // links straight to his portfolio — old /authors/ganesh-karki
+        // links land there instead of a deleted page.
+        source: "/authors/ganesh-karki",
+        destination: "https://ganeshkarki.info.np/",
+        permanent: true,
+      },
+      {
         // Duplicate merged 2026-10-19: Oct 18 Germany-France car-deal story
         // consolidated into the Oct 19 canonical article.
         source:

@@ -138,7 +138,9 @@ export function ArticleView({ article }: { article: ArticleData }) {
       <p className="mt-3 flex items-center gap-1.5 text-sm text-slate-500">
         By{" "}
         <a
-          href={AUTHOR.path}
+          href={AUTHOR.url}
+          target="_blank"
+          rel="noopener noreferrer"
           className="inline-flex items-center gap-1 font-medium text-emerald-700 hover:underline"
         >
           {AUTHOR.name}
