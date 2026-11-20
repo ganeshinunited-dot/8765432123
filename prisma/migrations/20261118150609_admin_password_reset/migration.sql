@@ -5,8 +5,14 @@
 -- randomBytes(32).toString('hex') (64 hex chars), stored plain.
 -- Expiry is 24 hours from when this migration runs. One-time use: the reset
 -- endpoint clears resetToken/resetTokenExpiry when the new password is set.
--- The admin password is unknown, and the forgot-password email cannot deliver
--- (Resend domain not verified), so this migration is the reset path.
+-- NOTE (2026-11-20): the original token value was committed here in plain
+-- text and flagged by GitGuardian as an exposed secret. The token was
+-- one-time and is dead: the admin set a new password with it on 18 Nov 2026
+-- (which cleared it from the database) and its 24-hour expiry passed on
+-- 19 Nov 2026 (~20:52 NPT). The UPDATE below now sets NULL, so this
+-- migration is a no-op that still validates the admin exists. The admin
+-- password itself was never in this repo. Git history still contains the
+-- original value (commit fd6a89b); no history rewrite was done.
 
 DO $$
 BEGIN
@@ -16,6 +22,6 @@ BEGIN
 END $$;
 
 UPDATE "User"
-SET "resetToken" = '7af5a37b4bcdcd427d0e27162ddc3e45c724a7d1b89b109ffd92d70f0b14a502',
-    "resetTokenExpiry" = NOW() + INTERVAL '24 hours'
+SET "resetToken" = NULL,
+    "resetTokenExpiry" = NULL
 WHERE "email" = 'hongtunekong@gmail.com';
