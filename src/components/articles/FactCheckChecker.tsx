@@ -3,14 +3,42 @@
 import { useState } from "react";
 import { VERDICT_LABELS } from "@/lib/factCheck";
 
+type Assertion = { text: string; checkable: boolean; reason: string };
+
+type ExternalMatch = {
+  publisher: string;
+  rating: string;
+  title: string;
+  url: string;
+  reviewDate: string | null;
+};
+
+type Preliminary = {
+  verdict: string;
+  confidence: number;
+  stance: "supports" | "refutes" | "neutral";
+  reasoning: string;
+  citations: { title: string; url: string; snippet: string }[];
+  sourcesUsed: string[];
+};
+
+type Wayback = { url: string; firstSeen: string | null; status: string };
+
 type CheckResult =
   | {
       status: "match";
-      assertions: { text: string; checkable: boolean; reason: string }[];
+      assertions: Assertion[];
       match: { slug: string; titleEn: string; verdict: string; matchScore: number; checkedAt: string | null };
     }
-  | { status: "no-match"; assertions: { text: string; checkable: boolean; reason: string }[] }
-  | { status: "not-checkable"; assertions: { text: string; checkable: boolean; reason: string }[] }
+  | { status: "external"; assertions: Assertion[]; externalMatch: ExternalMatch }
+  | {
+      status: "preliminary";
+      assertions: Assertion[];
+      preliminary: Preliminary;
+      wayback: Wayback | null;
+    }
+  | { status: "no-match"; assertions: Assertion[]; automatedEnabled: boolean }
+  | { status: "not-checkable"; assertions: Assertion[] }
   | { status: "error"; message: string };
 
 function verdictPillClass(verdict: string): string {
@@ -28,14 +56,36 @@ function verdictPillClass(verdict: string): string {
   }
 }
 
+function stanceLine(stance: Preliminary["stance"]): string {
+  switch (stance) {
+    case "supports":
+      return "The evidence we found mostly supports this claim.";
+    case "refutes":
+      return "The evidence we found mostly goes against this claim.";
+    default:
+      return "The evidence we found is mixed or inconclusive.";
+  }
+}
+
+function formatArchiveDate(ts: string): string {
+  // Wayback timestamps are YYYYMMDDHHMMSS.
+  const y = ts.slice(0, 4);
+  const m = ts.slice(4, 6);
+  const d = ts.slice(6, 8);
+  if (!y || !m || !d) return ts;
+  return `${y}-${m}-${d}`;
+}
+
 /**
- * "Check a claim" box (Fact Check MVP, 2026-11-22).
+ * "Check a claim" box (Fact Check, 2026-11-22; Spec 2 waterfall).
  *
- * Honest by design: the check searches ONLY our own verified verdicts
- * (the semantic cache). A match shows the stored verdict instantly.
- * Anything else goes to our editors for human review — this box NEVER
- * generates or displays an automated verdict. There is no live web
- * verification in v1 (no search API key); the copy on the page says so.
+ * Cache-first: our own verified verdicts, then Google's Fact Check index.
+ * On a miss, and ONLY when the free search/AI keys are configured, the
+ * server runs the $0 waterfall (Groq extraction, Tavily basic search,
+ * Groq/Gemini synthesis) and returns a PRELIMINARY, AI-assisted
+ * assessment with citations — clearly labelled, never a published
+ * verdict. With no keys set, unmatched claims go straight to our editors
+ * for human review. This box NEVER publishes a verdict by itself.
  *
  * Accepts English, Devanagari Nepali and Romanized Nepali input.
  */
@@ -66,10 +116,14 @@ export function FactCheckChecker() {
         setResult({ status: "error", message: data?.error || "Something went wrong. Please try again." });
       } else if (data.match) {
         setResult({ status: "match", assertions: data.assertions, match: data.match });
-      } else if (!data.assertions?.some((a: { checkable: boolean }) => a.checkable)) {
+      } else if (data.externalMatch) {
+        setResult({ status: "external", assertions: data.assertions, externalMatch: data.externalMatch });
+      } else if (data.preliminary) {
+        setResult({ status: "preliminary", assertions: data.assertions, preliminary: data.preliminary, wayback: data.wayback ?? null });
+      } else if (!data.assertions?.some((a: Assertion) => a.checkable)) {
         setResult({ status: "not-checkable", assertions: data.assertions ?? [] });
       } else {
-        setResult({ status: "no-match", assertions: data.assertions });
+        setResult({ status: "no-match", assertions: data.assertions, automatedEnabled: Boolean(data.waterfall?.enabled) });
       }
     } catch {
       setResult({ status: "error", message: "Could not reach the checker. Please try again." });
@@ -102,6 +156,7 @@ export function FactCheckChecker() {
   }
 
   const checkable = result && result.status !== "error" ? result.assertions.filter((a) => a.checkable) : [];
+  const needsReview = result?.status === "no-match" || result?.status === "preliminary";
 
   return (
     <div className="mt-6 rounded-2xl border border-slate-200 bg-white p-5 sm:p-6">
@@ -140,8 +195,10 @@ export function FactCheckChecker() {
       </form>
 
       <p className="mt-3 text-xs leading-relaxed text-slate-500">
-        We check against our verified verdicts first. New claims go to our editors — no automated
-        verdict is ever shown for a claim we have not verified.
+        We check our verified verdicts and the Google Fact Check index first. When our free search
+        and AI keys are set up, unmatched claims get a preliminary AI-assisted assessment with
+        citations — clearly labelled, never a published verdict. New claims always go to our
+        editors before any verdict is published.
       </p>
 
       {result?.status === "match" && (
@@ -160,6 +217,78 @@ export function FactCheckChecker() {
         </div>
       )}
 
+      {result?.status === "external" && (
+        <div className="mt-5 rounded-xl border-2 border-sky-600 bg-sky-50 p-4">
+          <p className="text-sm font-semibold text-slate-900">Already checked by {result.externalMatch.publisher}.</p>
+          <p className="mt-2 text-sm leading-relaxed text-slate-700">
+            Their rating: <span className="font-semibold text-slate-900">“{result.externalMatch.rating}”</span>
+            {result.externalMatch.reviewDate ? ` — checked ${result.externalMatch.reviewDate}.` : "."}
+          </p>
+          <a
+            href={result.externalMatch.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-3 block font-semibold leading-snug text-sky-700 hover:underline"
+          >
+            {result.externalMatch.title} →
+          </a>
+          <p className="mt-1 text-xs text-slate-500">
+            External fact-check, found through Google&apos;s Fact Check index. Read the full check on the publisher&apos;s site.
+          </p>
+        </div>
+      )}
+
+      {result?.status === "preliminary" && !queued && (
+        <div className="mt-5 rounded-xl border-2 border-amber-500 bg-amber-50 p-4">
+          <p className="text-sm font-semibold text-slate-900">
+            Preliminary assessment — AI-assisted, not a final verdict.
+          </p>
+          <p className="mt-2 flex flex-wrap items-center gap-2">
+            <span className={`inline-flex items-center rounded-full px-3 py-1 text-sm font-bold ${verdictPillClass(result.preliminary.verdict)}`}>
+              {VERDICT_LABELS[result.preliminary.verdict as keyof typeof VERDICT_LABELS] ?? result.preliminary.verdict}
+            </span>
+            <span className="text-xs text-slate-600">{result.preliminary.confidence}% confidence (preliminary)</span>
+          </p>
+          <p className="mt-2 text-sm leading-relaxed text-slate-700">{stanceLine(result.preliminary.stance)}</p>
+          {result.preliminary.reasoning && (
+            <p className="mt-1 text-sm leading-relaxed text-slate-700">{result.preliminary.reasoning}</p>
+          )}
+          {result.preliminary.citations.length > 0 && (
+            <div className="mt-3">
+              <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Sources checked</p>
+              <ul className="mt-1 space-y-2">
+                {result.preliminary.citations.map((c, i) => (
+                  <li key={i} className="text-sm leading-relaxed">
+                    <a href={c.url} target="_blank" rel="noopener noreferrer" className="font-semibold text-amber-800 hover:underline">
+                      {c.title}
+                    </a>
+                    {c.snippet && <span className="block text-xs text-slate-600">{c.snippet}</span>}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+          {result.wayback?.firstSeen && (
+            <p className="mt-2 text-xs text-slate-500">
+              The page you linked was first archived on {formatArchiveDate(result.wayback.firstSeen)}.
+            </p>
+          )}
+          <p className="mt-3 text-sm leading-relaxed text-slate-600">
+            Our editors still need to verify this against primary sources before we publish a
+            verdict. Send it for review and we will publish the checked verdict here.
+          </p>
+          <button
+            type="button"
+            onClick={queueForReview}
+            disabled={submitBusy}
+            className="mt-3 rounded-full bg-emerald-600 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-emerald-700 disabled:cursor-not-allowed disabled:opacity-50"
+          >
+            {submitBusy ? "Sending…" : "Send to our editors"}
+          </button>
+          {submitError && <p className="mt-2 text-sm text-red-600">{submitError}</p>}
+        </div>
+      )}
+
       {result?.status === "no-match" && !queued && (
         <div className="mt-5 rounded-xl border border-slate-200 bg-slate-50 p-4">
           <p className="text-sm font-semibold text-slate-900">No verified verdict for this claim yet.</p>
@@ -168,6 +297,12 @@ export function FactCheckChecker() {
             portals and the organisations involved. Send it for review and we will publish the
             verdict here once it is checked.
           </p>
+          {!result.automatedEnabled && (
+            <p className="mt-1 text-sm leading-relaxed text-slate-600">
+              Automated checks are off right now — no search or AI keys are set up yet — so our
+              editors will check this by hand.
+            </p>
+          )}
           {checkable.length > 0 && (
             <p className="mt-2 text-sm text-slate-600">
               Checkable part: <span className="font-medium text-slate-900">“{checkable[0].text}”</span>
@@ -185,7 +320,7 @@ export function FactCheckChecker() {
         </div>
       )}
 
-      {result?.status === "no-match" && queued && (
+      {needsReview && queued && (
         <div className="mt-5 rounded-xl border border-emerald-600 bg-emerald-50 p-4">
           <p className="text-sm font-semibold text-slate-900">Queued for review — thank you.</p>
           <p className="mt-1 text-sm leading-relaxed text-slate-600">

@@ -1,14 +1,22 @@
 import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { rateLimit, clientKey } from "@/lib/auth";
-import { extractAssertions, findCacheMatch } from "@/lib/factCheck";
+import { findCacheMatch } from "@/lib/factCheck";
+import { runFactCheckWaterfall } from "@/lib/factCheckWaterfall";
 
-// Fact-check cache lookup (MVP, 2026-11-22).
-// POST { claim, url? } -> { assertions, match | null }.
-// The lookup searches ONLY our own verified fact-check articles (the
-// semantic cache). There is no live web search in v1 (no search API key),
-// so an unmatched claim gets NO automated verdict — the client offers to
-// queue it for human review via POST /api/fact-check/submit.
+// Fact-check claim flow (2026-11-22; Spec 2 waterfall in
+// src/lib/factCheckWaterfall.ts).
+// POST { claim, url? } -> { assertions, match, externalMatch, preliminary,
+//                          wayback, waterfall }.
+// Cache-first $0 waterfall: Google Fact Check Tools claims.search, then our
+// own verified verdicts (Postgres keyword cache). On a miss, and ONLY when
+// the optional API keys are configured, Groq extraction -> Tavily basic
+// (Serper backup) -> Wayback timestamp -> Groq 70B / Gemini synthesis
+// (OpenRouter :free only on 429/failure) produces a PRELIMINARY,
+// AI-assisted assessment with citations — clearly labelled, never a
+// published verdict. With NO keys set, the run degrades to cache + the
+// human-review queue (POST /api/fact-check/submit): an unmatched claim
+// gets NO automated verdict at all.
 export async function POST(req: Request) {
   let data: unknown;
   try {
@@ -25,32 +33,52 @@ export async function POST(req: Request) {
   const claim = typeof (data as { claim?: unknown })?.claim === "string"
     ? ((data as { claim: string }).claim ?? "").trim()
     : "";
+  const urlRaw = typeof (data as { url?: unknown })?.url === "string"
+    ? ((data as { url: string }).url ?? "").trim()
+    : "";
   if (claim.length < 10 || claim.length > 1000) {
     return NextResponse.json(
       { error: "Please paste a claim between 10 and 1000 characters." },
       { status: 400 }
     );
   }
-
-  const assertions = extractAssertions(claim);
-  const checkable = assertions.filter((a) => a.checkable);
-  if (checkable.length === 0) {
-    return NextResponse.json({ assertions, match: null });
+  let claimUrl: string | undefined;
+  if (urlRaw) {
+    try {
+      const parsed = new URL(urlRaw);
+      if (parsed.protocol === "http:" || parsed.protocol === "https:") claimUrl = parsed.href;
+    } catch {
+      claimUrl = undefined;
+    }
   }
 
-  const rows = await db.article.findMany({
-    where: { category: "fact-check" },
-    orderBy: { publishedAt: "desc" },
-    take: 200,
-    select: {
-      slug: true,
-      titleEn: true,
-      excerptEn: true,
-      factCheckClaim: true,
-      factCheckVerdict: true,
-      verifiedAt: true,
+  const result = await runFactCheckWaterfall({
+    claim,
+    claimUrl,
+    findOwnCache: async (checkableText: string) => {
+      const rows = await db.article.findMany({
+        where: { category: "fact-check" },
+        orderBy: { publishedAt: "desc" },
+        take: 200,
+        select: {
+          slug: true,
+          titleEn: true,
+          excerptEn: true,
+          factCheckClaim: true,
+          factCheckVerdict: true,
+          verifiedAt: true,
+        },
+      });
+      return findCacheMatch(checkableText, rows);
     },
   });
-  const match = findCacheMatch(checkable.map((a) => a.text).join(" "), rows);
-  return NextResponse.json({ assertions, match });
+
+  return NextResponse.json({
+    assertions: result.assertions,
+    match: result.match,
+    externalMatch: result.externalMatch,
+    preliminary: result.preliminary,
+    wayback: result.wayback,
+    waterfall: { enabled: result.automatedEnabled, steps: result.steps },
+  });
 }

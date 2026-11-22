@@ -18,9 +18,11 @@
 //    goes to the human-review queue (POST /api/fact-check/submit).
 //
 // Phase 2 (NOT built — needs paid search/LLM keys): atomic claim
-// decomposition, live web evidence retrieval, stance/NLI scoring,
-// source-trust weighting, image/audio forensics, ClaimReview export
-// beyond the static block on article pages.
+// decomposition, image/audio forensics, data/chart audit,
+// coordinated-spread detection, HITL dashboard, pgvector semantic cache.
+// The free-key parts of Phase 2 (live web retrieval, stance/NLI scoring)
+// now live in factCheckWaterfall.ts as a PRELIMINARY-only path — see
+// that file's header for the waterfall order and the no-key rules.
 // ---------------------------------------------------------------------------
 
 export const FACT_CHECK_VERDICTS = [
