@@ -20,14 +20,14 @@
 //   2. The site's own fact-check store (Postgres keyword cache, injected
 //      callback) — our verified verdicts.
 //      -> A hit at step 1 or 2 ends the run: no further API spend.
-//   3. Groq llama-3.1-8b-instant (GROQ_API_KEY) — claim extraction /
+//   3. Groq openai/gpt-oss-20b (GROQ_API_KEY) — claim extraction /
 //      decomposition; falls back to the rule-based result on any failure.
 //   4. Tavily search_depth="basic" (TAVILY_API_KEY, 1 credit/query — NEVER
 //      "advanced" unless basic lacks primary sources); Serper
 //      (SERPER_API_KEY) as news/backup when Tavily is absent or empty.
 //   5. Wayback Machine Availability + CDX APIs (NO key) — original publish
 //      timestamp of the submitted "seen on" URL, when one was given.
-//   6. Groq llama-3.3-70b-versatile (GROQ_API_KEY) — stance / verdict
+//   6. Groq openai/gpt-oss-120b (GROQ_API_KEY) — stance / verdict
 //      synthesis from the retrieved evidence; Google Gemini (GEMINI_API_KEY)
 //      does the same synthesis when no Groq key is set (Gemini screenshot
 //      OCR activates when the form gains an image upload — no image input
@@ -197,21 +197,21 @@ async function googleFactCheck(
 }
 
 // ---------------------------------------------------------------------------
-// Step 3 — Groq extraction (llama-3.1-8b-instant)
+// Step 3 — Groq extraction (openai/gpt-oss-20b)
 // ---------------------------------------------------------------------------
 
 async function groqExtract(
   claim: string,
   key: string,
   budgetMs: number
-): Promise<ExtractedAssertion[] | null> {
+): Promise<{ assertions: ExtractedAssertion[] | null; status: number | null }> {
   const res = await timedFetch(
     GROQ_URL,
     {
       method: "POST",
       headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
       body: JSON.stringify({
-        model: "llama-3.1-8b-instant",
+        model: "openai/gpt-oss-20b",
         temperature: 0.1,
         response_format: { type: "json_object" },
         messages: [
@@ -229,13 +229,16 @@ async function groqExtract(
     },
     Math.min(PER_CALL_MS, budgetMs)
   );
-  if (!res.ok) return null;
+  // HTTP status is returned on failure so the step detail can tell a bad
+  // key (401) apart from a retired model (400/404) — otherwise both look
+  // like a silent "extraction failed".
+  if (!res.ok) return { assertions: null, status: res.status };
   const data = (await res.json()) as {
     choices?: Array<{ message?: { content?: string } }>;
   };
   const content = data.choices?.[0]?.message?.content ?? "";
   const parsed = parseJsonLoose(content) as { assertions?: unknown } | null;
-  if (!parsed || !Array.isArray(parsed.assertions)) return null;
+  if (!parsed || !Array.isArray(parsed.assertions)) return { assertions: null, status: null };
   const out: ExtractedAssertion[] = [];
   for (const a of parsed.assertions) {
     const item = a as { text?: unknown; checkable?: unknown };
@@ -247,7 +250,7 @@ async function groqExtract(
       });
     }
   }
-  return out.length > 0 ? out : null;
+  return { assertions: out.length > 0 ? out : null, status: null };
 }
 
 // ---------------------------------------------------------------------------
@@ -258,7 +261,7 @@ async function tavilySearch(
   query: string,
   key: string,
   budgetMs: number
-): Promise<EvidenceItem[] | null> {
+): Promise<{ items: EvidenceItem[] | null; status: number | null }> {
   const res = await timedFetch(
     TAVILY_URL,
     {
@@ -270,14 +273,17 @@ async function tavilySearch(
     },
     Math.min(PER_CALL_MS, budgetMs)
   );
-  if (!res.ok) return null;
+  // HTTP status is returned on failure so the step detail can tell a bad
+  // key (401) apart from a genuine empty result — otherwise a 401 looks
+  // like "No results."
+  if (!res.ok) return { items: null, status: res.status };
   const data = (await res.json()) as {
     results?: Array<{ title?: string; url?: string; content?: string }>;
   };
   const items = (data.results ?? [])
     .filter((r) => r.url && r.title)
     .map((r) => ({ title: r.title as string, url: r.url as string, snippet: (r.content ?? "").slice(0, 300) }));
-  return items.length > 0 ? items : null;
+  return { items: items.length > 0 ? items : null, status: null };
 }
 
 async function serperSearch(
@@ -491,14 +497,14 @@ async function groqSynthesize(
   evidence: EvidenceItem[],
   key: string,
   budgetMs: number
-): Promise<{ assessment: ReturnType<typeof parseSynthesis>; rateLimited: boolean } | null> {
+): Promise<{ assessment: ReturnType<typeof parseSynthesis>; rateLimited: boolean; status: number | null } | null> {
   const res = await timedFetch(
     GROQ_URL,
     {
       method: "POST",
       headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
       body: JSON.stringify({
-        model: "llama-3.3-70b-versatile",
+        model: "openai/gpt-oss-120b",
         temperature: 0.2,
         response_format: { type: "json_object" },
         messages: [
@@ -509,9 +515,11 @@ async function groqSynthesize(
     },
     Math.min(PER_CALL_MS, budgetMs)
   );
-  if (!res.ok) return { assessment: null, rateLimited: res.status === 429 };
+  // HTTP status is returned on failure so the step detail can tell a bad
+  // key (401) apart from a retired model (400/404).
+  if (!res.ok) return { assessment: null, rateLimited: res.status === 429, status: res.status };
   const data = (await res.json()) as { choices?: Array<{ message?: { content?: string } }> };
-  return { assessment: parseSynthesis(data.choices?.[0]?.message?.content ?? ""), rateLimited: false };
+  return { assessment: parseSynthesis(data.choices?.[0]?.message?.content ?? ""), rateLimited: false, status: null };
 }
 
 async function geminiSynthesize(
@@ -697,11 +705,17 @@ export async function runFactCheckWaterfall(opts: {
   } else {
     try {
       const refined = await groqExtract(claimText, groqKey, remaining());
-      if (refined) {
-        assertions = refined;
-        steps.push({ step: "groq-extract", status: "hit", detail: "Claim extracted with llama-3.1-8b-instant." });
+      if (refined.assertions) {
+        assertions = refined.assertions;
+        steps.push({ step: "groq-extract", status: "hit", detail: "Claim extracted with openai/gpt-oss-20b." });
       } else {
-        steps.push({ step: "groq-extract", status: "error", detail: "Groq extraction failed — rule-based extraction stands." });
+        steps.push({
+          step: "groq-extract",
+          status: "error",
+          detail: refined.status
+            ? `Groq extraction failed (HTTP ${refined.status}) — rule-based extraction stands.`
+            : "Groq extraction failed — rule-based extraction stands.",
+        });
       }
     } catch {
       steps.push({ step: "groq-extract", status: "error", detail: "Groq extraction failed — rule-based extraction stands." });
@@ -724,11 +738,14 @@ export async function runFactCheckWaterfall(opts: {
     steps.push({ step: "tavily", status: "skipped", detail: "Time budget reached." });
   } else {
     try {
-      evidence = await tavilySearch(searchText, tavilyKey, remaining());
+      const tavily = await tavilySearch(searchText, tavilyKey, remaining());
+      evidence = tavily.items;
       steps.push(
         evidence
           ? { step: "tavily", status: "hit", detail: `${evidence.length} result(s), search_depth basic.` }
-          : { step: "tavily", status: "miss", detail: "No results." }
+          : tavily.status
+            ? { step: "tavily", status: "error", detail: `Tavily request failed (HTTP ${tavily.status}).` }
+            : { step: "tavily", status: "miss", detail: "No results." }
       );
       if (evidence) evidenceSource = "tavily";
     } catch {
@@ -792,9 +809,17 @@ export async function runFactCheckWaterfall(opts: {
         synthesisSource = "groq-70b";
         if (!synthesis) {
           synthesisFailed = true;
-          steps.push({ step: "groq-verdict", status: "error", detail: r.rateLimited ? "Groq rate-limited (429)." : "Groq verdict synthesis failed." });
+          steps.push({
+            step: "groq-verdict",
+            status: "error",
+            detail: r.rateLimited
+              ? "Groq rate-limited (429)."
+              : r.status
+                ? `Groq verdict synthesis failed (HTTP ${r.status}).`
+                : "Groq verdict synthesis failed.",
+          });
         } else {
-          steps.push({ step: "groq-verdict", status: "hit", detail: "Stance/verdict synthesised with llama-3.3-70b-versatile." });
+          steps.push({ step: "groq-verdict", status: "hit", detail: "Stance/verdict synthesised with openai/gpt-oss-120b." });
         }
       } else {
         synthesisFailed = true;
