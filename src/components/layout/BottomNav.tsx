@@ -27,7 +27,7 @@ const TABS = [
     ),
   },
   {
-    label: "Stories",
+    label: "Fact Check",
     href: "/stories",
     active: (p: string) => p.startsWith("/stories"),
     icon: (active: boolean) => (

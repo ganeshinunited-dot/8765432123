@@ -61,7 +61,7 @@ export default async function HomePage({ searchParams }: { searchParams: SearchP
   const requestedPage = activePage(params);
   const requestedCategory = firstParam(params.category);
   const activeCategory = JOB_ARTICLE_CATEGORIES.some((c) => c.slug === requestedCategory) ? requestedCategory : "";
-  const where = activeCategory ? { category: activeCategory } : { category: { notIn: ["pop-music", "tech-ai", "news"] } };
+  const where = activeCategory ? { category: activeCategory } : { category: { notIn: ["pop-music", "tech-ai", "news", "fact-check"] } };
   // Count and listing run in parallel instead of sequentially — one fewer
   // round trip on every regeneration. The listing uses the requested page
   // for its offset; if that page is past the last page it comes back

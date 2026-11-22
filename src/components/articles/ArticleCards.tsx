@@ -9,6 +9,39 @@ export interface FilterableArticle {
   titleEn: string;
   excerptEn: string;
   publishedAt: string;
+  /** Fact Check verdict (2026-11-22) — only ever set on fact-check rows;
+   *  other sections never pass it, so their cards render exactly as before. */
+  factCheckVerdict?: string | null;
+}
+
+function verdictPillClass(verdict: string): string {
+  switch (verdict) {
+    case "TRUE":
+      return "bg-emerald-600 text-white";
+    case "MOSTLY_TRUE":
+      return "bg-teal-600 text-white";
+    case "MISLEADING":
+      return "bg-amber-500 text-white";
+    case "FALSE":
+      return "bg-red-600 text-white";
+    default:
+      return "bg-slate-500 text-white";
+  }
+}
+
+function verdictLabel(verdict: string): string {
+  switch (verdict) {
+    case "TRUE":
+      return "True";
+    case "MOSTLY_TRUE":
+      return "Mostly true";
+    case "MISLEADING":
+      return "Misleading";
+    case "FALSE":
+      return "False";
+    default:
+      return "Unverified";
+  }
 }
 
 function formatDate(iso: string) {
@@ -104,6 +137,11 @@ export function ArticleCards({
                 <span className="rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700">
                   {articleCategoryLabel(a.category)}
                 </span>
+                {a.factCheckVerdict && (
+                  <span className={`rounded-full px-3 py-1 text-xs font-semibold ${verdictPillClass(a.factCheckVerdict)}`}>
+                    {verdictLabel(a.factCheckVerdict)}
+                  </span>
+                )}
                 {a.country && (
                   <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-600">{a.country}</span>
                 )}
@@ -135,6 +173,11 @@ export function ArticleCards({
                 <p className="mt-1 truncate text-sm text-slate-600">{a.country ?? articleCategoryLabel(a.category)}</p>
                 <div className="mt-2.5 flex flex-wrap gap-1.5">
                   <span className="rounded-full bg-emerald-50 px-2.5 py-0.5 text-xs font-semibold text-emerald-700">{articleCategoryLabel(a.category)}</span>
+                  {a.factCheckVerdict && (
+                    <span className={`rounded-full px-2.5 py-0.5 text-xs font-semibold ${verdictPillClass(a.factCheckVerdict)}`}>
+                      {verdictLabel(a.factCheckVerdict)}
+                    </span>
+                  )}
                   {a.country && (
                     <span className="rounded-full bg-slate-100 px-2.5 py-0.5 text-xs font-medium text-slate-600">{a.country}</span>
                   )}

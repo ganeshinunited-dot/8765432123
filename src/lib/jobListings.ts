@@ -26,7 +26,7 @@ export interface JobListingArticle {
  */
 async function fetchJobPool(): Promise<(JobListingArticle & { sources: string[] })[]> {
   const rows = await db.article.findMany({
-    where: { category: { notIn: ["pop-music", "tech-ai", "news", "taylor-swift"] } },
+    where: { category: { notIn: ["pop-music", "tech-ai", "news", "fact-check", "taylor-swift"] } },
     orderBy: { publishedAt: "desc" },
     select: {
       slug: true,

@@ -62,7 +62,7 @@ export default async function JobsPage({ searchParams }: { searchParams: SearchP
   const requestedPage = activePage(params);
   const requestedCategory = firstParam(params.category);
   const activeCategory = JOB_ARTICLE_CATEGORIES.some((c) => c.slug === requestedCategory) ? requestedCategory : "";
-  const where = activeCategory ? { category: activeCategory } : { category: { notIn: ["pop-music", "tech-ai", "news"] } };
+  const where = activeCategory ? { category: activeCategory } : { category: { notIn: ["pop-music", "tech-ai", "news", "fact-check"] } };
   const total = await db.article.count({ where });
   const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
   const page = Math.min(requestedPage, totalPages);

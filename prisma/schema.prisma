@@ -757,6 +757,12 @@ model Article {
   publishedAt DateTime @default(now())
   verifiedAt  DateTime?
   authorName  String?
+  // Fact Check (2026-11-22): set only on category "fact-check" rows.
+  // Verdict scale: TRUE | MOSTLY_TRUE | MISLEADING | FALSE | UNVERIFIED.
+  factCheckVerdict  String?
+  factCheckClaim    String?
+  factCheckClaimant String?
+  factCheckClaimUrl String?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 

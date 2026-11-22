@@ -3,6 +3,8 @@
 import { articleCategoryLabel } from "@/lib/articles";
 import { AUTHOR } from "@/lib/author";
 import { VerifiedBadge } from "./VerifiedBadge";
+import { FactCheckBadge } from "./FactCheckBadge";
+import { isFactCheckVerdict, VERDICT_LABELS, VERDICT_RATINGS } from "@/lib/factCheck";
 
 export interface ArticleData {
   slug: string;
@@ -49,6 +51,13 @@ export interface ArticleData {
   /** Sibling work-visa guides (GEO Step 8) — only on the curated guide
    *  cluster; the current article is excluded by the page. */
   visaGuides?: { slug: string; label: string }[];
+  /** Fact Check (2026-11-22) — set only on category "fact-check" rows.
+   *  The verdict string is narrowed inside the component (see
+   *  isFactCheckVerdict) so a bad stored value never renders a banner. */
+  factCheckVerdict?: string | null;
+  factCheckClaim?: string | null;
+  factCheckClaimant?: string | null;
+  factCheckClaimUrl?: string | null;
 }
 
 function formatDate(iso: string): string {
@@ -74,8 +83,54 @@ function readingTime(html: string): number {
 }
 
 export function ArticleView({ article }: { article: ArticleData }) {
+  // Fact Check: ClaimReview JSON-LD (Schema.org) on fact-check articles
+  // only. reviewRating is omitted for UNVERIFIED (no rating to give).
+  const fcVerdict =
+    article.category === "fact-check" &&
+    article.factCheckVerdict &&
+    isFactCheckVerdict(article.factCheckVerdict) &&
+    article.factCheckClaim
+      ? article.factCheckVerdict
+      : null;
+  const fcRating = fcVerdict ? VERDICT_RATINGS[fcVerdict] : null;
+  const claimReviewLd = fcVerdict
+    ? {
+        "@context": "https://schema.org",
+        "@type": "ClaimReview",
+        url: `https://growentix.cloud/articles/${article.slug}`,
+        claimReviewed: article.factCheckClaim,
+        author: { "@type": "Organization", name: "Growentix", url: "https://growentix.cloud/" },
+        datePublished: article.publishedAt,
+        ...(fcRating !== null
+          ? {
+              reviewRating: {
+                "@type": "Rating",
+                ratingValue: fcRating,
+                bestRating: 5,
+                worstRating: 1,
+                alternateName: VERDICT_LABELS[fcVerdict],
+              },
+            }
+          : {}),
+        ...(article.factCheckClaimant
+          ? {
+              itemReviewed: {
+                "@type": "Claim",
+                author: { "@type": "Organization", name: article.factCheckClaimant },
+              },
+            }
+          : {}),
+      }
+    : null;
+
   return (
     <article>
+      {claimReviewLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(claimReviewLd) }}
+        />
+      )}
       {article.breadcrumb && (
         <nav aria-label="Breadcrumb" className="mb-6 text-sm text-slate-500">
           <ol className="flex flex-wrap items-center gap-1.5">
@@ -157,6 +212,16 @@ export function ArticleView({ article }: { article: ArticleData }) {
             Browse current jobs →
           </a>
         </div>
+      )}
+
+      {fcVerdict && (
+        <FactCheckBadge
+          verdict={fcVerdict}
+          claim={article.factCheckClaim ?? ""}
+          claimant={article.factCheckClaimant ?? null}
+          claimUrl={article.factCheckClaimUrl ?? null}
+          checkedAt={article.verifiedAt ?? null}
+        />
       )}
 
       {article.keyFacts && article.keyFacts.length > 0 && (

@@ -15,6 +15,7 @@ export const ARTICLE_CATEGORIES = [
   { slug: "pop-music", label: "Pop Music" },
   { slug: "tech-ai", label: "Tech & AI" },
   { slug: "news", label: "News" },
+  { slug: "fact-check", label: "Fact Check" },
 ] as const;
 
 export function articleCategoryLabel(slug: string): string {
@@ -23,17 +24,18 @@ export function articleCategoryLabel(slug: string): string {
 
 /**
  * True for job-article categories — everything except news, pop-music,
- * tech-ai and the legacy taylor-swift pop category. One definition of
- * "job article" for the Verified badge, the JobPosting schema and the
- * job-detail route (Master Plan Phase 1, Batch 3).
+ * tech-ai, fact-check and the legacy taylor-swift pop category. One
+ * definition of "job article" for the Verified badge, the JobPosting schema
+ * and the job-detail route (Master Plan Phase 1, Batch 3). Fact-check
+ * articles are not jobs: they carry a verdict, not a vacancy (2026-11-22).
  */
 export function isJobCategory(category: string): boolean {
-  return !["pop-music", "tech-ai", "news", "taylor-swift"].includes(category);
+  return !["pop-music", "tech-ai", "news", "fact-check", "taylor-swift"].includes(category);
 }
 
 /** Job categories only — the 13 categories that live in the Jobs section. */
 export const JOB_ARTICLE_CATEGORIES = ARTICLE_CATEGORIES.filter(
-  (c) => c.slug !== "pop-music" && c.slug !== "tech-ai" && c.slug !== "news"
+  (c) => c.slug !== "pop-music" && c.slug !== "tech-ai" && c.slug !== "news" && c.slug !== "fact-check"
 );
 
 /**

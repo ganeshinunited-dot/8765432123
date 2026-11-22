@@ -21,7 +21,7 @@ export const revalidate = 300; // ISR: serve cached HTML, regenerate in backgrou
  */
 export async function generateStaticParams() {
   const articles = await db.article.findMany({
-    where: { category: { notIn: ["pop-music", "tech-ai", "news", "taylor-swift"] } },
+    where: { category: { notIn: ["pop-music", "tech-ai", "news", "fact-check", "taylor-swift"] } },
     select: { slug: true },
   });
   return articles.map((a) => ({ slug: a.slug }));

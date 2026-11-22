@@ -152,7 +152,8 @@ export default async function ArticlePage({
 
   // Breadcrumb: Home → section → article. Job categories link to their
   // country/region page (/<slug>); news, pop-music and tech-ai link to
-  // their section pages.
+  // their section pages; fact-check articles link to the Fact Check hub
+  // at /stories (2026-11-22).
   const section =
     a.category === "news"
       ? { name: "News", url: "https://growentix.cloud/articles" }
@@ -160,7 +161,9 @@ export default async function ArticlePage({
         ? { name: "Pop Music", url: "https://growentix.cloud/popmusic" }
         : a.category === "tech-ai"
           ? { name: "Tech & AI", url: "https://growentix.cloud/tech-ai" }
-          : { name: articleCategoryLabel(a.category), url: `https://growentix.cloud/${a.category}` };
+          : a.category === "fact-check"
+            ? { name: "Fact Check", url: "https://growentix.cloud/stories" }
+            : { name: articleCategoryLabel(a.category), url: `https://growentix.cloud/${a.category}` };
   const breadcrumbLd = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -243,6 +246,10 @@ export default async function ArticlePage({
           closedDeadline: deadline,
           topicLinks,
           visaGuides,
+          factCheckVerdict: a.factCheckVerdict ?? null,
+          factCheckClaim: a.factCheckClaim ?? null,
+          factCheckClaimant: a.factCheckClaimant ?? null,
+          factCheckClaimUrl: a.factCheckClaimUrl ?? null,
           related: related.map((r) => ({
             slug: r.slug,
             titleEn: r.titleEn,
