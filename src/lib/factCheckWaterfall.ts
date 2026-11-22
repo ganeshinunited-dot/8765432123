@@ -7,6 +7,11 @@
 // tested offline with stubbed fetch.
 //
 // Order (each step optional — skipped cleanly when its key is absent):
+//   -1. Link fetch (2026-11-22 redesign) — when the input is a bare link
+//      with no claim text: open the page (3s, 200KB cap, browser
+//      User-Agent), extract its title + readable text, and check THAT
+//      text. A failed fetch ends the run with fetchFailed — never invent
+//      page content.
 //   0. Rule-based extraction (free, instant) — produces the checkable text
 //      the cache lookup needs. Groq extraction (step 3) only runs on a
 //      cache miss, so no tokens are spent on claims we already verified.
@@ -107,6 +112,10 @@ export interface WaterfallResult {
   steps: WaterfallStep[];
   /** True when at least one optional API key is configured. */
   automatedEnabled: boolean;
+  /** The linked page, when the input was a bare link that opened. */
+  linkedPage: { title: string; url: string } | null;
+  /** True when a pasted link could not be opened at all. */
+  fetchFailed: boolean;
 }
 
 const OVERALL_BUDGET_MS = 8_000;
@@ -210,8 +219,7 @@ async function groqExtract(
             role: "system",
             content:
               "You extract checkable factual claims from user-submitted text. Return JSON only: " +
-              '{"assertions": [{"text": "...", "checkable": true}]}. Keep each assertion in the ' +
-              "submitter's own language (English, Devanagari Nepali or Romanized Nepali). A claim " +
+              '{"assertions": [{"text": "...", "checkable": true}]}. Keep each assertion in English. A claim ' +
               "is checkable when it states a concrete fact: a number, date, quote, or something a " +
               "named person or organisation said or did. Drop opinions, questions, jokes and satire.",
           },
@@ -337,6 +345,105 @@ async function waybackCheck(url: string, budgetMs: number): Promise<WaybackCheck
     // Both Wayback endpoints failed — recorded as "unknown", never fatal.
   }
   return { url, firstSeen: null, status: "unknown" };
+}
+
+// ---------------------------------------------------------------------------
+// Link fetch — open a pasted link and extract its readable text (2026-11-22
+// redesign: the search box accepts a claim OR a link). Server-side only.
+// 3s cap, 200KB cap, browser User-Agent, redirects followed. Anything that
+// is not an HTML page, is too large, or will not load returns null — the
+// caller reports "could not open this link" and NEVER invents page content.
+// ---------------------------------------------------------------------------
+
+const LINK_FETCH_MS = 3_000;
+const LINK_MAX_BYTES = 200 * 1024;
+
+function decodeEntities(s: string): string {
+  return s
+    .replace(/&nbsp;/gi, " ")
+    .replace(/&amp;/gi, "&")
+    .replace(/&lt;/gi, "<")
+    .replace(/&gt;/gi, ">")
+    .replace(/&quot;/gi, '"')
+    .replace(/&#39;|&apos;|&#x27;/gi, "'")
+    .replace(/&#(\d+);/g, (_m, n) => String.fromCodePoint(Math.min(0x10ffff, parseInt(n, 10)) || 32))
+    .replace(/&#x([0-9a-f]+);/gi, (_m, h) => String.fromCodePoint(Math.min(0x10ffff, parseInt(h, 16)) || 32));
+}
+
+function extractPageText(html: string): { title: string; text: string } {
+  const titleMatch = html.match(/<title[^>]*>([\s\S]{0,500}?)<\/title>/i);
+  const title = titleMatch ? decodeEntities(titleMatch[1].replace(/\s+/g, " ").trim()) : "";
+  const body = html
+    .replace(/<script[\s\S]*?<\/script>/gi, " ")
+    .replace(/<style[\s\S]*?<\/style>/gi, " ")
+    .replace(/<noscript[\s\S]*?<\/noscript>/gi, " ")
+    .replace(/<svg[\s\S]*?<\/svg>/gi, " ")
+    .replace(/<(nav|header|footer|aside|form|iframe)[\s\S]*?<\/\1>/gi, " ")
+    .replace(/<[^>]+>/g, " ");
+  const text = decodeEntities(body).replace(/\s+/g, " ").trim();
+  return { title, text: text.slice(0, 4000) };
+}
+
+async function fetchLinkedPage(
+  url: string,
+  budgetMs: number
+): Promise<{ title: string; text: string } | null> {
+  const ms = Math.min(LINK_FETCH_MS, budgetMs);
+  if (ms <= 0) return null;
+  try {
+    const res = await timedFetch(
+      url,
+      {
+        method: "GET",
+        headers: {
+          "User-Agent":
+            "Mozilla/5.0 (compatible; GrowentixFactCheck/1.0; +https://growentix.cloud/fact-check)",
+          Accept: "text/html,application/xhtml+xml",
+        },
+        redirect: "follow",
+      },
+      ms
+    );
+    if (!res.ok) return null;
+    const type = res.headers.get("content-type") ?? "";
+    if (type && !/text\/html|application\/xhtml\+xml/.test(type)) return null;
+    const len = res.headers.get("content-length");
+    if (len && Number(len) > LINK_MAX_BYTES) return null;
+    // Capped body read: never buffer more than LINK_MAX_BYTES, even when
+    // the server sends no content-length.
+    const reader = res.body?.getReader();
+    if (!reader) return null;
+    const chunks: Uint8Array[] = [];
+    let total = 0;
+    for (;;) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      if (value) {
+        total += value.length;
+        if (total > LINK_MAX_BYTES) {
+          try {
+            await reader.cancel();
+          } catch {
+            // Already closed — nothing to do.
+          }
+          return null;
+        }
+        chunks.push(value);
+      }
+    }
+    const merged = new Uint8Array(total);
+    let offset = 0;
+    for (const c of chunks) {
+      merged.set(c, offset);
+      offset += c.length;
+    }
+    const html = new TextDecoder().decode(merged);
+    const { title, text } = extractPageText(html);
+    if (text.length < 100) return null;
+    return { title, text };
+  } catch {
+    return null;
+  }
 }
 
 // ---------------------------------------------------------------------------
@@ -490,8 +597,49 @@ export async function runFactCheckWaterfall(opts: {
     groqKey || tavilyKey || serperKey || googleFcKey || geminiKey || openRouterKey
   );
 
+  // Link fetch (redesign 2026-11-22): when the input is a bare link with
+  // no claim text, open the page first and check what it says. A failed
+  // fetch ends the run honestly — the visitor is told the link would not
+  // open and can send it to the editors instead. Never invent page content.
+  let claimText = opts.claim;
+  let linkedPage: { title: string; url: string } | null = null;
+  let fetchFailed = false;
+  if (!claimText.trim() && opts.claimUrl) {
+    if (remaining() > 0) {
+      const fetched = await fetchLinkedPage(opts.claimUrl, remaining());
+      if (fetched) {
+        claimText = `${fetched.title ? `${fetched.title}. ` : ""}${fetched.text}`;
+        linkedPage = { title: fetched.title, url: opts.claimUrl };
+        steps.push({
+          step: "link-fetch",
+          status: "hit",
+          detail: fetched.title ? `Opened the linked page — "${fetched.title}".` : "Opened the linked page.",
+        });
+      } else {
+        fetchFailed = true;
+        steps.push({ step: "link-fetch", status: "error", detail: "Could not open the linked page." });
+      }
+    } else {
+      fetchFailed = true;
+      steps.push({ step: "link-fetch", status: "skipped", detail: "Time budget reached before the link could be opened." });
+    }
+    if (fetchFailed) {
+      return {
+        assertions: [],
+        match: null,
+        externalMatch: null,
+        preliminary: null,
+        wayback: null,
+        linkedPage: null,
+        fetchFailed: true,
+        steps,
+        automatedEnabled,
+      };
+    }
+  }
+
   // Step 0 — rule-based extraction (free). Needed before the cache lookup.
-  let assertions = extractAssertions(opts.claim);
+  let assertions = extractAssertions(claimText);
   const checkableText = assertions
     .filter((a) => a.checkable)
     .map((a) => a.text)
@@ -505,7 +653,7 @@ export async function runFactCheckWaterfall(opts: {
     steps.push({ step: "google-fact-check", status: "skipped", detail: "Time budget reached." });
   } else {
     try {
-      externalMatch = await googleFactCheck(opts.claim, googleFcKey, remaining());
+      externalMatch = await googleFactCheck(claimText, googleFcKey, remaining());
       steps.push(
         externalMatch
           ? { step: "google-fact-check", status: "hit", detail: `Matched a ClaimReview by ${externalMatch.publisher}.` }
@@ -535,10 +683,10 @@ export async function runFactCheckWaterfall(opts: {
 
   // A verified hit ends the run — no further API spend.
   if (externalMatch || match) {
-    return { assertions, match, externalMatch, preliminary: null, wayback: null, steps, automatedEnabled };
+    return { assertions, match, externalMatch, preliminary: null, wayback: null, linkedPage, fetchFailed, steps, automatedEnabled };
   }
   if (!checkableText) {
-    return { assertions, match: null, externalMatch: null, preliminary: null, wayback: null, steps, automatedEnabled };
+    return { assertions, match: null, externalMatch: null, preliminary: null, wayback: null, linkedPage, fetchFailed, steps, automatedEnabled };
   }
 
   // Step 3 — Groq fast extraction (only on a cache miss).
@@ -548,7 +696,7 @@ export async function runFactCheckWaterfall(opts: {
     steps.push({ step: "groq-extract", status: "skipped", detail: "Time budget reached." });
   } else {
     try {
-      const refined = await groqExtract(opts.claim, groqKey, remaining());
+      const refined = await groqExtract(claimText, groqKey, remaining());
       if (refined) {
         assertions = refined;
         steps.push({ step: "groq-extract", status: "hit", detail: "Claim extracted with llama-3.1-8b-instant." });
@@ -564,7 +712,7 @@ export async function runFactCheckWaterfall(opts: {
     .map((a) => a.text)
     .join(" ");
   if (!searchText) {
-    return { assertions, match: null, externalMatch: null, preliminary: null, wayback: null, steps, automatedEnabled };
+    return { assertions, match: null, externalMatch: null, preliminary: null, wayback: null, linkedPage, fetchFailed, steps, automatedEnabled };
   }
 
   // Step 4 — Tavily (basic) as primary RAG search; Serper as backup.
@@ -628,7 +776,7 @@ export async function runFactCheckWaterfall(opts: {
 
   // No evidence => no preliminary assessment. The claim goes to editors.
   if (!evidence || evidence.length === 0) {
-    return { assertions, match: null, externalMatch: null, preliminary: null, wayback, steps, automatedEnabled };
+    return { assertions, match: null, externalMatch: null, preliminary: null, wayback, linkedPage, fetchFailed, steps, automatedEnabled };
   }
 
   // Step 6 — verdict synthesis: Groq 70B first; Gemini when no Groq key;
@@ -715,5 +863,5 @@ export async function runFactCheckWaterfall(opts: {
     }
   }
 
-  return { assertions, match: null, externalMatch: null, preliminary, wayback, steps, automatedEnabled };
+  return { assertions, match: null, externalMatch: null, preliminary, wayback, linkedPage, fetchFailed, steps, automatedEnabled };
 }

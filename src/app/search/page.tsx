@@ -1,8 +1,8 @@
 import { redirect } from "next/navigation";
 
 /**
- * The Stories tab moved from /search to /stories — old links land there,
- * with the search query carried over.
+ * The search tab moved from /search to /fact-check — old links land
+ * there, with the search query carried over.
  */
 export default async function SearchRedirect({
   searchParams,
@@ -14,5 +14,5 @@ export default async function SearchRedirect({
   if (sp.search) params.set("search", sp.search);
   if (sp.category) params.set("category", sp.category);
   const qs = params.toString();
-  redirect(qs ? `/stories?${qs}` : "/stories");
+  redirect(qs ? `/fact-check?${qs}` : "/fact-check");
 }

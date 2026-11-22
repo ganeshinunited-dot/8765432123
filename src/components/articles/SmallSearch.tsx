@@ -11,9 +11,9 @@ const SCOPE_PLACEHOLDERS: Record<string, string> = {
 };
 
 /**
- * Small search bar — submits to the Stories (/stories) page with the
- * section's scope, so a search from Jobs searches jobs, from Tech searches
- * tech, and so on. Used on Jobs, News, Tech and category pages.
+ * Small search bar — submits to the Fact Check (/fact-check) page with
+ * the section's scope, so a search from Jobs searches jobs, from Tech
+ * searches tech, and so on. Used on Jobs, News, Tech and category pages.
  * Scope values: "all" (everything), "jobs" (job categories only),
  * "stories" (pop-music + tech-ai only), or a single category slug.
  */
@@ -21,7 +21,7 @@ export function SmallSearch({ scope = "all", placeholder, defaultValue = "" }: {
   const ph = placeholder ?? SCOPE_PLACEHOLDERS[scope] ?? `Search ${articleCategoryLabel(scope)} jobs…`;
   return (
     <form
-      action="/stories"
+      action="/fact-check"
       method="get"
       role="search"
       className="flex max-w-md items-center rounded-full bg-white p-1 shadow-sm ring-1 ring-slate-200"

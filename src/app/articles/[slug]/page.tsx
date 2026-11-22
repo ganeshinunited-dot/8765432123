@@ -153,7 +153,7 @@ export default async function ArticlePage({
   // Breadcrumb: Home → section → article. Job categories link to their
   // country/region page (/<slug>); news, pop-music and tech-ai link to
   // their section pages; fact-check articles link to the Fact Check hub
-  // at /stories (2026-11-22).
+  // at /fact-check (2026-11-22).
   const section =
     a.category === "news"
       ? { name: "News", url: "https://growentix.cloud/articles" }
@@ -162,7 +162,7 @@ export default async function ArticlePage({
         : a.category === "tech-ai"
           ? { name: "Tech & AI", url: "https://growentix.cloud/tech-ai" }
           : a.category === "fact-check"
-            ? { name: "Fact Check", url: "https://growentix.cloud/stories" }
+            ? { name: "Fact Check", url: "https://growentix.cloud/fact-check" }
             : { name: articleCategoryLabel(a.category), url: `https://growentix.cloud/${a.category}` };
   const breadcrumbLd = {
     "@context": "https://schema.org",

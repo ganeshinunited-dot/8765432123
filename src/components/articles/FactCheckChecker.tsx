@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { VERDICT_LABELS } from "@/lib/factCheck";
+import { VERDICT_LABELS, VERDICT_STYLES, detectUrl } from "@/lib/factCheck";
 
 type Assertion = { text: string; checkable: boolean; reason: string };
 
@@ -41,19 +41,11 @@ type CheckResult =
   | { status: "not-checkable"; assertions: Assertion[] }
   | { status: "error"; message: string };
 
+// Checker result pill — reads the one verdict-colour map in
+// src/lib/factCheck.ts (TRUE green, MOSTLY_TRUE lighter green, MISLEADING
+// yellow, FALSE red, UNVERIFIED grey).
 function verdictPillClass(verdict: string): string {
-  switch (verdict) {
-    case "TRUE":
-      return "bg-emerald-600 text-white";
-    case "MOSTLY_TRUE":
-      return "bg-teal-600 text-white";
-    case "MISLEADING":
-      return "bg-amber-500 text-white";
-    case "FALSE":
-      return "bg-red-600 text-white";
-    default:
-      return "bg-slate-500 text-white";
-  }
+  return VERDICT_STYLES[verdict as keyof typeof VERDICT_STYLES]?.pill ?? "bg-slate-500 text-white";
 }
 
 function stanceLine(stance: Preliminary["stance"]): string {
@@ -77,43 +69,57 @@ function formatArchiveDate(ts: string): string {
 }
 
 /**
- * "Check a claim" box (Fact Check, 2026-11-22; Spec 2 waterfall).
+ * "Check a claim" box (Fact Check, 2026-11-22; Spec 2 waterfall;
+ * one-box redesign 2026-11-22).
  *
- * Cache-first: our own verified verdicts, then Google's Fact Check index.
- * On a miss, and ONLY when the free search/AI keys are configured, the
- * server runs the $0 waterfall (Groq extraction, Tavily basic search,
- * Groq/Gemini synthesis) and returns a PRELIMINARY, AI-assisted
- * assessment with citations — clearly labelled, never a published
- * verdict. With no keys set, unmatched claims go straight to our editors
- * for human review. This box NEVER publishes a verdict by itself.
- *
- * Accepts English, Devanagari Nepali and Romanized Nepali input.
+ * ONE box: paste claim text OR a link. A pasted link is detected and
+ * opened server-side — the page's title + readable text are checked like
+ * any other claim; a link that will not open is reported honestly and can
+ * be sent to the editors instead. Cache-first: our own verified verdicts,
+ * then Google's Fact Check index. On a miss, and ONLY when the free
+ * search/AI keys are configured, the server runs the $0 waterfall (Groq
+ * extraction, Tavily basic search, Groq/Gemini synthesis) and returns a
+ * PRELIMINARY, AI-assisted assessment with citations — clearly labelled,
+ * never a published verdict. With no keys set, unmatched claims go
+ * straight to our editors for human review. This box NEVER publishes a
+ * verdict by itself. English only.
  */
 export function FactCheckChecker() {
   const [claim, setClaim] = useState("");
-  const [url, setUrl] = useState("");
   const [busy, setBusy] = useState(false);
   const [result, setResult] = useState<CheckResult | null>(null);
+  const [linkedPage, setLinkedPage] = useState<{ title: string; url: string } | null>(null);
+  const [linkError, setLinkError] = useState<string | null>(null);
   const [queued, setQueued] = useState(false);
   const [submitBusy, setSubmitBusy] = useState(false);
   const [submitError, setSubmitError] = useState("");
 
   async function checkClaim(e: React.FormEvent) {
     e.preventDefault();
-    if (!claim.trim() || busy) return;
+    const input = claim.trim();
+    if (!input || busy) return;
+    // One box: a pasted link is detected here and sent as a URL; anything
+    // else is sent as claim text. The server detects it again, so direct
+    // API callers get the same behaviour.
+    const detected = detectUrl(input);
     setBusy(true);
     setResult(null);
+    setLinkedPage(null);
+    setLinkError(null);
     setQueued(false);
     setSubmitError("");
     try {
       const res = await fetch("/api/fact-check/check", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ claim: claim.trim(), url: url.trim() || undefined }),
+        body: JSON.stringify(detected ? { url: detected } : { claim: input }),
       });
       const data = await res.json();
+      setLinkedPage(data?.linkedPage ?? null);
       if (!res.ok) {
         setResult({ status: "error", message: data?.error || "Something went wrong. Please try again." });
+      } else if (data.fetchFailed) {
+        setLinkError(detected ?? input);
       } else if (data.match) {
         setResult({ status: "match", assertions: data.assertions, match: data.match });
       } else if (data.externalMatch) {
@@ -134,13 +140,18 @@ export function FactCheckChecker() {
 
   async function queueForReview() {
     if (submitBusy) return;
+    const input = claim.trim();
+    const detected = detectUrl(input) ?? linkError;
+    // A link-only check is queued under the page title when we have one,
+    // otherwise under the link itself.
+    const claimToSend = linkedPage?.title || input;
     setSubmitBusy(true);
     setSubmitError("");
     try {
       const res = await fetch("/api/fact-check/submit", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ claim: claim.trim(), url: url.trim() || undefined, website2: "" }),
+        body: JSON.stringify({ claim: claimToSend, url: detected || undefined, website2: "" }),
       });
       const data = await res.json();
       if (!res.ok) {
@@ -156,13 +167,23 @@ export function FactCheckChecker() {
   }
 
   const checkable = result && result.status !== "error" ? result.assertions.filter((a) => a.checkable) : [];
-  const needsReview = result?.status === "no-match" || result?.status === "preliminary";
+  const needsReview = result?.status === "no-match" || result?.status === "preliminary" || linkError !== null;
+  // Result-card colours follow the verdict (owner order 2026-11-22): a
+  // FALSE match is a red card, not the old always-green one.
+  const matchStyles =
+    result?.status === "match"
+      ? VERDICT_STYLES[result.match.verdict as keyof typeof VERDICT_STYLES] ?? VERDICT_STYLES.UNVERIFIED
+      : VERDICT_STYLES.UNVERIFIED;
+  const preliminaryStyles =
+    result?.status === "preliminary"
+      ? VERDICT_STYLES[result.preliminary.verdict as keyof typeof VERDICT_STYLES] ?? VERDICT_STYLES.UNVERIFIED
+      : VERDICT_STYLES.UNVERIFIED;
 
   return (
     <div className="mt-6 rounded-2xl border border-slate-200 bg-white p-5 sm:p-6">
       <form onSubmit={checkClaim}>
         <label htmlFor="fc-claim" className="text-sm font-semibold text-slate-900">
-          Paste a claim you have seen online
+          Paste a claim or a link to check
         </label>
         <textarea
           id="fc-claim"
@@ -170,20 +191,8 @@ export function FactCheckChecker() {
           onChange={(e) => setClaim(e.target.value)}
           rows={3}
           maxLength={1000}
-          placeholder="e.g. Go to Europe for just Rs 2 lakh and earn Rs 10 lakh a month — in English, नेपाली, or Romanized Nepali."
+          placeholder="e.g. Go to Europe for just Rs 2 lakh and earn Rs 10 lakh a month — or paste a link to a post or article."
           className="mt-2 w-full rounded-xl border border-slate-300 px-3 py-2 text-sm leading-relaxed text-slate-900 placeholder:text-slate-400 focus:border-emerald-600 focus:outline-none"
-        />
-        <label htmlFor="fc-url" className="mt-3 block text-sm font-semibold text-slate-900">
-          Where did you see it? <span className="font-normal text-slate-500">(optional — link or post URL)</span>
-        </label>
-        <input
-          id="fc-url"
-          type="url"
-          value={url}
-          onChange={(e) => setUrl(e.target.value)}
-          maxLength={500}
-          placeholder="https://…"
-          className="mt-2 w-full rounded-xl border border-slate-300 px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:border-emerald-600 focus:outline-none"
         />
         <button
           type="submit"
@@ -195,14 +204,15 @@ export function FactCheckChecker() {
       </form>
 
       <p className="mt-3 text-xs leading-relaxed text-slate-500">
-        We check our verified verdicts and the Google Fact Check index first. When our free search
-        and AI keys are set up, unmatched claims get a preliminary AI-assisted assessment with
-        citations — clearly labelled, never a published verdict. New claims always go to our
-        editors before any verdict is published.
+        Paste a claim or a link — a link is opened and checked like any other claim. We check our
+        verified verdicts and the Google Fact Check index first. When our free search and AI keys
+        are set up, unmatched claims get a preliminary AI-assisted assessment with citations —
+        clearly labelled, never a published verdict. New claims always go to our editors before
+        any verdict is published.
       </p>
 
       {result?.status === "match" && (
-        <div className="mt-5 rounded-xl border-2 border-emerald-600 bg-emerald-50 p-4">
+        <div className={`mt-5 rounded-xl border-2 p-4 ${matchStyles.banner}`}>
           <p className="text-sm font-semibold text-slate-900">We have already checked a claim like this.</p>
           <p className="mt-2 flex flex-wrap items-center gap-2">
             <span className={`inline-flex items-center rounded-full px-3 py-1 text-sm font-bold ${verdictPillClass(result.match.verdict)}`}>
@@ -210,9 +220,17 @@ export function FactCheckChecker() {
             </span>
             <span className="text-xs text-slate-600">{result.match.matchScore}% match with the verified claim</span>
           </p>
-          <a href={`/articles/${result.match.slug}`} className="mt-3 block font-semibold leading-snug text-emerald-700 hover:underline">
+          <a href={`/articles/${result.match.slug}`} className={`mt-3 block font-semibold leading-snug hover:underline ${matchStyles.text}`}>
             {result.match.titleEn} →
           </a>
+          {linkedPage && (
+            <p className="mt-2 text-xs text-slate-500">
+              Checked from:{" "}
+              <a href={linkedPage.url} target="_blank" rel="noopener noreferrer" className={`font-medium hover:underline ${matchStyles.text}`}>
+                {linkedPage.title || linkedPage.url}
+              </a>
+            </p>
+          )}
           <p className="mt-1 text-xs text-slate-500">Read the full check — evidence, sources and confidence score.</p>
         </div>
       )}
@@ -239,7 +257,7 @@ export function FactCheckChecker() {
       )}
 
       {result?.status === "preliminary" && !queued && (
-        <div className="mt-5 rounded-xl border-2 border-amber-500 bg-amber-50 p-4">
+        <div className={`mt-5 rounded-xl border-2 p-4 ${preliminaryStyles.banner}`}>
           <p className="text-sm font-semibold text-slate-900">
             Preliminary assessment — AI-assisted, not a final verdict.
           </p>
@@ -271,6 +289,14 @@ export function FactCheckChecker() {
           {result.wayback?.firstSeen && (
             <p className="mt-2 text-xs text-slate-500">
               The page you linked was first archived on {formatArchiveDate(result.wayback.firstSeen)}.
+            </p>
+          )}
+          {linkedPage && (
+            <p className="mt-2 text-xs text-slate-500">
+              Checked from:{" "}
+              <a href={linkedPage.url} target="_blank" rel="noopener noreferrer" className={`font-medium hover:underline ${preliminaryStyles.text}`}>
+                {linkedPage.title || linkedPage.url}
+              </a>
             </p>
           )}
           <p className="mt-3 text-sm leading-relaxed text-slate-600">
@@ -306,6 +332,14 @@ export function FactCheckChecker() {
           {checkable.length > 0 && (
             <p className="mt-2 text-sm text-slate-600">
               Checkable part: <span className="font-medium text-slate-900">“{checkable[0].text}”</span>
+            </p>
+          )}
+          {linkedPage && (
+            <p className="mt-2 text-xs text-slate-500">
+              Checked from:{" "}
+              <a href={linkedPage.url} target="_blank" rel="noopener noreferrer" className="font-medium text-emerald-700 hover:underline">
+                {linkedPage.title || linkedPage.url}
+              </a>
             </p>
           )}
           <button
@@ -346,6 +380,27 @@ export function FactCheckChecker() {
               ))}
             </ul>
           )}
+        </div>
+      )}
+
+      {linkError && !queued && (
+        <div className="mt-5 rounded-xl border border-slate-200 bg-slate-50 p-4">
+          <p className="text-sm font-semibold text-slate-900">We could not open this link.</p>
+          <p className="mt-1 text-sm leading-relaxed text-slate-600">
+            The page at{" "}
+            <span className="break-all font-medium text-slate-900">{linkError}</span> did not load —
+            it may block automated visits or be temporarily down. Our editors can still check it by
+            hand.
+          </p>
+          <button
+            type="button"
+            onClick={queueForReview}
+            disabled={submitBusy}
+            className="mt-3 rounded-full bg-emerald-600 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-emerald-700 disabled:cursor-not-allowed disabled:opacity-50"
+          >
+            {submitBusy ? "Sending…" : "Send to our editors"}
+          </button>
+          {submitError && <p className="mt-2 text-sm text-red-600">{submitError}</p>}
         </div>
       )}
 

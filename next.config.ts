@@ -5,11 +5,19 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       {
-        // Stories tab moved from /search to /stories (2026-11-17) — old
-        // /search links land on /stories, query string carried over.
+        // Fact Check moved /stories -> /fact-check (2026-11-22, owner
+        // order) — old /stories links land on the new hub.
+        source: "/stories",
+        destination: "/fact-check",
+        permanent: true,
+      },
+      {
+        // Stories tab moved from /search to /fact-check (2026-11-17,
+        // 2026-11-22) — old /search links land on the Fact Check hub,
+        // query string carried over.
         // Temporary (307) so a future URL change is not stuck in caches.
         source: "/search",
-        destination: "/stories",
+        destination: "/fact-check",
         permanent: false,
       },
       {

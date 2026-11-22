@@ -1,13 +1,17 @@
 import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { rateLimit, clientKey } from "@/lib/auth";
-import { findCacheMatch } from "@/lib/factCheck";
+import { detectUrl, findCacheMatch } from "@/lib/factCheck";
 import { runFactCheckWaterfall } from "@/lib/factCheckWaterfall";
 
 // Fact-check claim flow (2026-11-22; Spec 2 waterfall in
-// src/lib/factCheckWaterfall.ts).
-// POST { claim, url? } -> { assertions, match, externalMatch, preliminary,
-//                          wayback, waterfall }.
+// src/lib/factCheckWaterfall.ts; one-box redesign 2026-11-22: the input is
+// a claim OR a link).
+// POST { claim?, url? } -> { assertions, match, externalMatch, preliminary,
+//                          wayback, linkedPage, fetchFailed, waterfall }.
+// A bare link is detected (detectUrl) and fetched server-side — the page's
+// title + readable text are checked like any other claim. A link that will
+// not open returns fetchFailed: true and no invented content.
 // Cache-first $0 waterfall: Google Fact Check Tools claims.search, then our
 // own verified verdicts (Postgres keyword cache). On a miss, and ONLY when
 // the optional API keys are configured, Groq extraction -> Tavily basic
@@ -30,18 +34,16 @@ export async function POST(req: Request) {
       { status: 429 }
     );
   }
-  const claim = typeof (data as { claim?: unknown })?.claim === "string"
+  const claimRaw = typeof (data as { claim?: unknown })?.claim === "string"
     ? ((data as { claim: string }).claim ?? "").trim()
     : "";
   const urlRaw = typeof (data as { url?: unknown })?.url === "string"
     ? ((data as { url: string }).url ?? "").trim()
     : "";
-  if (claim.length < 10 || claim.length > 1000) {
-    return NextResponse.json(
-      { error: "Please paste a claim between 10 and 1000 characters." },
-      { status: 400 }
-    );
-  }
+  // One search box: the input is claim text OR a link. A link pasted into
+  // the claim field (or sent on its own) is detected here too, so direct
+  // API callers get the same behaviour as the form.
+  let claim = claimRaw;
   let claimUrl: string | undefined;
   if (urlRaw) {
     try {
@@ -50,6 +52,28 @@ export async function POST(req: Request) {
     } catch {
       claimUrl = undefined;
     }
+  }
+  if (!claimUrl && claim) {
+    const detected = detectUrl(claim);
+    if (detected) {
+      claimUrl = detected;
+      claim = "";
+    }
+  }
+  if (claim && (claim.length < 10 || claim.length > 1000)) {
+    return NextResponse.json(
+      { error: "Please paste a claim between 10 and 1000 characters." },
+      { status: 400 }
+    );
+  }
+  if (claimUrl && claimUrl.length > 1000) {
+    return NextResponse.json({ error: "That link is too long to check." }, { status: 400 });
+  }
+  if (!claim && !claimUrl) {
+    return NextResponse.json(
+      { error: "Paste a claim or a link to check." },
+      { status: 400 }
+    );
   }
 
   const result = await runFactCheckWaterfall({
@@ -79,6 +103,8 @@ export async function POST(req: Request) {
     externalMatch: result.externalMatch,
     preliminary: result.preliminary,
     wayback: result.wayback,
+    linkedPage: result.linkedPage,
+    fetchFailed: result.fetchFailed,
     waterfall: { enabled: result.automatedEnabled, steps: result.steps },
   });
 }

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { articleCategoryLabel } from "@/lib/articles";
 import { CategoryPills } from "@/components/articles/CategoryPills";
+import { VERDICT_STYLES } from "@/lib/factCheck";
 
 export interface FilterableArticle {
   slug: string;
@@ -14,19 +15,11 @@ export interface FilterableArticle {
   factCheckVerdict?: string | null;
 }
 
+// Hub list verdict pill — reads the one verdict-colour map in
+// src/lib/factCheck.ts (TRUE green, MOSTLY_TRUE lighter green, MISLEADING
+// yellow, FALSE red, UNVERIFIED grey).
 function verdictPillClass(verdict: string): string {
-  switch (verdict) {
-    case "TRUE":
-      return "bg-emerald-600 text-white";
-    case "MOSTLY_TRUE":
-      return "bg-teal-600 text-white";
-    case "MISLEADING":
-      return "bg-amber-500 text-white";
-    case "FALSE":
-      return "bg-red-600 text-white";
-    default:
-      return "bg-slate-500 text-white";
-  }
+  return VERDICT_STYLES[verdict as keyof typeof VERDICT_STYLES]?.pill ?? "bg-slate-500 text-white";
 }
 
 function verdictLabel(verdict: string): string {

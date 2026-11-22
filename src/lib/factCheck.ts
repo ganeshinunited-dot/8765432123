@@ -59,26 +59,36 @@ export const VERDICT_RATINGS: Record<FactCheckVerdict, number | null> = {
 };
 
 /** Tailwind classes for the verdict pill/banner, per verdict. */
-export const VERDICT_STYLES: Record<FactCheckVerdict, { pill: string; banner: string }> = {
+// Verdict colours (owner order 2026-11-22 ~22:19): TRUE green, FALSE red,
+// MISLEADING yellow; MOSTLY_TRUE a lighter green than TRUE, UNVERIFIED
+// neutral grey. Every verdict display — the article banner, the hub list
+// pills, the checker results — reads from this one map, so the colours
+// cannot drift apart again.
+export const VERDICT_STYLES: Record<FactCheckVerdict, { pill: string; banner: string; text: string }> = {
   TRUE: {
     pill: "bg-emerald-600 text-white",
     banner: "border-emerald-600 bg-emerald-50",
+    text: "text-emerald-700",
   },
   MOSTLY_TRUE: {
-    pill: "bg-teal-600 text-white",
-    banner: "border-teal-600 bg-teal-50",
+    pill: "bg-emerald-500 text-white",
+    banner: "border-emerald-500 bg-emerald-50",
+    text: "text-emerald-600",
   },
   MISLEADING: {
     pill: "bg-amber-500 text-white",
     banner: "border-amber-500 bg-amber-50",
+    text: "text-amber-700",
   },
   FALSE: {
     pill: "bg-red-600 text-white",
     banner: "border-red-600 bg-red-50",
+    text: "text-red-700",
   },
   UNVERIFIED: {
     pill: "bg-slate-500 text-white",
     banner: "border-slate-400 bg-slate-50",
+    text: "text-slate-600",
   },
 };
 
@@ -142,6 +152,35 @@ export function extractAssertions(text: string): ExtractedAssertion[] {
     }
     return { text: sentence, checkable: false, reason: "Too vague to check." };
   });
+}
+
+/**
+ * Detect a bare link in the single search box (redesign 2026-11-22): the
+ * trimmed input is a URL when it starts with http:// or https://, or when
+ * it is a bare domain (e.g. example.com/some-post) with no spaces.
+ * Returns the normalised https URL, or null for claim text. A claim that
+ * merely mentions a link ("See https://…") is NOT a URL — it has spaces.
+ */
+export function detectUrl(input: string): string | null {
+  const raw = input.trim().replace(/[.,;:!?)]+$/, "");
+  if (!raw || /\s/.test(raw)) return null;
+  if (/^https?:\/\//i.test(raw)) {
+    try {
+      const u = new URL(raw);
+      if (u.protocol === "http:" || u.protocol === "https:") return u.href;
+    } catch {
+      return null;
+    }
+    return null;
+  }
+  if (/^(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]{2,}(?:[/?#]\S*)?$/i.test(raw)) {
+    try {
+      return new URL(`https://${raw}`).href;
+    } catch {
+      return null;
+    }
+  }
+  return null;
 }
 
 // ---------------------------------------------------------------------------
