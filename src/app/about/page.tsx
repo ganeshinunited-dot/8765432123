@@ -35,11 +35,32 @@ export default function AboutPage() {
         </p>
       </Section>
 
+      <Section title="Accounts on Growentix">
+        <p>
+          Growentix is two things at once: a job news publication, and a place where job seekers and
+          employers have accounts. Job seekers with an account can save jobs, apply with their CV and a cover
+          message, and message employers about their application. Applying is always free for job seekers.
+        </p>
+        <p>
+          Employers can apply for a free verified account. We check the business registration, website and
+          contact details against official sources; verified companies get a public profile, a Verified badge
+          valid for 12 months, and their vacancies listed. Employers post jobs from their account, and every
+          post is reviewed by our team, usually within one working day. Employers fund the platform through
+          posting plans.{" "}
+          <Link href="/for-employers" className="font-semibold text-emerald-700 hover:underline">Apply for verification</Link>
+          {" "}or{" "}
+          <Link href="/login" className="font-semibold text-emerald-700 hover:underline">sign in</Link>
+          {" "}to manage your company.
+        </p>
+      </Section>
+
       <Section title="What we are not">
         <p>
-          We are a news and information site, not a recruiter or an employer. We do not guarantee employment,
-          and we never ask readers for money. Always verify details and apply through the official notice
-          or organisation linked in each article.
+          We are a news and information platform, not a recruiter. We do not hire people on any
+          employer&apos;s behalf, we do not guarantee employment, and we never ask readers for money. Job
+          seekers always apply for free, and no one should ever pay an employer to apply for or receive a
+          job. Always verify details and apply through the official notice or organisation linked in each
+          article.
         </p>
       </Section>
 
