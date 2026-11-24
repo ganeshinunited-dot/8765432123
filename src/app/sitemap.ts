@@ -10,7 +10,12 @@ export default async function sitemap() {
 
   // /remote-jobs is intentionally NOT in the sitemap: it is a byte-identical
   // duplicate of /remote (noindex + canonical to /remote, GEO Step 10).
-  const staticPages = ["", "/jobs", "/sarkari-jobs", "/articles", "/explore", "/countries", "/government-jobs", "/private-jobs", "/industries", "/companies", "/for-employers", "/about", "/privacy", "/terms", "/courses", "/support", "/contact", "/editorial-policy", "/verification-policy", "/editorial-team", "/faq", "/safety", "/tech-ai", "/popmusic", "/fact-check", "/nepal", "/gulf", "/korea-japan", "/usa", "/uk", "/canada", "/australia", "/europe", "/asia", "/work-abroad", "/remote", "/global", "/career"].map(
+  // /jobs is intentionally NOT in the sitemap either: it canonicalises to
+  // / (the front page serves the identical listing, SEO audit fix
+  // 2026-11-17), so listing it would put a non-canonical URL in the
+  // sitemap. The sitemap must contain canonical URLs only (SEO audit,
+  // 2026-11-23).
+  const staticPages = ["", "/sarkari-jobs", "/articles", "/explore", "/countries", "/government-jobs", "/private-jobs", "/industries", "/companies", "/for-employers", "/about", "/privacy", "/terms", "/courses", "/support", "/contact", "/editorial-policy", "/verification-policy", "/editorial-team", "/faq", "/safety", "/tech-ai", "/popmusic", "/fact-check", "/nepal", "/gulf", "/korea-japan", "/usa", "/uk", "/canada", "/australia", "/europe", "/asia", "/work-abroad", "/remote", "/global", "/career"].map(
     (path) => ({ url: `${base}${path}`, lastModified: new Date(), changeFrequency: "daily" as const, priority: path === "" ? 1 : 0.8 })
   );
 

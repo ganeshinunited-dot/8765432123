@@ -68,7 +68,7 @@ export const COUNTRY_GUIDES: Record<string, CountryGuide> = {
         href: "/articles/truck-driver-jobs-in-usa-salary-cdl-pay-per-mile-visa-routes-20261026",
       },
     ],
-    related: [{ label: "Remote jobs", href: "/remote-jobs" }],
+    related: [{ label: "Remote jobs", href: "/remote" }],
   },
   uk: {
     guidance:
@@ -87,7 +87,7 @@ export const COUNTRY_GUIDES: Record<string, CountryGuide> = {
         href: "/articles/uk-nhs-jobs-visa-sponsorship-november-2026-20261121",
       },
     ],
-    related: [{ label: "Remote jobs", href: "/remote-jobs" }],
+    related: [{ label: "Remote jobs", href: "/remote" }],
   },
   canada: {
     guidance:
@@ -100,7 +100,7 @@ export const COUNTRY_GUIDES: Record<string, CountryGuide> = {
       },
     ],
     guides: [],
-    related: [{ label: "Remote jobs", href: "/remote-jobs" }],
+    related: [{ label: "Remote jobs", href: "/remote" }],
   },
   australia: {
     guidance:
@@ -117,7 +117,7 @@ export const COUNTRY_GUIDES: Record<string, CountryGuide> = {
       },
     ],
     guides: [],
-    related: [{ label: "Remote jobs", href: "/remote-jobs" }],
+    related: [{ label: "Remote jobs", href: "/remote" }],
   },
   europe: {
     guidance:
@@ -142,7 +142,7 @@ export const COUNTRY_GUIDES: Record<string, CountryGuide> = {
         href: "/articles/germany-skilled-worker-jobs-2026-20261121",
       },
     ],
-    related: [{ label: "Remote jobs", href: "/remote-jobs" }],
+    related: [{ label: "Remote jobs", href: "/remote" }],
   },
   asia: {
     guidance:

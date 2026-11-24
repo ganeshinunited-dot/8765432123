@@ -4,10 +4,11 @@ import TechAiHub from "@/components/tech/TechAiHub";
 export async function generateMetadata({
   searchParams,
 }: {
-  searchParams: Promise<{ topic?: string | string[] }>;
+  searchParams: Promise<{ topic?: string | string[]; page?: string | string[] }>;
 }): Promise<Metadata> {
   const params = await searchParams;
   const topic = Array.isArray(params.topic) ? params.topic[0] ?? "" : params.topic ?? "";
+  const page = parseInt(Array.isArray(params.page) ? params.page[0] ?? "" : params.page ?? "", 10);
   return {
     title: "Tech & AI News",
     description:
@@ -19,8 +20,10 @@ export async function generateMetadata({
         "Tech and AI news — new models, launches, outages and the companies behind them.",
       url: "https://growentix.cloud/tech-ai",
     },
-    // Filtered (?topic=) views are noindex, follow — same rule as Explore.
-    ...(topic ? { robots: { index: false, follow: true } } : {}),
+    // Filtered (?topic=) and paged (?page=2+) views are noindex, follow —
+    // same rule as Explore and the other listings. Previously only ?topic=
+    // was noindexed, so /tech-ai?page=2+ was indexable (SEO audit, 2026-11-23).
+    ...(topic || (Number.isFinite(page) && page > 1) ? { robots: { index: false, follow: true } } : {}),
   };
 }
 

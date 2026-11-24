@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { db } from "@/lib/db";
 import { articleCategoryLabel, matchesSearch } from "@/lib/articles";
@@ -9,11 +10,31 @@ import { FACT_CHECK_VERDICTS, VERDICT_LABELS } from "@/lib/factCheck";
 
 export const dynamic = "force-dynamic";
 
-export const metadata = {
-  title: "Fact Check — Growentix",
-  description:
-    "Viral claims, checked against primary sources. Check a claim against our verified verdicts, or send it to our editors.",
-};
+export async function generateMetadata({
+  searchParams,
+}: {
+  searchParams: Promise<{ search?: string; verdict?: string; page?: string | string[] }>;
+}): Promise<Metadata> {
+  const params = await searchParams;
+  const query = (params.search ?? "").trim();
+  const verdict = Array.isArray(params.verdict) ? params.verdict[0] ?? "" : params.verdict ?? "";
+  const page = parseInt(Array.isArray(params.page) ? params.page[0] ?? "" : params.page ?? "", 10);
+  // Search results (?search=), verdict filters (?verdict=) and paged views
+  // (?page=2+) are noindex, follow — same rule as the other listings.
+  // Previously this page had static metadata only, so every parameterized
+  // view was indexable AND inherited the layout canonical "/" (SEO audit,
+  // 2026-11-23). The clean hub (no params, page 1) stays indexable with
+  // canonical /fact-check.
+  return {
+    title: "Fact Check — Growentix",
+    description:
+      "Viral claims, checked against primary sources. Check a claim against our verified verdicts, or send it to our editors.",
+    alternates: { canonical: "https://growentix.cloud/fact-check" },
+    ...(query || verdict || (Number.isFinite(page) && page > 1)
+      ? { robots: { index: false, follow: true } }
+      : {}),
+  };
+}
 
 /**
  * Fact Check hub at /fact-check (moved from /stories 2026-11-22, owner

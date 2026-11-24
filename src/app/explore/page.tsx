@@ -24,11 +24,15 @@ export async function generateMetadata({ searchParams }: { searchParams: SearchP
   const params = await searchParams;
   const category = activeCategory(params);
   const page = activePage(params);
+  const valid = (INTERNATIONAL_CATEGORIES as readonly string[]).includes(category);
   return {
     title: "Explore International Jobs — Big Companies, Big Countries",
     description:
       "Job news from big companies in big countries — USA, UK, Canada, Australia, Europe, Asia, Gulf, Korea & Japan, remote work and work abroad.",
-    alternates: { canonical: "https://growentix.cloud/explore" },
+    // A filtered view canonicalises to its clean category page
+    // (e.g. /explore?category=usa -> /usa), which renders the same
+    // article set — previously it pointed at /explore (SEO audit, 2026-11-23).
+    alternates: { canonical: valid ? `https://growentix.cloud/${category}` : "https://growentix.cloud/explore" },
     ...(category || page > 1 ? { robots: { index: false, follow: true } } : {}),
   };
 }

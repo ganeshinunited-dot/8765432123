@@ -27,10 +27,13 @@ export async function generateMetadata({ searchParams }: { searchParams: SearchP
   // views (?page=2+) are noindex too, matching /articles and /popmusic.
   // Canonical points at / — the front page serves the identical listing,
   // so ranking signals consolidate on one URL (SEO audit fix, 2026-11-17).
+  // EXCEPTION: a filtered view canonicalises to its clean category page
+  // (e.g. /jobs?category=usa -> /usa), which renders the same article
+  // set — previously it pointed at / (SEO audit, 2026-11-23).
   return {
     title: "Jobs",
     description: "Latest government and abroad job vacancies — Nepal, India, Gulf, USA and more. Check eligibility and apply before the last date.",
-    alternates: { canonical: "https://growentix.cloud/" },
+    alternates: { canonical: valid ? `https://growentix.cloud/${category}` : "https://growentix.cloud/" },
     ...(valid || (Number.isFinite(page) && page > 1) ? { robots: { index: false, follow: true } } : {}),
   };
 }

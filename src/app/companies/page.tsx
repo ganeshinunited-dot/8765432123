@@ -27,8 +27,11 @@ export async function generateMetadata({
       "Verified employers on Growentix — companies whose registration, website and contact details we checked against official sources.",
     alternates: { canonical: "https://growentix.cloud/companies" },
   };
-  // Filtered views are noindexed, same convention as the other listings.
-  if (params.industry) {
+  // Filtered (?industry=) and paged (?page=2+) views are noindex, follow —
+  // same convention as the other listings. Previously only ?industry= was
+  // noindexed, so /companies?page=2+ was indexable (SEO audit, 2026-11-23).
+  const page = Math.max(1, parseInt(params.page ?? "1", 10) || 1);
+  if (params.industry || page > 1) {
     return { ...base, robots: { index: false, follow: true } };
   }
   return base;

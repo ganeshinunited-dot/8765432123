@@ -31,7 +31,15 @@ export async function generateMetadata({ searchParams }: { searchParams: SearchP
   // A filtered (?category=) Jobs view is noindex, follow — same rule as
   // Explore — so only the unfiltered first page is indexed. Paged views
   // (?page=2+) are noindex too, matching /articles, /popmusic and /usa.
-  return valid || (Number.isFinite(page) && page > 1) ? { robots: { index: false, follow: true } } : {};
+  // Canonical for a filtered view points at the matching clean category
+  // page (e.g. /?category=usa -> /usa), which renders the same article
+  // set — previously it fell through to the layout default "/" (SEO audit,
+  // 2026-11-23). Every job category has its own clean page at /<slug>.
+  if (!valid && !(Number.isFinite(page) && page > 1)) return {};
+  return {
+    ...(valid ? { alternates: { canonical: `https://growentix.cloud/${category}` } } : {}),
+    robots: { index: false, follow: true },
+  };
 }
 
 function activePage(params: { page?: string | string[] }): number {
